@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+
+% page layout and margin
+\usepackage[a4paper, margin=2.54cm]{geometry}
+
+% list spacing
+\usepackage{enumitem}
+\setlist{topsep=2pt, itemsep=2pt, partopsep=2pt, parsep=2pt}
+
+% Header & Footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Software Engineering 2 - RASD}
+
+% title section
+\title{
+  {\small Software Engineering 2 - Prof. Di Nitto Elisabetta \\
+  Dipartimento di Elettronica, Informazione e Bioingegneria (DEIB) \\ Politecnico di Milano} \\ \hfill \\
+  \textbf{eMall - e-Mobility for All} \\ \hfill \\
+  \large RASD \\ \hfill \\
+    Requirement Analysis and Specification Document \\ \hfill \\}
+
+\author{Giovanni De Lucia (10700658) \\ Lorenzo Battiston (here person code) \\ \hfill \\}
+\date{\hfill \\ /*delivery date* \\ A.Y. /2022/2023}
+
+\begin{document}
+\maketitle
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{src/Logo_Politecnico_Milano.png}
+\end{figure}
+
+\pagebreak
+
+\tableofcontents
+
+\include{section/introduction.tex}
+\include{section/overall_description.tex}
+\include{section/specific_requirements.tex}
+\include{section/formal_analysis.tex}
+\include{section/effort_spent.tex}
+\include{section/references.tex}
+
+\end{document}
