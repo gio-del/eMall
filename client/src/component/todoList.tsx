@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
-import DeleteButton from "./deleteButton";
-import EditButton from "./editButton";
-import EditTodo from "./editTodo";
-import InputTodo from "./inputTodo";
+import { BASE_API } from "../constants";
+import EditTodo from "./EditTodo";
+import Button from "./Button";
 
 export default function TodoList() {
   interface Todo {
-    id_todo: number;
+    id: number;
     description: string;
   }
   interface ModalEdit {
@@ -33,23 +32,20 @@ export default function TodoList() {
 
   const deleteTodo = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost/todo/${id}`, {
+      const response = await fetch(`${BASE_API}/todo/${id}`, {
         method: "DELETE",
       });
     } catch (err) {
       console.error(err);
     }
-    setTodo(todo.filter((old) => old.id_todo != id));
+    setTodo(todo.filter((old) => old.id != id));
   };
 
   const getTodo = async () => {
     try {
-      const response = await fetch("http://localhost/todo");
+      const response = await fetch(`${BASE_API}/todo`);
       const jsonData = await response.json();
-      jsonData.sort(
-        (a: { id_todo: number }, b: { id_todo: number }) =>
-          a.id_todo - b.id_todo
-      );
+      jsonData.sort((a: { id: number }, b: { id: number }) => a.id - b.id);
       setTodo(jsonData);
     } catch (err) {
       console.error(err);
@@ -72,53 +68,57 @@ export default function TodoList() {
         contentLabel="Example Modal"
         style={customStyles}
         ariaHideApp={false}
-        shouldCloseOnOverlayClick={false}
       >
         <EditTodo
           id={edit.idTodo}
           description={
-            (todo.length === 0)
+            todo.length === 0
               ? ""
-              : (todo.filter((todo) => todo.id_todo === edit.idTodo).length === 0)? "":
-              todo.filter((todo) => todo.id_todo === edit.idTodo)[0].description
+              : todo.filter((todo) => todo.id === edit.idTodo).length === 0
+              ? ""
+              : todo.filter((todo) => todo.id === edit.idTodo)[0].description
           }
         />
       </Modal>
-      <table className="w-1/2 text-left text-base text-gray-900 dark:text-slate-50 bg-slate-50 dark:bg-gray-800">
-        <thead className="text-xs text-gray-400 uppercase dark:text-gray-400">
+      <table className="table is-striped is-hoverable is-fullwidth">
+        <thead className="">
           <tr>
             <th>Description</th>
             <th></th>
             <th></th>
-            <th>id</th>
+            {/*<th>id</th>*/}
           </tr>
         </thead>
         <tbody>
           {todo.map(
-            ({
-              id_todo,
-              description,
-            }: {
-              id_todo: number;
-              description: string;
-            }) => (
-              <tr key={id_todo}>
+            ({ id, description }: { id: number; description: string }) => (
+              <tr key={id}>
                 <td>{description}</td>
                 <td>
-                  <EditButton
+                  <Button
+                    className="is-info"
                     onClick={() => {
-                      handleEdit(id_todo);
+                      handleEdit(id);
                     }}
                   >
-                    Edit
-                  </EditButton>
+                    <span>Edit</span>
+                    <span className="icon is-small">
+                      <i className="fas fa-wrench"></i>
+                    </span>
+                  </Button>
                 </td>
                 <td>
-                  <DeleteButton onClick={() => deleteTodo(id_todo)}>
-                    Delete
-                  </DeleteButton>
+                  <Button
+                    className="is-danger is-light is-outlined"
+                    onClick={() => deleteTodo(id)}
+                  >
+                    <span>Delete</span>
+                    <span className="icon is-small">
+                      <i className="fas fa-times"></i>
+                    </span>
+                  </Button>
                 </td>
-                <td>{id_todo}</td>
+                {/*<td>{id}</td>*/}
               </tr>
             )
           )}

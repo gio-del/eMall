@@ -1,0 +1,1 @@
+export const BASE_API: string = "http://192.168.235.240:8000/api"

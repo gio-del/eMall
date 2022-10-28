@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ConfirmButton from "./confirmButton";
+import Button from "./Button";
+import { BASE_API } from "../constants";
 
 export default function EditTodo({
   id,
@@ -13,8 +14,8 @@ export default function EditTodo({
   const onSubmitTodo = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost/todo/${id}`, {
-        method: "PATCH",
+      const response = await fetch(`${BASE_API}/todo/${id}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ description: editDescription }),
       });
@@ -31,17 +32,22 @@ export default function EditTodo({
 
   return (
     <>
-    <h1>Edit Todo</h1>
-      <form className="flex flex-row w-full mt-5" onSubmit={onSubmitTodo}>
+      <h1>Edit Todo</h1>
+      <form className="" onSubmit={onSubmitTodo}>
         <input
           type="text"
           id="first_name"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg border-b-4 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 mr-2"
+          className=""
           onChange={(e) => setEditDescription(e.target.value)}
           value={editDescription}
           required
         ></input>
-        <ConfirmButton>Confirm</ConfirmButton>
+        <Button className="is-primary">
+          <span>Confirm</span>
+          <span className="icon is-small">
+            <i className="fas fa-check"></i>
+          </span>
+        </Button>
       </form>
     </>
   );

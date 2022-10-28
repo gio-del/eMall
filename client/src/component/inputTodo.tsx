@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import ConfirmButton from "./confirmButton";
+import { BASE_API } from "../constants";
+import Button from "./Button";
 
 export default function InputTodo() {
   const [description, setDescription] = useState("");
@@ -7,10 +8,10 @@ export default function InputTodo() {
   const onSubmitTodo = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost/todo", {
+      const response = await fetch(`${BASE_API}/todo`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ description }),
+        body: JSON.stringify({ description: description }),
       });
 
       window.location.href = "/";
@@ -21,15 +22,28 @@ export default function InputTodo() {
 
   return (
     <>
-      <form className="flex flex-row w-1/2 mt-5" onSubmit={onSubmitTodo}>
-        <input
-          type="text"
-          id="first_name"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg border-b-4 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 mr-2"
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        ></input>
-        <ConfirmButton>Add</ConfirmButton>
+      <form className="" onSubmit={onSubmitTodo}>
+        <div className="field has-addons has-addons-centered">
+          <div className="control has-icons-left">
+            <input
+              type="text"
+              className="input is-primary"
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+            <span className="icon is-small is-left">
+              <i className="fas fa-check"></i>
+            </span>
+          </div>
+          <div className="control">
+            <Button className="is-success">
+              <span className="icon is-small">
+                <i className="fas fa-check"></i>
+              </span>
+              <span>Add</span>
+            </Button>
+          </div>
+        </div>
       </form>
     </>
   );

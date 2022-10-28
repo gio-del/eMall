@@ -1,12 +1,17 @@
 export default function ConfirmButton({
   children,
   onClick,
+  className,
+  hidden,
 }: {
   children: React.ReactNode;
   onClick?: React.MouseEventHandler;
+  className?: string;
+  hidden?: boolean;
 }) {
+  if (hidden) return null;
   return (
-    <button onClick={onClick} className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded">
+    <button onClick={onClick} className={"button " + className}>
       {children}
     </button>
   );
