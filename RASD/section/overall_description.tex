@@ -1,10 +1,13 @@
 \section{Overall Description}
 
 \subsection{Product perspective}
-Intro to product perspective. Describes external interfaces: system,
-user, hardware, software; also
+Intro product perspective. Describes external interfaces: system,
+user, hardware, software; 
 operations and site adaptation, and
 hardware constraints.
+
+eMall helps to manage to limit the carbon footprint caused by our urban and sub-urban mobility needs,
+providing a way to introduce minimal interference and constraints on our daily schedule.
 
 \subsubsection{Entity diagram}
 A general UML of the system here.
@@ -47,7 +50,28 @@ State diagrams here.
 \end{enumerate}
 
 \subsection{Product functions}
-A summary of the major functions offered by OUR system
+A summary of the major functions offered by OUR system:
+
+• User Registration \\
+• User's car personalization  (user id)\\
+• User search in the map\\
+• User retrieve details of charging station (user id, id cp, date)\\
+• User books a charge (user id, id cp, connector type, date, start and end reservation time)\\
+• User starts a charge\\
+• User retrieve details of STATUS of the charge\\
+• User pays the charge \\
+• User receive a notification of the end of the charging\\
+• CPO's special offer ()\\
+• CPO gives a different amount of power supplied by the socket, and monitor
+the charging process to infer when the battery is full\\
+• CPO retrieves details of status of a charging station (amount of energy available 
+in its batteries, if any, number of vehicles being charged and, for each charging vehicle, amount of power
+absorbed and time left to the end of the charge)\\
+• CPO can acquire by the DSOs information about the current price of energy;\\
+• CPO can decide from which DSO to acquire energy (if more than one is available);\\
+• CPO can dynamically decide where to get energy for charging (station battery, DSO, or a mix thereof
+according to availability and cost).\\
+
 
 \subsection{User characteristics}
 Who are the users?
