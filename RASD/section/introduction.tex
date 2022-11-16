@@ -22,52 +22,51 @@ a description of the system focusing on the requirements and specifications, pro
 to specify what the system must do, how it will interact with the stakeholders and the constraints it is subject to.
 
 \subsubsection*{Goal}
-\begin{table}[h]
-    \begin{tabular}{|l|l|}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{cX}
         \toprule
-        \textbf{G1} & Allows electric vehicle (EV) driver to plan efficiently their charging process \\ \midrule
-        \textbf{G2} & Avoids that EV driver must physically line up at the charging station          \\ \midrule
-        \textbf{G3} & Provides smart managing of charging stations                                   \\ \midrule
-                    &                                                                                \\ \bottomrule
-    \end{tabular}
+        \textbf{G1} & Allows electric vehicle (EV) driver to plan efficiently their charging process \\
+        \textbf{G2} & Avoids that EV driver must physically line up at the charging station          \\
+        \textbf{G3} & Provides smart managing of charging stations                                   \\ \bottomrule
+    \end{tabularx}
 \end{table}
 
 \subsection{Scope}
 Here the scope introduction (a description of the context, the stakeholder ecc.)
 Identifies the product and application domain
 \subsubsection*{World phenomena}
-\begin{table}[h]
-    \begin{tabular}{|l|l|}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{cX}
         \toprule
-        \textbf{WP1} & An EV driver arrives at a charging station             \\ \midrule
-        \textbf{WP2} & Someone owns an electric vehicle                       \\ \midrule
-        \textbf{WP3} & A charging station is connected to the electrical grid \\ \midrule
-        \textbf{WP4} & Some charging station has solar panels                 \\ \midrule
-        \textbf{WP5} & Some charging station has a storage battery            \\ \midrule
-        \textbf{WP6} & A battery discharges                                   \\ \midrule
-                     &                                                        \\ \bottomrule
-    \end{tabular}
+        \textbf{WP1} & An EV driver arrives at a charging station             \\
+        \textbf{WP2} & Someone owns an electric vehicle                       \\
+        \textbf{WP3} & A charging station is connected to the electrical grid \\
+        \textbf{WP4} & Some charging station has solar panels                 \\
+        \textbf{WP5} & Some charging station has a storage battery            \\
+        \textbf{WP6} & A battery discharges                                   \\ \bottomrule
+    \end{tabularx}
 \end{table}
 \subsubsection*{Shared phenomena}
-\begin{table}[h]
-    \begin{tabular}{|l|l|l|}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{c|X|c}
         \toprule
-        \textbf{SP1}  & An EV driver books a charge at a certain charging station                                                                                                             & world   \\ \midrule
-        \textbf{SP2}  & An EV driver search for a specific charging station                                                                                                                   & world   \\ \midrule
-        \textbf{SP3}  & The system suggest to charge based on daily schedule, special offers and availability                                                                                 & machine \\ \midrule
-        \textbf{SP4}  & An EV driver starts the charging process                                                                                                                              & world   \\ \midrule
-        \textbf{SP5}  & An EV driver receives a notification when the charging process is completed                                                                                           & machine \\ \midrule
-        \textbf{SP6}  & An EV driver pays for the charge                                                                                                                                      & world   \\ \midrule
-        \textbf{SP7}  & The system shows to CPO the status of its charging station as amount of energy in batteries, number of vehicle being charged and for each the time left of the charge & machine \\ \midrule
-        \textbf{SP8}  & The system shows to CPO information about the DSOs                                                                                                                    & machine \\ \midrule
-        \textbf{SP9}  & A CPO decide to acquire energy from a certain DSO                                                                                                                     & world   \\ \midrule
-        \textbf{SP10} & The system notifies a EV driver that the charging shift will begin shortly                                                                                            & machine \\ \midrule
-        \textbf{SP11} & An EV driver monitors the charging status                                                                                                                             & machine \\ \midrule
-        \textbf{SP12} & An EV driver delete a reservation                                                                                                                                     & world   \\ \midrule
-        \textbf{SP13} & A CPO decide to retrieve the historical reservations on its EVSEs                                                                                                     & world   \\ \midrule
-        \textbf{SP14} & An EV driver to retrieve the historical reservations                                                                                                                  & world   \\ \midrule
-                      &                                                                                                                                                                                 \\ \bottomrule
-    \end{tabular}
+        ID            &                                                                                                                                                                       & Controlled by \\ \midrule
+        \textbf{SP1}  & An EV driver books a charge at a certain charging station                                                                                                             & world         \\ \midrule
+        \textbf{SP2}  & An EV driver search for a specific charging station                                                                                                                   & world         \\ \midrule
+        \textbf{SP3}  & The system suggest to charge based on daily schedule, special offers and availability                                                                                 & machine       \\ \midrule
+        \textbf{SP4}  & An EV driver starts the charging process                                                                                                                              & world         \\ \midrule
+        \textbf{SP5}  & An EV driver receives a notification when the charging process is completed                                                                                           & machine       \\ \midrule
+        \textbf{SP6}  & An EV driver pays for the charge                                                                                                                                      & world         \\ \midrule
+        \textbf{SP7}  & The system shows to CPO the status of its charging station as amount of energy in batteries, number of vehicle being charged and for each the time left of the charge & machine       \\ \midrule
+        \textbf{SP8}  & The system shows to CPO information about the DSOs                                                                                                                    & machine       \\ \midrule
+        \textbf{SP9}  & A CPO decide to acquire energy from a certain DSO                                                                                                                     & world         \\ \midrule
+        \textbf{SP10} & The system notifies a EV driver that the charging shift will begin shortly                                                                                            & machine       \\ \midrule
+        \textbf{SP11} & An EV driver monitors the charging status                                                                                                                             & machine       \\ \midrule
+        \textbf{SP12} & An EV driver delete a reservation                                                                                                                                     & world         \\ \midrule
+        \textbf{SP13} & A CPO decide to retrieve the historical reservations on its EVSEs                                                                                                     & world         \\ \midrule
+        \textbf{SP14} & An EV driver to retrieve the historical reservations                                                                                                                  & world         \\ \bottomrule
+    \end{tabularx}
 \end{table}
 
 
@@ -78,31 +77,30 @@ A list of definitions (if present)
     \item 1
 \end{itemize}
 \subsubsection*{Acronyms}
-\begin{table}[h]
-    \begin{tabular}{|l|l|}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{cX}
         \toprule
-        \textbf{RASD}  & Requirement Analysis and Specification Document \\ \midrule
-        \textbf{eMall} & e-Mobility for All                              \\ \midrule
-        \textbf{eMSP}  & electric mobility service provider              \\ \midrule
-        \textbf{EV}    & electric vehicle                                \\ \midrule
-        \textbf{CPO}   & charging point operator                         \\ \midrule
-        \textbf{DSO}   & distribution system operator                    \\ \midrule
-        \textbf{CPMS}  & charging point management system                \\ \midrule
+        \textbf{RASD}  & Requirement Analysis and Specification Document \\
+        \textbf{eMall} & e-Mobility for All                              \\
+        \textbf{eMSP}  & electric mobility service provider              \\
+        \textbf{EV}    & electric vehicle                                \\
+        \textbf{CPO}   & charging point operator                         \\
+        \textbf{DSO}   & distribution system operator                    \\
+        \textbf{CPMS}  & charging point management system                \\
         \textbf{EVSE}  & electric vehicle supply equipment               \\ \bottomrule
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 \subsubsection*{Abbreviation}
-\begin{table}[h]
-    \begin{tabular}{|l|l|}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{cX}
         \toprule
-        \textbf{WPx} & x-World Phenomena        \\ \midrule
-        \textbf{SPx} & x-Shared Phenomena       \\ \midrule
-        \textbf{Gx}  & x-Goal                   \\ \midrule
-        \textbf{Dx}  & x-Domain Assumption      \\ \midrule
-        \textbf{Rx}  & x-Functional Requirement \\ \midrule
-        \textbf{Ux}  & x-Use Case               \\ \midrule
-                     &                          \\ \bottomrule
-    \end{tabular}
+        \textbf{WPx} & x-World Phenomena        \\
+        \textbf{SPx} & x-Shared Phenomena       \\
+        \textbf{Gx}  & x-Goal                   \\
+        \textbf{Dx}  & x-Domain Assumption      \\
+        \textbf{Rx}  & x-Functional Requirement \\
+        \textbf{Ux}  & x-Use Case               \\ \bottomrule
+    \end{tabularx}
 \end{table}
 \subsection{Revision history}
 Nothing here
