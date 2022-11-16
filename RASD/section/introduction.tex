@@ -10,31 +10,25 @@ electric vehicle is set to increase. For these reasons, the main vehicle manufac
 A main problem of electric vehicle is that a full charge requires much more time than a fuel vehicle.\footnote{\href{https://blinkcharging.com/fact-from-fiction-the-real-reason-why-consumers-dont-buy-electric-vehicles/?locale=en}{Why consumers don't buy electric vehicles}}
 Thus, a single charge can have a huge impact on our daily schedule, and it is necessary to plan wisely when and where to charge.
 To solve this problem is one of the main objective of the eMall - e-Mobility for All system.
+It aims to develop a digital system of planning the charging process of an electric vehicle that limits the carbon footprint caused by our urban and
+sub-urban mobility needs.\\On the first hand, introduces minimal interference
+and constraints on the car's owner daily schedule.
+\\On the other hand, allows Charging Point Operators (CPOs) to dinamically manage the station and start, monitor and infer the
+charging process.
 \hfill \break
 
 The following document is the RASD for the eMall - e-Mobility for All system. It provides
 a description of the system focusing on the requirements and specifications, providing scenarios and use cases
 to specify what the system must do, how it will interact with the stakeholders and the constraints it is subject to.
-\\\\
-The purpose of the project "eMall Electric mobility" 
-(e-Mobility) is to develop a digital system of 
-planning the charging process of an eletric vehicle
-that limits the carbon footprint caused by our urban and
-sub-urban mobility needs.\\On the first hand, introduces minimal interference
-and constraints on the car's owner daily schedule.
-\\On the other hand, allows Charging Point Operators (CPOs)
-to dinamically manage the station and start, monitor and infer the 
-charging process.
-\\\\
-\\\\\\
 
 \subsubsection*{Goal}
 \begin{table}[h]
     \begin{tabular}{|l|l|}
         \toprule
-        \textbf{G1} & the first  \\ \midrule
-        \textbf{G2} & the second \\ \midrule
-                    &            \\ \bottomrule
+        \textbf{G1} & Allows electric vehicle (EV) driver to plan efficiently their charging process \\ \midrule
+        \textbf{G2} & Avoids that EV driver must physically line up at the charging station          \\ \midrule
+        \textbf{G3} & Provides smart managing of charging stations                                   \\ \midrule
+                    &                                                                                \\ \bottomrule
     \end{tabular}
 \end{table}
 
@@ -45,18 +39,30 @@ Identifies the product and application domain
 \begin{table}[h]
     \begin{tabular}{|l|l|}
         \toprule
-        \textbf{WP1} & the first  \\ \midrule
-        \textbf{WP2} & the second \\ \midrule
-                     &            \\ \bottomrule
+        \textbf{WP1} & An EV driver arrives at a charging station             \\ \midrule
+        \textbf{WP2} & Someone owns an electric vehicle                       \\ \midrule
+        \textbf{WP3} & A charging station is connected to the electrical grid \\ \midrule
+        \textbf{WP4} & Some charging station has solar panels                 \\ \midrule
+        \textbf{WP5} & Some charging station has a storage battery            \\ \midrule
+        \textbf{WP6} & A battery discharges                                   \\ \midrule
+                     &                                                        \\ \bottomrule
     \end{tabular}
 \end{table}
 \subsubsection*{Shared phenomena}
 \begin{table}[h]
-    \begin{tabular}{|l|l|}
+    \begin{tabular}{|l|l|l|}
         \toprule
-        \textbf{SP1} & the first  \\ \midrule
-        \textbf{SP2} & the second \\ \midrule
-                     &            \\ \bottomrule
+        \textbf{SP1} & An EV driver books a charge at a certain charging station                                                                                                             & world   \\ \midrule
+        \textbf{SP2} & An EV driver search for a specific charging station                                                                                                                   & world   \\ \midrule
+        \textbf{SP3} & The system suggest to charge based on daily schedule, special offer and availability                                                                                  & machine \\ \midrule
+        \textbf{SP4} & An EV driver starts the charging process                                                                                                                              & world   \\ \midrule
+        \textbf{SP5} & An EV driver receives a notification when the charging process is completed                                                                                           & machine \\ \midrule
+        \textbf{SP6} & An EV driver pays for the charge                                                                                                                                      & world   \\ \midrule
+        \textbf{SP7} & The system shows to CPO the status of its charging station as amount of energy in batteries, number of vehicle being charged and for each the time left of the charge & machine \\ \midrule
+        \textbf{SP8} & The system shows to CPO information about the DSOs                                                                                                                    & machine \\ \midrule
+        \textbf{SP9} & A CPO decide to acquire energy from a certain DSO                                                                                                                     & world   \\ \midrule
+        \textbf{SP10} & The system notifies a EV driver that the charging shift will begin shortly                                                                                            & machine \\ \midrule
+                     &                                                                                                                                                                                 \\ \bottomrule
     \end{tabular}
 \end{table}
 
@@ -68,20 +74,10 @@ A list of definitions (if present)
     \item 1
 \end{itemize}
 \subsubsection*{Acronyms}
-A list of definition (if present)
-\begin{itemize}
-    \item 1
-\end{itemize}
-\subsubsection*{Abbreviation}
 \begin{table}[h]
     \begin{tabular}{|l|l|}
         \toprule
         \textbf{RASD}  & Requirement Analysis and Specification Document \\ \midrule
-        \textbf{WPx}   & x-World Phenomena                               \\ \midrule
-        \textbf{SPx}   & x-Shared Phenomena                              \\ \midrule
-        \textbf{Gx}    & x-Goal                                          \\ \midrule
-        \textbf{Dx}    & x-Domain Assumption                             \\ \midrule
-        \textbf{Rx}    & x-Functional Requirement                        \\ \midrule
         \textbf{eMall} & e-Mobility for All                              \\ \midrule
         \textbf{eMSP}  & electric mobility service provider              \\ \midrule
         \textbf{EV}    & electric vehicle                                \\ \midrule
@@ -91,11 +87,25 @@ A list of definition (if present)
                        &                                                 \\ \bottomrule
     \end{tabular}
 \end{table}
+\subsubsection*{Abbreviation}
+\begin{table}[h]
+    \begin{tabular}{|l|l|}
+        \toprule
+        \textbf{WPx}   & x-World Phenomena                               \\ \midrule
+        \textbf{SPx}   & x-Shared Phenomena                              \\ \midrule
+        \textbf{Gx}    & x-Goal                                          \\ \midrule
+        \textbf{Dx}    & x-Domain Assumption                             \\ \midrule
+        \textbf{Rx}    & x-Functional Requirement                        \\ \midrule
+        \textbf{Ux}    & x-Use Case                        \\ \midrule
+                      &                                                 \\ \bottomrule
+    \end{tabular}
+\end{table}
 \subsection{Revision history}
 Nothing here
 
 \subsection{Reference Documents}
-Nothing here
+Requirement Engineering and Design Project: goal, schedule and rules
+
 
 \subsection{Document Structure}
 Nothing here
