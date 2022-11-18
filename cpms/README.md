@@ -2,6 +2,7 @@
 ```shell
 npm create vite@latest
 ```
+And follow the steps.
 # Adding and configuring tailwind
 ## Install Tailwind CSS
 ```
@@ -24,4 +25,9 @@ module.exports = {
 ## Run and enjoy
 ```
 npm run dev
+```
+
+# Getting react-router
+```
+npm install react-router-dom
 ```

@@ -1,10 +1,8 @@
-import { useState } from 'react'
-import logo from "./assets/lightLogo.svg";
-import './App.css'
+import logo from "../assets/lightLogo.png"
 
-function App() {
+export default function NavBar() {
   return (
-    <nav className="h-full">
+    <nav>
       <div className="container mx-auto px-6 py-2 flex justify-between items-center">
         <a className="font-bold text-2xl lg:text-4xl" href="#">
           <img className="h-auto w-auto max-w-14 max-h-14" src={logo}></img>
@@ -49,5 +47,3 @@ function App() {
     </nav>
   )
 }
-
-export default App

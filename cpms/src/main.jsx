@@ -1,12 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
+import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
+
 import './index.css'
+import ErrorPage from './view/404'
+import RootLayout from './view/RootLayout'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+  },
+])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <div className="text-gray-900 bg-white dark:bg-dark-secondary">
-      <App />
-    </div>
+    <RouterProvider router={router} />
   </React.StrictMode>,
 )
