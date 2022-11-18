@@ -5,17 +5,19 @@ In this section are described details about user interfaces, hardware and applic
 
 \subsubsection{User Interfaces}
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.1]{src/mockups/details.png}
-\end{figure} \vspace{1cm}
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.1]{src/mockups/book.png}
-\end{figure} \vspace{1cm}
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.1]{src/mockups/book_cost.png}
-\end{figure} \vspace{1cm}
+    \subfloat[Details]{
+        \includegraphics[scale=0.1]{src/mockups/details.png}
+    }
+    \subfloat[Booking]{
+        \includegraphics[scale=0.1]{src/mockups/book.png}
+    }
+    \subfloat[Cost detail]{
+        \includegraphics[scale=0.1]{src/mockups/book_cost.png}
+    }
+    \newline
+    % following mockups
+\end{figure}
+
 
 \subsubsection{Hardware Interfaces}
 Nothing here
@@ -29,25 +31,28 @@ Nothing here
 
 \subsection{Functional Requirements}
 \subsubsection{Use case diagrams}
-\begin{enumerate}
-    \item \textbf{Unregistered EV Driver}
-          \begin{figure}[H]
-              \centering
-              \includegraphics[scale=0.8]{src/use_case_diagram/driver_registration.png}
-          \end{figure}
-    \item \textbf{Unregistered CPO}
-          \begin{figure}[H]
-              \centering
-              \includegraphics[scale=0.8]{src/use_case_diagram/cpo_registration.png}
-          \end{figure}
-    \item \textbf{CPO}
-          \begin{figure}[H]
-              \centering
-              \includegraphics[scale=0.8]{src/use_case_diagram/cpo.png}
-          \end{figure}
-    \item \textbf{EV Driver}
-\end{enumerate}
-\subsubsection{CPOs}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/use_case_diagram/driver_registration.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/use_case_diagram/cpo_registration.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/use_case_diagram/cpo.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/use_case_diagram/driver.png}
+\end{figure}
+
+\subsubsection{CPO Functional Requirements}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
         \toprule
@@ -63,7 +68,7 @@ Nothing here
         \textbf{R10} & The system must dynamically decide where to get energy for charging (electrical grid, battery or a mixture)                       \\ \bottomrule
     \end{tabularx}
 \end{table}
-\subsubsection{eMSP}
+\subsubsection{eMSP Functional Requirements}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
         \toprule
