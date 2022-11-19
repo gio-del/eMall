@@ -14,12 +14,12 @@ export default function NavBar({ onChangeThemeMode }) {
   }
 
   return (
-    <nav className="sticky max-sm:fixed max-sm:bottom-0 w-full sm:top-0 dark:bg-dk-secondary bg-[#f9fafe]">
+    <nav className="sticky w-full top-0 inset-x-0 shadow-md dark:bg-dk-secondary bg-[#f9fafe]">
       <div className="container mx-auto px-6 py-2 flex justify-between items-center">
         <Link className="font-bold text-2xl lg:text-4xl" to="/">
           <img className="h-auto w-auto max-w-14 max-h-14" src={logo}></img>
         </Link>
-        <div className="block lg:hidden">
+        <div className="inline-flex lg:hidden">
           <button className="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-800 hover:border-teal-500 appearance-none focus:outline-none">
             <svg
               className="fill-current h-3 w-3"
