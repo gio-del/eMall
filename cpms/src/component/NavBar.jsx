@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 import logo from '../assets/lightLogo.png'
 
 export default function NavBar({ onChangeThemeMode }) {
-  const [actualPage, setActualPage] = useState('Home')
-
   const handleThemeMode = function () {
     if (
       localStorage.getItem('theme') === null ||
@@ -16,7 +14,7 @@ export default function NavBar({ onChangeThemeMode }) {
   }
 
   return (
-    <nav className="dark:bg-dk-secondary">
+    <nav className="dark:bg-dk-secondary bg-[#f9fafe]">
       <div className="container mx-auto px-6 py-2 flex justify-between items-center">
         <Link className="font-bold text-2xl lg:text-4xl" to="/">
           <img className="h-auto w-auto max-w-14 max-h-14" src={logo}></img>
@@ -35,20 +33,14 @@ export default function NavBar({ onChangeThemeMode }) {
         </div>
         <div className="hidden lg:block">
           <ul className="inline-flex">
-            <li className={"p-4 hover:text-gray-700 dark:text-dk-primary"+(actualPage=="Home")?" font-bold":""}>
-              <Link to={'/'} onClick={() => setActualPage('Home')}>
-                Home
-              </Link>
+            <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
+              <Link to={'/'}>Home</Link>
             </li>
-            <li className={"p-4 hover:text-gray-700 dark:text-dk-primary"+(actualPage=="About")?" font-bold":""}>
-              <Link to={'/about'} onClick={() => setActualPage('About')}>
-                About
-              </Link>
+            <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
+              <Link to={'/about'}>About</Link>
             </li>
-            <li className={"p-4 hover:text-gray-700 dark:text-dk-primary"+(actualPage=="Login")?" font-bold":""}>
-              <Link to={'login'} onClick={() => setActualPage('Login')}>
-                Login
-              </Link>
+            <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
+              <Link to={'login'}>Login</Link>
             </li>
             <li className="px-4 flex">
               <button className="self-center" onClick={() => handleThemeMode()}>
