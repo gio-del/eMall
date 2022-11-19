@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/lightLogo.png'
 
 export default function NavBar({ onChangeThemeMode }) {
+  const [actualPage, setActualPage] = useState('Home')
+
   const handleThemeMode = function () {
     if (
       localStorage.getItem('theme') === null ||
@@ -13,11 +16,11 @@ export default function NavBar({ onChangeThemeMode }) {
   }
 
   return (
-    <nav>
+    <nav className="dark:bg-dk-secondary">
       <div className="container mx-auto px-6 py-2 flex justify-between items-center">
-        <a className="font-bold text-2xl lg:text-4xl" href="/">
+        <Link className="font-bold text-2xl lg:text-4xl" to="/">
           <img className="h-auto w-auto max-w-14 max-h-14" src={logo}></img>
-        </a>
+        </Link>
         <div className="block lg:hidden">
           <button className="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-800 hover:border-teal-500 appearance-none focus:outline-none">
             <svg
@@ -32,14 +35,20 @@ export default function NavBar({ onChangeThemeMode }) {
         </div>
         <div className="hidden lg:block">
           <ul className="inline-flex">
-            <li className="p-4 font-bold">
-              <Link to={'/'}>Home</Link>
+            <li className={"p-4 hover:text-gray-700 dark:text-dk-primary"+(actualPage=="Home")?" font-bold":""}>
+              <Link to={'/'} onClick={() => setActualPage('Home')}>
+                Home
+              </Link>
             </li>
-            <li className="p-4 hover:text-gray-700">
-              <Link to={'/about'}>About</Link>
+            <li className={"p-4 hover:text-gray-700 dark:text-dk-primary"+(actualPage=="About")?" font-bold":""}>
+              <Link to={'/about'} onClick={() => setActualPage('About')}>
+                About
+              </Link>
             </li>
-            <li className="p-4 hover:text-gray-700">
-              <Link to={'login'}>Login</Link>
+            <li className={"p-4 hover:text-gray-700 dark:text-dk-primary"+(actualPage=="Login")?" font-bold":""}>
+              <Link to={'login'} onClick={() => setActualPage('Login')}>
+                Login
+              </Link>
             </li>
             <li className="px-4 flex">
               <button className="self-center" onClick={() => handleThemeMode()}>

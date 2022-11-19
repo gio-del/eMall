@@ -6,6 +6,7 @@ import './index.css'
 import ErrorView from './view/404'
 import LoginView from './view/LoginView'
 import RootLayout from './view/RootLayout'
+import WelcomeView from './view/WelcomeView'
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorView />,
     children: [
+      {
+        path: '/',
+        element: <WelcomeView />,
+      },
       {
         path: '/login/',
         element: <LoginView />,

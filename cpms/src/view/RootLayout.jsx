@@ -11,9 +11,9 @@ export default function RootLayout() {
       (!('theme' in localStorage) &&
         window.matchMedia('(prefers-color-scheme: dark)').matches)
     ) {
-      document.documentElement.classList.add('dark')
+      document.body.classList.add('dark')
     } else {
-      document.documentElement.classList.remove('dark')
+      document.body.classList.remove('dark')
     }
   }, [themeMode])
 
