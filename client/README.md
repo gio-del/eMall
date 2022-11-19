@@ -31,3 +31,7 @@ npm run dev
 ```
 npm install react-router-dom
 ```
+
+# Adding leaflet (Map)
+npm install react react-dom leaflet
+npm install react-leaflet

@@ -7,6 +7,7 @@ import ErrorView from './view/404'
 import LoginView from './view/LoginView'
 import RootLayout from './view/RootLayout'
 import WelcomeView from './view/WelcomeView'
+import AboutView from './view/AboutView'
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: '/login/',
         element: <LoginView />,
+      },
+      {
+        path: '/about/',
+        element: <AboutView />,
       },
     ],
   },
