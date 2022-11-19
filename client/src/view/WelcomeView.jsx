@@ -7,7 +7,7 @@ export default function WelcomeView() {
       <h2 className="px-6 text-3xl lg:text-5xl font-bold mb-2 text-white">
         Electric Mobility For All!
       </h2>
-      <section className="container mx-auto px-6 flex items-center justify-between h-full">
+      <section className="container mx-auto px-6 flex items-center justify-between h-[calc(100vh-4.5rem)]">
         <div className="w-full md:w-1/2">
           <h3 className="text-xl sm:text-3xl mb-8 text-dk-secondary dark:text-tertiary">
             Make your charging processes easy, non plan-ruiner and fun
@@ -20,7 +20,7 @@ export default function WelcomeView() {
           <img src={details} style={{ maxHeight: '100vh' }}></img>
         </div>
       </section>
-      <section className="container mx-auto px-6 flex items-center justify-between h-full">
+      <section className="container mx-auto px-6 flex items-center justify-between h-[calc(100vh-4.5rem)]">
         <div className="flex justify-center w-full md:w-1/2">
           <img src={booking} style={{ maxHeight: '100vh' }}></img>
         </div>
