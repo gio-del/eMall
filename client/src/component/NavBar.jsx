@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import logo from '../assets/lightLogo.png'
 
 export default function NavBar({ onChangeThemeMode }) {
-  const handleThemeMode = function () {
+  const handleThemeMode = () => {
     if (
       localStorage.getItem('theme') === null ||
       localStorage.getItem('theme') === 'dark'
@@ -14,7 +14,7 @@ export default function NavBar({ onChangeThemeMode }) {
   }
 
   return (
-    <nav className="dark:bg-dk-secondary bg-[#f9fafe]">
+    <nav className="sticky max-sm:fixed max-sm:bottom-0 w-full sm:top-0 dark:bg-dk-secondary bg-[#f9fafe]">
       <div className="container mx-auto px-6 py-2 flex justify-between items-center">
         <Link className="font-bold text-2xl lg:text-4xl" to="/">
           <img className="h-auto w-auto max-w-14 max-h-14" src={logo}></img>
