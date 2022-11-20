@@ -32,7 +32,13 @@ export default function MapLeaflet() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[latitude, longitude]}>
+        <Marker
+          position={[latitude, longitude]}
+          eventHandlers={{
+            click: () =>
+              alert('You clicked your home :) i should open the drawer'),
+          }}
+        >
           <Popup>{latitude + ' ' + longitude}</Popup>
         </Marker>
         <div className="absolute inset-x-0 top-4 items-center max-w-md mx-auto z-10">
