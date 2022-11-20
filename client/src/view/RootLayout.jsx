@@ -5,6 +5,7 @@ import NavBar from '../component/NavBar'
 export default function RootLayout() {
   const [themeMode, setThemeMode] = useState('light')
 
+
   useEffect(() => {
     if (
       localStorage.getItem('theme') === 'dark' ||

@@ -34,5 +34,6 @@ export default function WelcomeView() {
         </div>
       </section>
     </div>
+
   )
 }
