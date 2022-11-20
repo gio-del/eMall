@@ -1,17 +1,25 @@
 import Sheet from 'react-modal-sheet';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function Drawer() {
     const [isOpen, setOpen] = useState(false);
 
   return (
     <>
-      <button onClick={() => setOpen(true)}>Open sheet</button>
+    <div className='w-40 h-8 bg-blue-800 flex rounded-md '>
+        <button className='text-white m-auto'  onClick={() => setOpen(true)}>Open the drawer</button>
+    </div>
+      
 
-      <Sheet isOpen={isOpen} onClose={() => setOpen(false)}>
+      <Sheet isOpen={isOpen} onClose={() => setOpen(false)}
+        snapPoints={[600]}
+      >
         <Sheet.Container>
           <Sheet.Header />
-          <Sheet.Content>{/* Your sheet content goes here */}</Sheet.Content>
+          <Sheet.Content>
+            <button onClick={() => setOpen(false)}>Drag or close here</button>
+            
+            </Sheet.Content>
         </Sheet.Container>
 
         <Sheet.Backdrop />
