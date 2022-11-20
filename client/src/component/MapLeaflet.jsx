@@ -3,6 +3,7 @@ import 'leaflet/dist/leaflet.css'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import SearchBar from './SearchBar'
+import Drawer from './Drawer'
 
 export default function MapLeaflet() {
   const [latitude, setLatitude] = useState(0)
@@ -36,7 +37,7 @@ export default function MapLeaflet() {
           position={[latitude, longitude]}
           eventHandlers={{
             click: () =>
-              alert('You clicked your home :) i should open the drawer'),
+              Drawer.open(),
           }}
         >
           <Popup>{latitude + ' ' + longitude}</Popup>

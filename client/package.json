@@ -9,11 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@use-gesture/react": "^10.2.22",
     "leaflet": "^1.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.1.0",
-    "react-router-dom": "^6.4.3"
+    "react-router-dom": "^6.4.3",
+    "react-spring": "^9.5.5",
+    "react-spring-bottom-sheet": "^3.4.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",
