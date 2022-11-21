@@ -42,7 +42,7 @@ export default function Drawer({ isOpen, setIsOpen }) {
               <p className="dark:text-tertiary text-dk-secondary mb-2">
                 Equipment and current status
               </p>
-              <div className="flex flex-row justify-start outline outline-2 outline-tertiary rounded-2xl mb-4">
+              <div className="flex flex-row justify-start border-2 outline-tertiary rounded-2xl mb-4">
                 <div className="flex items-center justify-center">
                   <img src={CCS2} className="p-1 h-12"></img>
                 </div>
@@ -65,7 +65,7 @@ export default function Drawer({ isOpen, setIsOpen }) {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-row justify-start outline outline-2 outline-tertiary rounded-2xl mb-4">
+              <div className="flex flex-row justify-start border-2 outline-tertiary rounded-2xl mb-4">
                 <div className="flex items-center justify-center">
                   <img src={type2} className="p-1 h-12"></img>
                 </div>
