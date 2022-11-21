@@ -54,6 +54,7 @@ export default function MapLeaflet() {
         </Marker>
         <div className="absolute inset-x-0 top-4 items-center max-w-md mx-auto z-10">
           <SearchBar />
+          
         </div>
         <div className="absolute inset-x-0 bottom-4 items-center max-w-md mx-auto z-10">
           <Drawer isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen}/>

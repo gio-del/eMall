@@ -43,48 +43,48 @@ export default function Drawer({ isOpen, setIsOpen }) {
               <p className="dark:text-tertiary text-dk-secondary mb-2">
                 Equipment and current status
               </p>
-              <div className="flex flex-row justify-start outline-none outline-tertiary rounded-2xl mb-4">
+              <div className="flex flex-row justify-start outline outline-2 outline-tertiary rounded-2xl mb-4">
                 <div className="flex items-center justify-center">
                   <img src={CCS2} className="p-1 h-12"></img>
                 </div>
                 <div className="p-1 flex flex-row justify-between w-full border-l-2 border-l-tertiary">
                   <div>
-                    <p className="font-bold dark:text-tertiary text-dk-secondary mb-2">
+                    <p className="text-lg font-bold dark:text-tertiary text-dk-secondary mt-1 mb-1 mx-1">
                       CCS 2
                     </p>
-                    <p className="font-medium dark:text-tertiary text-dk-secondary">
+                    <p className="font-medium dark:text-tertiary text-dk-secondary mx-1">
                       110 kW
                     </p>
-                    <p className="font-medium dark:text-tertiary text-dk-secondary">
+                    <p className="font-light dark:text-tertiary text-dk-secondary mx-1 mb-1">
                       1,50$/h + 0,92$/kW
                     </p>
                   </div>
                   <div className='flex items-center justify-center'>
-                    <button className="p-4 w-full bg-dk-primary rounded-2xl text-center text-tertiary font-semibold">
+                    <button className="p-4 w-full mx-4 bg-dk-primary rounded-2xl text-center text-tertiary font-semibold">
                       NOW 1/1
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-row justify-start outline-none outline-tertiary rounded-2xl mb-4">
+              <div className="flex flex-row justify-start outline outline-2 outline-tertiary rounded-2xl mb-4">
                 <div className="flex items-center justify-center">
                   <img src={type2} className="p-1 h-12"></img>
                 </div>
 
                 <div className="p-1 flex flex-row justify-between w-full border-l-2 border-l-tertiary">
                   <div>
-                    <p className="font-bold dark:text-tertiary text-dk-secondary mb-2">
+                    <p className="text-lg font-bold dark:text-tertiary text-dk-secondary mt-1 mb-1 mx-1">
                       CCS 2
                     </p>
-                    <p className="font-medium dark:text-tertiary text-dk-secondary">
+                    <p className="font-medium dark:text-tertiary text-dk-secondary mx-1">
                       110 kW
                     </p>
-                    <p className="font-medium dark:text-tertiary text-dk-secondary">
+                    <p className="font-light dark:text-tertiary text-dk-secondary mx-1 mb-1">
                       1,50$/h + 0,92$/kW
                     </p>
                   </div>
                   <div className='flex items-center justify-center'>
-                    <button className="p-4 w-full bg-dk-primary rounded-2xl text-center text-tertiary font-semibold">
+                    <button className="p-4 w-full mx-4 bg-dk-primary rounded-2xl text-center text-tertiary font-semibold">
                       NOW 1/1
                     </button>
                   </div>
