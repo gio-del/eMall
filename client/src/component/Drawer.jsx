@@ -24,11 +24,10 @@ export default function Drawer({ isOpen, setIsOpen }) {
                 </p>
               </div>
               <svg
-                className="dark:fill-tertiary fill-dk-secondary"
+                className="dark:fill-tertiary fill-dk-secondary bi bi-three-dots-vertical"
                 xmlns="http://www.w3.org/2000/svg"
                 width="25"
                 height="25"
-                class="bi bi-three-dots-vertical"
                 viewBox="0 0 16 16"
               >
                 <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />{' '}
@@ -59,7 +58,7 @@ export default function Drawer({ isOpen, setIsOpen }) {
                       1,50$/h + 0,92$/kW
                     </p>
                   </div>
-                  <div className='flex items-center justify-center'>
+                  <div className="flex items-center justify-center">
                     <button className="p-4 w-full mx-4 bg-dk-primary rounded-2xl text-center text-tertiary font-semibold">
                       NOW 1/1
                     </button>
@@ -83,14 +82,13 @@ export default function Drawer({ isOpen, setIsOpen }) {
                       1,50$/h + 0,92$/kW
                     </p>
                   </div>
-                  <div className='flex items-center justify-center'>
+                  <div className="flex items-center justify-center">
                     <button className="p-4 w-full mx-4 bg-dk-primary rounded-2xl text-center text-tertiary font-semibold">
                       NOW 1/1
                     </button>
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
         </Sheet.Content>

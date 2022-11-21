@@ -4,15 +4,16 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import SearchBar from './SearchBar'
 import Drawer from './Drawer'
+import MarkerCustom from './MarkerCustom'
 
 export default function MapLeaflet() {
+
   const [latitude, setLatitude] = useState(0)
   const [longitude, setLongitude] = useState(0)
   const [actualCenter, setActualCenter] = useState({
     latitude: 41.87,
     longitude: 12.56,
   })
-
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function MapLeaflet() {
     >
       <MapContainer
         style={{ height: 'calc(100vh - 4.5rem)', width: '100vw' }}
-        center={[actualCenter.latitude, actualCenter.longitude]}
+        center={[41.87, 12.56]}
         zoom={6}
         scrollWheelZoom={true}
       >
@@ -43,7 +44,7 @@ export default function MapLeaflet() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker
+        {/*<Marker
           position={[latitude, longitude]}
           eventHandlers={{
             click: () =>
@@ -51,22 +52,13 @@ export default function MapLeaflet() {
           }}
         >
           <Popup>{latitude + ' ' + longitude}</Popup>
-        </Marker>
-        <Marker
-          position={[45.48378165505682, 9.21783171280132]}
-          eventHandlers={{
-            click: () => {
-              setActualCenter({
-                latitude: 45.48378165505682,
-                longitude: 9.21783171280132,
-              })
-              setIsDrawerOpen(() => true)
-            },
-          }}
-        ></Marker>
+        </Marker>*/}
+        <MarkerCustom
+          setActualCenter={setActualCenter}
+          setIsDrawerOpen={setIsDrawerOpen}
+        />
         <div className="absolute inset-x-0 top-4 items-center max-w-md mx-auto z-10">
           <SearchBar />
-          
         </div>
         <div className="absolute inset-x-0 bottom-4 items-center max-w-md mx-auto z-10">
           <Drawer isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
