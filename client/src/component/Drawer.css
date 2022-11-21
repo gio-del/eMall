@@ -1,5 +1,5 @@
 .react-modal-sheet-backdrop {
-  background-color: rgb(255, 255, 255, 0.3) !important; /*the part of screen covered by the drawer*/
+  background-color: rgb(0, 0, 0, 0.2) !important; /*the part of screen covered by the drawer*/
 }
 
 .react-modal-sheet-container {
@@ -19,11 +19,13 @@
 
 .react-modal-sheet-header {
 }
+
 .react-modal-sheet-drag-indicator {
   height: 6px !important;
   width: 30px !important;
   background-color: #3c4048 !important;
 }
+
 .dark .react-modal-sheet-drag-indicator {
   height: 6px !important;
   width: 30px !important;
@@ -34,7 +36,7 @@
   /* the content part */
 }
 
-@media not all and (min-width: 640px) {
+@media not all and (min-width: 1000px) {
   .react-modal-sheet-container,
   .dark .react-modal-sheet-container {
     width: 100% !important;

@@ -42,11 +42,11 @@ export default function Drawer({ isOpen, setIsOpen }) {
               <p className="dark:text-tertiary text-dk-secondary mb-2">
                 Equipment and current status
               </p>
-              <div className="flex flex-row justify-start border-2 outline-tertiary rounded-2xl mb-4">
+              <div className="flex flex-row justify-start border-2 border-dk-secondary dark:border-tertiary rounded-2xl mb-4">
                 <div className="flex items-center justify-center">
                   <img src={CCS2} className="p-1 h-12"></img>
                 </div>
-                <div className="p-1 flex flex-row justify-between w-full border-l-2 border-l-tertiary">
+                <div className="p-1 flex flex-row justify-between w-full border-l-2 dark:border-l-tertiary border-l-dk-secondary">
                   <div>
                     <p className="text-lg font-bold dark:text-tertiary text-dk-secondary mt-1 mb-1 mx-1">
                       CCS 2
@@ -65,12 +65,12 @@ export default function Drawer({ isOpen, setIsOpen }) {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-row justify-start border-2 outline-tertiary rounded-2xl mb-4">
+              <div className="flex flex-row justify-start border-2 border-dk-secondary dark:border-tertiary rounded-2xl mb-4">
                 <div className="flex items-center justify-center">
                   <img src={type2} className="p-1 h-12"></img>
                 </div>
 
-                <div className="p-1 flex flex-row justify-between w-full border-l-2 border-l-tertiary">
+                <div className="p-1 flex flex-row justify-between w-full border-l-2 dark:border-l-tertiary border-l-dk-secondary">
                   <div>
                     <p className="text-lg font-bold dark:text-tertiary text-dk-secondary mt-1 mb-1 mx-1">
                       CCS 2

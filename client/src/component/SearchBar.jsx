@@ -1,29 +1,39 @@
 export default function SearchBar() {
   return (
-    <form className="max-w-sm px-4 max-sm:float-right">
-      <div>
-        <div className="relative">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full py-3 pl-12 pr-4 text-gray-500  border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600 dark:bg-gray-200 dark:text-black dark:placeholder-gray-700"
-          />
-        </div>
+    <div className="flex flex-col justify-start mx-2 border-2 border-searchInput drop-shadow-2xl bg-tertiary dark:bg-dk-secondary rounded-2xl mb-4 shadow-lg p-4">
+      <div className="flex items-center justify-center mb-3">
+        <input
+          type="text"
+          placeholder="Search"
+          className="w-full rounded-md dark:bg-searchInput text-[15px] placeholder-gray-500 dark:placeholder-dk-secondary placeholder:font-semibold p-3 focus:outline-0"
+        />
+        <svg
+          className="absolute right-7 fill-dk-secondary"
+          xmlns="http://www.w3.org/2000/svg"
+          height="30"
+          width="30"
+          viewBox="0 0 60 40"
+        >
+          <path d="m26.35 42-5.7-14.65L6 21.65V19.5L42 6 28.5 42Zm.9-5.7 9.6-25.15-25.1 9.6 11.2 4.3Zm-4.3-11.25Z" />
+        </svg>
       </div>
-    </form>
+      <div className="flex flex-row">
+        <svg
+          className="fill-searchInput"
+          xmlns="http://www.w3.org/2000/svg"
+          height="30"
+          width="30"
+          viewBox="0 0 60 50"
+        >
+          <path d="M21.35 42V30.75h3v4.15H42v3H24.35V42ZM6 37.9v-3h12.35v3Zm9.35-8.3v-4.1H6v-3h9.35v-4.2h3v11.3Zm6-4.1v-3H42v3Zm8.3-8.25V6h3v4.1H42v3h-9.35v4.15ZM6 13.1v-3h20.65v3Z" />
+        </svg>
+        <button className="dark:bg-tertiary bg-dk-primary border-1 rounded-md ml-2 px-6 font-semibold text-[14.5px] text-tertiary dark:text-dk-secondary">
+          04 November
+        </button>
+        <button className="dark:bg-tertiary bg-dk-primary border-1 rounded-md ml-2 px-6 font-semibold text-[14.5px] text-tertiary dark:text-dk-secondary">
+          CCS2
+        </button>
+      </div>
+    </div>
   )
 }

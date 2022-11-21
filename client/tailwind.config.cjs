@@ -7,6 +7,7 @@ module.exports = {
         "dk-primary": "#00ABB3",
         "dk-secondary": "#3C4048",
         "tertiary": "#EAEAEA",
+        "searchInput": "#B2B2B2"
       }
     },
 

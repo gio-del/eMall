@@ -7,7 +7,6 @@ import Drawer from './Drawer'
 import MarkerCustom from './MarkerCustom'
 
 export default function MapLeaflet() {
-
   const [latitude, setLatitude] = useState(0)
   const [longitude, setLongitude] = useState(0)
   const [actualCenter, setActualCenter] = useState({
@@ -57,13 +56,16 @@ export default function MapLeaflet() {
           setActualCenter={setActualCenter}
           setIsDrawerOpen={setIsDrawerOpen}
         />
-        <div className="absolute inset-x-0 top-4 items-center max-w-md mx-auto z-10">
-          <SearchBar />
-        </div>
+
         <div className="absolute inset-x-0 bottom-4 items-center max-w-md mx-auto z-10">
           <Drawer isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
         </div>
       </MapContainer>
+      <div className="flex items-center justify-center">
+        <div className="absolute top-4 z-10 md:w-1/2 lg:w-3/5 xl:w-2/5 w-full">
+          <SearchBar />
+        </div>
+      </div>
     </div>
   )
 }
