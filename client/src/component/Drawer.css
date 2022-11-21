@@ -20,9 +20,14 @@
 .react-modal-sheet-header {
 }
 .react-modal-sheet-drag-indicator {
+  height: 6px !important;
+  width: 30px !important;
   background-color: #3c4048 !important;
 }
 .dark .react-modal-sheet-drag-indicator {
+  height: 6px !important;
+  width: 30px !important;
+
   background-color: #eaeaea !important;
 }
 .react-modal-sheet-content {
