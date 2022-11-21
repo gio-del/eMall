@@ -1,6 +1,6 @@
 export default function SearchBar() {
   return (
-    <form className="max-w-sm px-4">
+    <form className="max-w-sm px-4 max-sm:float-right">
       <div className="relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"

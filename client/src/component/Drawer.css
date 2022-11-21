@@ -1,0 +1,37 @@
+.react-modal-sheet-backdrop {
+  background-color: rgb(255, 255, 255, 0.3) !important; /*the part of screen covered by the drawer*/
+}
+
+.react-modal-sheet-container {
+  /*drawer dark mode example*/
+  background-color: #eaeaea !important;
+
+}
+
+.dark .react-modal-sheet-container {
+  background-color: #3c4048 !important;
+}
+
+.react-modal-sheet-container, .dark .react-modal-sheet-container {
+    width: 40vw !important;
+    max-height: 100% !important;
+}
+
+.react-modal-sheet-header {
+}
+.react-modal-sheet-drag-indicator {
+  background-color: #3c4048 !important;
+}
+.dark .react-modal-sheet-drag-indicator {
+  background-color: #eaeaea !important;
+}
+.react-modal-sheet-content {
+  /* the content part */
+}
+
+@media not all and (min-width: 640px) {
+  .react-modal-sheet-container,
+  .dark .react-modal-sheet-container {
+    width: 100% !important;
+  }
+}
