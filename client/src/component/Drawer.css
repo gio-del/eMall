@@ -35,10 +35,18 @@
 .react-modal-sheet-content {
   /* the content part */
 }
+@media not all and (min-width: 910px) {
+  .react-modal-sheet-container,
+  .dark .react-modal-sheet-container {
+    width: 60% !important;
+  }
+}
 
-@media not all and (min-width: 1000px) {
+@media not all and (min-width: 800px) {
   .react-modal-sheet-container,
   .dark .react-modal-sheet-container {
     width: 100% !important;
   }
 }
+
+

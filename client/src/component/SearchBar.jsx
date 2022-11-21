@@ -8,7 +8,7 @@ export default function SearchBar() {
           className="w-full rounded-md dark:bg-searchInput text-[15px] placeholder-gray-500 dark:placeholder-dk-secondary placeholder:font-semibold p-3 focus:outline-0"
         />
         <svg
-          className="absolute right-7 fill-dk-secondary"
+          className="absolute right-7 dark:fill-dk-secondary fill-searchInput"
           xmlns="http://www.w3.org/2000/svg"
           height="30"
           width="30"
