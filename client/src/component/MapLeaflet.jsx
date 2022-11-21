@@ -8,8 +8,12 @@ import Drawer from './Drawer'
 export default function MapLeaflet() {
   const [latitude, setLatitude] = useState(0)
   const [longitude, setLongitude] = useState(0)
+  const [actualCenter, setActualCenter] = useState({
+    latitude: 41.87,
+    longitude: 12.56,
+  })
 
-  const[isDrawerOpen,setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -24,10 +28,14 @@ export default function MapLeaflet() {
   }, [])
 
   return (
-    <>
+    <div
+      onClick={() => {
+        if (isDrawerOpen === true) setIsDrawerOpen(true)
+      }}
+    >
       <MapContainer
         style={{ height: 'calc(100vh - 4.5rem)', width: '100vw' }}
-        center={[41.87, 12.56]}
+        center={[actualCenter.latitude, actualCenter.longitude]}
         zoom={6}
         scrollWheelZoom={true}
       >
@@ -47,18 +55,22 @@ export default function MapLeaflet() {
         <Marker
           position={[45.48378165505682, 9.21783171280132]}
           eventHandlers={{
-            click: () =>
-              setIsDrawerOpen(() => true),
+            click: () => {
+              setActualCenter({
+                latitude: 45.48378165505682,
+                longitude: 9.21783171280132,
+              })
+              setIsDrawerOpen(() => true)
+            },
           }}
-        >
-        </Marker>
+        ></Marker>
         <div className="absolute inset-x-0 top-4 items-center max-w-md mx-auto z-10">
           <SearchBar />
         </div>
         <div className="absolute inset-x-0 bottom-4 items-center max-w-md mx-auto z-10">
-          <Drawer isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen}/>
+          <Drawer isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
         </div>
       </MapContainer>
-    </>
+    </div>
   )
 }
