@@ -68,13 +68,7 @@ export default function MapLeaflet() {
         <div className="absolute inset-x-0 bottom-4 items-center max-w-md mx-auto z-10">
           <Drawer isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
         </div>
-        <Drawer isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
       </MapContainer>
-      <div className="flex items-center justify-center">
-        <div className="absolute top-20 z-10 md:w-1/2 lg:w-3/5 xl:w-2/5 w-full">
-          <SearchBar />
-        </div>
-      </div>
     </div>
   )
 }
