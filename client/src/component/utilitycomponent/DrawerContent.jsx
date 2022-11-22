@@ -1,7 +1,8 @@
 import type2 from './../../assets/socketType2.svg'
 import CCS2 from './../../assets/socketTypeCCS2.svg'
+import DirectionButtonUtility from './DirectionButtonUtility'
 
-export default function DrawerContent({ CPOName, Address, Connectors }) {
+export default function DrawerContent({ CPOName, Address, Connectors, Data }) {
   return (
     <div className="flex flex-col p-5">
       <div className="flex justify-between">
@@ -13,15 +14,7 @@ export default function DrawerContent({ CPOName, Address, Connectors }) {
             {Address}
           </p>
         </div>
-        <svg
-          className="dark:fill-tertiary fill-dk-secondary bi bi-three-dots-vertical"
-          xmlns="http://www.w3.org/2000/svg"
-          width="25"
-          height="25"
-          viewBox="0 0 16 16"
-        >
-          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />{' '}
-        </svg>
+        <DirectionButtonUtility />
       </div>
       <div className="my-5">
         <button className="py-4 w-full bg-dk-primary rounded-full text-center text-tertiary font-semibold">
@@ -35,6 +28,7 @@ export default function DrawerContent({ CPOName, Address, Connectors }) {
         {Connectors.map((connector) => (
           <div className="flex flex-row justify-start border-2 border-dk-secondary dark:border-tertiary rounded-2xl mb-4">
             <div className="flex items-center justify-center">
+              {CCS2.f}
               <img src={CCS2} className="p-1 h-12"></img>
             </div>
             <div className="p-1 flex flex-row justify-between w-full border-l-2 dark:border-l-tertiary border-l-dk-secondary">
