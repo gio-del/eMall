@@ -66,7 +66,7 @@ export default function ConnectorTypeDropdown({ connectors, setConnectors }) {
       </div>
       <div className="absolute flex justify-center items-center w-full mt-16">
         <div
-          className="relative right-[17px] w-9/12 inline-flex justify-evenly z-10 p-1 bg-tertiary dark:bg-dk-secondary rounded-2xl shadow-md hidden"
+          className="relative right-[17px] w-10/12 inline-flex justify-evenly z-10 p-1 px-4 bg-tertiary dark:bg-dk-secondary rounded-2xl shadow-lg border-2 border-searchInput hidden"
           id="dropdown"
           role="menu"
           aria-labelledby="menu-button"
@@ -84,7 +84,7 @@ export default function ConnectorTypeDropdown({ connectors, setConnectors }) {
               className="flex p-5
               dark:bg-dk-secondary dark:peer-checked:bg-tertiary dark:text-white dark:peer-checked:text-dk-secondary dark:border dark:border-tertiary
               bg-tertiary peer-checked:bg-dk-primary text-dk-secondary peer-checked:text-tertiary border border-dk-secondary peer-checked:border-0
-              font-semibold rounded-lg cursor-pointer focus:outline-none"
+              font-semibold rounded-2xl cursor-pointer focus:outline-none"
               for="CCS"
             >
               <span className="text-inherit w-full text-center">CCS</span>
@@ -103,7 +103,7 @@ export default function ConnectorTypeDropdown({ connectors, setConnectors }) {
               className="flex p-5 
               dark:bg-dk-secondary dark:peer-checked:bg-tertiary dark:text-white dark:peer-checked:text-dk-secondary dark:border dark:border-tertiary
               bg-tertiary peer-checked:bg-dk-primary text-dk-secondary peer-checked:text-tertiary border border-dk-secondary peer-checked:border-0
-              font-semibold rounded-lg cursor-pointer focus:outline-none"
+              font-semibold rounded-2xl cursor-pointer focus:outline-none"
               for="Type2"
             >
               <span className="text-inherit w-full text-center">Type2</span>
@@ -122,7 +122,7 @@ export default function ConnectorTypeDropdown({ connectors, setConnectors }) {
               className="flex p-5 
               dark:bg-dk-secondary dark:peer-checked:bg-tertiary dark:text-white dark:peer-checked:text-dk-secondary dark:border dark:border-tertiary
               bg-tertiary peer-checked:bg-dk-primary text-dk-secondary peer-checked:text-tertiary border border-dk-secondary peer-checked:border-0
-              font-semibold rounded-lg cursor-pointer focus:outline-none"
+              font-semibold rounded-2xl cursor-pointer focus:outline-none"
               for="Tesla"
             >
               <span className="text-inherit w-full text-center">Tesla</span>

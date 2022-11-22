@@ -71,7 +71,7 @@ export default function MapLeaflet() {
         />
 
         <div className="flex items-center justify-center">
-          <div className="absolute top-4 z-10 md:w-1/2 lg:w-3/5 xl:w-2/5 w-full right-0">
+          <div className="absolute top-4 z-10 md:w-1/2 lg:w-3/5 xl:w-2/5 w-full left-0">
             <SearchBar setChosenDate={setChosenDate} connectors={chosenConnectors} setConnectors={setChosenConnectors} />
           </div>
         </div>
