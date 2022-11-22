@@ -36,7 +36,7 @@ export default function ConnectorTypeDropdown({ connectors, setConnectors }) {
           <button
             onClick={() => setIsOpen((prev) => !prev)}
             type="button"
-            className="inline-flex w-full justify-center rounded-md px-4 py-2 font-semibold shadow-sm focus:outline-none text-[14.5px]
+            className="inline-flex w-full justify-center rounded-xl px-4 py-2 font-semibold shadow-sm focus:outline-none text-[14.5px]
             bg-dk-primary text-tertiary
             dark:bg-tertiary dark:text-dk-secondary"
             id="menu-button"
@@ -64,9 +64,9 @@ export default function ConnectorTypeDropdown({ connectors, setConnectors }) {
           </button>
         </div>
       </div>
-      <div className="absolute flex justify-center items-center w-full mt-16">
+      <div className="absolute right-[2px] flex justify-center items-center w-full mt-16">
         <div
-          className="relative right-[17px] w-10/12 inline-flex justify-evenly z-10 p-1 px-4 bg-tertiary dark:bg-dk-secondary rounded-2xl shadow-lg border-2 border-searchInput hidden"
+          className="relative  w-10/12 inline-flex justify-evenly z-10 p-1 px-4 bg-tertiary dark:bg-dk-secondary rounded-2xl shadow-lg border-2 border-searchInput hidden"
           id="dropdown"
           role="menu"
           aria-labelledby="menu-button"

@@ -17,10 +17,10 @@ export default function SearchBar({
         <input
           type="text"
           placeholder="Search"
-          className="w-full rounded-md dark:bg-searchInput text-[15px] placeholder-gray-500 dark:placeholder-dk-secondary placeholder:font-semibold p-3 focus:outline-0"
+          className="w-full rounded-xl dark:bg-searchInput text-[15px] placeholder-gray-500 dark:placeholder-dk-secondary placeholder:font-semibold p-3 focus:outline-0"
         />
         <svg
-          className="absolute right-7 dark:fill-dk-secondary fill-searchInput"
+          className="absolute right-7 dark:fill-dk-secondary fill-searchInput mr-1"
           xmlns="http://www.w3.org/2000/svg"
           height="30"
           width="30"
@@ -32,7 +32,7 @@ export default function SearchBar({
       <div className="flex flex-row justify-between ">
         <div className="inline-flex">
           <svg
-            className="fill-searchInput max-md:hidden"
+            className="fill-searchInput mx-2 max-md:hidden"
             xmlns="http://www.w3.org/2000/svg"
             height="30"
             width="30"
@@ -57,7 +57,7 @@ export default function SearchBar({
                 handleChange()
                 handleRestore()
               }}
-              className="text-center h-full dark:bg-tertiary bg-dk-primary rounded-md font-semibold text-[14.5px] text-dk-primary dark:text-tertiary"
+              className="text-center h-full dark:bg-tertiary bg-dk-primary rounded-xl font-semibold text-[14.5px] text-dk-primary dark:text-tertiary"
             ></input>
           </div>
 
