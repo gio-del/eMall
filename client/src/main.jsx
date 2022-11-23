@@ -8,6 +8,7 @@ import LoginView from './view/LoginView'
 import RootLayout from './view/RootLayout'
 import WelcomeView from './view/WelcomeView'
 import AboutView from './view/AboutView'
+import Booking from './component/Booking'
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: '/about/',
         element: <AboutView />,
+      },
+      {
+        path: '/book',
+        element: <Booking CPOName="Ionity" Address="Via Gran Sasso, 1, Milano" />,
       },
     ],
   },

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
 import CCS2 from './../../assets/socketTypeCCS2.svg'
+import CheckBox from './CheckBox'
 
 export default function ConnectorTypeDropdown({ connectors, setConnectors }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -64,70 +65,29 @@ export default function ConnectorTypeDropdown({ connectors, setConnectors }) {
           </button>
         </div>
       </div>
-      <div className="absolute right-[2px] flex justify-center items-center w-full mt-16">
+      <div className="absolute right-[-1px] flex justify-center items-center w-full mt-16">
         <div
-          className="relative  w-10/12 inline-flex justify-evenly z-10 p-1 px-4 bg-tertiary dark:bg-dk-secondary rounded-2xl shadow-lg border-2 border-searchInput hidden"
+          className="relative grid grid-cols-3  w-10/12 gap-3 p-5 inline-flex justify-evenly z-10 px-4 bg-tertiary dark:bg-dk-secondary rounded-2xl shadow-lg border-2 border-searchInput hidden"
           id="dropdown"
           role="menu"
           aria-labelledby="menu-button"
         >
-          <div className="mx-2 my-4 w-1/3">
-            <input
-              onChange={(e) => handleSelection(e)}
-              type="checkbox"
-              id="CCS"
-              name="productOptions"
-              value="2"
-              className="sr-only peer"
-            />
-            <label
-              className="flex p-5
-              dark:bg-dk-secondary dark:peer-checked:bg-tertiary dark:text-white dark:peer-checked:text-dk-secondary dark:border dark:border-tertiary
-              bg-tertiary peer-checked:bg-dk-primary text-dk-secondary peer-checked:text-tertiary border border-dk-secondary peer-checked:border-0
-              font-semibold rounded-2xl cursor-pointer focus:outline-none"
-              for="CCS"
-            >
-              <span className="text-inherit w-full text-center">CCS</span>
-            </label>
-          </div>
-          <div className="mx-2 my-4 w-1/3">
-            <input
-              onChange={(e) => handleSelection(e)}
-              type="checkbox"
-              id="Type2"
-              name="productOptions"
-              value="2"
-              className="sr-only peer"
-            />
-            <label
-              className="flex p-5 
-              dark:bg-dk-secondary dark:peer-checked:bg-tertiary dark:text-white dark:peer-checked:text-dk-secondary dark:border dark:border-tertiary
-              bg-tertiary peer-checked:bg-dk-primary text-dk-secondary peer-checked:text-tertiary border border-dk-secondary peer-checked:border-0
-              font-semibold rounded-2xl cursor-pointer focus:outline-none"
-              for="Type2"
-            >
-              <span className="text-inherit w-full text-center">Type2</span>
-            </label>
-          </div>
-          <div className="mx-2 my-4 w-1/3">
-            <input
-              onChange={(e) => handleSelection(e)}
-              type="checkbox"
-              id="Tesla"
-              name="productOptions"
-              value="2"
-              className="sr-only peer"
-            />
-            <label
-              className="flex p-5 
-              dark:bg-dk-secondary dark:peer-checked:bg-tertiary dark:text-white dark:peer-checked:text-dk-secondary dark:border dark:border-tertiary
-              bg-tertiary peer-checked:bg-dk-primary text-dk-secondary peer-checked:text-tertiary border border-dk-secondary peer-checked:border-0
-              font-semibold rounded-2xl cursor-pointer focus:outline-none"
-              for="Tesla"
-            >
-              <span className="text-inherit w-full text-center">Tesla</span>
-            </label>
-          </div>
+          <CheckBox id="CCS" label="CCS" onChange={(e) => handleSelection(e)} />
+          <CheckBox
+            id="Type2"
+            label="Type2"
+            onChange={(e) => handleSelection(e)}
+          />
+          <CheckBox
+            id="Tesla"
+            label="Tesla"
+            onChange={(e) => handleSelection(e)}
+          />
+          <CheckBox
+            id="CHAdeMO"
+            label="CHAdeMO"
+            onChange={(e) => handleSelection(e)}
+          />
         </div>
       </div>
     </>

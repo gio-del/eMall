@@ -14,7 +14,10 @@ export default function DrawerContent({ CPOName, Address, Connectors, Data }) {
             {Address}
           </p>
         </div>
-        <DirectionButtonUtility />
+        <DirectionButtonUtility
+          source={[41.909986, 12.3959139]}
+          destination={[40.41689568227279, -3.7037837311741937]}
+        />
       </div>
       <div className="my-5">
         <button className="py-4 w-full bg-dk-primary rounded-full text-center text-tertiary font-semibold">

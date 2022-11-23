@@ -1,7 +1,6 @@
 # Todos
 1) Fix svg in the drawer to be visible in light mode
-2) Export a ContentDrawer component with props like price, sockets array with availability
-3) Fix dark mode (on first open two clicks to toggle)
+2) Fix dark mode (on first open two clicks to toggle)
 
 # Possible problems
 Probably for large datasets a lot of markers can decrease performance. Possible solution: https://www.npmjs.com/package/react-leaflet-canvas-markers

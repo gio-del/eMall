@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from 'react-leaflet'
 import MarkerClusterGroup from './MarkerClusterGroup'
 import 'leaflet/dist/leaflet.css'
 import { useEffect } from 'react'
@@ -40,13 +40,10 @@ export default function MapLeaflet() {
   }, [])
 
   return (
-    <div
-      onClick={() => {
-        if (isDrawerOpen === true) setIsDrawerOpen(true)
-      }}
-    >
+    <>
       <MapContainer
-        style={{ height: 'calc(100vh - 4.5rem)', width: '100vw' }}
+        zoomControl={false}
+        style={{ height: 'calc(100vh - 4.5rem)', width: '100vw'}}
         center={[41.87, 12.56]}
         zoom={6}
         scrollWheelZoom={true}
@@ -69,16 +66,18 @@ export default function MapLeaflet() {
           icon={GetIcon(false)}
           position={[47.48378165505682, 9.21783171280132]}
         />
-
-        <div className="flex items-center justify-center">
-          <div className="absolute top-4 z-10 md:w-1/2 lg:w-3/5 xl:w-2/5 w-full left-0">
-            <SearchBar setChosenDate={setChosenDate} connectors={chosenConnectors} setConnectors={setChosenConnectors} />
-          </div>
-        </div>
         <div className="absolute inset-x-0 bottom-4 items-center max-w-md mx-auto z-10">
           <Drawer isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
         </div>
+        <ZoomControl position="bottomright"/>
       </MapContainer>
-    </div>
+      <div className="absolute z-10 md:w-2/3 lg:w-3/5 xl:w-2/5 w-full top-[5rem]">
+        <SearchBar
+          setChosenDate={setChosenDate}
+          connectors={chosenConnectors}
+          setConnectors={setChosenConnectors}
+        />
+      </div>
+    </>
   )
 }
