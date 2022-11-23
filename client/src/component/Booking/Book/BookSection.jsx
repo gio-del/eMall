@@ -4,6 +4,7 @@ import CCS2dark from './../../../assets/socketTypeCCS2dark.svg'
 import ConnectorSVG from './../../utilitycomponent/ConnectorSVG'
 import { useState, useRef, useEffect } from 'react'
 import './BookSection.css'
+import Calendar from './Calendar'
 
 export default function BookSection({ connectors }) {
   const [selectedConnector, setSelectedConnector] = useState()
@@ -49,7 +50,7 @@ export default function BookSection({ connectors }) {
           </div>
         ))}
       </div>
-      <div className="p-10 bg-red-500">Here goes the calendar</div>
+      <Calendar/>
       <div className="flex justify-between items-center pr-7">
         <label
           htmlFor="showOnlyAvailable"
