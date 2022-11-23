@@ -2,6 +2,7 @@ import type2 from './../../../assets/socketType2.svg'
 import CCS2 from './../../../assets/socketTypeCCS2.svg'
 import CCS2dark from './../../../assets/socketTypeCCS2dark.svg'
 import DirectionButtonUtility from '../../utilitycomponent/DirectionButtonUtility'
+import ConnectorSVG from '../../utilitycomponent/ConnectorSVG'
 
 export default function DrawerContent({ CPOName, Address, Connectors, Data }) {
 
@@ -32,12 +33,7 @@ export default function DrawerContent({ CPOName, Address, Connectors, Data }) {
         </p>
         {Connectors.map((connector) => (
           <div className="flex flex-row justify-start border-2 border-dk-secondary dark:border-tertiary rounded-2xl mb-4">
-            <div className="flex items-center justify-center ">
-              <img src={CCS2} className="p-1 h-12 dark:hidden"></img>
-            </div>
-            <div className="flex items-center justify-center ">
-              <img src={CCS2dark} className="p-1 h-12 hidden dark:inline"></img>
-            </div>
+            <ConnectorSVG type={connector.type}/>
             <div className="p-1 flex flex-row justify-between w-full border-l-2 dark:border-l-tertiary border-l-dk-secondary">
               <div>
                 <p className="text-lg font-bold dark:text-tertiary text-dk-secondary mt-1 mb-1 mx-1">

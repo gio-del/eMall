@@ -1,6 +1,7 @@
 import RadioComponent from './RadioComponent'
 import CCS2 from './../../../assets/socketTypeCCS2.svg'
 import CCS2dark from './../../../assets/socketTypeCCS2dark.svg'
+import ConnectorSVG from './../../utilitycomponent/ConnectorSVG'
 import { useState, useRef, useEffect } from 'react'
 import './BookSection.css'
 
@@ -36,15 +37,7 @@ export default function BookSection({ connectors }) {
                 for={`connectorType-${connector.type}`}
                 className="flex flex-row justify-start items-center pr-10 rounded-2xl cursor-pointer dark:text-tertiary text-dk-secondary border-2 dark:border-tertiary border-dk-secondary"
               >
-                <div className="flex items-center justify-center">
-                  <img src={CCS2} className="p-1 h-12 dark:hidden"></img>
-                </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src={CCS2dark}
-                    className="p-1 h-12 hidden dark:inline"
-                  ></img>
-                </div>
+                <ConnectorSVG type={connector.type} />
                 <div className="border-l-2 dark:border-tertiary border-dk-secondary flex  h-full p-3">
                   <div>
                     <p className="font-semibold">{connector.type}</p>
