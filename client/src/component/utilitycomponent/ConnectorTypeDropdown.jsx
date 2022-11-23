@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
-import CCS2 from './../../assets/socketTypeCCS2.svg'
 import CheckBox from './CheckBox'
 
 export default function ConnectorTypeDropdown({ connectors, setConnectors }) {

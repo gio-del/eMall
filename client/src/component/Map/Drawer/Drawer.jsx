@@ -1,6 +1,6 @@
 import Sheet from 'react-modal-sheet'
 import './Drawer.css'
-import DrawerContent from './utilitycomponent/DrawerContent'
+import DrawerContent from './DrawerContent'
 
 export default function Drawer({ isOpen, setIsOpen }) {
   return (

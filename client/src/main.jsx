@@ -8,7 +8,7 @@ import LoginView from './view/LoginView'
 import RootLayout from './view/RootLayout'
 import WelcomeView from './view/WelcomeView'
 import AboutView from './view/AboutView'
-import Booking from './component/Booking'
+import Booking from './component/Booking/Booking'
 
 const router = createBrowserRouter([
   {

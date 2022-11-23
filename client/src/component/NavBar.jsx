@@ -17,7 +17,7 @@ export default function NavBar({ onChangeThemeMode }) {
   }
 
   return (
-    <nav className="sticky w-full top-0 inset-x-0 shadow-md dark:bg-dk-secondary bg-[#f9fafe]">
+    <nav className="sticky w-full top-0 left-0 inset-x-0 shadow-md dark:bg-dk-secondary bg-[#f9fafe]">
       <div className="container mx-auto px-6 py-2 flex justify-between items-center">
         <Link className="font-bold text-2xl lg:text-4xl" to="/">
           <img className="h-auto w-auto max-w-14 max-h-14" src={logo}></img>
@@ -55,6 +55,9 @@ export default function NavBar({ onChangeThemeMode }) {
             </li>
             <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
               <Link to={'login'}>Login</Link>
+            </li>
+            <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
+              <Link to={'book'}>Book</Link>
             </li>
             <li className="px-4 flex">
               <DarkModeUtility handleThemeMode={handleThemeMode} />
