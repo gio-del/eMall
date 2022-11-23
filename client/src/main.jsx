@@ -30,7 +30,30 @@ const router = createBrowserRouter([
       },
       {
         path: '/book',
-        element: <Booking CPOName="Ionity" Address="Via Gran Sasso, 1, Milano" />,
+        element: (
+          <Booking
+            CPOName={'Ionity'}
+            Address={'Via Gran Sasso, 1, Milano'}
+            Connectors={[
+              //CPOName, Address and Connectors comes from an API
+              {
+                type: 'CCS2',
+                power: '110 kW',
+                price: '1,50$/h + 0,92$/kW',
+                totalSockets: 1,
+                availableSockets: 1,
+              },
+              {
+                type: 'Type2',
+                power: '50 kW',
+                price: '1,50$/h + 0,94$/kW',
+                totalSockets: 2,
+                availableSockets: 1,
+              },
+            ]}
+            Date={'2022-11-11'} //this comes from drawers that comes from date in searchbar
+          />
+        ),
       },
     ],
   },

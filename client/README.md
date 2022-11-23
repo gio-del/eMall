@@ -1,5 +1,5 @@
 # Todos
-1) Fix svg in the drawer to be visible in light mode
+1) Make a js object that has a method getConnectorIcon(type,themeMode), avoid importing multiple svgs
 2) Fix dark mode (on first open two clicks to toggle)
 
 # Possible problems

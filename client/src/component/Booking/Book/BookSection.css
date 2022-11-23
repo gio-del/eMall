@@ -1,0 +1,7 @@
+.dark input.checked + label {
+  background-color: #00abb3;
+}
+
+input.checked + label {
+  background-color: #00abb3;
+}

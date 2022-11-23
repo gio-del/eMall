@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useRef } from 'react'
 import ConnectorTypeDropdown from '../../utilitycomponent/ConnectorTypeDropdown'
 
@@ -10,7 +11,6 @@ export default function SearchBar({
     const date = document.getElementById('date')
     setChosenDate(date.value)
   }
-
   return (
     <div className="flex flex-col justify-start mx-2 border-2 border-searchInput drop-shadow-2xl bg-tertiary dark:bg-dk-secondary rounded-2xl mb-4 shadow-lg p-4">
       <div className="flex items-center justify-center mb-3">

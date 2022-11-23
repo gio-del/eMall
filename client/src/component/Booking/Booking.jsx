@@ -5,7 +5,7 @@ import BookSection from './Book/BookSection'
 import CostSection from './Cost/CostSection'
 import DetailsSection from './Details/DetailsSection'
 
-export default function Booking({ CPOName, Address, Connectors, Data }) {
+export default function Booking({ CPOName, Address, Connectors, Date }) {
   const [currentTab, setCurrentTab] = useState(1)
   const tabs = ['tab-0', 'tab-1', 'tab-2']
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function Booking({ CPOName, Address, Connectors, Data }) {
             {Address}
           </p>
         </div>
-        <DirectionButtonUtility source={[]} destination={[]} />
+        <DirectionButtonUtility source={[10, 10]} destination={[12, 12]} />
       </div>
       <ul className="select-none cursor-pointer inline-flex justify-around w-full dark:text-tertiary text-dk-secondary font-light border-b-2 text-center dark:border-b-tertiary border-b-dk-secondary">
         <li
@@ -60,7 +60,7 @@ export default function Booking({ CPOName, Address, Connectors, Data }) {
         <CostSection />
       </div>
       <div className={(currentTab === 1 ? '' : 'hidden ') + ''}>
-        <BookSection />
+        <BookSection connectors={Connectors} date={Date} />
       </div>
       <div className={(currentTab === 2 ? '' : 'hidden ') + ''}>
         <DetailsSection />
