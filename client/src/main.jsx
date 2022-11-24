@@ -12,24 +12,24 @@ import Booking from './component/Booking/Booking'
 
 const router = createBrowserRouter([
   {
-    path: '/eMallFrontEnd',
+    path: '/',
     element: <RootLayout />,
     errorElement: <ErrorView />,
     children: [
       {
-        path: '/eMallFrontEnd',
+        path: '/',
         element: <WelcomeView />,
       },
       {
-        path: 'eMallFrontEnd/login/',
+        path: '/login/',
         element: <LoginView />,
       },
       {
-        path: 'eMallFrontEnd/about/',
+        path: '/about/',
         element: <AboutView />,
       },
       {
-        path: 'eMallFrontEnd/book',
+        path: '/book',
         element: (
           <Booking
             CPOName={'Ionity'}
@@ -51,13 +51,15 @@ const router = createBrowserRouter([
                 availableSockets: 1,
               },
             ]}
-            Date={'2022-11-11'} //this comes from drawers that comes from date in searchbar
+            Date={'2022-11-11'} //this comes from drawers that comes from date in search bar
           />
         ),
       },
     ],
   },
-])
+],{
+  basename: "/eMallFrontEnd"
+})
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
