@@ -9,7 +9,8 @@ export default function Drawer({ isOpen, setIsOpen }) {
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       detent="content-height"
-      snapPoints={[400]}
+
+      
     >
       <Sheet.Container>
         <Sheet.Header />

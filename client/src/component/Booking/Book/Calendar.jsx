@@ -1,43 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RadioDate } from "./RadioDate";
+import './Calendar.css'
 
 export default function Calendar() {
 
-    const [startDate1, setStartDate1] = useState(new Date())
-    const [startDate2, setStartDate2] = useState(new Date(new Date().getTime() + 24 * 60 * 60 * 1000))
-    const [startDate3, setStartDate3] = useState(new Date(new Date().getTime() + 48 * 60 * 60 * 1000))
-    const [startDate4, setStartDate4] = useState(new Date(new Date().getTime() + 72 * 60 * 60 * 1000))
-    const [startDate5, setStartDate5] = useState(new Date(new Date().getTime() + 96 * 60 * 60 * 1000))
+    const [selectedDate, setSelectedDate] = useState()
+    const dates = []
+   
+
+
+    const selectableDates = () => {
+        const startDate = new Date()
+        let content = [];
+        for (let i = 0; i < 3; i++) {
+            dates.push(new Date(startDate.getTime() + (1 + i) * 24 * 60 * 60 * 1000).getDate())
+            const values = {
+                id : `date-${new Date(startDate.getTime() + (1 + i) * 24 * 60 * 60 * 1000).getDate()}`,
+                day : `${new Date(startDate.getTime() + (1 + i) * 24 * 60 * 60 * 1000).getDate()}`,
+                name : `${new Date(startDate.getTime() + (1 + i) * 24 * 60 * 60 * 1000).toString().split(' ')[0]}`,
+                month : `${new Date(startDate.getTime() + (1 + i) * 24 * 60 * 60 * 1000).toString().split(' ')[1]}`
+        }
+            content.push(<RadioDate 
+                date={values}
+                onChange={() => setSelectedDate(values.id)}/>);
+        }
+        return content;
+    };
+
+    useEffect(() => {
+        dates.forEach((type) => {
+          document
+            .getElementById(`date-${selectedDate}`)
+            ?.classList.remove('checked')
+        })
+        document
+          .getElementById(`date-${selectedDate}`)
+          ?.classList.add('checked')
+      }, [selectedDate])
+    
+
+
 
 
     return <>
-        <div className="w-full">
-            <div className="flex justify-start md:justify-center rounded-lg mt-4 mb-8">
-                <RadioDate date={{
-                    day: `${startDate1.getDate()}`,
-                    name: `${startDate1.toString().split(' ')[0]}`,
-                    month: `${startDate1.toString().split(' ')[1]}`,
-                }} />
-                <RadioDate date={{
-                    day: `${startDate2.getDate()}`,
-                    name: `${startDate2.toString().split(' ')[0]}`,
-                    month: `${startDate2.toString().split(' ')[1]}`,
-                }} />
-                <RadioDate date={{
-                    day: `${startDate3.getDate()}`,
-                    name: `${startDate3.toString().split(' ')[0]}`,
-                    month: `${startDate3.toString().split(' ')[1]}`,
-                }} />
-                <RadioDate date={{
-                    day: `${startDate4.getDate()}`,
-                    name: `${startDate4.toString().split(' ')[0]}`,
-                    month: `${startDate4.toString().split(' ')[1]}`,
-                }} />
-                <RadioDate date={{
-                    day: `${startDate5.getDate()}`,
-                    name: `${startDate5.toString().split(' ')[0]}`,
-                    month: `${startDate5.toString().split(' ')[1]}`,
-                }} />
+        <div className="w-full overflow-x-hidden">
+            <div className="w-full calendar-container flex md:justify-center ml-4 mt-6 mb-8">
+                {selectableDates()}
             </div>
         </div>
     </>
