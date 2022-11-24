@@ -14,7 +14,7 @@ export default function Calendar() {
 
   const selectableDates = () => {
       const startDate = new Date()
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < 7; i++) {
           const currentDate = new Date(startDate.getTime() + (1 + i) * 24 * 60 * 60 * 1000)
           const value = {
               id : `${currentDate.getDate()}`,
