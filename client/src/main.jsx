@@ -12,24 +12,24 @@ import Booking from './component/Booking/Booking'
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/eMallFrontEnd',
     element: <RootLayout />,
     errorElement: <ErrorView />,
     children: [
       {
-        path: '/',
+        path: '/eMallFrontEnd',
         element: <WelcomeView />,
       },
       {
-        path: '/login/',
+        path: 'eMallFrontEnd/login/',
         element: <LoginView />,
       },
       {
-        path: '/about/',
+        path: 'eMallFrontEnd/about/',
         element: <AboutView />,
       },
       {
-        path: '/book',
+        path: 'eMallFrontEnd/book',
         element: (
           <Booking
             CPOName={'Ionity'}
