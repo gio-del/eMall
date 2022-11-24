@@ -4,14 +4,12 @@ import './Drawer.css'
 import DrawerContent from './DrawerContent'
 
 export default function Drawer({ isOpen, setIsOpen }) {
-
   return (
     <Sheet
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       detent="content-height"
-      snapPoints={400}
-      
+      snapPoints={[400]}
     >
       <Sheet.Container>
         <Sheet.Header />
