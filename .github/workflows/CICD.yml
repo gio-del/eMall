@@ -15,9 +15,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install & build
-        run:
-        cd client
-        npm i && npm run build
+        working-directory: ./client
+        run:  npm i && npm run build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
