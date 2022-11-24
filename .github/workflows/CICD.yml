@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      #- name: Change directory
-      #  run: cd client
-        
       - name: Checkout
         uses: actions/checkout@v3
-
+        
+      - name: Change directory
+        run: cd client
+      
       - name: Install & build
         run: npm i && npm run build
 
