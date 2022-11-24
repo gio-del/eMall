@@ -14,7 +14,7 @@ export default function Calendar() {
 
   const selectableDates = () => {
       const startDate = new Date()
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < 10; i++) {
           const currentDate = new Date(startDate.getTime() + (1 + i) * 24 * 60 * 60 * 1000)
           const value = {
               id : `${currentDate.getDate()}`,
@@ -41,10 +41,10 @@ export default function Calendar() {
       }, [selectedDate])
 
     return <>
-        <div className="w-full ">
-            <div className="calendar-container overflow-scroll flex md:justify-center ml-4 mt-6 mb-8">
+        <div className="flex-row w-full ">
+            <div className="calendar-container overflow-scroll flex mt-6 mb-8 ml-4">
             {selectableDates().map((uniqueDay) => (
-                    <div key={uniqueDay.id} className="flex items-center mr-8">
+                    <div key={uniqueDay.id} className="relative px-3 w-full left-0">
                         <div className="text-center">
                             <p className="text-sm mb-2 text-dk-secondary dark:text-tertiary">{uniqueDay.name}</p>
                             <RadioDate 
