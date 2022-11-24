@@ -41,10 +41,10 @@ export default function Calendar() {
       }, [selectedDate])
 
     return <>
-        <div className="w-full overflow-x-hidden">
-            <div className="calendar-container w-full flex md:justify-center ml-4 mt-6 mb-8">
+        <div className="w-full ">
+            <div className="calendar-container overflow-scroll flex md:justify-center ml-4 mt-6 mb-8">
             {selectableDates().map((uniqueDay) => (
-                    <div key={uniqueDay.id} className="flex items-center mr-8 overflow-x-hidden">
+                    <div key={uniqueDay.id} className="flex items-center mr-8">
                         <div className="text-center">
                             <p className="text-sm mb-2 text-dk-secondary dark:text-tertiary">{uniqueDay.name}</p>
                             <RadioDate 
