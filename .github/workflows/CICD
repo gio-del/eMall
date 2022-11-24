@@ -4,12 +4,16 @@ on:
   push:
     branches:
       - "master"
+      - "main"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Change directory
+        run: cd client
+        
       - name: Checkout
         uses: actions/checkout@v3
 
