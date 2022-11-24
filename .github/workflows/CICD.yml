@@ -3,7 +3,8 @@ name: React App Github Deploy
 on:
   push:
     branches:
-      - "master"
+      - 'master'
+      - 'main'
 
 jobs:
   build:
@@ -12,7 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
+        
+      - name: Change directory
+        run: cd client
+      
       - name: Install & build
         run: npm i && npm run build
 
@@ -20,4 +24,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           branch: gh-pages
-          folder: dist
+          folder: .
