@@ -3,9 +3,6 @@ export default function DirectionButtonUtility({source,destination}) {
     <div class="inline-flex items-center justify-center">
       <a href={`https://www.google.com/maps/dir/${source.join(',')}/${destination.join(',')}`} target="_blank" rel="noopener"
         className="w-full inline-flex justify-between items-center max-sm:px-2 px-4 h-11 rounded-full border-[1px] dark:border-tertiary border-dk-secondary font-light  dark:text-tertiary text-dk-secondary"
-        onClick={
-          'https://www.google.com/maps/dir/43.7967876,-79.5331616/43.5184049,-79.8473993/'
-        }
       >
         <div class="inline-flex justify-between items-center w-full">
           <svg

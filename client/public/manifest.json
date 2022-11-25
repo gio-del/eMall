@@ -4,10 +4,10 @@
   "description": "Start. Book. Charge.",
   "theme_color": "#00ABB3",
   "background_color": "#3C4048",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "any",
   "scope": "/eMallFrontEnd/",
-  "start_url": "/eMallFrontEnd/",
+  "start_url": "/eMallFrontEnd/about",
   "icons": [
     {
       "src": "/eMallFrontEnd/images/icons/icon-72x72.png",

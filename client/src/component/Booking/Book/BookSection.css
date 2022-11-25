@@ -5,3 +5,9 @@
 input.checked + label {
   background-color: #00abb3;
 }
+
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}

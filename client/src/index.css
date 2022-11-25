@@ -22,6 +22,16 @@ html * {
   z-index: 0 !important;
 }
 
+input,
+textarea,
+button,
+select,
+label,
+div,
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+
 input[type="date"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   appearance: none;
