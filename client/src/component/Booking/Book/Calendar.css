@@ -4,7 +4,19 @@
     scroll-behavior: smooth;
 }
 
-::-webkit-scrollbar {
-    width: 0;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
-}
+/* Works on Firefox */
+* {
+    scrollbar-width: 8px;
+  }
+  
+  /* Works on Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    height: 5px;
+    width: 8px;
+  }
+  
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: #00ABB3;
+    border-radius: 20px;
+  }

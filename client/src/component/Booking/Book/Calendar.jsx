@@ -62,11 +62,11 @@ export default function Calendar() {
                     </div>
                 </button>
 
-                <div className="container-scroll overflow-scroll flex my-6 mr-2" id="container"
+                <div className="container-scroll overflow-x-scroll overflow-y-hidden flex my-6 mr-2" id="container"
                 ref={scrollRef}
                 onWheel={onWheel}>
                 {selectableDates().map((uniqueDay) => (
-                    <div key={uniqueDay.id} className="relative px-3 w-full left-0">
+                    <div key={uniqueDay.id} className="relative px-3 mb-2 w-full left-0">
                         <div className="text-center">
                             <p className="text-sm mb-2 text-dk-secondary dark:text-tertiary">{uniqueDay.name}</p>
                             <RadioDate
