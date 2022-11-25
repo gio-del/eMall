@@ -56,6 +56,16 @@
       event.waitUntil(self.clients.claim())
     })
 
+    /*
+    * Lorenzo added: this function should refresh to app (useful while developing to see real time commited changes)
+    */
+    self.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+            console.log('APP resumed');
+            window.location.reload();
+        }
+    });
+
     /**
      *  @Functional Fetch
      *  All network requests are being intercepted here.
