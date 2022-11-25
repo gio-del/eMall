@@ -34,6 +34,10 @@ export default function Calendar() {
         return dates;
     };
 
+    const handleChange = (newDateId) => {
+        setSelectedDate(newDateId)
+    }
+
     const scroll = (scrollOffset) => {
         scrollRef.current.scrollLeft += scrollOffset;
       };
@@ -42,21 +46,21 @@ export default function Calendar() {
     useEffect(() => {
         const datesIds = dates.map((uniqueDay) => uniqueDay.id)
         datesIds.forEach((id) => {
-            if (document.getElementById(`date-${id}`).checked) {
-                console.log("rimuovo")
-            }
-
+            document.getElementById(`date-${id}`)?.classList.remove('checked')
+            document.getElementById(`date-label-${id}`)?.classList.remove('text-tertiary')
+            document.getElementById(`date-label-${id}`)?.classList.add('text-dk-secondary')
         })
-        console.log(document.getElementById(`date-${setSelectedDate}`))
-        document.getElementById(`date-${setSelectedDate}`)?.classList.add('checked')
+        document.getElementById(`date-${selectedDate}`)?.classList.add('checked')
+        document.getElementById(`date-label-${selectedDate}`)?.classList.remove('text-dk-secondary')
+        document.getElementById(`date-label-${selectedDate}`)?.classList.add('text-tertiary')
     }, [selectedDate])
 
     return <>
         <div className="flex-row w-full">
             <div className="flex">
                 <button className="bg-red max-sm:hidden" onClick={() => scroll(-60)}>
-                    <div className="border-2 border-tertiary py-2 mr-1 rounded-lg shadow-md mb-4 hover:bg-dk-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="25" width="25" className="fill-tertiary"
+                    <div className="border-2 dark:border-tertiary border-dk-secondary py-2 mr-1 rounded-lg shadow-md mb-4 hover:bg-dk-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="25" width="25" className="fill-dk-secondary dark:fill-tertiary hover:fill-tertiary"
                         viewBox="3 5 40 40">
                         <path d="M28.1 36.45 15.55 23.9 28.1 11.35l2.6 2.6-9.95 9.95 9.95 9.95Z"/></svg>
                     </div>
@@ -71,13 +75,11 @@ export default function Calendar() {
                             <p className="text-sm mb-2 text-dk-secondary dark:text-tertiary">{uniqueDay.name}</p>
                             <RadioDate
                                 id={`date-${uniqueDay.day}`}
-                                onChange={() => setSelectedDate(uniqueDay.id)}
+                                onChange={() => handleChange(uniqueDay.id)}
                             />
                             <label
-                                className="flex rounded-full px-4 py-3
-                                    dark:peer-checked:bg-dk-primary dark:text-tertiary dark:peer-checked:text-tertiary
-                                    peer-checked:bg-dk-primary text-dk-secondary peer-checked:text-tertiary
-                                    font-semibold cursor-pointer focus:outline-none"
+                                id={`date-label-${uniqueDay.day}`}
+                                className="flex aspect-square rounded-full w-12 h-12 font-semibold cursor-pointer dark:text-tertiary text-dk-secondary items-center"
                                 for={`date-${uniqueDay.day}`}
                             >
                                 <span className="text-inherit w-full text-center text-xl">{uniqueDay.day}</span>
@@ -91,8 +93,8 @@ export default function Calendar() {
                 </div>
 
                 <button className="bg-red max-sm:hidden" onClick={() => scroll(60)}>
-                    <div className="border-2 border-tertiary py-2 mr-1 rounded-lg shadow-md mb-4 hover:bg-dk-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="25" width="25" className="fill-tertiary"
+                    <div className="border-2 dark:border-tertiary border-dk-secondary py-2 mr-1 rounded-lg shadow-md mb-4 hover:bg-dk-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="25" width="25" className="fill-dk-secondary dark:fill-tertiary hover:fill-tertiary"
                             viewBox="0 5 40 40">
                             <path d="m18.75 36.45-2.6-2.6 9.95-9.95-9.95-9.95 2.6-2.6L31.3 23.9Z" />
                         </svg>
