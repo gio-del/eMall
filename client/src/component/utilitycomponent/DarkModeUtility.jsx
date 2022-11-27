@@ -1,6 +1,23 @@
-export default function DarkModeUtility({handleThemeMode}) {
+export default function DarkModeUtility() {
+  const handleThemeMode = () => {
+    if (
+      window.localStorage.getItem('theme') === null ||
+      window.localStorage.getItem('theme') === 'dark'
+    )
+      window.localStorage.setItem('theme', 'light', {
+        sameSite: 'strict',
+        secure: true,
+      })
+    else
+      window.localStorage.setItem('theme', 'dark', {
+        sameSite: 'strict',
+        secure: true,
+      })
+    window.dispatchEvent(new Event('storage'))
+  }
+
   return (
-    <button className="self-center" onClick={() => handleThemeMode()}>
+    <button className="self-center" onClick={handleThemeMode}>
       <span className="dark:hidden">
         <svg
           className="scale-[0.8]"

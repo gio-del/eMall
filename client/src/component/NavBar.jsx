@@ -3,18 +3,8 @@ import { Link } from 'react-router-dom'
 import logo from '../assets/lightLogo.png'
 import DarkModeUtility from './utilitycomponent/DarkModeUtility'
 
-export default function NavBar({ onChangeThemeMode }) {
+export default function NavBar() {
   const [isNavOpen, setIsNavOpen] = useState(false)
-
-  const handleThemeMode = () => {
-    if (
-      localStorage.getItem('theme') === null ||
-      localStorage.getItem('theme') === 'dark'
-    )
-      localStorage.setItem('theme', 'light')
-    else localStorage.setItem('theme', 'dark')
-    onChangeThemeMode(localStorage.getItem('theme'))
-  }
 
   return (
     <nav className="sticky w-full top-0 inset-x-0 shadow-md dark:bg-dk-secondary bg-tertiary">
@@ -60,7 +50,7 @@ export default function NavBar({ onChangeThemeMode }) {
               <Link to={'/book'}>Book</Link>
             </li>
             <li className="px-4 flex">
-              <DarkModeUtility handleThemeMode={handleThemeMode} />
+              <DarkModeUtility />
             </li>
           </ul>
         </div>
@@ -87,7 +77,7 @@ export default function NavBar({ onChangeThemeMode }) {
             <Link to={'/book'}>Book</Link>
           </li>
           <li className="p-4 shadow-sm  hover:text-gray-700 dark:text-dk-primary">
-            <DarkModeUtility handleThemeMode={handleThemeMode} />
+            <DarkModeUtility />
           </li>
         </ul>
       </div>
