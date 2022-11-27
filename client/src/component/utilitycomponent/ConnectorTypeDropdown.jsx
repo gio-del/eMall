@@ -7,7 +7,9 @@ export default function ConnectorTypeDropdown({ connectors, setConnectors }) {
 
   useEffect(() => {
     const dropdown = document.getElementById('dropdown')
-    dropdown.classList.toggle('hidden')
+
+    if (isOpen) dropdown.classList.remove('hidden')
+    else dropdown.classList.add('hidden')
     connectors.forEach(
       (connector) => (document.getElementById(connector).checked = true),
     )
