@@ -1,6 +1,10 @@
 # Todos
-1) Follow this guide to allow CSR: https://github.com/rafgraph/spa-github-pages
-2) Fix dark mode (on first open two clicks to toggle)
+1) Retrieve list of EV and details from: https://developers.chargetrip.com/api-reference/cars/introduction
+2) Bottom navigation for mobile when user are authenticated (so landing page still available with the usual navbar)
+3) Fix dropdown select connector open at first open
+4) Fix dark mode (on first open two clicks to toggle)
+5) Create settings section
+6) https://github.com/stefanocudini/leaflet-search
 
 # Possible problems
 Probably for large datasets a lot of markers can decrease performance. Possible solution: https://www.npmjs.com/package/react-leaflet-canvas-markers
@@ -14,6 +18,7 @@ npm create vite@latest
 And follow the steps.
 ## Adding and configuring tailwind
 ### Install Tailwind CSS
+
 ```
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
