@@ -68,7 +68,7 @@ export default function ConnectorTypeDropdown({ connectors, setConnectors }) {
       </div>
       <div className="absolute right-[-1px] flex justify-center items-center w-full mt-16">
         <div
-          className="relative grid grid-cols-3  w-10/12 gap-3 p-5 inline-flex justify-evenly z-10 px-4 bg-tertiary dark:bg-dk-secondary rounded-2xl shadow-lg border-2 border-searchInput hidden"
+          className="relative grid grid-cols-3  w-10/12 gap-3 p-5 z-10 px-4 bg-tertiary dark:bg-dk-secondary rounded-2xl shadow-lg border-2 border-searchInput hidden"
           id="dropdown"
           role="menu"
           aria-labelledby="menu-button"

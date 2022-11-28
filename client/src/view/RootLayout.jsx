@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import NavBar from '../component/NavBar'
 
 export default function RootLayout() {
   useEffect(() => {
@@ -22,10 +21,5 @@ export default function RootLayout() {
     }
   }, [])
 
-  return (
-    <>
-      <NavBar />
-      <Outlet />
-    </>
-  )
+  return <Outlet />
 }

@@ -7,7 +7,7 @@
   "display": "fullscreen",
   "orientation": "any",
   "scope": "/eMallFrontEnd/",
-  "start_url": "/eMallFrontEnd/about",
+  "start_url": "/eMallFrontEnd/main",
   "icons": [
     {
       "src": "/eMallFrontEnd/images/icons/icon-72x72.png",

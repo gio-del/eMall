@@ -39,7 +39,7 @@ export default function MapLeaflet() {
     <div className="fixed">
       <MapContainer
         zoomControl={false}
-        style={{ height: 'calc(100vh - 4.5rem)', width: '100vw' }}
+        style={{ height: 'calc(100vh - 3.4rem)', width: '100vw', position:'relative' }}
         center={[41.87, 12.56]}
         zoom={6}
         scrollWheelZoom={true}

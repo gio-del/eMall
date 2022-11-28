@@ -41,13 +41,10 @@ export default function NavBar() {
               <Link to={'/'}>Home</Link>
             </li>
             <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
-              <Link to={'/about'}>About</Link>
-            </li>
-            <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
               <Link to={'/login'}>Login</Link>
             </li>
             <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
-              <Link to={'/book'}>Book</Link>
+              <Link to={'/signup'}>Sign Up</Link>
             </li>
             <li className="px-4 flex">
               <DarkModeUtility />
@@ -68,13 +65,10 @@ export default function NavBar() {
             <Link to={'/'}>Home</Link>
           </li>
           <li className="p-4 shadow-sm  hover:text-gray-700 dark:text-dk-primary">
-            <Link to={'/about'}>About</Link>
-          </li>
-          <li className="p-4 shadow-sm  hover:text-gray-700 dark:text-dk-primary">
             <Link to={'/login'}>Login</Link>
           </li>
           <li className="p-4 shadow-sm  hover:text-gray-700 dark:text-dk-primary">
-            <Link to={'/book'}>Book</Link>
+            <Link to={'/signup'}>Sign Up</Link>
           </li>
           <li className="p-4 shadow-sm  hover:text-gray-700 dark:text-dk-primary">
             <DarkModeUtility />
