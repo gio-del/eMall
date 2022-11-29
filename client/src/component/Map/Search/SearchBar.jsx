@@ -1,11 +1,14 @@
 import { useEffect } from 'react'
 import { useRef } from 'react'
 import ConnectorTypeDropdown from '../../utilitycomponent/ConnectorTypeDropdown'
+import './Search.css'
 
 export default function SearchBar({
   setChosenDate,
   connectors,
   setConnectors,
+  isDropdownOpen,
+  setIsDropdownOpen,
 }) {
   function handleChange() {
     const date = document.getElementById('date')
@@ -64,6 +67,8 @@ export default function SearchBar({
           <ConnectorTypeDropdown
             connectors={connectors}
             setConnectors={setConnectors}
+            setIsOpen={setIsDropdownOpen}
+            isOpen = {isDrawerOpen}
           />
         </div>
       </div>
