@@ -21,7 +21,7 @@ export default function Booking({ CPOName, Address, Connectors, Date }) {
   }, [currentTab])
 
   return (
-    <div className="bg-tertiary dark:bg-dk-secondary max-w-lg p-3">
+    <div className="bg-tertiary dark:bg-dk-secondary max-h-screen max-w-lg p-3">
       <div className="flex justify-between mb-4">
         <div>
           <p className="font-medium dark:text-tertiary text-dk-secondary">
@@ -57,7 +57,7 @@ export default function Booking({ CPOName, Address, Connectors, Date }) {
         </li>
       </ul>
       <div className={(currentTab === 0 ? '' : 'hidden ') + ''}>
-        <CostSection />
+        <CostSection connectors={Connectors}/>
       </div>
       <div className={(currentTab === 1 ? '' : 'hidden ') + ''}>
         <BookSection connectors={Connectors} date={Date} />

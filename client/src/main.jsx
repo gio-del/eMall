@@ -75,6 +75,7 @@ const router = createBrowserRouter(
                   price: '1,50$/h + 0,92$/kW',
                   totalSockets: 1,
                   availableSockets: 1,
+                  current: 'DC',
                 },
                 {
                   type: 'Type2',
@@ -82,6 +83,7 @@ const router = createBrowserRouter(
                   price: '1,50$/h + 0,94$/kW',
                   totalSockets: 2,
                   availableSockets: 1,
+                  current: 'AC',
                 },
               ]}
               Date={'2022-11-11'} //this comes from drawers that comes from date in search bar
