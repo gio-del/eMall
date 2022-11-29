@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useRef } from 'react'
 import ConnectorTypeDropdown from '../../utilitycomponent/ConnectorTypeDropdown'
-import './Search.css'
 
 export default function SearchBar({
   setChosenDate,
