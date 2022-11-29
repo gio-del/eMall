@@ -6,8 +6,6 @@ export default function SearchBar({
   setChosenDate,
   connectors,
   setConnectors,
-  isDropdownOpen,
-  setIsDropdownOpen,
 }) {
   function handleChange() {
     const date = document.getElementById('date')
@@ -66,8 +64,6 @@ export default function SearchBar({
           <ConnectorTypeDropdown
             connectors={connectors}
             setConnectors={setConnectors}
-            setIsOpen={setIsDropdownOpen}
-            isOpen = {isDrawerOpen}
           />
         </div>
       </div>
