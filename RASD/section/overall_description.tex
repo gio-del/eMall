@@ -77,18 +77,41 @@ some UML State Charts are proposed:
 \end{enumerate}
 
 \subsection{Product functions}
-As described above in this document, the major functions offered by OUR system:\\ Booking, Charging and Managing a Charging station
-
+As described above in this document, the major functions offered by our system to main actors are:\\ 
+\begin{itemize}
+      \item \textbf{EV driver's functions. The system allows to:} 
+      \begin{itemize}
+            \item search in map
+            \item view your current position
+            \item indicate time interval of charging
+            \item have suggestion on when to charge based on daily schedule and special offers
+            \item specify the charging point in which you want charge  
+            \item book a charge
+      \end{itemize}
+\end{itemize}
+\begin{itemize}
+      \item \textbf{CPO's functions. The system allows to:} 
+      \begin{itemize}
+            \item monitor status of charging points
+            \item retrieve price of energy
+            \item change status of a charging point
+            \item view reservations
+            \item managing charging point
+      \end{itemize}
+\end{itemize}
 
 
 \subsection{User characteristics}
 It is possible to distinguish two different types of actors who use the system:
-1. EV's driver: someone who wants to book a charge. EV's driver wants to book remotely
+\begin{enumerate}
+      \item EV's driver: someone who wants to book a charge. EV's driver wants to book remotely
 avoids interference in his daily schedule, be notified when his/her reservation
 is going to start and end, monitor charging process.
-2. CPO: someone who wants to manage efficiently his/her EVCP, make statistics on live and historical details on the EVCP, 
+      \item CPO: someone who wants to manage efficiently his/her EVCP, make statistics on live and historical details on the EVCP, 
 to acquire information on the current price of energy offer by DSOs and to decide in an automated way
 where to get energy for charging.
+\end{enumerate}
+
 
 \subsection{Assumptions, dependencies and constraints}
 \subsubsection*{Domain Assumptions}

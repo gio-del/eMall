@@ -20,13 +20,30 @@ In this section are described details about user interfaces, hardware and applic
 
 
 \subsubsection{Hardware Interfaces}
-Nothing here
+To use the system, both EV drivers and CPOs must use a mobile device or a personal computer.
+Due to the outdoor expected use of the system, a smartphone will be more suitable device 
+for a EV driver, instead for a CPO is suggested to use the system from a personal computer.
+
 
 \subsubsection{Software Interfaces}
-Nothing here
+The system should integrate:
+\begin{itemize}
+    \item a map service that provide driving direction
+    and an estimation of the time required to arrive to the selected charging point 
+    given a starting position (including the current EV driver position).
+    \item geolocalization through GPS will be used to show the current EV driver 
+    position.
+    \item notifications will be sent to update in real time the EV driver 
+    that the charging shift will begin shortly
+    \item an SMS with a secret code will be sent both to CPO and EV driver
+    upon login in order to verify their identity through a third party service.          
+\end{itemize} 
 
 \subsubsection{Communication Interfaces}
-Nothing here
+The system requires a stable internet connection to work properly.
+The backend of the system will expose a unified REST compliant API to communicate
+with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP. 
+ 
 
 \subsection{Use cases}
 
@@ -130,35 +147,50 @@ and so on
 \end{table}
 
 \subsection{Performance Requirements}
-Nothing here
+The requirements of the system are not critical, so these performance requirements
+are focus on guarantee the best of possible experience to both EV drivers and CPOs.
+To do that, the system should provide:
+• a scalable, reactive and load-balancing backend
+• the visualization of the map in 5 seconds, or less;
+• the list of active and historical reservations in less than 5 seconds;
+• the booking confirmation in 7 seconds, or less;
+• the loading of the available time slots for a specific charging point in less than 5 seconds;
+• push app notification with a delay that is imperceptible to the user.
+• Notice that a good internet connection is assumed in the previous estimations.
 
 \subsection{Design Constraints}
-Nothing here
+
 
 \subsubsection{Standards compliance}
-Nothing here
+Specifications described in this document must be respected by the system.
+Source code of the application must be commented on and documented adequately.
+The system should respect the line guides described by the European GDPR.
 
 \subsubsection{Hardware limitations}
-Nothing here
-
-\subsubsection{Any other constraint}
-Nothing here
-
+The system requires any device and a stable internet connection.
 
 \subsection{Software System Attributes}
-Nothing here
 
-\subsubsection{Reliability}
-Nothing here
-
-\subsubsection{Availability}
-Nothing here
+\subsubsection{Availability and Reliability}
+The system should offer its functionalities with an availability
+equal to 99.5, or more. In other words, the system must be inaccessible 
+for less than two days every year. To achieve this goal, the system should
+provide a high redundancy for the most critical components.
+Furthermore, in order to guarantee better reliability performances, all 
+the scheduled maintenance intervents on the system should be done during
+the night.
 
 \subsubsection{Security}
-Nothing here
+The connection between the application and the server must be safe.
+System use the TLS (Transport Layer Security) protocol.
+To do that for this purpose, it is needed an SSL/TSL certificate. 
+Moreover, all passwords must be encrypted
 
 \subsubsection{Maintainability}
-Nothing here
+Source code and correlated documentation must be commented and kept updated.
+Modularity, low coupling and high cohesion between components must be a focus during the 
+designing and developing phases.
 
 \subsubsection{Portability}
-Nothing here
+The system is a web application so it will be supported by any device with
+a modern browser.
