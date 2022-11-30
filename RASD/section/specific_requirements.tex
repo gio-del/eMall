@@ -42,7 +42,7 @@ Nothing here
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/use_case_diagram/cpo.png}
+    \includegraphics[scale=0.5]{src/use_case_diagram/cpo.png}
 \end{figure}
 
 \begin{figure}[H]
@@ -50,31 +50,176 @@ Nothing here
     \includegraphics[scale=0.6]{src/use_case_diagram/driver.png}
 \end{figure}
 
-\paragraph*{Use Case: EV driver Registration}
-
 \usecase
-{Name}
-{Actor}
-{Entry condition}
+{EV driver registration}
+{EV driver}
+{EV driver clicks 'Sign Up' in the application homepage}
 {
     \begin{enumerate}
-        \item First event flow
-        \item Second event flow etc.
+        \item The system sends user the registration form
+        \item Driver enters name, surname, birth date, telephone number and password. Then submits the data upon reading and accepting the Privacy Policy and the Terms of Service
+        \item The system sends a SMS to driver through an API containing a secret code
+        \item The driver submits the received verification code
+        \item The system verifies the code and displays a success message
     \end{enumerate}
 }
-{Exit condition}
+{A new EV driver account is created}
 {
     \begin{itemize}
-        \item An exception
-        \item Another exception
+        \item A required registration field is missing when the form is submitted
+        \item A wrong verification code is submitted
+        \item The timeout of verification expires
     \end{itemize}
 }
 {
-    Notes: eg. how exception are treated
+    All the exception are treated the same: the system will notify user with a human-readable message and the user is redirected to the homepage
 }
 
-\paragraph*{Use Case: EV driver Login}
-and so on
+\usecase
+{CPO registration} % name
+{CPO} % actor
+{CPO clicks 'Sign Up' in the business dedicated application homepage} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The system sends operator the registration form
+        \item Operator enters company name, VAT, IBAN, and password. Then submits the data upon reading and accepting the Privacy Policy and the Terms of Service
+        \item The system processes the provided information and display a success message
+    \end{enumerate}
+}
+{A new operator account is created} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item A required registration field is missing when the form is submitted
+        \item The operator is not associated to the given VAT
+    \end{itemize}
+}
+{ % notes
+    All the exception are treated the same: the system will notify operator with a human-readable message and the operator is redirected to the homepage
+}
+
+\usecase
+{Check energy in batteries} % name
+{CPO} % actor
+{Authenticated CPO is in "Monitor status of EVCP" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP and clicks 'check energy in batteries'
+        \item The system shows the battery status of the selected EVCP, if any
+    \end{enumerate}
+}
+{The 'Check energy in batteries' chart is shown} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item ...
+    \end{itemize}
+}
+{ % notes
+    ...
+}
+
+\usecase
+{Monitor specific charging process} % name
+{CPO} % actor
+{Authenticated CPO is in "Monitor status of CP" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP and clicks "monitor specific charging process"
+        \item The system shows a list of active charging process and ask operator to choose one
+        \item The operator choose a specific active charging process from the list
+        \item The system shows the details of the chosen charging process
+    \end{enumerate}
+}
+{The details of the specific charging process are displayed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item ...
+    \end{itemize}
+}
+{ % notes
+...
+}
+
+\usecase
+{Monitor aggregate charging process} % name
+{CPO} % actor
+{Authenticated CPO is in "Monitor status of CP" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP and clicks "monitor aggregate charging process"
+        \item The system shows a chart with a detailed view of aggregate charging processes
+    \end{enumerate}
+}
+{The aggregate charging process details charts are displayed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item ...
+    \end{itemize}
+}
+{ % notes
+...
+}
+
+\usecase
+{View historical reservations} % name
+{CPO} % actor
+{Authenticated CPO is in "View reservations" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP, choose "historical reservation" tab, and sets a specific time frame
+        \item The system shows the reservation details of the chosen EVCP during the chosen time frame
+    \end{enumerate}
+}
+{The details of the historical reservations are displayed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item ...
+    \end{itemize}
+}
+{ % notes
+...
+}
+
+\usecase
+{View active reservations} % name
+{CPO} % actor
+{Authenticated CPO is in "View reservations" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP, choose "active reservation" tab
+        \item The system shows a list of active reservation for the chosen EVCP
+    \end{enumerate}
+}
+{The details of the active reservations are displayed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item ...
+    \end{itemize}
+}
+{ % notes
+...
+}
+
+\usecase
+{Choose DSO} % name
+{CPO} % actor
+{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP, choose "Choose DSO" tab
+        \item The system provides a list of available DSOs
+        \item The operator select one DSO among the available ones and submit their choice to the system
+        \item The system shows a list of active reservation for the chosen EVCP
+    \end{enumerate}
+}
+{The details of the active reservations are displayed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item ...
+    \end{itemize}
+}
+{ % notes
+...
+}
 
 \subsection{Functional Requirements}
 
