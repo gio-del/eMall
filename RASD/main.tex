@@ -22,6 +22,28 @@
 \pagestyle{fancy}
 \lhead{Software Engineering 2 - RASD}
 
+\newcommand{\usecase}[7]{
+    \def\arraystretch{1.5} % This adds padding to table rows (and more)
+    \subsubsection{Use Case: #1}
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{Name} & #1\\
+        \hline
+        \textbf{Actors} & #2 \\
+        \hline
+        \textbf{Entry Condition} & #3 \\
+        \hline
+        \textbf{Event Flow} & #4 \\
+        \hline
+        \textbf{Exit Condition} & #5 \\
+        \hline
+        \textbf{Exceptions} & #6 \\
+        \hline
+        \textbf{Notes} & #7 \\
+        \hline
+    \end{tabular}
+}
+
 \begin{document}
 
 % title section

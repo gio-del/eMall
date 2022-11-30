@@ -28,9 +28,7 @@ Nothing here
 \subsubsection{Communication Interfaces}
 Nothing here
 
-
-\subsection{Functional Requirements}
-\subsubsection{Use case diagrams}
+\subsection{Use cases}
 
 \begin{figure}[H]
     \centering
@@ -51,6 +49,35 @@ Nothing here
     \centering
     \includegraphics[scale=0.6]{src/use_case_diagram/driver.png}
 \end{figure}
+
+\paragraph*{Use Case: EV driver Registration}
+
+\usecase
+{Name}
+{Actor}
+{Entry condition}
+{
+    \begin{enumerate}
+        \item First event flow
+        \item Second event flow etc.
+    \end{enumerate}
+}
+{Exit condition}
+{
+    \begin{itemize}
+        \item An exception
+        \item Another exception
+    \end{itemize}
+}
+{
+    Notes: eg. how exception are treated
+}
+
+\paragraph*{Use Case: EV driver Login}
+and so on
+
+\subsection{Functional Requirements}
+
 
 \subsubsection{CPO Functional Requirements}
 \begin{table}[H]
@@ -74,20 +101,31 @@ Nothing here
         \toprule
         \textbf{R11} & The system must allow unregistered users to register an account                                                     \\
         \textbf{R12} & The system must allow registered users to login                                                                     \\
-        \textbf{R13} & The system must allow registered users to personalize his/her experience by providing information of his/her EV     \\
+        \textbf{R13} & The system must allow authenticated users to personalize their experience by providing information of their EV      \\
         \textbf{R14} & The system must allow users to search for EVSEs in the map                                                          \\
-        \textbf{R15} & The system must show to the users EVSEs nearby his current position                                                 \\
+        \textbf{R15} & The system must show to the users EVSEs nearby their current position                                               \\
         \textbf{R16} & The system must allow retrieving details on a given EVSE regarding connector types supported and cost of the charge \\
         \textbf{R17} & The system must allow booking of an EVSE for a certain time interval                                                \\
         \textbf{R18} & The system must allow booking of an EVSE if and only if it is free for the specified time interval                  \\
         \textbf{R19} & The system must notify users when the charging shift is about to start                                              \\
-        \textbf{R20} & The system must allow users to start the charge                                                                     \\
+        \textbf{R20} & The system must allow authenticated users to start the charge                                                       \\
         \textbf{R21} & The system must suggest users when to charge based on daily schedule, special offers and availability               \\
-        \textbf{R22} & The system must allow users to monitor the charging status                                                          \\
-        \textbf{R23} & The system must notify users when the charging process is completed                                                 \\
-        \textbf{R24} & The system must allow users to pay for the charge                                                                   \\
-        \textbf{R25} & The system must allow users to delete a reservation                                                                 \\
-        \textbf{R26} & The system must allow users to view historical reservations                                                         \\ \bottomrule
+        \textbf{R22} & The system must allow authenticated users to monitor the charging status                                            \\
+        \textbf{R23} & The system must notify authenticated users when the charging process is completed                                   \\
+        \textbf{R24} & The system must allow authenticated users to pay for the charge                                                     \\
+        \textbf{R25} & The system must allow authenticated users to delete a reservation                                                   \\
+        \textbf{R26} & The system must allow authenticated users to view historical reservations                                           \\ \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Mapping on requirement}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{XXX}
+        \toprule
+        \textbf{Goal} & \textbf{Requirements} & \textbf{Assumptions} \\ \midrule
+        G1            & R1,R2,R3              & D1,D2,D3             \\
+        G2            & esempio               & esempio              \\
+        G3            & esempio               & esempio              \\ \bottomrule
     \end{tabularx}
 \end{table}
 
