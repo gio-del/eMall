@@ -108,6 +108,9 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \begin{itemize}
         \item A required registration field is missing when the form is submitted
         \item The operator is not associated to the given VAT
+        \item Loss of internet connection
+        \item The actor cancels the operation
+
     \end{itemize}
 }
 { % notes
@@ -127,7 +130,8 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 {The 'Check energy in batteries' chart is shown} % exit condition
 { % exceptions
     \begin{itemize}
-        \item ...
+        \item Loss of internet connection
+        \item The actor cancels the operation
     \end{itemize}
 }
 { % notes
@@ -149,7 +153,8 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 {The details of the specific charging process are displayed} % exit condition
 { % exceptions
     \begin{itemize}
-        \item ...
+        \item Loss of internet connection
+        \item The actor cancels the operation
     \end{itemize}
 }
 { % notes
@@ -169,7 +174,8 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 {The aggregate charging process details charts are displayed} % exit condition
 { % exceptions
     \begin{itemize}
-        \item ...
+        \item Loss of internet connection
+        \item The actor cancels the operation
     \end{itemize}
 }
 { % notes
@@ -189,7 +195,8 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 {The details of the historical reservations are displayed} % exit condition
 { % exceptions
     \begin{itemize}
-        \item ...
+        \item Loss of internet connection
+        \item The actor cancels the operation
     \end{itemize}
 }
 { % notes
@@ -209,7 +216,8 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 {The details of the active reservations are displayed} % exit condition
 { % exceptions
     \begin{itemize}
-        \item ...
+        \item Loss of internet connection
+        \item The actor cancels the operation
     \end{itemize}
 }
 { % notes
@@ -225,18 +233,88 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
         \item The operator choose a specific EVCP, choose "Choose DSO" tab
         \item The system provides a list of available DSOs
         \item The operator select one DSO among the available ones and submit their choice to the system
-        \item The system shows a list of active reservation for the chosen EVCP
+        \item The system processes the provided information and display a success message 
     \end{enumerate}
 }
-{The details of the active reservations are displayed} % exit condition
+{The choice of DSO is completed} % exit condition
 { % exceptions
     \begin{itemize}
-        \item ...
+        \item Loss of internet connection
+        \item The actor cancels the operation
     \end{itemize}
 }
 { % notes
 ...
 }
+
+\usecase
+{Choose energy mix} % name
+{CPO} % actor
+{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP, choose "Choose energy mix" tab
+        \item The system provides a list of available sources of energy (station battery, DSO, or a mix)  
+        \item The operator select one source of energy among the available ones and submit their choice to the system
+        \item The system shows a list of active reservation for the chosen EVCP
+    \end{enumerate}
+}
+{The choice of a CP energy mix is completed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+...
+}
+
+\usecase
+{Retrieve price of energy} % name
+{CPO} % actor
+{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP, choose "Retrieve price of energy" tab
+        \item The system provides a list of prices of sources of energy from different DSOs  
+    \end{enumerate}
+}
+{The details of price energy are displayed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+...
+}
+
+\usecase
+{Change Status of a CP} % name
+{CPO} % actor
+{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP, choose "Change Status of a CP" tab 
+        \item The system provides a page on which the operator can set a specific time frame in which the operator wants to change the status of CP  
+        \item The operator set a specific time frame
+        \item The system processes the provided information and display a success message 
+    \end{enumerate}
+}
+{The status of a CP is displayed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+...
+}
+
+
 
 \subsection{Functional Requirements}
 
