@@ -8,39 +8,39 @@ electric vehicle is still set to increase. For these reasons, the main vehicle m
 A main problem of electric vehicles is that a full charge requires much more time than a fuel vehicle refuel.
 \footnote{\href{https://blinkcharging.com/fact-from-fiction-the-real-reason-why-consumers-dont-buy-electric-vehicles/?locale=en}{Why consumers don't buy electric vehicles}}
 Thus, a single charge can have a huge impact on our daily schedule, and it is necessary to plan wisely when and where to charge.
-To solve this problem is one of the main objective of the eMall - e-Mobility for All system.
+Furthermore, some electric vehicle owners don't have the proper equipment to recharge at home, or their vehicle discharges in the middle of the road and the driver doesn't have the possibility to go home to recharge.\\
+To solve these problems is one of the main objective of the eMall - e-Mobility for All system.\\
 This system aims to develop an efficient planning of the charging process of electric vehicles that limits the carbon footprint caused by people mobility needs.\\\\
+The main actor in this system are the drivers and the CPOs - Charging Point Operators, who manage their columns, along with the DSOs - Distribution System Operator, in charge of distributing the energy.
+\\
 The following document is the RASD for the eMall - e-Mobility for All system. It provides
-a description of the system focusing on the requirements and specifications, providing scenarios and use cases
+a description of the system focusing on the requirements and specifications, developing scenarios and use cases
 to specify what the system must do, how it will interact with the stakeholders and the constraints it is subject to.
 
 \subsubsection*{Goal}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
         \toprule
-        \textbf{G1} & Allows electric vehicle (EV) driver to plan efficiently their charging process \\
+        \textbf{G1} & Allows EV - Electric Vehicle driver to plan efficiently their charging process \\
         \textbf{G2} & Avoids that EV driver must physically line up at the charging station          \\
         \textbf{G3} & Provides smart managing of charging stations                                   \\ \bottomrule
     \end{tabularx}
 \end{table}
 
 \subsection{Scope}
-The software should represent an automated solution to solve these actual problematics.
-\\On the first hand, the huge interference and constraints on the EV's
-owner daily schedule.\\
-On the other hand, the CPOs problems due to the physical management of their EVCP.
-
 The digital system eMall should provide three main features:
-\\• Booking: allows EV's owners to book a charge. The remote booking avoids interference
-in the daily schedule of the owners, and the sistem should include a notification
-system by means of which alerts owners when their reservation is going to start.
-\\• Charging: allows EV's owners to charge an EV, remotely monitor their charging
-process and to notify the end of the charge.
-Thanks to these features, owners have not anymore the need to
-physically go to the CP when they want to retrieve details of their charge.
-\\• Managing a EVCP: allows CPOs to make statistics on live and historical details
-on the EVCP, to acquire information on the current price of energy offer by
-DSOs and to decide in an automated way where to get energy for charging.
+\begin{itemize}
+    \item \textbf{Booking} allows EV's owners to book a charge. The remote booking avoids interference
+          in the daily schedule of the owners, and the sistem should include a notification
+          system by means of which alerts owners when their reservation is going to start.
+    \item \textbf{Charging} allows EV's owners to charge an EV, remotely monitor their charging
+          process and to notify the end of the charge.
+          Thanks to these features, owners have not anymore the need to
+          physically go to the CP when they want to retrieve details of their charge.
+    \item  \textbf{Managing an EVCP} allows CPOs to make statistics on live and historical details
+          on the EVCP, to acquire information on the current price of energy offer by
+          DSOs and to decide in an automated way where to get energy for charging.
+\end{itemize}
 
 
 
@@ -54,7 +54,7 @@ DSOs and to decide in an automated way where to get energy for charging.
         \textbf{WP3} & A charging station is connected to the electrical grid \\
         \textbf{WP4} & Some charging station has solar panels                 \\
         \textbf{WP5} & Some charging station has a storage battery            \\
-        \textbf{WP6} & A battery discharges                                   \\ \bottomrule
+        \textbf{WP6} & An EV battery discharges                               \\ \bottomrule
     \end{tabularx}
 \end{table}
 \subsubsection*{Shared phenomena}
@@ -72,9 +72,9 @@ DSOs and to decide in an automated way where to get energy for charging.
         \textbf{SP7}  & The system shows to CPO the status of its charging station as amount of energy in batteries, number of vehicle being charged and for each the time left of the charge & machine       \\ \midrule
         \textbf{SP8}  & The system shows to CPO information about the DSOs                                                                                                                    & machine       \\ \midrule
         \textbf{SP9}  & A CPO decide to acquire energy from a certain DSO                                                                                                                     & world         \\ \midrule
-        \textbf{SP10} & The system notifies a EV driver that the charging shift will begin shortly                                                                                            & machine       \\ \midrule
+        \textbf{SP10} & The system notifies an EV driver that the charging shift will begin shortly                                                                                           & machine       \\ \midrule
         \textbf{SP11} & An EV driver monitors the charging status                                                                                                                             & machine       \\ \midrule
-        \textbf{SP12} & An EV driver delete a reservation                                                                                                                                     & world         \\ \midrule
+        \textbf{SP12} & An EV driver deletes a reservation                                                                                                                                    & world         \\ \midrule
         \textbf{SP13} & A CPO decide to retrieve the historical reservations on its EVSEs                                                                                                     & world         \\ \midrule
         \textbf{SP14} & An EV driver retrieves the historical reservations                                                                                                                    & world         \\ \bottomrule
     \end{tabularx}
@@ -82,27 +82,33 @@ DSOs and to decide in an automated way where to get energy for charging.
 
 
 \subsection{Definitions, Acronyms, Abbreviations}
+
 \subsubsection*{Definitions}
-Here we define what is a EVCP (electric vehicle charging pool), that CP and EVSE are synonyms and we define them and so on
 \begin{itemize}
-    \item EVCP - Electric Vehicle Charging Pool
+    \item EVCP - Electric Vehicle Charging Pool, is a station with multiple CPs
+    \item CP - a synonym of EVSE, is a single charging column with multiple connectors
+    \item Connectors - is a charging socket which can be of different types (e.g. CCS2, Type2)
 \end{itemize}
+
 \subsubsection*{Acronyms}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
         \toprule
-        \textbf{RASD}  & Requirement Analysis and Specification Document \\
-        \textbf{eMall} & e-Mobility for All                              \\
-        \textbf{eMSP}  & electric mobility service provider              \\
-        \textbf{EV}    & electric vehicle                                \\
-        \textbf{CPO}   & charging point operator                         \\
-        \textbf{DSO}   & distribution system operator                    \\
-        \textbf{CPMS}  & charging point management system                \\
-        \textbf{EVSE}  & electric vehicle supply equipment               \\
-        \textbf{CP}    & charging point                                  \\
-        \textbf{EVCP}  & electric vehicle charging pool                  \\ \bottomrule
+        \textbf{RASD} & Requirement Analysis and Specification Document \\
+        \textbf{eMSP} & Electric Mobility Service Provider              \\
+        \textbf{EV}   & Electric Vehicle                                \\
+        \textbf{CPO}  & Charging Point Operator                         \\
+        \textbf{DSO}  & Distribution System Operator                    \\
+        \textbf{CPMS} & Charging Point Management System                \\
+        \textbf{EVSE} & Electric Vehicle Supply Equipment               \\
+        \textbf{CP}   & Charging Point                                  \\
+        \textbf{EVCP} & Electric Vehicle Charging Pool                  \\
+        \textbf{GPS}  & Global Positioning System                       \\
+        \textbf{API}  & Application Programming Interface               \\
+        \bottomrule
     \end{tabularx}
 \end{table}
+
 \subsubsection*{Abbreviation}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
@@ -115,6 +121,7 @@ Here we define what is a EVCP (electric vehicle charging pool), that CP and EVSE
         \textbf{Ux}  & x-Use Case               \\ \bottomrule
     \end{tabularx}
 \end{table}
+
 \subsection{Revision history}
 Nothing here
 
