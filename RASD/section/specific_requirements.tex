@@ -21,7 +21,7 @@ In this section are described details about user interfaces, hardware and applic
 
 \subsubsection{Hardware Interfaces}
 To use the system, both EV drivers and CPOs must use a mobile device or a personal computer.
-Due to the outdoor expected use of the system, a smartphone will be more suitable device 
+Due to the outdoor expected use of the system, a smartphone will be more suitable device
 for a EV driver, instead for a CPO is suggested to use the system from a personal computer.
 
 
@@ -29,21 +29,21 @@ for a EV driver, instead for a CPO is suggested to use the system from a persona
 The system should integrate:
 \begin{itemize}
     \item a map service that provide driving direction
-    and an estimation of the time required to arrive to the selected charging point 
-    given a starting position (including the current EV driver position).
-    \item geolocalization through GPS will be used to show the current EV driver 
-    position.
-    \item notifications will be sent to update in real time the EV driver 
-    that the charging shift will begin shortly
+          and an estimation of the time required to arrive to the selected charging point
+          given a starting position (including the current EV driver position).
+    \item geolocalization through GPS will be used to show the current EV driver
+          position.
+    \item notifications will be sent to update in real time the EV driver
+          that the charging shift will begin shortly
     \item an SMS with a secret code will be sent both to CPO and EV driver
-    upon login in order to verify their identity through a third party service.          
-\end{itemize} 
+          upon login in order to verify their identity through a third party service.
+\end{itemize}
 
 \subsubsection{Communication Interfaces}
 The system requires a stable internet connection to work properly.
 The backend of the system will expose a unified REST compliant API to communicate
-with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP. 
- 
+with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
+
 
 \subsection{Use cases}
 
@@ -158,7 +158,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \end{itemize}
 }
 { % notes
-...
+    ...
 }
 
 \usecase
@@ -179,7 +179,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \end{itemize}
 }
 { % notes
-...
+    ...
 }
 
 \usecase
@@ -200,7 +200,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \end{itemize}
 }
 { % notes
-...
+    ...
 }
 
 \usecase
@@ -221,7 +221,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \end{itemize}
 }
 { % notes
-...
+    ...
 }
 
 \usecase
@@ -233,7 +233,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
         \item The operator choose a specific EVCP, choose "Choose DSO" tab
         \item The system provides a list of available DSOs
         \item The operator select one DSO among the available ones and submit their choice to the system
-        \item The system processes the provided information and display a success message 
+        \item The system processes the provided information and display a success message
     \end{enumerate}
 }
 {The choice of DSO is completed} % exit condition
@@ -244,7 +244,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \end{itemize}
 }
 { % notes
-...
+    ...
 }
 
 \usecase
@@ -254,12 +254,12 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 { % event flow
     \begin{enumerate}
         \item The operator choose a specific EVCP, choose "Choose energy mix" tab
-        \item The system provides a list of available sources of energy (station battery, DSO, or a mix)  
+        \item The system provides a list of available energy storing mode (maximize energy in battery, maximize self consumption, time of battery use)
         \item The operator select one source of energy among the available ones and submit their choice to the system
-        \item The system shows a list of active reservation for the chosen EVCP
+        \item The system process the provided informations and sets the chosen mode
     \end{enumerate}
 }
-{The choice of a CP energy mix is completed} % exit condition
+{The choice of an EVCP energy storing mode is completed} % exit condition
 { % exceptions
     \begin{itemize}
         \item Loss of internet connection
@@ -267,7 +267,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \end{itemize}
 }
 { % notes
-...
+    ...
 }
 
 \usecase
@@ -277,7 +277,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 { % event flow
     \begin{enumerate}
         \item The operator choose a specific EVCP, choose "Retrieve price of energy" tab
-        \item The system provides a list of prices of sources of energy from different DSOs  
+        \item The system provides a list of prices of sources of energy from different DSOs
     \end{enumerate}
 }
 {The details of price energy are displayed} % exit condition
@@ -288,7 +288,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \end{itemize}
 }
 { % notes
-...
+    ...
 }
 
 \usecase
@@ -297,13 +297,13 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator choose a specific EVCP, choose "Change Status of a CP" tab 
-        \item The system provides a page on which the operator can set a specific time frame in which the operator wants to change the status of CP  
-        \item The operator set a specific time frame
-        \item The system processes the provided information and display a success message 
+        \item The operator choose a specific EVCP, choose "Change Status of a CP" tab
+        \item The system provides a page on which the operator can set a specific time frame in which the operator wants to change the status of a specific CP
+        \item The operator sets a specific time frame
+        \item The system processes the provided information and display a success message
     \end{enumerate}
 }
-{The status of a CP is displayed} % exit condition
+{The change of status of the specific CP has been planned} % exit condition
 { % exceptions
     \begin{itemize}
         \item Loss of internet connection
@@ -311,7 +311,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \end{itemize}
 }
 { % notes
-...
+    ...
 }
 
 
@@ -333,7 +333,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
         \textbf{R8}  & The system must allow acquiring information from the DSOs about the current price of energy                                       \\
         \textbf{R9}  & The system must allow deciding from which DSO to acquire energy from                                                              \\
         \textbf{R10} & The system must dynamically decide where to get energy for charging (electrical grid, battery or a mixture)                       \\
-        \textbf{R11} & The system must allow add, modify and delete a CP                      \\
+        \textbf{R11} & The system must allow add, modify and delete a CP                                                                                 \\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -398,22 +398,22 @@ The system requires any device and a stable internet connection.
 
 \subsubsection{Availability and Reliability}
 The system should offer its functionalities with an availability
-equal to 99.5, or more. In other words, the system must be inaccessible 
+equal to 99.5, or more. In other words, the system must be inaccessible
 for less than two days every year. To achieve this goal, the system should
 provide a high redundancy for the most critical components.
-Furthermore, in order to guarantee better reliability performances, all 
+Furthermore, in order to guarantee better reliability performances, all
 the scheduled maintenance intervents on the system should be done during
 the night.
 
 \subsubsection{Security}
 The connection between the application and the server must be safe.
 System use the TLS (Transport Layer Security) protocol.
-To do that for this purpose, it is needed an SSL/TSL certificate. 
+To do that for this purpose, it is needed an SSL/TSL certificate.
 Moreover, all passwords must be encrypted
 
 \subsubsection{Maintainability}
 Source code and correlated documentation must be commented and kept updated.
-Modularity, low coupling and high cohesion between components must be a focus during the 
+Modularity, low coupling and high cohesion between components must be a focus during the
 designing and developing phases.
 
 \subsubsection{Portability}
