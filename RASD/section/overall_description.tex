@@ -3,13 +3,13 @@
 \subsection{Product perspective}
 eMall helps on the first hand to manage to limit the carbon footprint caused by our urban and sub-urban mobility needs,
 providing a way to introduce minimal interference and constraints on the owner EV daily schedule;
-on the other hand the eMall helps the CPOs to manage remotely their EVCP. 
+on the other hand the eMall helps the CPOs to manage remotely their EVCP.
 \vspace{1cm}
 \subsubsection{Entity diagram}
 The UML entity diagram below represents a conceptual, high-level model of
-the software to be. Given its nature, it may model objects that will not 
-be represented in the actual system that will be developed. At this 
-level, it not include any references to methods and other low-level 
+the software to be. Given its nature, it may model objects that will not
+be represented in the actual system that will be developed. At this
+level, it not include any references to methods and other low-level
 details, those will be detailed during the design phase.
 \begin{figure}[H]
       \centering
@@ -37,7 +37,7 @@ some UML State Charts are proposed:
       \item \textbf{Book a charge} \\
             Edvar has the necessity to go shopping in the next days at the blue and yellow furniture retailer of the city. Knowing
             that shopping will take some time he wants to find and book a EVCP nearby the shopping centre to charge his EV that uses every day.
-            In the home of the app he filters the results on the location of the mall and the day he wants to go. 
+            In the home of the app he filters the results on the location of the mall and the day he wants to go.
             After submitting the form, the home page change according to his information and displays
             a map of the selected zone with the available charging stations to book. He discovers that there is one available
             really close from the shopping centre. He selects the marker of the EVCP and are displyed the information about the CPO,
@@ -70,35 +70,35 @@ some UML State Charts are proposed:
             and for each charging vehicle the amount of power absorbed and the time left to the end of the charge. He can visualize the import that gets from each
             charge, decide the price for a charge and add special promotions to the charge to win the loyalty of the existing clients or acquire new clients.
       \item \textbf{Charging point management} \\
-            Grethe, admin of a CPO using the CPMS function of eMall from the early days, receives an mail from the CPMS about a malfunction involving one of her CPs. 
-            She enters the CPMS and directly from the dashboard she modifies the CP status to "in maintenance". 
-            She is sure that the CP under mantainance now results as unvailable for every user trying to book it until she modifies back the status to "available". 
+            Grethe, admin of a CPO using the CPMS function of eMall from the early days, receives an mail from the CPMS about a malfunction involving one of her CPs.
+            She enters the CPMS and directly from the dashboard she modifies the CP status to "in maintenance".
+            She is sure that the CP under mantainance now results as unvailable for every user trying to book it until she modifies back the status to "available".
             Then verifies the status of the others CP controlling that they work as intended.
 \end{enumerate}
 
 \subsection{Product functions}
-As described above in this document, the major functions offered by our system to main actors are:\\ 
+As described above in this document, the major functions offered by our system to main actors are:\\
 \begin{itemize}
-      \item \textbf{EV driver's functions. The system allows to:} 
-      \begin{itemize}
-            \item search in map
-            \item view your current position
-            \item indicate time interval of charging
-            \item have suggestion on when to charge based on daily schedule and special offers
-            \item specify the charging point in which you want charge  
-            \item book a charge
-      \end{itemize}
+      \item \textbf{EV driver's functions. The system allows to:}
+            \begin{itemize}
+                  \item search in map
+                  \item view your current position
+                  \item indicate time interval of charging
+                  \item have suggestion on when to charge based on daily schedule and special offers
+                  \item specify the charging point in which you want charge
+                  \item book a charge
+            \end{itemize}
 \end{itemize}
 \begin{itemize}
-      \item \textbf{CPO's functions. The system allows to:} 
-      \begin{itemize}
-            \item monitor status of charging points
-            \item add, modify and delete CP
-            \item retrieve price of energy
-            \item change status of a charging point
-            \item view reservations
-            \item managing charging point
-      \end{itemize}
+      \item \textbf{CPO's functions. The system allows to:}
+            \begin{itemize}
+                  \item monitor status of charging points
+                  \item add, modify and delete CP
+                  \item retrieve price of energy
+                  \item change status of a charging point
+                  \item view reservations
+                  \item managing charging point
+            \end{itemize}
 \end{itemize}
 
 
@@ -106,11 +106,11 @@ As described above in this document, the major functions offered by our system t
 It is possible to distinguish two different types of actors who use the system:
 \begin{enumerate}
       \item EV's driver: someone who wants to book a charge. EV's driver wants to book remotely
-avoids interference in his daily schedule, be notified when his/her reservation
-is going to start and end, monitor charging process.
-      \item CPO: someone who wants to manage efficiently his/her EVCP, make statistics on live and historical details on the EVCP, 
-to acquire information on the current price of energy offer by DSOs and to decide in an automated way
-where to get energy for charging.
+            avoids interference in his daily schedule, be notified when his/her reservation
+            is going to start and end, monitor charging process.
+      \item CPO: someone who wants to manage efficiently his/her EVCP, make statistics on live and historical details on the EVCP,
+            to acquire information on the current price of energy offer by DSOs and to decide in an automated way
+            where to get energy for charging.
 \end{enumerate}
 
 
@@ -119,16 +119,15 @@ where to get energy for charging.
 \begin{table}[H]
       \begin{tabularx}{\textwidth}{cX}
             \toprule
-            \textbf{D1}  & An EV driver arrives at the charging station at a time close to its reservation starting time \\
-            \textbf{D2}  & An EV driver leaves the charging station when the charge is finished                          \\
-            \textbf{D3}  & An EV driver doesn't occupy an already booked charging spot                                   \\
-            \textbf{D4}  & The accurate location of an EV driver is known by GPS                                         \\
-            \textbf{D5}  & An EV driver provides correct information when registering                                    \\
-            \textbf{D6}  & A CPO provides correct data of its EVSEs when registering                                     \\
-            \textbf{D7}  & At least one DSO can always provide energy to the CPOs                                        \\
-            \textbf{D8}  & An user that books a charge has an electric vehicle to charge                                 \\
-            \textbf{D9}  & An user that books a charge is always reliable                                                \\
-            \textbf{D10} & The system must allow booking of an EVSE for a certain time interval                          \\ \bottomrule
+            \textbf{D1} & An EV driver arrives at the charging station at a time close to its reservation starting time \\
+            \textbf{D2} & An EV driver leaves the charging station when the charge is finished                          \\
+            \textbf{D3} & An EV driver doesn't occupy an already booked charging spot                                   \\
+            \textbf{D4} & The accurate location of an EV driver is known by GPS                                         \\
+            \textbf{D5} & An EV driver provides correct information when registering                                    \\
+            \textbf{D6} & A CPO provides correct data of its EVSEs when registering                                     \\
+            \textbf{D7} & At least one DSO can always provide energy to the CPOs                                        \\
+            \textbf{D8} & An user that books a charge has an electric vehicle to charge                                 \\
+            \textbf{D9} & An user that books a charge is always reliable                                                \\ \bottomrule
       \end{tabularx}
 \end{table}
 \subsubsection*{Dependencies}
