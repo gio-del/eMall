@@ -136,10 +136,22 @@ It is possible to distinguish two different types of actors who use the system:
             \textbf{D6} & A CPO provides correct data of its EVSEs when registering                                     \\
             \textbf{D7} & At least one DSO can always provide energy to the CPOs                                        \\
             \textbf{D8} & An user that books a charge has an electric vehicle to charge                                 \\
-            \textbf{D9} & An user that books a charge is always reliable                                                \\ \bottomrule
+            \textbf{D9} & An user that books a charge is always reliable   \\
+            \textbf{D9} & The external APIs are always reliable and working   
+            \\\bottomrule
       \end{tabularx}
 \end{table}
 \subsubsection*{Dependencies}
-A list of API, OS, browser the app/webapp depends on
-\subsubsection*{Constraints}
-?
+\begin{itemize}
+      \item The system requires access to a third party maps API.
+      \item The system will use the GPS of the driver's computer or smartphone
+      \item The system will require internet connection to interact with all the users
+      \item The system will use an external API to retrieve the prices of energy by the available DSOs
+      \item The system will use an external API to retrieve the EV battery status and a list of EV available on the market
+      \item The system will use an external API to retrieve information about the status of an energy storage system and solar panels production in the EVCP
+      \item The system will use an external API to retrieve data or send data to the CPs
+      \item The system will use an external API to access the calendar of the usery
+      \item The system will use a payment gateway to perform payment operations
+      \item The system will use an external API to send push notification to the drivers
+      \item The system needs a third party API in order to send SMS to customers phones.
+\end{itemize}

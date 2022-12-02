@@ -26,23 +26,26 @@ for a EV driver, instead for a CPO is suggested to use the system from a persona
 
 
 \subsubsection{Software Interfaces}
-The system should integrate:
-\begin{itemize}
-    \item a map service that provide driving direction
-          and an estimation of the time required to arrive to the selected charging point
-          given a starting position (including the current EV driver position).
-    \item geolocalization through GPS will be used to show the current EV driver
-          position.
-    \item notifications will be sent to update in real time the EV driver
-          that the charging shift will begin shortly
-    \item an SMS with a secret code will be sent both to CPO and EV driver
-          upon login in order to verify their identity through a third party service.
-\end{itemize}
+The system should relies on various external services accessible via uniform web API. These services are:
+
 
 \subsubsection{Communication Interfaces}
 The system requires a stable internet connection to work properly.
 The backend of the system will expose a unified REST compliant API to communicate
 with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
+\\Furthermore, the system relies on various external accessible via uniform web API. These services are:
+\begin{itemize}
+    \item \textbf{Map Service}: eMall system relies on a map service to get the map and to do operations on the map which is the central component of the application.
+    \item \textbf{GPS Service}: eMall system relies on GPS to obtain the location of the user and to show their position on the map
+    \item \textbf{DSO Energy Pricing Service}: eMall system use this interface to obtain updated prices of the different DSOs available for the location of the EVCPs. The interface also, permits to select from which DSO acquire energy.
+    \item \textbf{EV Service}: eMall system uses this interface that has a register that contains data about all the EVs around the world as the model, the manufacturer, the battery capacity, the efficiency, the range, the connector type and the maximum input power. It is also used to show the battery status of the user's car
+    \item \textbf{EVCP Energy Storage System Managing Service}: This interface is used to retrieve data about the energy store system status and the solar panel production and decide how to mix the sources of energy
+    \item \textbf{OCPP compliant CP client}: eMall system relies on it to retrieve data or send data to the CPs
+    \item \textbf{Calendar OS API}: The interface is used to identify which are the commitments and which are the free slots and suggest proactively when is more convenient to charge
+    \item \textbf{Payment Gateway}: eMall system relies on it for processing every payment operation on the application
+    \item \textbf{Push Notification Service}: eMall notifications will be sent to update in real time the EV driver that the charging shift will begin shortly, when the charging process has ended and of special offer in nearby CPs
+    \item \textbf{SMS Service}: eMall system relies on it to send verification code SMS to customers phones.
+\end{itemize}
 
 
 \subsection{Use cases}
@@ -71,13 +74,14 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 \usecase
 {1}
 {EV driver registration}
-{EV driver}
+{EV driver, SMS Service}
 {EV driver clicks 'Sign Up' in the application homepage}
 {
     \begin{enumerate}
         \item The system sends user the registration form
         \item Driver enters name, surname, birth date, telephone number and password. Then submits the data upon reading and accepting the Privacy Policy and the Terms of Service
-        \item The system sends a SMS to driver through an API containing a secret code
+        \item The system calls SMS Service API to send to the driver an SMS containing a secret code
+        \item The SMS Service sends the SMS to the driver
         \item The driver submits the received verification code
         \item The system verifies the code and displays a success message
     \end{enumerate}
@@ -100,12 +104,13 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 \usecase
 {2.1}
 {Map filtering by date}
-{EV driver}
+{EV driver, Map Service}
 {EV driver is in the map page}
 {
     \begin{enumerate}
         \item Driver selects a date from the search bar calendar
-        \item The system filters the CPs that have at least one available spot in the provided date
+        \item The system filters the CPs that have at least one available spot in the provided date and calls the Map Service
+        \item The Map Service updates the map
     \end{enumerate}
 }
 {The filtered markers are displayed}
@@ -121,12 +126,13 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 \usecase
 {2.2}
 {Map filtering by connector}
-{EV driver}
+{EV driver, Map Service}
 {EV driver is in the map page}
 {
     \begin{enumerate}
         \item Driver selects a list of connectors from the search bar connector dropdown
-        \item The system filters the CPs that have at least one available spot with one of the chosen connectors
+        \item The system filters the CPs that have at least one available spot with one of the chosen connectors and calls the Map Service
+        \item The Map Service updates the map
     \end{enumerate}
 }
 {The filtered markers are displayed}
@@ -139,12 +145,13 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 \usecase
 {2.3}
 {Map filtering by location}
-{EV driver}
+{EV driver, Map Service, GPS Service}
 {EV driver is in the map page}
 {
     \begin{enumerate}
-        \item Driver specifies an address where to search for CPs
-        \item The system shows the CPs that are nearby the specified address
+        \item Driver specifies an address where to search for CPs or their current position
+        \item The system shows the CPs that are nearby the specified address and calls the Map Service
+        \item The Map Service updates the map
     \end{enumerate}
 }
 {The filtered markers are displayed}
@@ -178,39 +185,47 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 \usecase
 {4}
 {Book a charge}
-{EV driver}
+{EV driver, Payment Gateway}
 {Authenticated EV driver is in the EVCP details page}
 {
     \begin{enumerate}
         \item User clicks 'Book a Charge' button or one among the 'Now' buttons related to connector types (if available)
         \item The system show a booking page containing a form with connector, date and time frame selection
         \item User fills the form and clicks 'Book' button
-        \item The system processes the information and redirects the user to the payment page
+        \item The system processes the information and redirects the user to the payment gateway interface
+        \item The Payment Gateway sends user a payment form
+        \item The user fills the form with payment information and clicks 'Confirm'
+        \item The Payment Gateway processes the information and notify the system
+        \item The System processes the information and show a success message redirecting the user to the reservation tab
     \end{enumerate}
 }
-{The user is in the payment page}
+{The spot is booked and the transaction is successfully executed}
 {
     \begin{itemize}
-        \item At least one of the inserted data is not valid
+        \item At least one of the inserted booking data is not valid
+        \item The payment gateway return an invalid payment
     \end{itemize}
 }
 {
-    The system shows an error and redirect user to EVCP details page
+    First Exception: the system shows an error and redirect user to EVCP details page
+    Second Exception the system shows an error during the payment process and asks to retry
 }
 
 \usecase
 {5}
-{Pay a charge}
-{EV driver}
-{Authenticated EV driver is in the payment page}
+{Start a charge}
+{EV driver, OCPP Compliant CP client}
+{Authenticated EV driver is in the reservation page}
 {
     \begin{enumerate}
-        \item The system shows a payment page containing a form
-        \item User fills the form and clicks 'Confirm' button
-        \item The system processes the information and redirects user to the reservation tab
+        \item The system shows all the reservations with the "pending" reservation in evidence
+        \item User clicks the button 'Start' in the reservation in evidence to start the charge
+        \item The system receives the input and activates the CP through the OCPP protocol
+        \item The CP acknowledges the system that its status has changed from "reserved" to "charging"
+        \item The system changes the status of the reservation in "running"
     \end{enumerate}
 }
-{The user has payed the charge}
+{The charging is started}
 {
     \begin{itemize}
         \item At least one of the inserted data is not valid
@@ -222,52 +237,28 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 
 \usecase
 {6}
-{Start a charge}
-{EV driver}
-{Authenticated EV driver is in the reservation page}
-{
-    \begin{enumerate}
-        \item The system shows all the reservations with the "pending" reservation in evidence
-        \item User clicks the button 'Start' in the reservation in evidence to start the charge
-        \item The system receives the input and activates the CP through the OCPP protocol
-        \item The system changes the status of the reservation in
-    \end{enumerate}
-}
-{The user sees that the }
-{
-    \begin{itemize}
-        \item At least one of the inserted data is not valid
-    \end{itemize}
-}
-{
-    The system shows an error asking to retry
-}
-
-\usecase
-{7}
-{Insert car details}
-{EV driver}
+{Personalize experience by inserting car details}
+{EV driver, EV Service}
 {Authenticated EV driver is in homepage}
 {
     \begin{enumerate}
-        \item The user clicks 'Insert car details' button
-        \item The system shows a Insert car details page containing a form
-        \item User fills the form and clicks 'Confirm' button
-        \item The system processes the information and redirects user to the map page
+        \item The user ask the car view
+        \item The system shows user the car page
+        \item The user clicks 'Add an EV' button
+        \item The system ask EV Service an updated list of EV then shows it to user
+        \item The user select one of the EV and connects the personal EV to the EV Service API
+        \item The system processes the information and shows a success message
     \end{enumerate}
 }
 {The user has inserted car details}
 {
-    \begin{itemize}
-        \item At least one of the inserted data is not valid
-    \end{itemize}
+    No exception in this use case
 }
 {
-    The system shows an error asking to retry
 }
 
 \usecase
-{8}
+{7}
 {Get history of reservations}
 {EV driver}
 {Authenticated EV driver is in the home page}
@@ -285,16 +276,18 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{9}
+{8}
 {Get details of the current charge}
-{EV driver}
-{Authenticated EV driver is in the reservation tab}
+{EV driver, OCPP Compliant CP Client}
+{Authenticated EV driver is in the car tab}
 {
     \begin{enumerate}
-        \item The system shows all the reservations with the "started" reservation in evidence and the current charge
+        \item The system asks the CP, through OCPP, the details of the current charge of the user
+        \item The CP replies, through OCPP, with CDR
+        \item The system shows all the details of the current charge
     \end{enumerate}
 }
-{A list of reservations is shown}
+{The details of the current charge are shown}
 {
     No exception in this use case
 }
@@ -302,7 +295,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{10}
+{9}
 {Delete a reservation}
 {EV driver}
 {Authenticated EV driver is in reservation tab}
@@ -327,7 +320,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 
 
 \usecase
-{11}
+{10}
 {CPO registration} % name
 {CPO} % actor
 {CPO clicks 'Sign Up' in the business dedicated application homepage} % entry condition
@@ -352,7 +345,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{12}
+{11}
 {Check energy in batteries} % name
 {CPO} % actor
 {Authenticated CPO is in "Monitor status of EVCP" tab} % entry condition
@@ -374,7 +367,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{13}
+{12}
 {Monitor specific charging process} % name
 {CPO} % actor
 {Authenticated CPO is in "Monitor status of CP" tab} % entry condition
@@ -398,7 +391,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{14}
+{13}
 {Monitor aggregate charging process} % name
 {CPO} % actor
 {Authenticated CPO is in "Monitor status of CP" tab} % entry condition
@@ -420,7 +413,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{15}
+{14}
 {View historical reservations} % name
 {CPO} % actor
 {Authenticated CPO is in "View reservations" tab} % entry condition
@@ -442,7 +435,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{16}
+{15}
 {View active reservations} % name
 {CPO} % actor
 {Authenticated CPO is in "View reservations" tab} % entry condition
@@ -464,7 +457,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{17}
+{16}
 {Choose DSO} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -488,7 +481,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{18}
+{17}
 {Choose energy mix} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -512,7 +505,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{19}
+{18}
 {Retrieve price of energy} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -534,7 +527,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{20}
+{19}
 {Change Status of a CP} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -628,13 +621,15 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 The requirements of the system are not critical, so these performance requirements
 are focus on guarantee the best of possible experience to both EV drivers and CPOs.
 To do that, the system should provide:
-\\• a scalable, reactive and load-balancing backend
-\\• the visualization of the map in 5 seconds, or less;
-\\• the list of active and historical reservations in less than 5 seconds;
-\\• the booking confirmation in 7 seconds, or less;
-\\• the loading of the available time slots for a specific charging point in less than 5 seconds;
-\\• push app notification with a delay that is imperceptible to the user.
-\\• Notice that a good internet connection is assumed in the previous estimations.
+\begin{itemize}
+    \item a scalable, reactive and load-balancing backend
+    \item the visualization of the map in 5 seconds, or less;
+    \item the list of active and historical reservations in less than 5 seconds;
+    \item the booking confirmation in 7 seconds, or less;
+    \item the loading of the available time slots for a specific charging point in less than 5 seconds;
+    \item push app notification with a delay that is imperceptible to the user.
+    \item Notice that a good internet connection is assumed in the previous estimations.
+\end{itemize}
 
 \subsection{Design Constraints}
 
