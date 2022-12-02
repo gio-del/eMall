@@ -20,15 +20,28 @@ details, those will be detailed during the design phase.
 In the paragraphs below, a representation of the behavior of the main conceptual
 components of the system. The focus is on how these components respond to
 external influences and modify accordingly their states. For this purpose,
-some UML State Charts are proposed:
+some UML State Charts are proposed:"
+The following state diagram represents the possible status of a charging point. 
+When is added to the system it results "available" until a the system requests to pass in "reserved" mode. 
+When it is in "reserved" status, only the user with the matching reservation can start a charge through the eMall APP. 
+When the user starts a charge the system communicates the charging point to change status in "charging". In this status
+the charging point performs the charge as expected and when the charge is ended, the system notify to modify the status 
+in "available" back again. From all of these status it is possible that for some sort of malfunction or manual intervention
+by the operators through the system forces the charging point to change the status in "out of order". The charging point will return "available"
+only when the operators decides to. 
 
 \begin{figure}[H]
       \centering
-      \includegraphics[scale=0.2]{src/state_diagram/cp.png}
+      \includegraphics[scale=0.25]{src/state_diagram/cp.png}
 \end{figure} \vspace{1cm}
+
+The following diagram describes the possible status for a reservation. 
+When a reservation is created through the APP it is in "not started" state. In the exact moment in which the time of the reservation starts
+then it passes in the "pending" status. Will remain in pending status until the charge is started or until the time for the reservation runs out.
+When the charge is started it is in "running" mode and when finishes is "completed" and archived in the list of past transaction.
 \begin{figure}[H]
       \centering
-      \includegraphics[scale=0.2]{src/state_diagram/transaction.png}
+      \includegraphics[scale=0.25]{src/state_diagram/transaction.png}
 \end{figure} \vspace{1cm}
 
 \subsubsection{Scenarios}
