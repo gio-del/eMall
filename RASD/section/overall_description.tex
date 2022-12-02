@@ -22,13 +22,15 @@ components of the system. The focus is on how these components respond to
 external influences and modify accordingly their states. For this purpose,
 some UML State Charts are proposed:
 
-\begin{figure}[H]
+\begin{figure}[h]
       \centering
       \includegraphics[scale=0.2]{src/state_diagram/cp.png}
-\end{figure} \vspace{1cm}
+      \caption{Reservation state chart}
+\end{figure}
 \begin{figure}[H]
       \centering
       \includegraphics[scale=0.2]{src/state_diagram/transaction.png}
+      \caption{Charging Point state chart}
 \end{figure} \vspace{1cm}
 
 \subsubsection{Scenarios}
@@ -128,17 +130,17 @@ It is possible to distinguish two different types of actors who use the system:
 \begin{table}[H]
       \begin{tabularx}{\textwidth}{cX}
             \toprule
-            \textbf{D1} & An EV driver arrives at the charging station at a time close to its reservation starting time \\
-            \textbf{D2} & An EV driver leaves the charging station when the charge is finished                          \\
-            \textbf{D3} & An EV driver doesn't occupy an already booked charging spot                                   \\
-            \textbf{D4} & The accurate location of an EV driver is known by GPS                                         \\
-            \textbf{D5} & An EV driver provides correct information when registering                                    \\
-            \textbf{D6} & A CPO provides correct data of its EVSEs when registering                                     \\
-            \textbf{D7} & At least one DSO can always provide energy to the CPOs                                        \\
-            \textbf{D8} & An user that books a charge has an electric vehicle to charge                                 \\
-            \textbf{D9} & An user that books a charge is always reliable   \\
-            \textbf{D9} & The external APIs are always reliable and working   
-            \\\bottomrule
+            \textbf{D1}  & An EV driver arrives at the charging station at a time close to its reservation starting time \\
+            \textbf{D2}  & An EV driver leaves the charging station when the charge is finished                          \\
+            \textbf{D3}  & An EV driver doesn't occupy an already booked charging spot                                   \\
+            \textbf{D4}  & The accurate location of an EV driver is known by GPS                                         \\
+            \textbf{D5}  & An EV driver provides correct information when registering                                    \\
+            \textbf{D6}  & A CPO provides correct data of its EVSEs when registering                                     \\
+            \textbf{D7}  & At least one DSO can always provide energy to the CPOs                                        \\
+            \textbf{D8}  & An user that books a charge has an electric vehicle to charge                                 \\
+            \textbf{D9}  & An user that books a charge is always reliable                                                \\
+            \textbf{D10} & The external APIs are always reliable and working                                             \\
+            \bottomrule
       \end{tabularx}
 \end{table}
 \subsubsection*{Dependencies}
