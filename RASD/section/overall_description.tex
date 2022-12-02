@@ -30,7 +30,7 @@ in "available" back again. From all of these status it is possible that for some
 by the operators through the system forces the charging point to change the status in "out of order". The charging point will return "available"
 only when the operators decides to. 
 
-\begin{figure}[H]
+\begin{figure}[h]
       \centering
       \includegraphics[scale=0.25]{src/state_diagram/cp.png}
 \end{figure} \vspace{1cm}
@@ -141,17 +141,17 @@ It is possible to distinguish two different types of actors who use the system:
 \begin{table}[H]
       \begin{tabularx}{\textwidth}{cX}
             \toprule
-            \textbf{D1} & An EV driver arrives at the charging station at a time close to its reservation starting time \\
-            \textbf{D2} & An EV driver leaves the charging station when the charge is finished                          \\
-            \textbf{D3} & An EV driver doesn't occupy an already booked charging spot                                   \\
-            \textbf{D4} & The accurate location of an EV driver is known by GPS                                         \\
-            \textbf{D5} & An EV driver provides correct information when registering                                    \\
-            \textbf{D6} & A CPO provides correct data of its EVSEs when registering                                     \\
-            \textbf{D7} & At least one DSO can always provide energy to the CPOs                                        \\
-            \textbf{D8} & An user that books a charge has an electric vehicle to charge                                 \\
-            \textbf{D9} & An user that books a charge is always reliable   \\
-            \textbf{D9} & The external APIs are always reliable and working   
-            \\\bottomrule
+            \textbf{D1}  & An EV driver arrives at the charging station at a time close to its reservation starting time \\
+            \textbf{D2}  & An EV driver leaves the charging station when the charge is finished                          \\
+            \textbf{D3}  & An EV driver doesn't occupy an already booked charging spot                                   \\
+            \textbf{D4}  & The accurate location of an EV driver is known by GPS                                         \\
+            \textbf{D5}  & An EV driver provides correct information when registering                                    \\
+            \textbf{D6}  & A CPO provides correct data of its EVSEs when registering                                     \\
+            \textbf{D7}  & At least one DSO can always provide energy to the CPOs                                        \\
+            \textbf{D8}  & An user that books a charge has an electric vehicle to charge                                 \\
+            \textbf{D9}  & An user that books a charge is always reliable                                                \\
+            \textbf{D10} & The external APIs are always reliable and working                                             \\
+            \bottomrule
       \end{tabularx}
 \end{table}
 \subsubsection*{Dependencies}
