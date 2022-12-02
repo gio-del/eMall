@@ -1,5 +1,10 @@
 \section{Introduction}\label{intro}
 \subsection{Purpose}
+The following document is the RASD for the eMall - e-Mobility for All system. It provides
+a description of the system focusing on the requirements and specifications, developing scenarios and use cases
+to specify what the system must do, how it will interact with the stakeholders and the constraints it is subject to.
+
+\subsection{Scope}
 With the higher focus on the impact of our urban and suburban travel on the environment and the higher accessibility of electric mobility, an increase of circulating electric vehicles can be observed.
 \footnote{\url{https://www.eea.europa.eu/ims/new-registrations-of-electric-vehicles}} \footnote{\url{https://www.statista.com/statistics/1101415/number-of-electric-vehicles-by-type/}} \footnote{\href{https://www.eib.org/en/surveys/climate-survey/4th-climate-survey/hybrid-electric-petrol-cars-flying-holidays-climate.htm}{European Investment Bank Climate Survey}}
 This increase concerns both private vehicles and goods transporting ones.
@@ -11,41 +16,25 @@ Thus, a single charge can have a huge impact on our daily schedule, and it is ne
 Furthermore, some electric vehicle owners don't have the proper equipment to recharge at home, or their vehicle discharges in the middle of the road and the driver doesn't have the possibility to go home to recharge.\\
 To solve these problems is one of the main objective of the eMall - e-Mobility for All system.\\
 This system aims to develop an efficient planning of the charging process of electric vehicles that limits the carbon footprint caused by people mobility needs.\\\\
-The main actor in this system are the drivers and the CPOs - Charging Point Operators, who manage their columns, along with the DSOs - Distribution System Operator, in charge of distributing the energy.
-\\
-The following document is the RASD for the eMall - e-Mobility for All system. It provides
-a description of the system focusing on the requirements and specifications, developing scenarios and use cases
-to specify what the system must do, how it will interact with the stakeholders and the constraints it is subject to.
-
-\subsubsection*{Goal}
-\begin{table}[H]
-    \begin{tabularx}{\textwidth}{cX}
-        \toprule
-        \textbf{G1} & Allows EV - Electric Vehicle driver to plan efficiently their charging process \\
-        \textbf{G2} & Avoids that EV driver must physically line up at the charging station          \\
-        \textbf{G3} & Provides smart managing of charging stations                                   \\ \bottomrule
-    \end{tabularx}
-\end{table}
-
-\subsection{Scope}
+The main actor in this system are the drivers and the CPOs - Charging Point Operators, who manage their charging columns, along with the DSOs - Distribution System Operator, in charge of distributing the energy.
 The digital system eMall should provide three main features:
 \begin{itemize}
-    \item \textbf{Booking} allows EV's owners to book a charge. The remote booking avoids interference
-          in the daily schedule of the owners, and the sistem should include a notification
-          system by means of which alerts owners when their reservation is going to start.
-    \item \textbf{Charging} allows EV's owners to charge an EV, remotely monitor their charging
-          process and to notify the end of the charge.
+    \item \textbf{Booking} allows EV owners to book a charge. The remote booking avoids interference
+          in the daily schedule of the owners, and it includes a notification
+          system that alerts owners when their reservation is going to start.
+    \item \textbf{Charging} allows EV owners to charge an EV, remotely monitor their charging
+          process and be notified at the end of the charge.
           Thanks to these features, owners have not anymore the need to
           physically go to the CP when they want to retrieve details of their charge.
-    \item  \textbf{Managing an EVCP} allows CPOs to make statistics on live and historical details
-          on the EVCP, to acquire information on the current price of energy offer by
+    \item  \textbf{Managing an EVCP} allows CPOs to get statistics on live and historical details
+          about their EVCP - Electric Vehicle Charging Pool, to acquire information about the current energy price by
           DSOs and to decide in an automated way where to get energy for charging.
 \end{itemize}
 
 
 
 
-\subsubsection*{World phenomena}
+\subsubsection{World phenomena}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
         \toprule
@@ -57,7 +46,7 @@ The digital system eMall should provide three main features:
         \textbf{WP6} & An EV battery discharges                               \\ \bottomrule
     \end{tabularx}
 \end{table}
-\subsubsection*{Shared phenomena}
+\subsubsection{Shared phenomena}
 \begin{table}[H]
     \centering
     \begin{tabularx}{\textwidth}{c|X|c}
@@ -80,17 +69,26 @@ The digital system eMall should provide three main features:
     \end{tabularx}
 \end{table}
 
+\subsubsection{Goal}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{cX}
+        \toprule
+        \textbf{G1} & Allows EV - Electric Vehicle driver to plan efficiently their charging process \\
+        \textbf{G2} & Avoids that EV driver must physically line up at the charging station          \\
+        \textbf{G3} & Provides smart managing of charging stations                                   \\ \bottomrule
+    \end{tabularx}
+\end{table}
 
 \subsection{Definitions, Acronyms, Abbreviations}
 
-\subsubsection*{Definitions}
+\subsubsection{Definitions}
 \begin{itemize}
     \item EVCP - Electric Vehicle Charging Pool, is a station with multiple CPs
     \item CP - a synonym of EVSE, is a single charging column with multiple connectors
     \item Connectors - is a charging socket which can be of different types (e.g. CCS2, Type2)
 \end{itemize}
 
-\subsubsection*{Acronyms}
+\subsubsection{Acronyms}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
         \toprule
@@ -109,7 +107,7 @@ The digital system eMall should provide three main features:
     \end{tabularx}
 \end{table}
 
-\subsubsection*{Abbreviation}
+\subsubsection{Abbreviation}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
         \toprule
@@ -126,7 +124,7 @@ The digital system eMall should provide three main features:
 Nothing here
 
 \subsection{Reference Documents}
-Requirement Engineering and Design Project: goal, schedule and rules
+Assignment document A.Y. 2022/2023 ("Requirement Engineering and Design Project: goal, schedule and rules")
 
 
 \subsection{Document Structure}
