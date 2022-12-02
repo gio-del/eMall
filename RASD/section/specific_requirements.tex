@@ -67,7 +67,9 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \includegraphics[scale=0.6]{src/use_case_diagram/driver.png}
 \end{figure}
 
+
 \usecase
+{1}
 {EV driver registration}
 {EV driver}
 {EV driver clicks 'Sign Up' in the application homepage}
@@ -86,13 +88,246 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
         \item A required registration field is missing when the form is submitted
         \item A wrong verification code is submitted
         \item The timeout of verification expires
+        \item Loss of internet connection
+        \item The actor cancels the operation
     \end{itemize}
 }
 {
     All the exception are treated the same: the system will notify user with a human-readable message and the user is redirected to the homepage
 }
 
+
 \usecase
+{2.1}
+{Map filtering by date}
+{EV driver}
+{EV driver is in the map page}
+{
+    \begin{enumerate}
+        \item Driver selects a date from the search bar calendar
+        \item The system filters the CPs that have at least one available spot in the provided date
+    \end{enumerate}
+}
+{The filtered markers are displayed}
+{
+    \begin{itemize}
+        \item The provided date is before the actual date of searching
+    \end{itemize}
+}
+{
+    The system shows an error and the map as it was
+}
+
+\usecase
+{2.2}
+{Map filtering by connector}
+{EV driver}
+{EV driver is in the map page}
+{
+    \begin{enumerate}
+        \item Driver selects a list of connectors from the search bar connector dropdown
+        \item The system filters the CPs that have at least one available spot with one of the chosen connectors
+    \end{enumerate}
+}
+{The filtered markers are displayed}
+{
+    No exception in this use case
+}
+{
+}
+
+\usecase
+{2.3}
+{Map filtering by location}
+{EV driver}
+{EV driver is in the map page}
+{
+    \begin{enumerate}
+        \item Driver specifies an address where to search for CPs
+        \item The system shows the CPs that are nearby the specified address
+    \end{enumerate}
+}
+{The filtered markers are displayed}
+{
+    \begin{itemize}
+        \item The result of geolocalization of the specified address is not defined
+    \end{itemize}
+}
+{
+    The system shows an error and the map as it was
+}
+
+\usecase
+{3}
+{Get details of an EVCP}
+{EV driver}
+{EV driver is in the map page}
+{
+    \begin{enumerate}
+        \item Driver selects a marker representing an EVCP on the map
+        \item The system shows the details of the EVCP associated to the marker
+    \end{enumerate}
+}
+{A page with EVCP details is shown}
+{
+    No exception in this use case
+}
+{
+}
+
+\usecase
+{4}
+{Book a charge}
+{EV driver}
+{Authenticated EV driver is in the EVCP details page}
+{
+    \begin{enumerate}
+        \item User clicks 'Book a Charge' button or one among the 'Now' buttons related to connector types (if available)
+        \item The system show a booking page containing a form with connector, date and time frame selection
+        \item User fills the form and clicks 'Book' button
+        \item The system processes the information and redirects the user to the payment page
+    \end{enumerate}
+}
+{The user is in the payment page}
+{
+    \begin{itemize}
+        \item At least one of the inserted data is not valid
+    \end{itemize}
+}
+{
+    The system shows an error and redirect user to EVCP details page
+}
+
+\usecase
+{5}
+{Pay a charge}
+{EV driver}
+{Authenticated EV driver is in the payment page}
+{
+    \begin{enumerate}
+        \item The system shows a payment page containing a form
+        \item User fills the form and clicks 'Confirm' button
+        \item The system processes the information and redirects user to the reservation tab
+    \end{enumerate}
+}
+{The user has payed the charge}
+{
+    \begin{itemize}
+        \item At least one of the inserted data is not valid
+    \end{itemize}
+}
+{
+    The system shows an error asking to retry
+}
+
+\usecase
+{6}
+{Start a charge}
+{EV driver}
+{Authenticated EV driver is in the reservation page}
+{
+    \begin{enumerate}
+        \item The system shows all the reservations with the "pending" reservation in evidence
+        \item User clicks the button 'Start' in the reservation in evidence to start the charge
+        \item The system receives the input and activates the CP through the OCPP protocol
+        \item The system changes the status of the reservation in
+    \end{enumerate}
+}
+{The user sees that the }
+{
+    \begin{itemize}
+        \item At least one of the inserted data is not valid
+    \end{itemize}
+}
+{
+    The system shows an error asking to retry
+}
+
+\usecase
+{7}
+{Insert car details}
+{EV driver}
+{Authenticated EV driver is in homepage}
+{
+    \begin{enumerate}
+        \item The user clicks 'Insert car details' button
+        \item The system shows a Insert car details page containing a form
+        \item User fills the form and clicks 'Confirm' button
+        \item The system processes the information and redirects user to the map page
+    \end{enumerate}
+}
+{The user has inserted car details}
+{
+    \begin{itemize}
+        \item At least one of the inserted data is not valid
+    \end{itemize}
+}
+{
+    The system shows an error asking to retry
+}
+
+\usecase
+{8}
+{Get history of reservations}
+{EV driver}
+{Authenticated EV driver is in the home page}
+{
+    \begin{enumerate}
+        \item The user switch to the reservation tab
+        \item The system shows a page with a list of past reservations and active ones
+    \end{enumerate}
+}
+{A list of reservations is shown}
+{
+    No exception in this use case
+}
+{
+}
+
+\usecase
+{9}
+{Get details of the current charge}
+{EV driver}
+{Authenticated EV driver is in the reservation tab}
+{
+\begin{enumerate}
+    \item The system shows all the reservations with the "started" reservation in evidence and the current charge
+\end{enumerate}
+}
+{A list of reservations is shown}
+{
+No exception in this use case
+}
+{
+}
+
+\usecase
+{10}
+{Delete a reservation}
+{EV driver}
+{Authenticated EV driver is in reservation tab}
+{
+    \begin{enumerate}
+        \item The system shows a list with all the "not started" reservation
+        \item User selects a reservation and click the associtated button
+        \item The system receives the input and shows details on the selected reservation
+        \item User clicks "delete" button in current reservation
+        \item The system displays a success message
+    \end{enumerate}
+}
+{The user has deleted a reservation}
+{
+    \begin{itemize}
+        \item At least one of the inserted data is not valid
+    \end{itemize}
+}
+{
+    The system shows an error asking to retry
+}
+
+
+\usecase
+{11}
 {CPO registration} % name
 {CPO} % actor
 {CPO clicks 'Sign Up' in the business dedicated application homepage} % entry condition
@@ -110,7 +345,6 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
         \item The operator is not associated to the given VAT
         \item Loss of internet connection
         \item The actor cancels the operation
-
     \end{itemize}
 }
 { % notes
@@ -118,6 +352,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
+{12}
 {Check energy in batteries} % name
 {CPO} % actor
 {Authenticated CPO is in "Monitor status of EVCP" tab} % entry condition
@@ -139,6 +374,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
+{13}
 {Monitor specific charging process} % name
 {CPO} % actor
 {Authenticated CPO is in "Monitor status of CP" tab} % entry condition
@@ -162,6 +398,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
+{14}
 {Monitor aggregate charging process} % name
 {CPO} % actor
 {Authenticated CPO is in "Monitor status of CP" tab} % entry condition
@@ -183,6 +420,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
+{15}
 {View historical reservations} % name
 {CPO} % actor
 {Authenticated CPO is in "View reservations" tab} % entry condition
@@ -204,6 +442,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
+{16}
 {View active reservations} % name
 {CPO} % actor
 {Authenticated CPO is in "View reservations" tab} % entry condition
@@ -225,6 +464,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
+{17}
 {Choose DSO} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -248,6 +488,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
+{18}
 {Choose energy mix} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -271,6 +512,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
+{19}
 {Retrieve price of energy} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -292,6 +534,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
+{20}
 {Change Status of a CP} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -313,8 +556,6 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 { % notes
     ...
 }
-
-
 
 \subsection{Functional Requirements}
 
@@ -362,7 +603,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \end{tabularx}
 \end{table}
 
-\subsubsection{Mapping on requirement}
+\subsubsection{Mapping on goal}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{XXX}
         \toprule
@@ -370,6 +611,16 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
         G1            & R1,R2,R3              & D1,D2,D3             \\
         G2            & esempio               & esempio              \\
         G3            & esempio               & esempio              \\ \bottomrule
+    \end{tabularx}
+\end{table}
+\subsubsection{Mapping on requirement }
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{XXX}
+        \toprule
+        \textbf{Goal} & \textbf{Requirements} & \textbf{Assumptions} \\ \midrule
+        U1            & R1,R2,R3              & D1,D2,D3             \\
+        U2            & esempio               & esempio              \\
+        U3            & esempio               & esempio              \\ \bottomrule
     \end{tabularx}
 \end{table}
 
