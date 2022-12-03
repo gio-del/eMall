@@ -80,10 +80,32 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 \end{figure}
 
 
+\usecase
+{1}
+{Login}
+{EV driver, CPO}
+{The actor is already registered in the system}
+{
+    \begin{enumerate}
+        \item The actor requires the Login Page
+        \item The system shows the Login Page to the actor
+        \item The actor inserts credentials and send it to the system
+        \item The system processes the information and shows a success message redirecting the user to the homepage
+    \end{enumerate}
+}
+{The actor is logged and the homepage is displayed}
+{
+    \begin{itemize}
+        \item A wrong username or password is submitted
+    \end{itemize}
+}
+{
+    All the exception are treated the same: the system will notify user with a human-readable message
+}
 
 
 \usecase
-{1}
+{2}
 {EV driver registration}
 {EV driver, SMS Service}
 {EV driver clicks 'Sign Up' in the application homepage}
@@ -113,7 +135,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 
 
 \usecase
-{2.1}
+{3.1}
 {Map filtering by date}
 {EV driver, Map Service}
 {EV driver is in the map page}
@@ -131,11 +153,11 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \end{itemize}
 }
 {
-    The system shows an error and the map as it was
+    The system shows an error and shows the map as it was
 }
 
 \usecase
-{2.2}
+{3.2}
 {Map filtering by connector}
 {EV driver, Map Service}
 {EV driver is in the map page}
@@ -154,7 +176,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{2.3}
+{3.3}
 {Map filtering by location}
 {EV driver, Map Service, GPS Service}
 {EV driver is in the map page}
@@ -176,7 +198,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{3}
+{4}
 {Get details of an EVCP}
 {EV driver}
 {EV driver is in the map page}
@@ -194,7 +216,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{4}
+{5}
 {Book a charge}
 {EV driver, Payment Gateway}
 {Authenticated EV driver is in the EVCP details page}
@@ -206,7 +228,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
         \item The system processes the information and redirects the user to the payment gateway interface
         \item The Payment Gateway sends user a payment form
         \item The user fills the form with payment information and clicks 'Confirm'
-        \item The Payment Gateway processes the information and notify the system
+        \item The Payment Gateway processes the information and replies to the system with a notification
         \item The System processes the information and show a success message redirecting the user to the reservation tab
     \end{enumerate}
 }
@@ -223,7 +245,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{5}
+{6}
 {Start a charge}
 {EV driver, OCPP Compliant CP client}
 {Authenticated EV driver is in the reservation page}
@@ -232,7 +254,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
         \item The system shows all the reservations with the "pending" reservation in evidence
         \item User clicks the button 'Start' in the reservation in evidence to start the charge
         \item The system receives the input and activates the CP through the OCPP protocol
-        \item The CP acknowledges the system that its status has changed from "reserved" to "charging"
+        \item The CP replies acknowledging the system that its status has changed from "reserved" to "charging"
         \item The system changes the status of the reservation in "running"
     \end{enumerate}
 }
@@ -247,7 +269,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{6}
+{7}
 {Personalize experience by inserting car details}
 {EV driver, EV Service}
 {Authenticated EV driver is in homepage}
@@ -256,20 +278,24 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
         \item The user ask the car view
         \item The system shows user the car page
         \item The user clicks 'Add an EV' button
-        \item The system ask EV Service an updated list of EV then shows it to user
+        \item The system ask EV Service an updated list of EVCP
+        \item The EV Service replies with an updated list of EV
+        \item The systems shows the list of EV to user
         \item The user select one of the EV and connects the personal EV to the EV Service API
         \item The system processes the information and shows a success message
     \end{enumerate}
 }
 {The user has inserted car details}
 {
-    No exception in this use case
+    \begin{itemize}
+        \item At least one of the inserted data is not valid
+    \end{itemize}
 }
 {
 }
 
 \usecase
-{7}
+{8}
 {Get history of reservations}
 {EV driver}
 {Authenticated EV driver is in the home page}
@@ -287,14 +313,14 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{8}
+{9}
 {Get details of the current charge}
 {EV driver, OCPP Compliant CP Client}
 {Authenticated EV driver is in the car tab}
 {
     \begin{enumerate}
         \item The system asks the CP, through OCPP, the details of the current charge of the user
-        \item The CP replies, through OCPP, with CDR
+        \item The CP replies, through OCPP, with the status
         \item The system shows all the details of the current charge
     \end{enumerate}
 }
@@ -306,14 +332,14 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{9}
+{10}
 {Delete a reservation}
 {EV driver}
 {Authenticated EV driver is in reservation tab}
 {
     \begin{enumerate}
         \item The system shows a list with all the "not started" reservation
-        \item User selects a reservation and click the associtated button
+        \item User selects a reservation and click the associated button
         \item The system receives the input and shows details on the selected reservation
         \item User clicks "delete" button in current reservation
         \item The system displays a success message
@@ -331,15 +357,18 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 
 
 \usecase
-{10}
+{11}
 {CPO registration} % name
-{CPO} % actor
+{CPO, SMS Service} % actor
 {CPO clicks 'Sign Up' in the business dedicated application homepage} % entry condition
 { % event flow
     \begin{enumerate}
         \item The system sends operator the registration form
         \item Operator enters company name, VAT, IBAN, and password. Then submits the data upon reading and accepting the Privacy Policy and the Terms of Service
-        \item The system processes the provided information and display a success message
+        \item The system calls SMS Service API to send to the CPO an SMS containing a secret code
+        \item The SMS Service replies sending the SMS to the operator
+        \item The operator submits the received verification code
+        \item The system processes the provided information and displays a success message
     \end{enumerate}
 }
 {A new operator account is created} % exit condition
@@ -347,23 +376,27 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
     \begin{itemize}
         \item A required registration field is missing when the form is submitted
         \item The operator is not associated to the given VAT
+        \item A wrong verification code is submitted
+        \item The timeout of verification expires
         \item Loss of internet connection
         \item The actor cancels the operation
     \end{itemize}
 }
 { % notes
-    All the exception are treated the same: the system will notify operator with a human-readable message and the operator is redirected to the homepage
+    All the exception are treated the same: the system will notify operator with a human-readable message and the system asks to retry
 }
 
 \usecase
-{11}
+{12}
 {Check energy in batteries} % name
-{CPO} % actor
+{CPO, EVCP Energy Storage System Managing Service} % actor
 {Authenticated CPO is in "Monitor status of EVCP" tab} % entry condition
 { % event flow
     \begin{enumerate}
         \item The operator choose a specific EVCP and clicks 'check energy in batteries'
-        \item The system shows the battery status of the selected EVCP, if any
+        \item The system calls EVCP Energy Storage System Managing Service to retrieve the energy storage status
+        \item The EVCP Energy Storage System Managing Service replies with the current status of the storage
+        \item The system shows the energy storage status of the selected EVCP, if any
     \end{enumerate}
 }
 {The 'Check energy in batteries' chart is shown} % exit condition
@@ -378,41 +411,21 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{12}
-{Monitor specific charging process} % name
-{CPO} % actor
-{Authenticated CPO is in "Monitor status of CP" tab} % entry condition
-{ % event flow
-    \begin{enumerate}
-        \item The operator choose a specific EVCP and clicks "monitor specific charging process"
-        \item The system shows a list of active charging process and ask operator to choose one
-        \item The operator choose a specific active charging process from the list
-        \item The system shows the details of the chosen charging process
-    \end{enumerate}
-}
-{The details of the specific charging process are displayed} % exit condition
-{ % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
-}
-{ % notes
-    ...
-}
-
-\usecase
 {13}
-{Monitor aggregate charging process} % name
-{CPO} % actor
+{Monitor specific CP} % name
+{CPO, OCPP compliant CP client} % actor
 {Authenticated CPO is in "Monitor status of CP" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator choose a specific EVCP and clicks "monitor aggregate charging process"
-        \item The system shows a chart with a detailed view of aggregate charging processes
+        \item The operator choose a specific EVCP and clicks "monitor specific CP"
+        \item The system shows the list of CPs and ask operator to choose one
+        \item The operator selects a CP
+        \item The system asks CP, through OCPP, details of its status
+        \item The CP replies, through OCPP, with the status
+        \item The system shows the details of the chosen CP
     \end{enumerate}
 }
-{The aggregate charging process details charts are displayed} % exit condition
+{The details of the specific CP are displayed} % exit condition
 { % exceptions
     \begin{itemize}
         \item Loss of internet connection
@@ -425,16 +438,18 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 
 \usecase
 {14}
-{View historical reservations} % name
-{CPO} % actor
-{Authenticated CPO is in "View reservations" tab} % entry condition
+{Monitor aggregate CPs} % name
+{CPO, OCPP compliant CP client} % actor
+{Authenticated CPO is in "Monitor status of CP" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator choose a specific EVCP, choose "historical reservation" tab, and sets a specific time frame
-        \item The system shows the reservation details of the chosen EVCP during the chosen time frame
+        \item The operator choose a specific EVCP and clicks "monitor aggregate CPs"
+        \item The system asks all the CPs, through OCPP, the details of their status
+        \item The CPs reply, through OCPP, with their status
+        \item The system aggregate data and shows charts with detailed views of CPs
     \end{enumerate}
 }
-{The details of the historical reservations are displayed} % exit condition
+{The aggregate CPs details charts are displayed} % exit condition
 { % exceptions
     \begin{itemize}
         \item Loss of internet connection
@@ -447,6 +462,25 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 
 \usecase
 {15}
+{View historical reservations} % name
+{CPO} % actor
+{Authenticated CPO is in "View reservations" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP, choose "historical reservation" tab, and sets a specific time frame
+        \item The system shows the reservation details of the chosen EVCP during the chosen time frame
+    \end{enumerate}
+}
+{The details of the historical reservations are displayed} % exit condition
+{ % exceptions
+    No exception in this use case
+}
+{ % notes
+    ...
+}
+
+\usecase
+{16}
 {View active reservations} % name
 {CPO} % actor
 {Authenticated CPO is in "View reservations" tab} % entry condition
@@ -458,26 +492,27 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 {The details of the active reservations are displayed} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    No exception in this use case
 }
 { % notes
     ...
 }
 
 \usecase
-{16}
+{17}
 {Choose DSO} % name
-{CPO} % actor
+{CPO, DSO Energy Pricing Service} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
 { % event flow
     \begin{enumerate}
         \item The operator choose a specific EVCP, choose "Choose DSO" tab
-        \item The system provides a list of available DSOs
-        \item The operator select one DSO among the available ones and submit their choice to the system
-        \item The system processes the provided information and display a success message
+        \item The system asks DSO Energy Pricing Service the list of available DSOs with their prices
+        \item The DSO Energy Pricing Service replies with the list requested
+        \item The system shows the list of available DSOs with their prices
+        \item The operator selects a DSO and submit its choice to the system
+        \item The system asks DSO Energy Pricing Service to acquire energy from the chosen DSO for the specified EVCP
+        \item The DSO Energy Pricing Service replies with an ACK
+        \item The system shows a success message
     \end{enumerate}
 }
 {The choice of DSO is completed} % exit condition
@@ -492,16 +527,18 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{17}
+{18}
 {Choose energy mix} % name
-{CPO} % actor
+{CPO, EVCP Energy Storage System Managing Service} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator choose a specific EVCP, choose "Choose energy mix" tab
-        \item The system provides a list of available energy storing mode (maximize energy in battery, maximize self consumption, time of battery use)
-        \item The operator select one source of energy among the available ones and submit their choice to the system
-        \item The system process the provided informations and sets the chosen mode
+        \item The operator chooses a specific EVCP, chooses "Choose energy mix" tab
+        \item The system provides a list of availa+ble energy storing mode (maximize energy in battery, maximize self consumption, time of battery use)
+        \item The operator select one source of energy among the available ones and submit its choice to the system
+        \item The system sends to EVCP Energy Storage System Managing Service the choice of the operator
+        \item The EVCP Energy Storage System Managing Service replies with an ACK
+        \item The system shows a success message
     \end{enumerate}
 }
 {The choice of an EVCP energy storing mode is completed} % exit condition
@@ -516,14 +553,16 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{18}
+{19}
 {Retrieve price of energy} % name
-{CPO} % actor
+{CPO, DSO Energy Price Service} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
 { % event flow
     \begin{enumerate}
         \item The operator choose a specific EVCP, choose "Retrieve price of energy" tab
-        \item The system provides a list of prices of sources of energy from different DSOs
+        \item The system asks DSO Energy Pricing Service the list of available DSOs with their prices
+        \item The DSO Energy Pricing Service replies with the list requested
+        \item The system shows the list of available DSOs with their prices
     \end{enumerate}
 }
 {The details of price energy are displayed} % exit condition
@@ -538,13 +577,13 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 
 \usecase
-{19}
+{20}
 {Change Status of a CP} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator choose a specific EVCP, choose "Change Status of a CP" tab
+        \item The operator choose a specific EVCP, choose "Change Status of a CP" button
         \item The system provides a page on which the operator can set a specific time frame in which the operator wants to change the status of a specific CP
         \item The operator sets a specific time frame
         \item The system processes the provided information and display a success message
@@ -560,6 +599,60 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 { % notes
     ...
 }
+
+\usecase
+{21}
+{Adding a CP} % name
+{CPO, OCPP compliant CP client} % actor
+{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator chooses a specific EVCP, clicks "Add a new CP" button
+        \item The system provides a list of brands and models of the all CPs available in industry
+        \item The operator chooses the specific model of his CP and specifies the ID (serial number of CP), then clicks "connect" button
+        \item The system shows an OCPP URL to connect the CP to the CPMS and waits for a connection
+        \item The operator connects the CP using the CP's manufacturer platform
+        \item The system shows a message when the connection is established
+    \end{enumerate}
+}
+{The new CP is connected} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    ...
+}
+
+\usecase
+{22}
+{Removing a CP} % name
+{CPO} % actor
+{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator chooses a specific EVCP, selects a CP and clicks "Remove CP" button
+        \item The system removes the association with the CP
+    \end{enumerate}
+}
+{The CP is removed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    ...
+}
+
+\subsubsection*{Sequence Diagrams}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.9]{src/sequence_diagram/EV Driver Registration.png}
+\end{figure}
 
 \subsection{Functional Requirements}
 
