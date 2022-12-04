@@ -60,7 +60,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGE134s0EUzzc4="
 							},
-							"name": "EV Driver Registration",
+							"name": "Actor Registration",
 							"ownedViews": [
 								{
 									"_type": "UMLFrameView",
@@ -81,9 +81,9 @@
 											"font": "Arial;11;0",
 											"left": 22.61767578125,
 											"top": 5,
-											"width": 109.81298828125,
+											"width": 88.42529296875,
 											"height": 11,
-											"text": "EV Driver Registration"
+											"text": "Actor Registration"
 										},
 										{
 											"_type": "LabelView",
@@ -153,7 +153,7 @@
 													"top": 87,
 													"width": 247.59130859375,
 													"height": 11,
-													"text": "Unregistered EV Driver"
+													"text": "Actor"
 												},
 												{
 													"_type": "LabelView",
@@ -2674,7 +2674,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGE134s0EUzzc4="
 							},
-							"name": "Unregistered EV Driver",
+							"name": "Actor",
 							"ownedElements": [
 								{
 									"_type": "FCFlowchart",

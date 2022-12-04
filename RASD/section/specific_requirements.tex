@@ -51,7 +51,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 
 
 \subsection{Use cases}
-
+TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence diagram, idem view reservation, map filtering, monitor status of CP, Choose DSO (retrieve price of energy). Infine sistemare API EVCP ESS MS che va eliminata
 \subsubsection{Use case diagrams}
 
 \vspace*{3cm}
@@ -265,7 +265,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 {
     First Exception: the system shows an error and redirect user to EVCP details page
-    Second Exception the system shows an error during the payment process and asks to retry
+    Second Exception the system shows an error during the payment process and asks to retry>
 }
 
 \usecase
@@ -287,12 +287,9 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 {The charging is started}
 {
-    \begin{itemize}
-        \item At least one of the inserted data is not valid
-    \end{itemize}
+    No exception in this use case
 }
 {
-    The system shows an error asking to retry
 }
 
 \usecase
@@ -317,9 +314,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 }
 {The user has inserted car details}
 {
-    \begin{itemize}
-        \item At least one of the inserted data is not valid
-    \end{itemize}
+    No exception in this use case
 }
 {
 }
@@ -700,10 +695,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 
 \usecase
 {
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/removeCP.png}
-    \end{figure}
+    \dots % todo: insert figure of sequence diagram
 }
 {22}
 {Removing a CP} % name
