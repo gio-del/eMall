@@ -366,6 +366,7 @@
 											"model": {
 												"$ref": "AAAAAAGE3HTudffubP0="
 											},
+											"visible": false,
 											"lineColor": "#ffffff",
 											"fontColor": "#ffffff",
 											"font": "Arial;13;0",
@@ -378,8 +379,7 @@
 											"hostEdge": {
 												"$ref": "AAAAAAGE3HTudffvKlo="
 											},
-											"edgePosition": 1,
-											"text": "1 : "
+											"edgePosition": 1
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -492,7 +492,7 @@
 												"$ref": "AAAAAAGE14b4l0X8Iyg="
 											},
 											"edgePosition": 1,
-											"text": "2 : getRegistrationView"
+											"text": "getRegistrationView"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -603,7 +603,7 @@
 												"$ref": "AAAAAAGE14eQCUYX/C0="
 											},
 											"edgePosition": 1,
-											"text": "3 : registration form"
+											"text": "registration form"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -715,7 +715,7 @@
 												"$ref": "AAAAAAGE14wQsEYvbak="
 											},
 											"edgePosition": 1,
-											"text": "4 : submit(formFields)"
+											"text": "submit(formFields)"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -826,7 +826,7 @@
 												"$ref": "AAAAAAGE14w+v0ZFSjo="
 											},
 											"edgePosition": 1,
-											"text": "5 : check(formFields)"
+											"text": "check(formFields)"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -1194,7 +1194,7 @@
 												"$ref": "AAAAAAGE157wSkdrELI="
 											},
 											"edgePosition": 1,
-											"text": "6 : errorMessage"
+											"text": "errorMessage"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -1306,7 +1306,7 @@
 												"$ref": "AAAAAAGE15Giz0aRfPg="
 											},
 											"edgePosition": 1,
-											"text": "7 : sendSMS(phoneNum)"
+											"text": "sendSMS(phoneNum)"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -1565,7 +1565,7 @@
 												"$ref": "AAAAAAGE16cAgkfQl4g="
 											},
 											"edgePosition": 1,
-											"text": "8 : verification code is sent"
+											"text": "verification code is sent"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -1677,7 +1677,7 @@
 												"$ref": "AAAAAAGE16dDU0fmGNI="
 											},
 											"edgePosition": 1,
-											"text": "9 : verification code is sent"
+											"text": "verification code is sent"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -1924,7 +1924,7 @@
 												"$ref": "AAAAAAGE163UyUhsfkA="
 											},
 											"edgePosition": 1,
-											"text": "10 : submitCode(code)"
+											"text": "submitCode(code)"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -2035,7 +2035,7 @@
 												"$ref": "AAAAAAGE1663UUiHEnQ="
 											},
 											"edgePosition": 1,
-											"text": "11 : registrationSuccess"
+											"text": "registrationSuccess"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -2147,7 +2147,7 @@
 												"$ref": "AAAAAAGE16/a5EjBHNY="
 											},
 											"edgePosition": 1,
-											"text": "12 : errorMessage"
+											"text": "errorMessage"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -2259,7 +2259,7 @@
 												"$ref": "AAAAAAGE17B85Uj31Ac="
 											},
 											"edgePosition": 1,
-											"text": "13 : errorMessage"
+											"text": "errorMessage"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -2341,7 +2341,8 @@
 										"$ref": "AAAAAAGE17B85Uj7qfA="
 									}
 								}
-							]
+							],
+							"sequenceNumbering": "custom"
 						}
 					],
 					"messages": [
