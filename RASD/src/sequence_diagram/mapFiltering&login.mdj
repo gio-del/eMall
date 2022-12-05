@@ -274,7 +274,7 @@
 													"top": 47,
 													"width": 62.736328125,
 													"height": 13,
-													"text": "Lifeline1"
+													"text": "eMall"
 												},
 												{
 													"_type": "LabelView",
@@ -925,12 +925,12 @@
 											"_parent": {
 												"$ref": "AAAAAAGE3byM2HjI6uQ="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 32.72998046875,
 											"top": 365,
-											"width": 123.1162109375,
-											"height": 13,
-											"text": "CombinedFragment1"
+											"width": 1,
+											"height": 13
 										},
 										{
 											"_type": "LabelView",
@@ -1519,7 +1519,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGE3bhzgnfvOtw="
 							},
-							"name": "Lifeline1",
+							"name": "eMall",
 							"represent": {
 								"$ref": "AAAAAAGE3bl5vHgi6mc="
 							},
@@ -1533,7 +1533,6 @@
 							"_parent": {
 								"$ref": "AAAAAAGE3bhzgnfvOtw="
 							},
-							"name": "CombinedFragment1",
 							"interactionOperator": "alt",
 							"operands": [
 								{
@@ -1577,8 +1576,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGE3bhzgnfuJB8="
 					},
-					"name": "Role2",
-					"type": ""
+					"name": "Role2"
 				}
 			]
 		},
@@ -1623,9 +1621,9 @@
 												"$ref": "AAAAAAGE3cbJ/NfIRR4="
 											},
 											"font": "Arial;13;0",
-											"left": 32.72998046875,
+											"left": 30.55908203125,
 											"top": 13,
-											"width": 72.525390625,
+											"width": 68.158203125,
 											"height": 13,
 											"text": "mapFiltering"
 										},
@@ -1638,7 +1636,7 @@
 											"font": "Arial;13;1",
 											"left": 13,
 											"top": 13,
-											"width": 14.72998046875,
+											"width": 12.55908203125,
 											"height": 13,
 											"text": "sd"
 										}
@@ -2924,7 +2922,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 40.72998046875,
+											"left": 39.99365234375,
 											"top": 309,
 											"width": 1,
 											"height": 13
@@ -2938,7 +2936,7 @@
 											"font": "Arial;13;1",
 											"left": 21,
 											"top": 309,
-											"width": 14.72998046875,
+											"width": 13.99365234375,
 											"height": 13,
 											"text": "alt"
 										},
@@ -2971,7 +2969,7 @@
 															"font": "Arial;13;0",
 															"left": 36,
 															"top": 342,
-															"width": 75.87353515625,
+															"width": 71.474609375,
 															"height": 13,
 															"text": "[date is valid]"
 														}
@@ -3004,7 +3002,7 @@
 															"font": "Arial;13;0",
 															"left": 36,
 															"top": 400,
-															"width": 84.55712890625,
+															"width": 79.41552734375,
 															"height": 13,
 															"text": "[date not valid]"
 														}
@@ -4291,7 +4289,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 40.72998046875,
+											"left": 39.99365234375,
 											"top": 573,
 											"width": 1,
 											"height": 13
@@ -4305,7 +4303,7 @@
 											"font": "Arial;13;1",
 											"left": 21,
 											"top": 573,
-											"width": 14.72998046875,
+											"width": 13.99365234375,
 											"height": 13,
 											"text": "alt"
 										},
@@ -4338,7 +4336,7 @@
 															"font": "Arial;13;0",
 															"left": 36,
 															"top": 606,
-															"width": 110.56982421875,
+															"width": 104.3173828125,
 															"height": 13,
 															"text": "[by geolocalization]"
 														}
@@ -4371,7 +4369,7 @@
 															"font": "Arial;13;0",
 															"left": 36,
 															"top": 728,
-															"width": 73.708984375,
+															"width": 72.921875,
 															"height": 13,
 															"text": "[by [lat,long]]"
 														}
@@ -6217,7 +6215,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGE3cbJ/NfFupA="
 					},
-					"name": "Role2"
+					"name": "Role2",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -6225,7 +6224,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGE3cbJ/NfFupA="
 					},
-					"name": "Role3"
+					"name": "Role3",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -6233,7 +6233,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGE3cbJ/NfFupA="
 					},
-					"name": "Role4"
+					"name": "Role4",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",

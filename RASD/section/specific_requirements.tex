@@ -51,7 +51,7 @@ with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
 
 
 \subsection{Use cases}
-TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence diagram, idem view reservation, map filtering, monitor status of CP, Choose DSO (retrieve price of energy). Infine sistemare API EVCP ESS MS che va eliminata
+TODO: sistemare API EVCP ESS MS che va eliminata
 \subsubsection{Use case diagrams}
 
 \vspace*{3cm}
@@ -84,7 +84,7 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
 {
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/Login.png}
+        \includegraphics[scale=0.9]{src/sequence_diagram/login.png}
     \end{figure}
 }
 {1}
@@ -109,6 +109,38 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
     All the exception are treated the same: the system will notify user with a human-readable message
 }
 
+\usecase
+{
+    \dots % todo: insert figure of sequence diagram
+}
+{2.1}
+{CPO registration} % name
+{CPO, SMS Service} % actor
+{CPO clicks 'Sign Up' in the business dedicated application homepage} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The system sends operator the registration form
+        \item Operator enters company name, VAT, IBAN, and password. Then submits the data upon reading and accepting the Privacy Policy and the Terms of Service
+        \item The system calls SMS Service API to send to the CPO an SMS containing a secret code
+        \item The SMS Service replies sending the SMS to the operator
+        \item The operator submits the received verification code
+        \item The system processes the provided information and displays a success message
+    \end{enumerate}
+}
+{A new operator account is created} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item A required registration field is missing when the form is submitted
+        \item The operator is not associated to the given VAT
+        \item A wrong verification code is submitted
+        \item The timeout of verification expires
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    All the exception are treated the same: the system will notify operator with a human-readable message and the system asks to retry
+}
 
 \usecase
 {
@@ -117,7 +149,7 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
         \includegraphics[scale=0.9]{src/sequence_diagram/ActorRegistration.png}
     \end{figure}
 }
-{2}
+{2.2}
 {EV driver registration}
 {EV driver, SMS Service}
 {EV driver clicks 'Sign Up' in the application homepage}
@@ -148,7 +180,7 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
 
 \usecase
 {
-    
+
 }
 {3.1}
 {Map filtering by date}
@@ -249,7 +281,7 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
 {
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/bookACharge.png}
+        \includegraphics[scale=0.9]{src/sequence_diagram/bookCharge.png}
     \end{figure}
 }
 {5}
@@ -276,13 +308,18 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
     \end{itemize}
 }
 {
-    First Exception: the system shows an error and redirect user to EVCP details page
-    Second Exception the system shows an error during the payment process and asks to retry>
+    \begin{itemize}
+        \item First Exception: the system shows an error and redirect user to EVCP details page
+        \item Second Exception: the system shows an error during the payment process and asks to retry
+    \end{itemize}
 }
 
 \usecase
 {
-    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{src/sequence_diagram/startCharge.png}
+    \end{figure}
 }
 {6}
 {Start a charge}
@@ -413,40 +450,6 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
     The system shows an error asking to retry
 }
 
-
-\usecase
-{
-    \dots % todo: insert figure of sequence diagram
-}
-{11}
-{CPO registration} % name
-{CPO, SMS Service} % actor
-{CPO clicks 'Sign Up' in the business dedicated application homepage} % entry condition
-{ % event flow
-    \begin{enumerate}
-        \item The system sends operator the registration form
-        \item Operator enters company name, VAT, IBAN, and password. Then submits the data upon reading and accepting the Privacy Policy and the Terms of Service
-        \item The system calls SMS Service API to send to the CPO an SMS containing a secret code
-        \item The SMS Service replies sending the SMS to the operator
-        \item The operator submits the received verification code
-        \item The system processes the provided information and displays a success message
-    \end{enumerate}
-}
-{A new operator account is created} % exit condition
-{ % exceptions
-    \begin{itemize}
-        \item A required registration field is missing when the form is submitted
-        \item The operator is not associated to the given VAT
-        \item A wrong verification code is submitted
-        \item The timeout of verification expires
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
-}
-{ % notes
-    All the exception are treated the same: the system will notify operator with a human-readable message and the system asks to retry
-}
-
 \usecase
 {
     \begin{figure}[H]
@@ -454,7 +457,7 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
         \includegraphics[scale=0.9]{src/sequence_diagram/checkEnergy.png}
     \end{figure}
 }
-{12}
+{11}
 {Check energy in batteries} % name
 {CPO, EVCP Energy Storage System Managing Service} % actor
 {Authenticated CPO is in "Monitor status of EVCP" tab} % entry condition
@@ -479,9 +482,9 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
 
 \usecase
 {
-    
+
 }
-{13}
+{12.1}
 {Monitor specific CP} % name
 {CPO, OCPP compliant CP client} % actor
 {Authenticated CPO is in "Monitor status of CP" tab} % entry condition
@@ -513,7 +516,7 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
         \includegraphics[scale=0.9]{src/sequence_diagram/monitorEVCP.png}
     \end{figure}
 }
-{14}
+{12.2}
 {Monitor aggregate CPs} % name
 {CPO, OCPP compliant CP client} % actor
 {Authenticated CPO is in "Monitor status of CP" tab} % entry condition
@@ -538,12 +541,8 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
 
 \usecase
 {
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/reservationView.png}
-    \end{figure}
 }
-{15}
+{13.1}
 {View historical reservations} % name
 {CPO} % actor
 {Authenticated CPO is in "View reservations" tab} % entry condition
@@ -568,7 +567,7 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
         \includegraphics[scale=0.9]{src/sequence_diagram/ViewReservation.png}
     \end{figure}
 }
-{16}
+{13.2}
 {View active reservations} % name
 {CPO} % actor
 {Authenticated CPO is in "View reservations" tab} % entry condition
@@ -588,12 +587,38 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
 
 \usecase
 {
+}
+{14.1}
+{Retrieve price of energy} % name
+{CPO, DSO Energy Price Service} % actor
+{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP, choose "Retrieve price of energy" tab
+        \item The system asks DSO Energy Pricing Service the list of available DSOs with their prices
+        \item The DSO Energy Pricing Service replies with the list requested
+        \item The system shows the list of available DSOs with their prices
+    \end{enumerate}
+}
+{The details of price energy are displayed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    ...
+}
+
+\usecase
+{
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/chooseDSO.png}
+        \includegraphics[scale=0.9]{src/sequence_diagram/retrievePrices&chooseDSO.png}
     \end{figure}
 }
-{17}
+{14.2}
 {Choose DSO} % name
 {CPO, DSO Energy Pricing Service} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -627,7 +652,7 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
         \includegraphics[scale=0.9]{src/sequence_diagram/chooseEnergyMix.png}
     \end{figure}
 }
-{18}
+{15}
 {Choose energy mix} % name
 {CPO, EVCP Energy Storage System Managing Service} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -656,40 +681,10 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
 {
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/chooseDSO.png}
-    \end{figure}
-}
-{19}
-{Retrieve price of energy} % name
-{CPO, DSO Energy Price Service} % actor
-{Authenticated CPO is in "Manage CPs" tab} % entry condition
-{ % event flow
-    \begin{enumerate}
-        \item The operator choose a specific EVCP, choose "Retrieve price of energy" tab
-        \item The system asks DSO Energy Pricing Service the list of available DSOs with their prices
-        \item The DSO Energy Pricing Service replies with the list requested
-        \item The system shows the list of available DSOs with their prices
-    \end{enumerate}
-}
-{The details of price energy are displayed} % exit condition
-{ % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
-}
-{ % notes
-    ...
-}
-
-\usecase
-{
-    \begin{figure}[H]
-        \centering
         \includegraphics[scale=0.9]{src/sequence_diagram/changeStatusCP.png}
     \end{figure}
 }
-{20}
+{16}
 {Change Status of a CP} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -719,7 +714,7 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
         \includegraphics[scale=0.9]{src/sequence_diagram/addingCP.png}
     \end{figure}
 }
-{21}
+{17}
 {Adding a CP} % name
 {CPO, OCPP compliant CP client} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -751,7 +746,7 @@ TODO: metti registration con due subusecases (CPO e EV DRIVER) e unico sequence 
         \includegraphics[scale=0.9]{src/sequence_diagram/removingCP.png}
     \end{figure}
 }
-{22}
+{18}
 {Removing a CP} % name
 {CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
@@ -872,8 +867,10 @@ equal to 99.5, or more. In other words, the system must be inaccessible
 for less than two days every year. To achieve this goal, the system should
 provide a high redundancy for the most critical components.
 Furthermore, in order to guarantee better reliability performances, all
-the scheduled maintenance intervents on the system should be done during
+the scheduled maintenance on the system should be done during
 the night.
+It should also be noted that some functionality of the system relies on external APIs, though the system should not completely fail
+because of failure in one of those.
 
 \subsubsection{Security}
 The connection between the application and the server must be safe.
