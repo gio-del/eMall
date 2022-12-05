@@ -60,7 +60,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGE3eWUFmNd6Lw="
 							},
-							"name": "History of Reservation",
+							"name": "removingCP",
 							"ownedViews": [
 								{
 									"_type": "UMLFrameView",
@@ -81,9 +81,9 @@
 											"font": "Arial;13;0",
 											"left": 24.72998046875,
 											"top": 13,
-											"width": 128.8798828125,
+											"width": 72.525390625,
 											"height": 13,
-											"text": "History of Reservation"
+											"text": "removingCP"
 										},
 										{
 											"_type": "LabelView",
