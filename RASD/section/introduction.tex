@@ -1,22 +1,38 @@
 \section{Introduction}\label{intro}
 \subsection{Purpose}
-The following document is the RASD for the eMall - e-Mobility for All system. It provides
-a description of the system focusing on the requirements and specifications, developing scenarios and use cases
-to specify what the system must do, how it will interact with the stakeholders and the constraints it is subject to.
-
-\subsection{Scope}
 With the higher focus on the impact of our urban and suburban travel on the environment and the higher accessibility of electric mobility, an increase of circulating electric vehicles can be observed.
 \footnote{\url{https://www.eea.europa.eu/ims/new-registrations-of-electric-vehicles}} \footnote{\url{https://www.statista.com/statistics/1101415/number-of-electric-vehicles-by-type/}} \footnote{\href{https://www.eib.org/en/surveys/climate-survey/4th-climate-survey/hybrid-electric-petrol-cars-flying-holidays-climate.htm}{European Investment Bank Climate Survey}}
 This increase concerns both private vehicles and goods transporting ones.
 As a result of restrictions on fuel vehicle production and sell that will concern a large part of the world's population\footnote{\href{https://en.wikipedia.org/wiki/Phase-out\_of\_fossil\_fuel\_vehicles\#Places\_with\_planned\_fossil-fuel\_vehicle\_restrictions}{Places with planned fossil-fuel vehicle restrictions}}, the number of
 electric vehicle is still set to increase. For these reasons, the main vehicle manufacturers have started making huge investments in electric mobility\footnote{\href{https://en.wikipedia.org/wiki/Electric\_car\#EV\_plans\_from\_major\_manufacturers}{EV plans from major manufacturers}}, which will lead to greater accessibility to the market by drivers.\\
+
 A main problem of electric vehicles is that a full charge requires much more time than a fuel vehicle refuel.
 \footnote{\href{https://blinkcharging.com/fact-from-fiction-the-real-reason-why-consumers-dont-buy-electric-vehicles/?locale=en}{Why consumers don't buy electric vehicles}}
 Thus, a single charge can have a huge impact on our daily schedule, and it is necessary to plan wisely when and where to charge.
 Furthermore, some electric vehicle owners don't have the proper equipment to recharge at home, or their vehicle discharges in the middle of the road and the driver doesn't have the possibility to go home to recharge.\\
 To solve these problems is one of the main objective of the eMall - e-Mobility for All system.\\
 This system aims to develop an efficient planning of the charging process of electric vehicles that limits the carbon footprint caused by people mobility needs.\\\\
-The main actor in this system are the drivers and the CPOs - Charging Point Operators, who manage their charging columns, along with the DSOs - Distribution System Operator, in charge of distributing the energy.
+
+The following document is the RASD for the eMall - e-Mobility for All system. It provides
+a description of the system focusing on the requirements and specifications, developing scenarios and use cases
+to specify what the system must do, how it will interact with the stakeholders and the constraints it is subject to.
+
+\subsubsection{Goal}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{cX}
+        \toprule
+        \textbf{G1} & Allows EV - Electric Vehicle driver to plan efficiently their charging process                                   \\
+        \textbf{G2} & Allows EV - Electric Vehicle driver to have a single application for all the processes involving
+        the charge with a personalized experience based on the car and the user commitments                                            \\
+        \textbf{G3} & Allows CPOs - Charging Point Operators to be reached by a large number of EV drivers looking for charging points \\
+        \textbf{G4} & Provides smart managing of charging stations, including the register of reservations                             \\
+        \textbf{G5} & Allows CPOs - Charging Point Operators to choose between contracts of energy providers and
+        to determine the energy source mix                                                                                             \\ \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Scope}
+The main actors in this system are the drivers and the CPOs - Charging Point Operators, who manage their charging columns, along with the DSOs - Distribution System Operator, in charge of distributing the energy.
 The digital system eMall should provide three main features:
 \begin{itemize}
     \item \textbf{Booking} allows EV owners to book a charge. The remote booking avoids interference
@@ -69,28 +85,15 @@ The digital system eMall should provide three main features:
     \end{tabularx}
 \end{table}
 
-\subsubsection{Goal}
-\begin{table}[H]
-    \begin{tabularx}{\textwidth}{cX}
-        \toprule
-        \textbf{G1} & Allows EV - Electric Vehicle driver to plan efficiently their charging process                                   \\
-        \textbf{G2} & Allows EV - Electric Vehicle driver to have a single application for all the processes involving
-        the charge with a personalized experience based on the car and the user commitments                                            \\
-        \textbf{G3} & Allows CPOs - Charging Point Operators to be reached by a large number of EV drivers looking for charging points \\
-        \textbf{G4} & Provides smart managing of charging stations, including the register of reservations                             \\
-        \textbf{G5} & Allows CPOs - Charging Point Operators to choose between contracts of energy providers and
-        to determine the energy source mix                                                                                             \\ \bottomrule
-    \end{tabularx}
-\end{table}
-
 \subsection{Definitions, Acronyms, Abbreviations}
 
 \subsubsection{Definitions}
 \begin{itemize}
-    \item EVCP - Electric Vehicle Charging Pool, is a station with multiple CPs
-    \item CP - a synonym of EVSE, is a single charging column with multiple connectors
-    \item Connectors - is a charging socket which can be of different types (e.g. CCS2, Type2)
-    \item OCPP - Open Charge Point Protocol \footnote{\href{https://www.openchargealliance.org/protocols/ocpp-201/}{OCPP Protocol}}, todo
+    \item EV Driver - electric vehicle driver - people or entities who own an EV car and want to use the system for their charging needs
+    \item EVCP - Electric Vehicle Charging Pool - is a station with multiple CPs
+    \item CP - a synonym of EVSE - is a single charging column with multiple connectors
+    \item Connectors: charging sockets which can be of different types (e.g. CCS2, Type2)
+    \item OCPP - Open Charge Point Protocol \footnote{\href{https://www.openchargealliance.org/protocols/ocpp-201/}{OCPP Protocol}} - is a protocol that dictates the communication between CPMS and a controlled CP to achieve smart charging functionalities
 \end{itemize}
 
 \subsubsection{Acronyms}
@@ -110,29 +113,40 @@ The digital system eMall should provide three main features:
         \textbf{API}  & Application Programming Interface               \\
         \textbf{OCPP} & Open Charge Point Protocol                      \\
         \textbf{OS}   & Operative System                                \\
+        \textbf{VAT}  & Value-Added Tax (number)                        \\
+        \textbf{IBAN} & International Bank Account Number               \\
         \bottomrule
     \end{tabularx}
 \end{table}
-
+\vspace*{1cm}
 \subsubsection{Abbreviation}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
         \toprule
-        \textbf{WPx} & x-World Phenomena        \\
-        \textbf{SPx} & x-Shared Phenomena       \\
-        \textbf{Gx}  & x-Goal                   \\
-        \textbf{Dx}  & x-Domain Assumption      \\
-        \textbf{Rx}  & x-Functional Requirement \\
-        \textbf{Ux}  & x-Use Case               \\ \bottomrule
+        \textbf{WP$_x$}  & x-World Phenomena        \\
+        \textbf{SP$_x$}  & x-Shared Phenomena       \\
+        \textbf{G$_x$}   & x-Goal                   \\
+        \textbf{D$_x$}   & x-Domain Assumption      \\
+        \textbf{Dep$_x$} & x-Dependency             \\
+        \textbf{R$_x$}   & x-Functional Requirement \\
+        \textbf{U$_x$}   & x-Use Case               \\ \bottomrule
     \end{tabularx}
 \end{table}
 
 \subsection{Revision history}
-Nothing here
 
 \subsection{Reference Documents}
 Assignment document A.Y. 2022/2023 ("Requirement Engineering and Design Project: goal, schedule and rules")
 
 
 \subsection{Document Structure}
-Nothing here
+This document is composed of six sections:
+\begin{enumerate}
+    \item  we introduce the problem and the goals of the system to be. In the scope subsection
+          we provide a description of the various world and shared phenomena occurring. Lastly, we provide useful information to read this document properly, such as definitions and abbreviations
+    \item  we provide an overall description of the system, along with a description of the users and their main functionalities. Moreover domain diagrams are presented and several scenarios are described, lastly we provide the domain assumption of the system to be
+    \item  we specify the requirements of the system to be. This includes functional and non-functional requirements. Furthermore use cases diagrams are presented, along with a description of each use cases and a related sequence diagram. Lastly, we provide a mapping of the requirements on both goals and use cases
+    \item  we provide a formal analysis of the system to be with Alloy
+    \item  we provide an estimate of the effort spent by each group member
+    \item  we list the used references
+\end{enumerate}

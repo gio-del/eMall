@@ -1,51 +1,6 @@
 \section{Overall Description}
 
 \subsection{Product perspective}
-eMall helps on the first hand to manage to limit the carbon footprint caused by our urban and sub-urban mobility needs,
-providing a way to introduce minimal interference and constraints on the owner EV daily schedule;
-on the other hand the eMall helps the CPOs to manage remotely their EVCP.
-\vspace{1cm}
-\subsubsection{Entity diagram}
-The UML entity diagram below represents a conceptual, high-level model of
-the software to be. Given its nature, it may model objects that will not
-be represented in the actual system that will be developed. At this
-level, it not include any references to methods and other low-level
-details, those will be detailed during the design phase.
-\begin{figure}[H]
-      \centering
-      \includegraphics[scale=0.4]{src/domain_UML.png}
-\end{figure} \vspace{1cm}
-
-\subsubsection{State diagrams}
-In the paragraphs below, a representation of the behavior of the main conceptual
-components of the system. The focus is on how these components respond to
-external influences and modify accordingly their states. For this purpose,
-some UML State Charts are proposed:"
-The following state diagram represents the possible status of a charging point. 
-When is added to the system it results "available" until a the system requests to pass in "reserved" mode. 
-When it is in "reserved" status, only the user with the matching reservation can start a charge through the eMall APP. 
-When the user starts a charge the system communicates the charging point to change status in "charging". In this status
-the charging point performs the charge as expected and when the charge is ended, the system notify to modify the status 
-in "available" back again. From all of these status it is possible that for some sort of malfunction or manual intervention
-by the operators through the system forces the charging point to change the status in "out of order". The charging point will return "available"
-only when the operators decides to. 
-\begin{figure}[H]
-      \centering
-      \includegraphics[scale=0.25]{src/state_diagram/cp.png}
-      \caption{Charging Point state chart}
-\end{figure} \vspace{1cm}
-
-
-The following diagram describes the possible status for a reservation. 
-When a reservation is created through the APP it is in "not started" state. In the exact moment in which the time of the reservation starts
-then it passes in the "pending" status. Will remain in pending status until the charge is started or until the time for the reservation runs out.
-When the charge is started it is in "running" mode and when finishes is "completed" and archived in the list of past transaction.
-
-\begin{figure}[H]
-      \centering
-      \includegraphics[scale=0.25]{src/state_diagram/transaction.png}
-      \caption{Reservation state chart}
-\end{figure} \vspace{1cm}
 
 \subsubsection{Scenarios}
 \begin{enumerate}[label=\textbf{\Alph*}.]
@@ -101,42 +56,88 @@ When the charge is started it is in "running" mode and when finishes is "complet
             Then verifies the status of the others CP controlling that they work as intended.
 \end{enumerate}
 
-\subsection{Product functions todo:expand this description a little}
-As described above in this document, the major functions offered by our system to main actors are:\\
+\subsubsection{Entity diagram}
+The UML entity diagram below represents a conceptual, high-level model of
+the software to be. Given its nature, it may model objects that will not
+be represented in the actual system that will be developed. At this
+level, it not include any references to methods and other low-level
+details, those will be detailed during the design phase.
+\begin{figure}[H]
+      \centering
+      \includegraphics[scale=0.4]{src/domain_UML.png}
+\end{figure} \vspace{1cm}
+
+\subsubsection{State diagrams}
+In the paragraphs below, a representation of the behavior of the main conceptual
+components of the system. The focus is on how these components respond to
+external influences and modify accordingly their states. For this purpose,
+some UML State Charts are proposed:"
+The following state diagram represents the possible status of a charging point.
+When is added to the system it results "available" until a the system requests to pass in "reserved" mode.
+When it is in "reserved" status, only the user with the matching reservation can start a charge through the eMall APP.
+When the user starts a charge the system communicates the charging point to change status in "charging". In this status
+the charging point performs the charge as expected and when the charge is ended, the system notify to modify the status
+in "available" back again. From all of these status it is possible that for some sort of malfunction or manual intervention
+by the operators through the system forces the charging point to change the status in "out of order". The charging point will return "available"
+only when the operators decides to.
+\begin{figure}[H]
+      \centering
+      \includegraphics[scale=0.25]{src/state_diagram/cp.png}
+      \caption{Charging Point state chart}
+\end{figure} \vspace{1cm}
+
+
+The following diagram describes the possible status for a reservation.
+When a reservation is created through the APP it is in "not started" state. In the exact moment in which the time of the reservation starts
+then it passes in the "pending" status. Will remain in pending status until the charge is started or until the time for the reservation runs out.
+When the charge is started it is in "running" mode and when finishes is "completed" and archived in the list of past transaction.
+
+\begin{figure}[H]
+      \centering
+      \includegraphics[scale=0.25]{src/state_diagram/transaction.png}
+      \caption{Reservation state chart}
+\end{figure} \vspace{1cm}
+
+\subsection{Product functions}
+The major functions offered by our system to main actors are:
 \begin{itemize}
-      \item \textbf{EV driver's functions. The system allows to:}
+      \item \textbf{EV driver's functions}
             \begin{itemize}
-                  \item search in map
-                  \item view your current position
-                  \item indicate time interval of charging
-                  \item have suggestion on when to charge based on daily schedule and special offers
-                  \item specify the charging point in which you want charge
-                  \item book a charge
+                  \item \textbf{Search in Map}\\
+                        Users can retrieve charging points based on some filtering, such as location, connectors available and booking date
+                  \item \textbf{Receive smart charging suggestion}\\
+                        Users receive suggestions on when and where to charge based on their location, the battery status of their EV, their daily schedule and special offer by CPOs
+                  \item \textbf{Book a Charge}\\
+                        Users can book a charge in a given charging point for a specified time frame and a chosen date. They can also pay through the system for the service
             \end{itemize}
 \end{itemize}
 \begin{itemize}
-      \item \textbf{CPO's functions. The system allows to:}
+      \item \textbf{CPO's functions}
             \begin{itemize}
-                  \item monitor status of CPs
-                  \item add, modify and delete CP
-                  \item retrieve price of energy from the available DSOs
-                  \item manually change status of a CP
-                  \item view reservations on their CPs
-                  \item managing charging point
+                  \item \textbf{Monitor Status of CPs}\\
+                        CPOs can retrieve the status of their CPs. The status contains the details about current charging processes, aggregate or detailed views of energy consumption, profit by each CP, and any problem reported by customers
+                  \item \textbf{Manage DSOs contract}\\
+                        CPOs can retrieve a list of available DSOs in their operating area, along with their energy prices. They can also create contract with DSOs and start getting energy from them
+                  \item \textbf{Manually change status of a CP}\\
+                        CPOs can manually reserve CPs or decide to set up a maintenance task, e.g. following a malfunction
+                  \item \textbf{View reservations on their CPs}\\
+                        CPOs can see a list of historical and live reservations on their CPs. The system provides them an aggregate or detailed view of reservations
+                  \item \textbf{Managing CP}\\
+                        CPOs can add, delete and modify CP. The system gives the possibility to make special offer, change prices and choose an energy sources mix
             \end{itemize}
 \end{itemize}
 
 
-\subsection{User characteristics todo:insert background of actors}
+\subsection{User characteristics}
 It is possible to distinguish two different types of actors who use the system:
-\begin{enumerate}
-      \item EV's driver: someone who wants to book a charge. EV's driver wants to book remotely
-            avoids interference in his daily schedule, be notified when his/her reservation
-            is going to start and end, monitor charging process.
-      \item CPO: someone who wants to manage efficiently his/her EVCP, make statistics on live and historical details on the EVCP,
+\begin{itemize}
+      \item \textbf{EV driver}\\ People who want to book a charge remotely
+            avoiding interference in their daily schedule, be notified when their reservations
+            is going to start and end, monitor charging processes. Since there are not many statistical analyzes on tech-friendliness among EV drivers, the system must aim to be usable by as wide an audience as possible providing easy to use interfaces
+      \item \textbf{CPO}\\ People or entities who want to manage efficiently their EVCP, make statistics on live and historical details on the EVCP,
             to acquire information on the current price of energy offer by DSOs and to decide in an automated way
-            where to get energy for charging.
-\end{enumerate}
+            where to get energy for charging. Operators are expert people who know details not known to drivers, know how to efficiently use a dashboard to modify and obtain the information they need
+\end{itemize}
 
 
 \subsection{Assumptions, dependencies and constraints}
@@ -144,30 +145,33 @@ It is possible to distinguish two different types of actors who use the system:
 \begin{table}[H]
       \begin{tabularx}{\textwidth}{cX}
             \toprule
-            \textbf{D1}  & An EV driver arrives at the charging station at a time close to its reservation starting time \\
-            \textbf{D2}  & An EV driver leaves the charging station when the charge is finished                          \\
-            \textbf{D3}  & An EV driver doesn't occupy an already booked charging spot                                   \\
-            \textbf{D4}  & The accurate location of an EV driver is known by GPS                                         \\
-            \textbf{D5}  & An EV driver provides correct information when registering                                    \\
-            \textbf{D6}  & A CPO provides correct data of its EVSEs when registering                                     \\
-            \textbf{D7}  & At least one DSO can always provide energy to the CPOs                                        \\
-            \textbf{D8}  & An user that books a charge has an electric vehicle to charge                                 \\
-            \textbf{D9}  & An user that books a charge is always reliable                                                \\
-            \textbf{D10} & The external APIs are always reliable and working                                             \\
+            \textbf{D1} & An EV driver arrives at the charging station at a time close to its reservation starting time \\
+            \textbf{D2} & An EV driver leaves the charging station when the charge is finished                          \\
+            \textbf{D3} & An EV driver doesn't occupy an already booked charging spot                                   \\
+            \textbf{D4} & An EV driver provides correct information when registering                                    \\
+            \textbf{D5} & A CPO provides correct data of its EVSEs when registering                                     \\
+            \textbf{D6} & At least one DSO can always provide energy to the CPOs                                        \\
+            \textbf{D7} & An user that books a charge has an electric vehicle to charge                                 \\
+            \textbf{D8} & An user that books a charge is always reliable                                                \\
+            \textbf{D9} & The external APIs are always reliable and working                                             \\
             \bottomrule
       \end{tabularx}
 \end{table}
 \subsubsection*{Dependencies}
-\begin{itemize}
-      \item The system requires access to a third party maps API.
-      \item The system will use the GPS of the driver's computer or smartphone
-      \item The system will require internet connection to interact with all the users
-      \item The system will use an external API to retrieve the prices of energy by the available DSOs
-      \item The system will use an external API to retrieve the EV battery status and a list of EV available on the market
-      \item The system will use an external API to retrieve information about the status of an energy storage system and solar panels production in the EVCP
-      \item The system will use an external API to retrieve data or send data to the CPs
-      \item The system will use an external API to access the calendar of the usery
-      \item The system will use a payment gateway to perform payment operations
-      \item The system will use an external API to send push notification to the drivers
-      \item The system needs a third party API in order to send SMS to customers phones.
-\end{itemize}
+\begin{table}[H]
+      \begin{tabularx}{\textwidth}{cX}
+            \toprule
+            \textbf{Dep1}         & The system requires access to a third party maps API                                                                                             \\
+            \textbf{Dep2}         & The system will use the GPS of the driver's computer or smartphone                                                                               \\
+            \textbf{Dep3}         & The system will require internet connection to interact with all the users                                                                       \\
+            \textbf{Dep4}         & The system will use an external API to retrieve the prices of energy by the available DSOs                                                       \\
+            \textbf{Dep5}         & The system will use an external API to retrieve the EV battery status and a list of EV available on the market                                   \\
+            \textbf{Dep6TOREMOVE} & The system will use an external API to retrieve information about the status of an energy storage system and solar panels production in the EVCP \\
+            \textbf{Dep7}         & The system will use an external API to retrieve data or send data to the CPs                                                                     \\
+            \textbf{Dep8}         & The system will use an external API to access the calendar of the users                                                                          \\
+            \textbf{Dep9}         & The system will use a payment gateway to perform payment operations                                                                              \\
+            \textbf{Dep10}        & The system will use an external API to send push notification to the drivers                                                                     \\
+            \textbf{Dep11}        & The system will use a third party API to send SMS to customers phones                                                                            \\
+            \bottomrule
+      \end{tabularx}
+\end{table}
