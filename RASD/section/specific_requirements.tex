@@ -84,7 +84,6 @@ with all clients using HTTPS and TCP/IP.
     \item \textbf{GPS Service}: eMall system relies on GPS to obtain the location of the user and to show their position on the map
     \item \textbf{DSO Energy Pricing Service}: eMall system use this interface to obtain updated prices of the different DSOs available for the location of the EVCPs. The interface also, permits to select from which DSO acquire energy.
     \item \textbf{EV Service}: eMall system uses this interface that has a register that contains data about all the EVs around the world as the model, the manufacturer, the battery capacity, the efficiency, the range, the connector type and the maximum input power. It is also used to show the battery status of the user's car
-    \item \textbf{EVCP Energy Storage System Managing Service}: This interface is used to retrieve data about the energy store system status and the solar panel production and decide how to mix the sources of energy
     \item \textbf{OCPP compliant CP client}: eMall system relies on it to retrieve data or send data to the CPs
     \item \textbf{Calendar OS API}: The interface is used to identify which are the commitments and which are the free slots and suggest proactively when is more convenient to charge
     \item \textbf{Payment Gateway}: eMall system relies on it for processing every payment operation on the application
@@ -502,13 +501,11 @@ TODO: sistemare API EVCP ESS MS che va eliminata
 }
 {11}
 {Check energy in batteries} % name
-{CPO, EVCP Energy Storage System Managing Service} % actor
+{CPO} % actor
 {Authenticated CPO is in "Monitor status of EVCP" tab} % entry condition
 { % event flow
     \begin{enumerate}
         \item The operator choose a specific EVCP and clicks 'check energy in batteries'
-        \item The system calls EVCP Energy Storage System Managing Service to retrieve the energy storage status
-        \item The EVCP Energy Storage System Managing Service replies with the current status of the storage
         \item The system shows the energy storage status of the selected EVCP, if any
     \end{enumerate}
 }
@@ -697,16 +694,14 @@ TODO: sistemare API EVCP ESS MS che va eliminata
 }
 {15}
 {Choose energy mix} % name
-{CPO, EVCP Energy Storage System Managing Service} % actor
+{CPO} % actor
 {Authenticated CPO is in "Manage CPs" tab} % entry condition
 { % event flow
     \begin{enumerate}
         \item The operator chooses a specific EVCP, chooses "Choose energy mix" tab
         \item The system provides a list of available energy storing mode (maximize energy in battery, maximize self consumption, time of battery use)
-        \item The operator select one source of energy among the available ones and submit its choice to the system
-        \item The system sends to EVCP Energy Storage System Managing Service the choice of the operator
-        \item The EVCP Energy Storage System Managing Service replies with an ACK
-        \item The system shows a success message
+        \item The operator selects a strategy among the available ones and submit its choice to the system
+        \item The system processes the information and shows a success message
     \end{enumerate}
 }
 {The choice of an EVCP energy storing mode is completed} % exit condition
@@ -810,6 +805,36 @@ TODO: sistemare API EVCP ESS MS che va eliminata
     ...
 }
 
+\usecase
+{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{src/sequence_diagram/specialOffer.png}
+    \end{figure}
+}
+{19}
+{Add a special offer} % name
+{CPO} % actor
+{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator chooses a specific EVCP, selects a CP and clicks "Create a special offer" button
+        \item The system shows a form with which the operator can select a discount and a time slot or day of the week in which it is valid
+        \item The operator fills and submits the form
+        \item The system processes the information and shows a success message
+    \end{enumerate}
+}
+{The special offer is created} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    ...
+}
+
 \subsection{Functional Requirements}
 
 
@@ -817,19 +842,20 @@ TODO: sistemare API EVCP ESS MS che va eliminata
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
         \toprule
-        \textbf{R1}  & The system must allow unregistered operator to register an account                                                                                       \\
-        \textbf{R2}  & The system must allow authenticated CPOs making a special offer on their CPs prices                                                                      \\
-        \textbf{R3}  & The system must allow authenticated CPOs monitoring the charging process to infer when the battery is full                                               \\
-        \textbf{R4}  & The system must allow authenticated CPOs retrieving the amount of energy available in their EVCPs batteries                                              \\
-        \textbf{R5}  & The system must allow authenticated CPOs retrieving the number of vehicle being charged in their EVCPs and for each vehicle the amount of absorbed power \\
-        \textbf{R6}  & The system must allow authenticated CPOs retrieving the remaining charge time for each connected vehicle                                                 \\
-        \textbf{R7}  & The system must allow authenticated CPOs retrieving details on active and historical reservations on their EVCPs                                         \\
-        \textbf{R8}  & The system must allow authenticated CPOs acquiring information from the DSOs about the current price of energy                                           \\
-        \textbf{R9}  & The system must allow authenticated CPOs deciding from which DSO to acquire energy from                                                                  \\
-        \textbf{R10} & The system must dynamically decide where to get energy for charging (electrical grid, battery or a mixture)                                              \\
-        \textbf{R11} & The system must allow authenticated CPOs statically deciding where to get energy for charging (electrical grid, battery or a mixture)                    \\
-        \textbf{R12} & The system must allow authenticated CPOs adding, modifying and deleting CPs                                                                              \\
-        \textbf{R13} & The system must allow authenticated CPOs changing availability status of their CPs                                                                       \\
+        \textbf{R1}  & The system must allow unregistered CPO to register an account                                                                                            \\
+        \textbf{R2}  & The system must allow registered CPO to login                                                                                                            \\
+        \textbf{R3}  & The system must allow authenticated CPOs making a special offer on their CPs prices                                                                      \\
+        \textbf{R4}  & The system must allow authenticated CPOs monitoring the charging process to infer when the battery is full                                               \\
+        \textbf{R5}  & The system must allow authenticated CPOs retrieving the amount of energy available in their EVCPs batteries                                              \\
+        \textbf{R6}  & The system must allow authenticated CPOs retrieving the number of vehicle being charged in their EVCPs and for each vehicle the amount of absorbed power \\
+        \textbf{R7}  & The system must allow authenticated CPOs retrieving the remaining charge time for each connected vehicle                                                 \\
+        \textbf{R8}  & The system must allow authenticated CPOs retrieving details on active and historical reservations on their EVCPs                                         \\
+        \textbf{R9}  & The system must allow authenticated CPOs acquiring information from the DSOs about the current price of energy                                           \\
+        \textbf{R10} & The system must allow authenticated CPOs deciding from which DSO to acquire energy from                                                                  \\
+        \textbf{R11} & The system must dynamically decide where to get energy for charging (electrical grid, battery or a mixture)                                              \\
+        \textbf{R12} & The system must allow authenticated CPOs statically deciding where to get energy for charging (electrical grid, battery or a mixture)                    \\
+        \textbf{R13} & The system must allow authenticated CPOs adding, modifying and deleting CPs                                                                              \\
+        \textbf{R14} & The system must allow authenticated CPOs changing availability status of their CPs                                                                       \\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -837,43 +863,151 @@ TODO: sistemare API EVCP ESS MS che va eliminata
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
         \toprule
-        \textbf{R14} & The system must allow unregistered users to register an account                                                   \\
-        \textbf{R15} & The system must allow registered users to login                                                                   \\
-        \textbf{R16} & The system must allow authenticated users to personalize their experience by providing information of their EV    \\
-        \textbf{R17} & The system must allow users to search for CPs in the map                                                          \\
-        \textbf{R18} & The system must show to the users CPs nearby their current position                                               \\
-        \textbf{R19} & The system must allow retrieving details on a given CP regarding connector types supported and cost of the charge \\
-        \textbf{R20} & The system must allow authenticated user to book a CP for a certain time interval                                 \\
-        \textbf{R21} & The system must allow booking a CP if and only if it is free for the specified time interval                      \\
-        \textbf{R22} & The system must notify users when the charging shift is about to start                                            \\
-        \textbf{R23} & The system must allow authenticated users to start the charge                                                     \\
-        \textbf{R24} & The system must suggest users when to charge based on daily schedule, special offers and availability             \\
-        \textbf{R25} & The system must allow authenticated users to monitor the charging status                                          \\
-        \textbf{R26} & The system must notify authenticated users when the charging process is completed                                 \\
-        \textbf{R27} & The system must allow authenticated users to pay for the charge                                                   \\
-        \textbf{R28} & The system must allow authenticated users to delete a reservation                                                 \\
-        \textbf{R29} & The system must allow authenticated users to view historical reservations                                         \\ \bottomrule
+        \textbf{R15} & The system must allow unregistered users to register an account                                                   \\
+        \textbf{R16} & The system must allow registered users to login                                                                   \\
+        \textbf{R17} & The system must allow authenticated users to personalize their experience by providing information of their EV    \\
+        \textbf{R18} & The system must allow users to search for CPs in the map                                                          \\
+        \textbf{R19} & The system must show to the users CPs nearby their current position                                               \\
+        \textbf{R20} & The system must allow retrieving details on a given CP regarding connector types supported and cost of the charge \\
+        \textbf{R21} & The system must allow authenticated user to book a CP for a certain time interval                                 \\
+        \textbf{R22} & The system must allow booking a CP if and only if it is free for the specified time interval                      \\
+        \textbf{R23} & The system must notify users when the charging shift is about to start                                            \\
+        \textbf{R24} & The system must allow authenticated users to start the charge                                                     \\
+        \textbf{R25} & The system must suggest users when and where to charge based on daily schedule, special offers and availability   \\
+        \textbf{R26} & The system must allow authenticated users to monitor the charging status                                          \\
+        \textbf{R27} & The system must notify authenticated users when the charging process is completed                                 \\
+        \textbf{R28} & The system must allow authenticated users to pay for the charge                                                   \\
+        \textbf{R29} & The system must allow authenticated users to delete a reservation                                                 \\
+        \textbf{R30} & The system must allow authenticated users to view historical reservations                                         \\ \bottomrule
     \end{tabularx}
 \end{table}
 
 \subsubsection{Mapping on goals}
 \begin{table}[H]
-    \begin{tabularx}{\textwidth}{XXX}
+    \begin{tabularx}{\textwidth}{X}
         \toprule
-        \textbf{Goal} & \textbf{Requirements} & \textbf{Assumptions} \\ \midrule
-        G1            & R1,R2,R3              & D1,D2,D3             \\
-        G2            & esempio               & esempio              \\
-        G3            & esempio               & esempio              \\ \bottomrule
+        \textbf{G1} Allow EV driver to plan efficiently their charging process                                                       \\ \midrule
+        \textbf{Requirements}                                                                                                        \\ \midrule
+        \textbf{R1} The system must allow unregistered CPO to register an account                                                    \\
+        \textbf{R13} The system must allow authenticated CPOs adding, modifying and deleting CPs                                     \\
+        \textbf{R14} The system must allow authenticated CPOs changing availability status of their CPs                              \\
+        \textbf{R15} The system must allow unregistered users to register an account                                                 \\
+        \textbf{R16} The system must allow registered users to login                                                                 \\
+        \textbf{R18} The system must allow users to search for CPs in the map                                                        \\
+        \textbf{R19} The system must show to the users CPs nearby their current position                                             \\
+        \textbf{R21} The system must allow authenticated user to book a CP for a certain time interval                               \\
+        \textbf{R22} The system must allow booking a CP if and only if it is free for the specified time interval                    \\
+        \textbf{R25} The system must suggest users when and where to charge based on daily schedule, special offers and availability \\
+        \textbf{R28} The system must allow authenticated users to pay for the charge                                                 \\
+        \textbf{R29} The system must allow authenticated users to delete a reservation                                               \\ \midrule
+        \textbf{Domain Assumptions}                                                                                                  \\ \midrule
+        \textbf{D1} An EV driver arrives at the charging station at a time close to its reservation starting time                    \\
+        \textbf{D2} An EV driver leaves the charging station when the charge is finished                                             \\
+        \textbf{D3} An EV driver doesn't occupy an already booked charging spot                                                      \\
+        \textbf{D5} At least one DSO can always provide energy to the CPOs                                                           \\ \bottomrule
+    \end{tabularx}
+\end{table}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{X}
+        \toprule
+        \textbf{G2} Allow EV driver to have a single application for all the processes involving the charge with a personalized experience based on the car and the user commitments \\ \midrule
+        \textbf{Requirements}                                                                                                                                                        \\ \midrule
+        \textbf{R15} The system must allow unregistered users to register an account                                                                                                 \\
+        \textbf{R16} The system must allow registered users to login                                                                                                                 \\
+        \textbf{R17} The system must allow authenticated users to personalize their experience by providing information of their EV                                                  \\
+        \textbf{R18} The system must allow users to search for CPs in the map                                                                                                        \\
+        \textbf{R19} The system must show to the users CPs nearby their current position                                                                                             \\
+        \textbf{R20} The system must allow retrieving details on a given CP regarding connector types supported and cost of the charge                                               \\
+        \textbf{R21} The system must allow authenticated user to book a CP for a certain time interval                                                                               \\
+        \textbf{R23} The system must notify users when the charging shift is about to start                                                                                          \\
+        \textbf{R24} The system must allow authenticated users to start the charge                                                                                                   \\
+        \textbf{R25} The system must suggest users when and where to charge based on daily schedule, special offers and availability                                                 \\
+        \textbf{R26} The system must allow authenticated users to monitor the charging status                                                                                        \\
+        \textbf{R27} The system must notify authenticated users when the charging process is completed                                                                               \\
+        \textbf{R28} The system must allow authenticated users to pay for the charge                                                                                                 \\
+        \textbf{R29} The system must allow authenticated users to delete a reservation                                                                                               \\
+        \textbf{R30} The system must allow authenticated users to view historical reservations                                                                                       \\ \midrule
+        \textbf{Domain Assumptions}                                                                                                                                                  \\ \midrule
+        \textbf{Dep1}  The system requires access to a third party maps API                                                                                                          \\
+        \textbf{Dep2}  The system will use the GPS of the driver's computer or smartphone                                                                                            \\
+        \textbf{Dep3}  The system will require internet connection to interact with all the users                                                                                    \\
+        \textbf{Dep5}  The system will use an external API to retrieve the EV battery status and a list of EV available on the market                                                \\
+        \textbf{Dep7}  The system will use an external API to access the calendar of the users                                                                                       \\
+        \textbf{Dep8}  The system will use a payment gateway to perform payment operations                                                                                           \\
+        \textbf{Dep9}  The system will use an external API to send push notification to the drivers                                                                                  \\
+        \textbf{Dep10} The system will use a third party API to send SMS to customers phones                                                                                         \\ \bottomrule
+    \end{tabularx}
+\end{table}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{X}
+        \toprule
+        \textbf{G3} Allow CPOs to be reached by EV drivers looking for charging points                                                \\ \midrule
+        \textbf{Requirements}                                                                                                         \\ \midrule
+        \textbf{R1}  The system must allow unregistered CPO to register an account                                                    \\
+        \textbf{R3}  The system must allow authenticated CPOs making a special offer on their CPs prices                              \\
+        \textbf{R4}  The system must allow authenticated CPOs monitoring the charging process to infer when the battery is full       \\
+        \textbf{R7}  The system must allow authenticated CPOs retrieving the remaining charge time for each connected vehicle         \\
+        \textbf{R8}  The system must allow authenticated CPOs retrieving details on active and historical reservations on their EVCPs \\
+        \textbf{R13} The system must allow authenticated CPOs adding, modifying and deleting CPs                                      \\
+        \textbf{R14} The system must allow authenticated CPOs changing availability status of their CPs                               \\
+        \textbf{R15} The system must allow unregistered users to register an account                                                  \\
+        \textbf{R16} The system must allow registered users to login                                                                  \\
+        \textbf{R18} The system must allow users to search for CPs in the map                                                         \\
+        \textbf{R21} The system must allow authenticated user to book a CP for a certain time interval                                \\
+        \textbf{R24} The system must allow authenticated users to start the charge                                                    \\
+        \textbf{R25} The system must suggest users when and where to charge based on daily schedule, special offers and availability  \\
+        \textbf{R27} The system must notify authenticated users when the charging process is completed                                \\
+        \textbf{R28} The system must allow authenticated users to pay for the charge                                                  \\ \midrule
+        \textbf{Domain Assumptions}                                                                                                   \\ \midrule
+        \textbf{D2} An EV driver leaves the charging station when the charge is finished                                              \\
+        \textbf{D3} An EV driver doesn't occupy an already booked charging spot                                                       \\
+        \textbf{D5} At least one DSO can always provide energy to the CPOs                                                            \\
+        \textbf{D6} An user that books a charge has an electric vehicle to charge                                                     \\
+        \textbf{D7} An user that books a charge is always reliable                                                                    \\    \bottomrule
+    \end{tabularx}
+\end{table}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{X}
+        \toprule
+        \textbf{G4} Provide smart managing of charging stations, including the register of reservations                                                                       \\ \midrule
+        \textbf{Requirements}                                                                                                                                                 \\ \midrule
+        \textbf{R1}  The system must allow unregistered CPO to register an account                                                                                            \\
+        \textbf{R4}  The system must allow authenticated CPOs monitoring the charging process to infer when the battery is full                                               \\
+        \textbf{R6}  The system must allow authenticated CPOs retrieving the number of vehicle being charged in their EVCPs and for each vehicle the amount of absorbed power \\
+        \textbf{R7}  The system must allow authenticated CPOs retrieving the remaining charge time for each connected vehicle                                                 \\
+        \textbf{R8}  The system must allow authenticated CPOs retrieving details on active and historical reservations on their EVCPs                                         \\
+        \textbf{R13} The system must allow authenticated CPOs adding, modifying and deleting CPs                                                                              \\
+        \textbf{R14} The system must allow authenticated CPOs changing availability status of their CPs                                                                       \\ \midrule
+        \textbf{Domain Assumptions}                                                                                                                                           \\ \midrule
+        \textbf{D5}    At least one DSO can always provide energy to the CPOs                                                                                                 \\
+        \textbf{Dep3}  The system will require internet connection to interact with all the users                                                                             \\
+        \textbf{Dep6}  The system will use an external API to retrieve data or send data to the CPs                                                                           \\ \bottomrule
+    \end{tabularx}
+\end{table}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{X}
+        \toprule
+        \textbf{G5} Allow CPOs to choose between contracts of energy providers and to determine the energy source mix                                      \\ \midrule
+        \textbf{Requirements}                                                                                                                              \\ \midrule
+        \textbf{R5}  The system must allow authenticated CPOs retrieving the amount of energy available in their EVCPs batteries                           \\
+        \textbf{R9}  The system must allow authenticated CPOs acquiring information from the DSOs about the current price of energy                        \\
+        \textbf{R10}  The system must allow authenticated CPOs deciding from which DSO to acquire energy from                                              \\
+        \textbf{R11} The system must dynamically decide where to get energy for charging (electrical grid, battery or a mixture)                           \\
+        \textbf{R12} The system must allow authenticated CPOs statically deciding where to get energy for charging (electrical grid, battery or a mixture) \\  \midrule
+        \textbf{Domain Assumptions}                                                                                                                        \\ \midrule
+        \textbf{D5}   At least one DSO can always provide energy to the CPOs                                                                               \\
+        \textbf{Dep3} The system will require internet connection to interact with all the users                                                           \\
+        \textbf{Dep4} The system will use an external API to retrieve the prices of energy by the available DSOs                                           \\  \bottomrule
     \end{tabularx}
 \end{table}
 \subsubsection{Mapping on use cases}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{XXX}
         \toprule
-        \textbf{Goal} & \textbf{Requirements} & \textbf{Assumptions} \\ \midrule
-        U1            & R1,R2,R3              & D1,D2,D3             \\
-        U2            & esempio               & esempio              \\
-        U3            & esempio               & esempio              \\ \bottomrule
+        \textbf{Use Case} & \textbf{Requirements} \\ \midrule
+        U1                & R1,R2,R3              \\
+        U2                & esempio               \\
+        U3                & esempio               \\ \bottomrule
     \end{tabularx}
 \end{table}
 
