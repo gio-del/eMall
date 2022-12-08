@@ -4,7 +4,7 @@ main.fls
 main.log
 main.synctex.gz
 *.aux
-*.pdf
+/*.pdf
 *.toc
 *.log
 *.out
