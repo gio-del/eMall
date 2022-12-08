@@ -65,20 +65,17 @@ TODO: add an introduction
 
 
 \subsubsection{Hardware Interfaces}
-To use the system, both EV drivers and CPOs must use a mobile device or a personal computer.
-Due to the outdoor expected use of the system, a smartphone will be more suitable device
+To use the system, both EV drivers and CPOs must have a mobile device or a personal computer.
+Due to the outdoor expected use of the system, a smartphone will be more a suitable device
 for a EV driver, instead for a CPO is suggested to use the system from a personal computer.
-
-
-\subsubsection{Software Interfaces}
-The system should relies on various external services accessible via uniform web API. These services are:
-
+The system is based on the ability of gathering data from different sources, such as the CP, the battery storage that may be present in an EVCP and the battery status of an EV. These data are provided through hardware interfaces that are external
+to our system, and we assume that an API let the system access to these data
 
 \subsubsection{Communication Interfaces}
 The system requires a stable internet connection to work properly.
 The backend of the system will expose a unified REST compliant API to communicate
-with all clients (both CPOs and EV drivers) using HTTPS and TCP/IP.
-\\Furthermore, the system relies on various external accessible via uniform web API. These services are:
+with all clients using HTTPS and TCP/IP.
+\\Furthermore, the system relies on various external interfaces accessible via uniform web API. These services are:
 \begin{itemize}
     \item \textbf{Map Service}: eMall system relies on a map service to get the map and to do operations on the map which is the central component of the application.
     \item \textbf{GPS Service}: eMall system relies on GPS to obtain the location of the user and to show their position on the map
@@ -289,7 +286,7 @@ TODO: sistemare API EVCP ESS MS che va eliminata
 {The filtered markers are displayed}
 {
     \begin{itemize}
-        \item The result of geolocalization of the specified address is not defined
+        \item The result of geo-localization of the specified address is not defined
     \end{itemize}
 }
 {
@@ -878,17 +875,14 @@ TODO: sistemare API EVCP ESS MS che va eliminata
 \end{table}
 
 \subsection{Performance Requirements}
-The requirements of the system are not critical, so these performance requirements
-are focus on guarantee the best of possible experience to both EV drivers and CPOs.
-To do that, the system should provide:
+To guarantee the best possible experience to both EV drivers and CPOs, the system should:
 \begin{itemize}
-    \item a scalable, reactive and load-balancing backend
-    \item the visualization of the map in 5 seconds, or less;
-    \item the list of active and historical reservations in less than 5 seconds;
-    \item the booking confirmation in 7 seconds, or less;
-    \item the loading of the available time slots for a specific charging point in less than 5 seconds;
-    \item push app notification with a delay that is imperceptible to the user.
-    \item Notice that a good internet connection is assumed in the previous estimations.
+    \item provide a scalable, reactive and capable of load-balancing backend
+    \item assure protection against DDoS attacks
+    \item provide a responsive and fluid frontend. The frontend must handle correctly asynchronous interactions
+          with the server, even when the connection quality is bad, in order to provide the best possible experience
+    \item push notification with a delay that is imperceptible to the user
+    \item be able to handle a number of users that increases with the growth of the EV market, starting from a base of 10,000 concurrent users
 \end{itemize}
 
 \subsection{Design Constraints}
@@ -897,35 +891,53 @@ To do that, the system should provide:
 \subsubsection{Standards compliance}
 Specifications described in this document must be respected by the system.
 Source code of the application must be commented on and documented adequately.
-The system should respect the line guides described by the European GDPR.
+The system should respect the guidelines described by the GDPR.
 
 \subsubsection{Hardware limitations}
 The system requires any device and a stable internet connection.
 
 \subsection{Software System Attributes}
-
-\subsubsection{Availability and Reliability}
-The system should offer its functionalities with an availability
-equal to 99.5, or more. In other words, the system must be inaccessible
-for less than two days every year. To achieve this goal, the system should
-provide a high redundancy for the most critical components.
-Furthermore, in order to guarantee better reliability performances, all
-the scheduled maintenance on the system should be done during
+\subsubsection{Reliability}
+In order to guarantee better reliability performances, all
+the scheduled maintenance of the system should be done during
 the night.
 It should also be noted that some functionality of the system relies on external APIs, though the system should not completely fail
-because of failure in one of those.
+because of failure in one of those. It's also important to avoid data loss through redundant storage methods.
+
+\subsubsection{Availability}
+The system should offer its functionalities with an availability
+equal to 99.5\%, or more. In other words, the system must be inaccessible
+for less than two days every year. To achieve this goal, the system should
+provide a high redundancy for the most critical components.
+
 
 \subsubsection{Security}
-The connection between the application and the server must be safe.
-System use the TLS (Transport Layer Security) protocol.
-To do that for this purpose, it is needed an SSL/TSL certificate.
-Moreover, all passwords must be encrypted
+To protect users sensible data the system must collect the minimum data possible, and store them in an encrypted database.
+The connection between the application must follows modern standard protocols as HTTPS. Do note that not only phone number and password should be considered as sensible data, but also users location, EV details and reservations.
+Moreover, all passwords must be salted and encrypted.
 
 \subsubsection{Maintainability}
 Source code and correlated documentation must be commented and kept updated.
 Modularity, low coupling and high cohesion between components must be a focus during the
-designing and developing phases.
+designing and developing phases. In particular modularity of the frontend and backend must allow developers to update the backend without users even noticing it.
 
 \subsubsection{Portability}
-The system is a web application so it will be supported by any device with
-a modern browser.
+The application must be available on major mobile OSs targeting at least the current
+release. The web application must run at least on the most recent
+browsers. It would be a smart choice to reuse most of the codebase
+across mobile and web by using cross platform tools.
+
+\subsubsection*{Summary of Non Functional Requirements}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{cX}
+        \toprule
+        \textbf{NFR1} & The backend of the system must be scalable and flexible (e.g. allocate resources based on the users to be served) to support a variable number of users over time \\
+        \textbf{NFR2} & The frontend of the system must be responsive, fluid and easy to use                                                                                              \\
+        \textbf{NFR3} & The system must respect the guidelines of the GDPR                                                                                                                \\
+        \textbf{NFR4} & The availability of the system must be greater or equal to 99.5\%                                                                                                 \\
+        \textbf{NFR5} & The system must collect the minimum amount of data possible and encrypt those data                                                                                \\
+        \textbf{NFR6} & The system must be easily maintainable                                                                                                                            \\
+        \textbf{NFR7} & The system must be usable on modern browsers and major mobile OSs                                                                                                 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}

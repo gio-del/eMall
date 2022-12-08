@@ -99,9 +99,10 @@ When the charge is started it is in "running" mode and when finishes is "complet
 \end{figure} \vspace{1cm}
 
 \subsection{Product functions}
-The major functions offered by our system to main actors are:
+The major functions offered by our system are organized according to the stakeholder that is being addressed
 \begin{itemize}
-      \item \textbf{EV driver's functions}
+      \item \textbf{EV driver's functions}\\
+            The person that owns the EV to be smart charged. The function provided to the EV drivers aim to reduce the impact of charging processes on their daily schedule
             \begin{itemize}
                   \item \textbf{Search in Map}\\
                         Users can retrieve charging points based on some filtering, such as location, connectors available and booking date
@@ -112,7 +113,8 @@ The major functions offered by our system to main actors are:
             \end{itemize}
 \end{itemize}
 \begin{itemize}
-      \item \textbf{CPO's functions}
+      \item \textbf{CPO's functions}\\
+            The operator, person or entity, that manage the charging point at which the driver recharge their EV
             \begin{itemize}
                   \item \textbf{Monitor Status of CPs}\\
                         CPOs can retrieve the status of their CPs. The status contains the details about current charging processes, aggregate or detailed views of energy consumption, profit by each CP, and any problem reported by customers
@@ -141,7 +143,7 @@ It is possible to distinguish two different types of actors who use the system:
 
 
 \subsection{Assumptions, dependencies and constraints}
-\subsubsection*{Domain Assumptions}
+\subsubsection{Domain Assumptions}
 \begin{table}[H]
       \begin{tabularx}{\textwidth}{cX}
             \toprule
@@ -157,7 +159,7 @@ It is possible to distinguish two different types of actors who use the system:
             \bottomrule
       \end{tabularx}
 \end{table}
-\subsubsection*{Dependencies}
+\subsubsection{Dependencies}
 \begin{table}[H]
       \begin{tabularx}{\textwidth}{cX}
             \toprule
@@ -175,3 +177,11 @@ It is possible to distinguish two different types of actors who use the system:
             \bottomrule
       \end{tabularx}
 \end{table}
+\subsubsection{Constraints}
+\begin{itemize}
+      \item The system shall be compliant to local laws and regulations, in particular users data should be treated
+      according to the GDPR. This means that users should be always able to request their data
+      \item The system should collect only necessary data, such as the user telephone number
+      \item To better protect the users’ sensitive information, such as their telephone number and credentials, their data should be
+      encrypted
+\end{itemize}
