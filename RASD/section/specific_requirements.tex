@@ -105,7 +105,7 @@ with all clients using HTTPS and TCP/IP.
 
 
 \subsection{Use cases}
-TODO: sistemare API EVCP ESS MS che va eliminata
+
 \subsubsection{Use case diagrams}
 
 \vspace*{3cm}
@@ -165,7 +165,6 @@ TODO: sistemare API EVCP ESS MS che va eliminata
 
 \usecase
 {
-    \dots % todo: insert figure of sequence diagram
 }
 {2.1}
 {CPO registration} % name
@@ -259,7 +258,6 @@ TODO: sistemare API EVCP ESS MS che va eliminata
 
 \usecase
 {
-    \dots % todo: insert figure of sequence diagram
 }
 {3.2}
 {Map filtering by connector}
@@ -1016,10 +1014,26 @@ TODO: sistemare API EVCP ESS MS che va eliminata
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{XXX}
         \toprule
-        \textbf{Use Case} & \textbf{Requirements} \\ \midrule
-        U1                & R1,R2,R3              \\
-        U2                & esempio               \\
-        U3                & esempio               \\ \bottomrule
+        \textbf{Use Case}                       & \textbf{Requirements} \\ \midrule
+        U1 - Login                              & R2 R16                \\
+        U2 - Registration                       & R1 R15                \\
+        U3 - Map Filtering                      & R18 R19               \\
+        U4 - EVCP Details                       & R20                   \\
+        U5 - Book a Charge                      & R21 R22 R28           \\
+        U6 - Start a Charge                     & R24                   \\
+        U7 - Insert Car Details                 & R17                   \\
+        U8 - (EV Driver) History of Reservation & R26 R30               \\
+        U9 - Details of the current charge      & R26                   \\
+        U10 - Delete a reservation              & R29                   \\
+        U11 - Check energy in batteries         & R5                    \\
+        U12 - CP Monitoring                     & R4 R6 R7              \\
+        U13 - CPO reservation view              & R8                    \\
+        U14 - DSO managing                      & R9 R10                \\
+        U15 - Choose energy mix                 & R11 R12               \\
+        U16 - Change status of a CP             & R14                   \\
+        U17 - Adding a CP                       & R13                   \\
+        U18 - Removing a CP                     & R13                   \\
+        U19 - Add a special offer               & R3                    \\ \bottomrule
     \end{tabularx}
 \end{table}
 
