@@ -1,12 +1,28 @@
 \section{Formal Analysis Using Alloy}
+Alloy is a specification language for describing, designing, and verifying the behavior of complex systems.
+The language is based on first-order logic, and has a mathematical foundation that allows for automated reasoning
+about the correctness of designs.
 \subsection{Objectives of the analysis}
 The main goal of the formal analysis is to formally describe the domain and properties of the system to be.
 This goal is reachable modelling and formally representing the following entities:
 \begin{itemize}
-\item actors of the system to be;
-\item reservations
-\item status of a reservation;
+    \item actors of the system to be;
+    \item reservations
+    \item status of a reservation;
 \end{itemize}
-Moreover, the purpose is also to model:
 
-Further constraints and details are directly provided as comments in the following code. There are present also the definition of several assertions and predicates.
+\subsubsection{Reservation Model}
+Description for the first model
+\lstinputlisting[language=C, basicstyle=\ttfamily\footnotesize]{src/alloy/reservationModel.als}
+\begin{figure}[H]
+    \centering
+    %\includegraphics[width=1\textwidth]{alloy/firstmodel.png} the image of the world
+\end{figure}
+
+\subsubsection{A title for the second model}
+Description for the second model
+\lstinputlisting[language=C, basicstyle=\ttfamily\footnotesize]{src/alloy/secondmodel.als}
+\begin{figure}[H]
+    \centering
+    %\includegraphics[width=1\textwidth]{alloy/secondmodel.png} the image of the world
+\end{figure}
