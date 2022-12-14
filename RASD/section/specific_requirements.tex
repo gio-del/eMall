@@ -447,6 +447,7 @@ with all clients using HTTPS and TCP/IP.
 {
 }
 
+\pagebreak
 \usecase
 {
     \begin{figure}[H]
@@ -512,10 +513,10 @@ with all clients using HTTPS and TCP/IP.
 {11}
 {Check energy in batteries} % name
 {CPO} % actor
-{Authenticated CPO is in "Monitor status of EVCP" tab} % entry condition
+{Authenticated CPO is in "Energy" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator choose a specific EVCP and clicks 'check energy in batteries'
+        \item The operator choose a specific EVCP
         \item The system shows the energy storage status of the selected EVCP, if any
     \end{enumerate}
 }
@@ -537,12 +538,10 @@ with all clients using HTTPS and TCP/IP.
 {12.1}
 {Monitor specific CP} % name
 {CPO, OCPP compliant CP client} % actor
-{Authenticated CPO is in "Monitor status of CP" tab} % entry condition
+{Authenticated CPO is in "Charging Points" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator choose a specific EVCP and clicks "monitor specific CP"
-        \item The system shows the list of CPs and ask operator to choose one
-        \item The operator selects a CP
+        \item The operator and clicks a specific CP
         \item The system asks CP, through OCPP, details of its status
         \item The CP replies, through OCPP, with the status
         \item The system shows the details of the chosen CP
@@ -567,15 +566,15 @@ with all clients using HTTPS and TCP/IP.
     \end{figure}
 }
 {12.2}
-{Monitor aggregate CPs} % name
+{Monitor CPs} % name
 {CPO, OCPP compliant CP client} % actor
-{Authenticated CPO is in "Monitor status of CP" tab} % entry condition
+{Authenticated CPO} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator choose a specific EVCP and clicks "monitor aggregate CPs"
+        \item The operator clicks "Charging Points" tab
         \item The system asks all the CPs, through OCPP, the details of their status
         \item The CPs reply, through OCPP, with their status
-        \item The system aggregate data and shows charts with detailed views of CPs
+        \item The system shows a table with detailed views of CPs
     \end{enumerate}
 }
 {The aggregate CPs details charts are displayed} % exit condition
@@ -595,10 +594,11 @@ with all clients using HTTPS and TCP/IP.
 {13.1}
 {View historical reservations} % name
 {CPO} % actor
-{Authenticated CPO is in "View reservations" tab} % entry condition
+{Authenticated CPO} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator choose a specific EVCP, choose "historical reservation" tab, and sets a specific time frame
+
+        \item The operator clicks "Charging Points" tab
         \item The system shows the reservation details of the chosen EVCP during the chosen time frame
     \end{enumerate}
 }
