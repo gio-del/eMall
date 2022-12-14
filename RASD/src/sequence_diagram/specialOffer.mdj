@@ -94,7 +94,7 @@
 									"font": "Arial;13;0",
 									"top": 8,
 									"width": 433,
-									"height": 441,
+									"height": 425,
 									"nameLabel": {
 										"$ref": "AAAAAAGE82BEHDB/Lj8="
 									},
@@ -202,13 +202,13 @@
 											"left": 56,
 											"top": 105,
 											"width": 1,
-											"height": 336
+											"height": 312
 										}
 									],
 									"font": "Arial;13;0",
 									"top": 40,
 									"width": 111.8544921875,
-									"height": 401,
+									"height": 377,
 									"stereotypeDisplay": "icon",
 									"showType": false,
 									"nameCompartment": {
@@ -260,7 +260,7 @@
 													"top": 47,
 													"width": 62.736328125,
 													"height": 13,
-													"text": "Lifeline1"
+													"text": "eMall"
 												},
 												{
 													"_type": "LabelView",
@@ -319,14 +319,14 @@
 											"left": 380,
 											"top": 80,
 											"width": 1,
-											"height": 361
+											"height": 337
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 344,
 									"top": 40,
 									"width": 72.736328125,
-									"height": 401,
+									"height": 377,
 									"nameCompartment": {
 										"$ref": "AAAAAAGE82ThUTC0924="
 									},
@@ -476,7 +476,7 @@
 												"$ref": "AAAAAAGE82X+mDD2WLQ="
 											},
 											"edgePosition": 1,
-											"text": "getManageCPView()"
+											"text": "getCPView(IDcp)"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -587,7 +587,7 @@
 												"$ref": "AAAAAAGE82ot4zEQCqA="
 											},
 											"edgePosition": 1,
-											"text": "manageCPView"
+											"text": "CPView"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -811,7 +811,7 @@
 												"$ref": "AAAAAAGE82xPPTE/tBA="
 											},
 											"edgePosition": 1,
-											"text": "addSpecialOffer()"
+											"text": "addSpecialRate()"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -1145,7 +1145,7 @@
 												"$ref": "AAAAAAGE821vmjGG0Hw="
 											},
 											"edgePosition": 1,
-											"text": "manageCPView"
+											"text": "CPView"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -1251,13 +1251,14 @@
 							"_parent": {
 								"$ref": "AAAAAAGE82BEGjB8v/4="
 							},
-							"name": "getManageCPView()",
+							"name": "getCPView",
 							"source": {
 								"$ref": "AAAAAAGE82QKPDCQ9Rs="
 							},
 							"target": {
 								"$ref": "AAAAAAGE82ThUTCypvA="
-							}
+							},
+							"arguments": "IDcp"
 						},
 						{
 							"_type": "UMLMessage",
@@ -1265,7 +1266,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGE82BEGjB8v/4="
 							},
-							"name": "manageCPView",
+							"name": "CPView",
 							"source": {
 								"$ref": "AAAAAAGE82ThUTCypvA="
 							},
@@ -1293,7 +1294,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGE82BEGjB8v/4="
 							},
-							"name": "addSpecialOffer()",
+							"name": "addSpecialRate()",
 							"source": {
 								"$ref": "AAAAAAGE82QKPDCQ9Rs="
 							},
@@ -1337,7 +1338,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGE82BEGjB8v/4="
 							},
-							"name": "manageCPView",
+							"name": "CPView",
 							"source": {
 								"$ref": "AAAAAAGE82ThUTCypvA="
 							},
@@ -1366,7 +1367,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGE82BEGjB8v/4="
 							},
-							"name": "Lifeline1",
+							"name": "eMall",
 							"represent": {
 								"$ref": "AAAAAAGE82ThUTCxEd0="
 							},
@@ -1393,8 +1394,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGE82BEGTB7So8="
 					},
-					"name": "Role2",
-					"type": ""
+					"name": "Role2"
 				}
 			]
 		}

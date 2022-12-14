@@ -486,7 +486,7 @@
 												"$ref": "AAAAAAGE3efcIWP0Kjc="
 											},
 											"edgePosition": 1,
-											"text": "getReservationView"
+											"text": "getReservationView()"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -926,7 +926,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGE3eWUFmNd6Lw="
 							},
-							"name": "getReservationView",
+							"name": "getReservationView()",
 							"source": {
 								"$ref": "AAAAAAGE3ebX22NxEiw="
 							},

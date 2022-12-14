@@ -510,65 +510,10 @@ with all clients using HTTPS and TCP/IP.
 {
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/checkEnergy.png}
-    \end{figure}
-}
-{11}
-{Check energy in batteries} % name
-{CPO} % actor
-{Authenticated CPO is in "Energy" tab} % entry condition
-{ % event flow
-    \begin{enumerate}
-        \item The operator choose a specific EVCP
-        \item The system shows the energy storage status of the selected EVCP, if any
-    \end{enumerate}
-}
-{The 'Check energy in batteries' chart is shown} % exit condition
-{ % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
-}
-{ % notes
-    ...
-}
-
-\usecase
-{
-
-}
-{12.1}
-{Monitor specific CP} % name
-{CPO, OCPP compliant CP client} % actor
-{Authenticated CPO is in "Charging Points" tab} % entry condition
-{ % event flow
-    \begin{enumerate}
-        \item The operator and clicks a specific CP
-        \item The system asks CP, through OCPP, details of its status
-        \item The CP replies, through OCPP, with the status
-        \item The system shows the details of the chosen CP
-    \end{enumerate}
-}
-{The details of the specific CP are displayed} % exit condition
-{ % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
-}
-{ % notes
-    ...
-}
-
-\usecase
-{
-    \begin{figure}[H]
-        \centering
         \includegraphics[scale=0.9]{src/sequence_diagram/monitorEVCP.png}
     \end{figure}
 }
-{12.2}
+{11}
 {Monitor CPs} % name
 {CPO, OCPP compliant CP client} % actor
 {Authenticated CPO} % entry condition
@@ -593,67 +538,21 @@ with all clients using HTTPS and TCP/IP.
 
 \usecase
 {
+    
 }
-{13.1}
-{View historical reservations} % name
-{CPO} % actor
-{Authenticated CPO} % entry condition
+{12.1}
+{Monitor specific CP} % name
+{CPO, OCPP compliant CP client} % actor
+{Authenticated CPO is in "Charging Points" tab} % entry condition
 { % event flow
     \begin{enumerate}
-
-        \item The operator clicks "Charging Points" tab
-        \item The system shows the reservation details of the chosen EVCP during the chosen time frame
+        \item The operator selects a specific CP
+        \item The system asks CP, through OCPP, details of its status
+        \item The CP replies, through OCPP, with the status
+        \item The system shows the details of the chosen CP
     \end{enumerate}
 }
-{The details of the historical reservations are displayed} % exit condition
-{ % exceptions
-    No exception in this use case
-}
-{ % notes
-    ...
-}
-
-\usecase
-{
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/ViewReservation.png}
-    \end{figure}
-}
-{13.2}
-{View active reservations} % name
-{CPO} % actor
-{Authenticated CPO is in "View reservations" tab} % entry condition
-{ % event flow
-    \begin{enumerate}
-        \item The operator choose a specific EVCP, choose "active reservation" tab
-        \item The system shows a list of active reservation for the chosen EVCP
-    \end{enumerate}
-}
-{The details of the active reservations are displayed} % exit condition
-{ % exceptions
-    No exception in this use case
-}
-{ % notes
-    ...
-}
-
-\usecase
-{
-}
-{14.1}
-{Retrieve price of energy} % name
-{CPO, DSO Energy Price Service} % actor
-{Authenticated CPO is in "Manage CPs" tab} % entry condition
-{ % event flow
-    \begin{enumerate}
-        \item The operator choose a specific EVCP, choose "Retrieve price of energy" tab
-        \item The system asks DSO Energy Pricing Service the list of available DSOs with their prices
-        \item The DSO Energy Pricing Service replies with the list requested
-        \item The system shows the list of available DSOs with their prices
-    \end{enumerate}
-}
-{The details of price energy are displayed} % exit condition
+{The details of the specific CP are displayed} % exit condition
 { % exceptions
     \begin{itemize}
         \item Loss of internet connection
@@ -668,83 +567,19 @@ with all clients using HTTPS and TCP/IP.
 {
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/retrievePrices&chooseDSO.png}
+        \includegraphics[scale=0.9]{src/sequence_diagram/monitorSpecificCP.png}
     \end{figure}
 }
-{14.2}
-{Choose DSO} % name
-{CPO, DSO Energy Pricing Service} % actor
-{Authenticated CPO is in "Manage CPs" tab} % entry condition
-{ % event flow
-    \begin{enumerate}
-        \item The operator choose a specific EVCP, choose "Choose DSO" tab
-        \item The system asks DSO Energy Pricing Service the list of available DSOs with their prices
-        \item The DSO Energy Pricing Service replies with the list requested
-        \item The system shows the list of available DSOs with their prices
-        \item The operator selects a DSO and submit its choice to the system
-        \item The system asks DSO Energy Pricing Service to acquire energy from the chosen DSO for the specified EVCP
-        \item The DSO Energy Pricing Service replies with an ACK
-        \item The system shows a success message
-    \end{enumerate}
-}
-{The choice of DSO is completed} % exit condition
-{ % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
-}
-{ % notes
-    ...
-}
-
-\usecase
-{
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/chooseEnergyMix.png}
-    \end{figure}
-}
-{15}
-{Choose energy mix} % name
-{CPO} % actor
-{Authenticated CPO is in "Manage CPs" tab} % entry condition
-{ % event flow
-    \begin{enumerate}
-        \item The operator chooses a specific EVCP, chooses "Choose energy mix" tab
-        \item The system provides a list of available energy storing mode (maximize energy in battery, maximize self consumption, time of battery use)
-        \item The operator selects a strategy among the available ones and submit its choice to the system
-        \item The system processes the information and shows a success message
-    \end{enumerate}
-}
-{The choice of an EVCP energy storing mode is completed} % exit condition
-{ % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
-}
-{ % notes
-    ...
-}
-
-\usecase
-{
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/changeStatusCP.png}
-    \end{figure}
-}
-{16}
+{12.2}
 {Change Status of a CP} % name
 {CPO} % actor
-{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{Authenticated CPO is in "Charging Point" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator choose a specific EVCP, choose "Change Status of a CP" button
-        \item The system provides a page on which the operator can set a specific time frame in which the operator wants to change the status of a specific CP
-        \item The operator sets a specific time frame
-        \item The system processes the provided information and display a success message
+        \item The operator changes the state of the CP from the provided
+        \item The system asks CP, through OCPP, to change to the desired status
+        \item The CP replies, through OCPP, with the new status
+        \item The system shows the details of the chosen CP
     \end{enumerate}
 }
 {The change of status of the specific CP has been planned} % exit condition
@@ -758,6 +593,7 @@ with all clients using HTTPS and TCP/IP.
     ...
 }
 
+\pagebreak
 \usecase
 {
     \begin{figure}[H]
@@ -765,15 +601,15 @@ with all clients using HTTPS and TCP/IP.
         \includegraphics[scale=0.9]{src/sequence_diagram/addingCP.png}
     \end{figure}
 }
-{17}
+{13}
 {Adding a CP} % name
 {CPO, OCPP compliant CP client} % actor
-{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{Authenticated CPO is in "Charging Points" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator chooses a specific EVCP, clicks "Add a new CP" button
-        \item The system provides a list of brands and models of the all CPs available in industry
-        \item The operator chooses the specific model of his CP and specifies the ID (serial number of CP), then clicks "connect" button
+        \item The operator clicks "Add a new CP" button
+        \item The system provides a popup to insert details of the new CP
+        \item The operator chooses specifies the ID (serial number of CP), the rate that will have to calculate charging costs, the EVCP in which it is, then clicks "connect" button
         \item The system shows an OCPP URL to connect the CP to the CPMS and waits for a connection
         \item The operator connects the CP using the CP's manufacturer platform
         \item The system shows a message when the connection is established
@@ -797,13 +633,13 @@ with all clients using HTTPS and TCP/IP.
         \includegraphics[scale=0.9]{src/sequence_diagram/removingCP.png}
     \end{figure}
 }
-{18}
+{14}
 {Removing a CP} % name
 {CPO} % actor
-{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{Authenticated CPO is in "Charging Points" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator chooses a specific EVCP, selects a CP and clicks "Remove CP" button
+        \item The operator selects a CP and clicks "Remove CP" button
         \item The system removes the association with the CP
     \end{enumerate}
 }
@@ -818,6 +654,7 @@ with all clients using HTTPS and TCP/IP.
     ...
 }
 
+\pagebreak
 \usecase
 {
     \begin{figure}[H]
@@ -825,14 +662,14 @@ with all clients using HTTPS and TCP/IP.
         \includegraphics[scale=0.9]{src/sequence_diagram/specialOffer.png}
     \end{figure}
 }
-{19}
+{16}
 {Add a special offer} % name
 {CPO} % actor
-{Authenticated CPO is in "Manage CPs" tab} % entry condition
+{Authenticated CPO is in "Charging Points" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator chooses a specific EVCP, selects a CP and clicks "Create a special offer" button
-        \item The system shows a form with which the operator can select a discount and a time slot or day of the week in which it is valid
+        \item The operator chooses a specific EVCP, selects a CP and clicks "Rate" button
+        \item The system shows a form in which the operator can select a discount and a time slot or day of the week in which it is valid
         \item The operator fills and submits the form
         \item The system processes the information and shows a success message
     \end{enumerate}
@@ -847,6 +684,155 @@ with all clients using HTTPS and TCP/IP.
 { % notes
     ...
 }
+
+
+\usecase
+{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{src/sequence_diagram/ViewReservation.png}
+    \end{figure}
+}
+{17}
+{View reservations} % name
+{CPO} % actor
+{Authenticated CPO} % entry condition
+{ % event flow
+    \begin{enumerate}
+
+        \item The operator clicks "Reservations" tab
+        \item The system shows the reservations table
+        \item The operator choose a filter (completed, running, pending, upcoming) or to sort reservations (by CP, EVCP, ...)
+    \end{enumerate}
+}
+{The reservations table is displayed} % exit condition
+{ % exceptions
+    No exception in this use case
+}
+{ % notes
+    ...
+}
+
+\pagebreak
+\usecase
+{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{src/sequence_diagram/checkEnergy.png}
+    \end{figure}
+}
+{18}
+{Check energy in batteries} % name
+{CPO} % actor
+{Authenticated CPO is in "Energy" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP
+        \item The system shows the energy storage status of the selected EVCP, if any
+    \end{enumerate}
+}
+{The 'Check energy in batteries' chart is shown} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    ...
+}
+
+\pagebreak
+\usecase
+{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{src/sequence_diagram/chooseEnergyMix.png}
+    \end{figure}
+}
+{19}
+{Choose energy mix} % name
+{CPO} % actor
+{Authenticated CPO is in "Energy" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator chooses a specific EVCP and configure a specific Energy Storage Working Mode
+        \item The system processes the information and shows a success message
+    \end{enumerate}
+}
+{The choice of an EVCP energy storing mode is completed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    ...
+}
+
+
+
+
+\usecase
+{
+}
+{20.1}
+{Retrieve price of energy} % name
+{CPO, DSO Energy Price Service} % actor
+{Authenticated CPO is in "Energy" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP
+        \item The system asks DSO Energy Pricing Service the list of available DSOs with their prices
+        \item The DSO Energy Pricing Service replies with the list requested
+        \item The system shows the list of available DSOs with their prices
+    \end{enumerate}
+}
+{The details of price energy are displayed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    ...
+}
+
+\usecase
+{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{src/sequence_diagram/retrievePrices&chooseDSO.png}
+    \end{figure}
+}
+{20.2}
+{Choose DSO} % name
+{CPO, DSO Energy Pricing Service} % actor
+{Authenticated CPO is in "Energy" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator choose a specific EVCP, clicks "Change contract"
+        \item The operator selects a DSO and submit its choice to the system
+        \item The system asks DSO Energy Pricing Service to acquire energy from the chosen DSO for the specified EVCP
+        \item The DSO Energy Pricing Service replies with an ACK
+        \item The system shows a success message
+    \end{enumerate}
+}
+{The choice of DSO is completed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    ...
+}
+
+\pagebreak
+
 
 \subsection{Functional Requirements}
 
