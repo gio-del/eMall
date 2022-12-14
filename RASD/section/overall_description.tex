@@ -56,9 +56,9 @@
             Then verifies the status of the others CP controlling that they work as intended.
 \end{enumerate}
 
-\subsubsection{Entity diagram}
-The UML entity diagram below represents a conceptual, high-level model of
-the software to be. Given its nature, it may model objects that will not
+\subsubsection{Class diagram}
+The UML class diagram below represents a conceptual, high-level model of
+the software to be. Given its nature, it may model entities that will not
 be represented in the actual system that will be developed. At this
 level, it not include any references to methods and other low-level
 details, those will be detailed during the design phase.
@@ -75,11 +75,11 @@ The main entity in the diagram are:
             The EV Driver can pay for a charge through a Payment Gateway and the associated CPO receives the
             payment. Furthermore, EV Drivers can add their EVs to the system to receive a personalized experience and give the system access to their Calendar to receive suggestion based on their daily schedule
       \item \textbf{CPMS}\\
-            The CPMS is a system that allows CPO to smartly handle their EVCPs. It provides automatically management of CPs but lets also the possibility to manually set options (the energy source mix, the DSO to acquire energy from ecc.). CPMSs communicate with eMsp following the OCPI protocol, this lets them being accessible from external eMsp too.
+            The CPMS is a subsystem of eMall that allows CPO to smartly handle their EVCPs. It provides automatically management of CPs but lets also the possibility to manually set options (the energy source mix, the DSO to acquire energy from ecc.). CPMSs communicate with eMsp following the OCPI protocol, this lets them being accessible from external eMsp too
       \item \textbf{eMsp}\\
-            The eMsp is the EV Driver entry point to the eMall system, it allows them to search for CPs, to book a connector for a given timeframe, pay and start a charge along with other functionalities described in the next chapters. The eMsp communicate with CPMSs following the OCPI protocol, this lets the EV drivers accessing CPs owned by CPO that aren't subscribed to our system and this leads to a larger set of possibilities
+            The eMsp is a subsystem of eMall, the EV Drivers entry point. It allows them to search for CPs, to book a connector for a given timeframe, pay and start a charge along with other functionalities described in the next chapters. The eMsp communicate with CPMSs following the OCPI protocol, this lets the EV drivers accessing CPs owned by CPO that aren't subscribed to our system and then leads to a larger set of possibilities
       \item \textbf{EVCP, CP, Connector}\\
-            EVCP is a station with multiple CPs. Each CPs has usually 1 or 2 connectors that has a status and type. A CP communicates with CPMS following the OCPP protocol
+            EVCP is a station with multiple CPs. Each CP has usually 1 or 2 connectors that has a status and type. A CP communicates with CPMS following the OCPP protocol
 \end{itemize}
 
 \subsubsection{State diagrams}

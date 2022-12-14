@@ -106,8 +106,9 @@ with all clients using HTTPS and TCP/IP.
     \item \textbf{SMS Service}: eMall system relies on it to send verification code SMS to customers phones.
 \end{itemize}
 
+\subsection{Functional Requirements}
+In this section a top-down approach is followed. We provide first use cases diagrams, for each use case we provide a detailed description of the interaction and a sequence diagram. Then the list of functional requirements is built along with the mapping on both goals and use cases for traceability reasons.
 
-\subsection{Use cases}
 
 \subsubsection{Use case diagrams}
 
@@ -124,19 +125,22 @@ with all clients using HTTPS and TCP/IP.
     \caption{Unregistered CPO use case diagram}
 \end{figure}
 
-\begin{figure}[p]
+\begin{figure}[hp]
     \centering
     \includegraphics[scale=0.5]{src/use_case_diagram/cpo.png}
     \caption{CPO use case diagram}
 \end{figure}
 
-\begin{figure}[p]
+\begin{figure}[hp]
     \centering
     \includegraphics[scale=0.6]{src/use_case_diagram/driver.png}
     \caption{EV Driver use case diagram}
 \end{figure}
 
+\pagebreak
 
+\subsubsection{Use cases}
+In all the following use cases and sequence diagrams, the System To Be is shown as a black box interacting with the world, that is users and external API.
 \usecase
 {
     \begin{figure}[H]
@@ -538,7 +542,7 @@ with all clients using HTTPS and TCP/IP.
 
 \usecase
 {
-    
+
 }
 {12.1}
 {Monitor specific CP} % name
@@ -662,7 +666,7 @@ with all clients using HTTPS and TCP/IP.
         \includegraphics[scale=0.9]{src/sequence_diagram/specialOffer.png}
     \end{figure}
 }
-{16}
+{15}
 {Add a special offer} % name
 {CPO} % actor
 {Authenticated CPO is in "Charging Points" tab} % entry condition
@@ -693,7 +697,7 @@ with all clients using HTTPS and TCP/IP.
         \includegraphics[scale=0.9]{src/sequence_diagram/ViewReservation.png}
     \end{figure}
 }
-{17}
+{16}
 {View reservations} % name
 {CPO} % actor
 {Authenticated CPO} % entry condition
@@ -721,7 +725,7 @@ with all clients using HTTPS and TCP/IP.
         \includegraphics[scale=0.9]{src/sequence_diagram/checkEnergy.png}
     \end{figure}
 }
-{18}
+{17}
 {Check energy in batteries} % name
 {CPO} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -750,7 +754,7 @@ with all clients using HTTPS and TCP/IP.
         \includegraphics[scale=0.9]{src/sequence_diagram/chooseEnergyMix.png}
     \end{figure}
 }
-{19}
+{18}
 {Choose energy mix} % name
 {CPO} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -777,7 +781,7 @@ with all clients using HTTPS and TCP/IP.
 \usecase
 {
 }
-{20.1}
+{19.1}
 {Retrieve price of energy} % name
 {CPO, DSO Energy Price Service} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -807,7 +811,7 @@ with all clients using HTTPS and TCP/IP.
         \includegraphics[scale=0.9]{src/sequence_diagram/retrievePrices&chooseDSO.png}
     \end{figure}
 }
-{20.2}
+{19.2}
 {Choose DSO} % name
 {CPO, DSO Energy Pricing Service} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -832,10 +836,6 @@ with all clients using HTTPS and TCP/IP.
 }
 
 \pagebreak
-
-
-\subsection{Functional Requirements}
-
 
 \subsubsection{CPO Functional Requirements}
 \begin{table}[H]
@@ -1003,26 +1003,27 @@ with all clients using HTTPS and TCP/IP.
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{XXX}
         \toprule
-        \textbf{Use Case}                       & \textbf{Requirements} \\ \midrule
-        U1 - Login                              & R2 R16                \\
-        U2 - Registration                       & R1 R15                \\
-        U3 - Map Filtering                      & R18 R19               \\
-        U4 - EVCP Details                       & R20                   \\
-        U5 - Book a Charge                      & R21 R22 R28           \\
-        U6 - Start a Charge                     & R24                   \\
-        U7 - Insert Car Details                 & R17                   \\
-        U8 - (EV Driver) History of Reservation & R26 R30               \\
-        U9 - Details of the current charge      & R26                   \\
-        U10 - Delete a reservation              & R29                   \\
-        U11 - Check energy in batteries         & R5                    \\
-        U12 - CP Monitoring                     & R4 R6 R7              \\
-        U13 - CPO reservation view              & R8                    \\
-        U14 - DSO managing                      & R9 R10                \\
-        U15 - Choose energy mix                 & R11 R12               \\
-        U16 - Change status of a CP             & R14                   \\
-        U17 - Adding a CP                       & R13                   \\
-        U18 - Removing a CP                     & R13                   \\
-        U19 - Add a special offer               & R3                    \\ \bottomrule
+        \textbf{Use Case}                             & \textbf{Requirements} \\ \midrule
+        U1 - Login                                    & R2 R16                \\
+        U2 - Registration                             & R1 R15                \\
+        U3 - Map Filtering                            & R18 R19               \\
+        U4 - EVCP Details                             & R20                   \\
+        U5 - Book a Charge                            & R21 R22 R28           \\
+        U6 - Start a Charge                           & R24                   \\
+        U7 - Insert Car Details                       & R17                   \\
+        U8 - (EV Driver) History of Reservation       & R26 R30               \\
+        U9 - Details of the current charge            & R26                   \\
+        U10 - Delete a reservation                    & R29                   \\
+        U11 - Monitor CPs                             & R4 R6 R7              \\
+        U12 - Monitor Specific CP and Change Status   & R14                   \\
+        U13 - Adding a CP                             & R13                   \\
+        U14 - Removing a CP                           & R13                   \\
+        U15 - Add a special offer                     & R3                    \\
+        U16 - (CPO) View reservation                  & R8                    \\
+        U17 - Check energy in batteries               & R5                    \\
+        U18 - Choose energy mix                       & R11 R12               \\
+        U19 - Retrieve price of energy and Choose DSO & R9 R10                \\
+        \bottomrule
     \end{tabularx}
 \end{table}
 

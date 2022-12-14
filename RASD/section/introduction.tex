@@ -55,7 +55,7 @@ The digital system eMall should provide three main features:
     \begin{tabularx}{\textwidth}{cX}
         \toprule
         \textbf{WP1} & An EV driver arrives at a charging station             \\
-        \textbf{WP2} & Someone owns an electric vehicle                       \\
+        \textbf{WP2} & An EV driver wants to charge the car                   \\
         \textbf{WP3} & A charging station is connected to the electrical grid \\
         \textbf{WP4} & Some charging station has solar panels                 \\
         \textbf{WP5} & Some charging station has a storage battery            \\
@@ -80,7 +80,7 @@ The digital system eMall should provide three main features:
         \textbf{SP10} & The system notifies an EV driver that the charging shift will begin shortly                                                                                           & machine       \\ \midrule
         \textbf{SP11} & An EV driver monitors the charging status                                                                                                                             & machine       \\ \midrule
         \textbf{SP12} & An EV driver deletes a reservation                                                                                                                                    & world         \\ \midrule
-        \textbf{SP13} & A CPO decide to retrieve the historical reservations on its EVSEs                                                                                                     & world         \\ \midrule
+        \textbf{SP13} & A CPO decide to retrieve the historical reservations on its CPs                                                                                                       & world         \\ \midrule
         \textbf{SP14} & An EV driver retrieves the historical reservations                                                                                                                    & world         \\ \bottomrule
     \end{tabularx}
 \end{table}
@@ -89,10 +89,10 @@ The digital system eMall should provide three main features:
 
 \subsubsection{Definitions}
 \begin{itemize}
-    \item EV Driver - electric vehicle driver - people or entities who own an EV car and want to use the system for their charging needs
-    \item EVCP - Electric Vehicle Charging Pool - is a station with multiple CPs
+    \item EV Driver - Electric Vehicle Driver, people or entities who own an EV car and want to use the system for their charging needs
+    \item EVCP - Electric Vehicle Charging Pool, is a station with multiple CPs
     \item CP - a synonym of EVSE - is a single charging column with multiple connectors
-    \item Connectors: charging sockets which can be of different types (e.g. CCS2, Type2)
+    \item Connectors - charging sockets which can be of different types (e.g. CCS2, Type2)
     \item OCPP - Open Charge Point Protocol \footnote{\href{https://www.openchargealliance.org/protocols/ocpp-201/}{OCPP Protocol}} - is a protocol that dictates the communication between CPMS and a controlled CP to achieve smart charging functionalities
     \item OCPI - Open Charge Point Interface \footnote{\href{https://evroaming.org/ocpi-background/}{OCPI Protocol}} - is a protocol that dictates the communication between CPMSs and eMsps to let the CPMSs to be accessible by multiple eMsps achieving roaming functionalities
 \end{itemize}
