@@ -19,7 +19,7 @@ sig User {
     reservations: set Reservation
 }
 
-// each reservation referes to one and only one charging socket
+// each reservation refers to one and only one charging socket
 fact reservationChargingPoint{
 	all r: Reservation | one c: ChargingSocket | r in c.reservations
 }
@@ -31,9 +31,10 @@ fact reservationByUser {
 
 // No two overlapping reservation in PENDING state
 fact noOverlappingReservation {
-	all c: ChargingSocket | no disjoint r1, r2: c.reservations | (r1.state = Pending and r2.state = r1.state and r2.start >= r1.start and r2.start <= r1.end)
+	all c: ChargingSocket | no disjoint r1, r2: c.reservations |
+	(r1.state = Pending and r2.state = r1.state and r2.start >= r1.start and r2.start <= r1.end)
 }
- 
+
 pred showReservationModel {
 	#Reservation = 5
 	#User = 2
@@ -42,8 +43,10 @@ pred showReservationModel {
 
 // if two reservations on the same charging socket overlap then one of them has been cancelled
 assert reservationCancelledIfOverlapping {
-	all c: ChargingSocket | all disjoint r1, r2: c.reservations | (r2.start >= r1.start and r2.start <= r1.end) 
-															    implies (r1.state = Cancelled or r2.state = Cancelled)
+	all c: ChargingSocket | all disjoint r1, r2: c.reservations |
+	(r2.start >= r1.start and r2.start <= r1.end)
+				implies
+	(r1.state = Cancelled or r2.state = Cancelled)
 }
 
 check reservationCancelledIfOverlapping for 30

@@ -1,7 +1,7 @@
 \section{Specific requirements}
 
 \subsection{External Interface Requirements}
-In this section are described details about user interfaces, hardware and application programming interfaces.
+In this section details about user interfaces, hardware and application programming interfaces are described.
 
 \subsubsection{User Interfaces}
 TODO: add an introduction
@@ -81,14 +81,17 @@ TODO: add an introduction
 
 \subsubsection{Hardware Interfaces}
 To use the system, both EV drivers and CPOs must have a mobile device or a personal computer.
-Due to the outdoor expected use of the system, a smartphone will be more a suitable device
+Due to the outdoor expected use of the system, a smartphone will be a more suitable device
 for a EV driver, instead for a CPO is suggested to use the system from a personal computer.
 The system is based on the ability of gathering data from different sources, such as the CP, the battery storage that may be present in an EVCP and the battery status of an EV. These data are provided through hardware interfaces that are external
 to our system, and we assume that an API let the system access to these data
 
+\subsubsection{Software Interfaces}
+eMall is a web application, then a modern web browsers is the only software required
+
 \subsubsection{Communication Interfaces}
 The system requires a stable internet connection to work properly.
-The backend of the system will expose a unified REST compliant API to communicate
+The backend of the system will expose a unified RESTful API to communicate
 with all clients using HTTPS and TCP/IP.
 \\Furthermore, the system relies on various external interfaces accessible via uniform web API. These services are:
 \begin{itemize}
