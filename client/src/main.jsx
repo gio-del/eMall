@@ -13,6 +13,7 @@ import RegistrationView from './view/RegistrationVIew'
 import BeforeLoginView from './view/BeforeLoginView'
 import MainView from './view/MainView'
 import MapView from './view/MapView'
+import Car from './component/Car/Car'
 
 const router = createBrowserRouter(
   [
@@ -53,7 +54,7 @@ const router = createBrowserRouter(
             },
             {
               path: '/main/car',
-              element: <p>We will create a view for car!</p>,
+              element: <Car/>,
             },
             {
               path: '/main/profile',
