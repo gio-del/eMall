@@ -4,7 +4,7 @@ import chademo from '../../assets/CHAdeMo.png'
 
 export default function Car () {
     return <div >
-        <div className="flex h-[calc(99.5vh-3.4rem)] md:h-[calc(100vh-3.4rem)] bg-dk-secondary w-full">
+        <div className="flex h-[calc(93vh-3.4rem)] md:h-[calc(100vh-3.4rem)] bg-dk-secondary w-full">
             <div className='flex w-full'>
                 <div className='grid grid-flow-row grid-cols-2 md:grid-cols-3 w-full mb-16 md:mb-8 overflow-hidden'>
                     <div className='row-span-1 lg:row-span-1 flex justify-center items-center relative z-10'>
