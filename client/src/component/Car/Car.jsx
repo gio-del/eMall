@@ -71,7 +71,7 @@ export default function Car () {
                     </div>
                     <div className='row-span-1 flex justify-center items-center relative'>
                         <div className=' h-full w-full absolute py-5 px-8 md:w-4/5 md:h-4/5 lg:w-2/3 lg:h-2/3'>
-                            <div className='bg-black rounded-2xl h-full w-full relative flex items-center justify-center'>
+                            <div className='bg-dk-nav rounded-2xl h-full w-full relative flex items-center justify-center'>
                                 <div>
                                     <p className='text-tertiary text-center text-md font-medium'>Time left</p>
                                     <p className='text-tertiary text-center text-lg font-semibold'>34:42</p>
