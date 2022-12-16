@@ -514,10 +514,38 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 {
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/monitorEVCP.png}
+        \includegraphics[scale=0.9]{src/sequence_diagram/deleteReservation.png}
     \end{figure}
 }
 {11}
+{Send charging suggestion}
+{EV driver, Push Notification Service, Calendar API, EV Service}
+{Authenticated EV driver in background}
+{
+    \begin{enumerate}
+        \item The system calls the Push Notification Service to notify the user with suggestion to reserve a charge
+        \item The Push Notification Service sends the notification
+        \item The user opens the notification and accepts or declines the suggestion to reserve a charge
+    \end{enumerate}
+}
+{The user accepts or declines the suggestion to reserve a charge}
+{
+    \begin{itemize}
+        \item At least one of the inserted data is not valid
+    \end{itemize}
+}
+{
+    The system shows an error asking to retry
+}
+
+\usecase
+{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{src/sequence_diagram/monitorEVCP.png}
+    \end{figure}
+}
+{12}
 {Monitor CPs} % name
 {CPO, OCPP compliant CP client} % actor
 {Authenticated CPO} % entry condition
@@ -544,7 +572,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 {
 
 }
-{12.1}
+{13.1}
 {Monitor specific CP} % name
 {CPO, OCPP compliant CP client} % actor
 {Authenticated CPO is in "Charging Points" tab} % entry condition
@@ -574,7 +602,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/monitorSpecificCP.png}
     \end{figure}
 }
-{12.2}
+{13.2}
 {Change Status of a CP} % name
 {CPO} % actor
 {Authenticated CPO is in "Charging Point" tab} % entry condition
@@ -605,7 +633,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/addingCP.png}
     \end{figure}
 }
-{13}
+{14}
 {Adding a CP} % name
 {CPO, OCPP compliant CP client} % actor
 {Authenticated CPO is in "Charging Points" tab} % entry condition
@@ -637,7 +665,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/removingCP.png}
     \end{figure}
 }
-{14}
+{15}
 {Removing a CP} % name
 {CPO} % actor
 {Authenticated CPO is in "Charging Points" tab} % entry condition
@@ -666,7 +694,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/specialOffer.png}
     \end{figure}
 }
-{15}
+{16}
 {Add a special offer} % name
 {CPO} % actor
 {Authenticated CPO is in "Charging Points" tab} % entry condition
@@ -697,7 +725,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/ViewReservation.png}
     \end{figure}
 }
-{16}
+{17}
 {View reservations} % name
 {CPO} % actor
 {Authenticated CPO} % entry condition
@@ -725,7 +753,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/checkEnergy.png}
     \end{figure}
 }
-{17}
+{18}
 {Check energy in batteries} % name
 {CPO} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -754,7 +782,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/chooseEnergyMix.png}
     \end{figure}
 }
-{18}
+{19}
 {Choose energy mix} % name
 {CPO} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -781,7 +809,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 \usecase
 {
 }
-{19.1}
+{20.1}
 {Retrieve price of energy} % name
 {CPO, DSO Energy Price Service} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -811,7 +839,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/retrievePrices&chooseDSO.png}
     \end{figure}
 }
-{19.2}
+{20.2}
 {Choose DSO} % name
 {CPO, DSO Energy Pricing Service} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
