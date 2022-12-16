@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export default function BottomBar({ actualTab, setActualTab }) {
   return (
-    <div className="absolute bottom-0 w-full ">
+    <div className="fixed bottom-0 w-full ">
       <ul className="inline-flex justify-around items-center w-full pt-1 bg-tertiary dark:bg-dk-nav dark:text-tertiary text-sm ">
         <li className="w-full">
           <Link
