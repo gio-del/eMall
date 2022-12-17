@@ -1,6 +1,6 @@
 import carImage from '../../assets/Car.png'
 import chademo from '../../assets/CHAdeMo.png'
-import useWindowDimensions from '../../View/useWindowDimensions'
+import useWindowDimensions from './useWindowDimensions'
 
 
 export default function Car () {
