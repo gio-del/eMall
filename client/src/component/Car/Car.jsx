@@ -1,10 +1,14 @@
 import carImage from '../../assets/Car.png'
 import chademo from '../../assets/CHAdeMo.png'
+import useWindowDimensions from '../../View/useWindowDimensions'
 
 
 export default function Car () {
+    const { height, width } = useWindowDimensions();
+
     return <>
-        <div className="flex h-[calc(100vh-3.4rem)] bg-dk-secondary w-full">
+        <div className={`flex  w-full`}
+            style= {{height : `calc(${height}px - 3.5rem`}}>
             <div className='flex w-full'>
                 <div className='grid grid-flow-row grid-cols-2 md:grid-cols-3 w-full mb-8 overflow-hidden'>
                     <div className='row-span-1 lg:row-span-1 flex justify-center items-center relative z-10'>
