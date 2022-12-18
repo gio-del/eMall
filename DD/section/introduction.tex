@@ -1,9 +1,65 @@
 \section{Introduction}
-
 \subsection{Purpose}
+
+The purpose of this document is to give a more detailed view of the eMall - e-Mobility for All - system presented in
+the RASD, explaining architecture, components and their interaction, processes and algorithms that will satisfy the RASD requirements.
+Additionally, it includes instructions regarding the implementation, integration and testing plan.
+This document is intended to be a reference for the implementation of the system, and is aimed toward the developers, testers and project managers.
+
 \subsection{Scope}
+eMall is a system that allows EV Driver to plan efficiently their charging needs and CPO - Charging Point Operator - to be reached by EV Driver.
+
+In particular, eMall allows EV Driver to search and then book a charge to a CP - Charging Point, either at a specific
+time, pay the charge, start a charge and being notified when the charging process is completed.
+
+TODO: reviews the domain and product, summary of main architectural style/choices (e.g., 3-tier / 4-tier, …)
 \subsection{Definitions, Acronyms, Abbreviations}
+\subsubsection{Definitions}
+\begin{itemize}
+    \item EV Driver - Electric Vehicle Driver, people or entities who own an EV car and want to use the
+          system for their charging needs
+    \item EVCP - Electric Vehicle Charging Pool, is a station with multiple CPs
+    \item CP - a synonym of EVSE - is a single charging column with multiple connectors
+    \item  Connector - charging socket that can be of different types (e.g. CCS2, Type2)
+\end{itemize}
+
+\subsubsection{Acronyms}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{cX}
+        \toprule
+        \textbf{eMall} & e-Mobility for All                              \\
+        \textbf{RASD}  & Requirement Analysis and Specification Document \\
+        \textbf{DD}    & Design Document                                 \\
+        \textbf{EV}    & Electric Vehicle                                \\
+        \textbf{CPO}   & Charging Point Operator                         \\
+        \textbf{CP}    & Charging Point                                  \\
+        \textbf{EVCP}  & Electric Vehicle Charging Pool                  \\
+        \textbf{EVSE}  & Electric Vehicle Supply Equipment               \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+\vspace*{1cm}
+\subsubsection{Abbreviation}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{cX}
+        \toprule
+        \textbf{R$_x$} & x-Functional Requirement \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
 \subsection{Revision history}
 \subsection{Reference Documents}
+Assignment document A.Y. 2022/2023 (”Requirement Engineering and Design Project: goal, schedule
+and rules”)
 \subsection{Document Structure}
 
+This document is composed of seven sections:
+\begin{itemize}
+    \item Introduction: This section provides an overview of the DD, including the scope of the project, definitions of key terms, references to other relevant documents, and an overview of the design
+    \item Architectural Design: This section describes the high-level components and interactions of the system. It also includes a component view, a deployment view, a runtime view, and descriptions of selected architectural styles and patterns
+    \item User Interface Design: This section outlines the design of the user interface (UI) of the system, including user experience (UX) flowcharts
+    \item Requirements Traceability: This section provides a mapping between the requirements specified in the RASD and the components specified in the DD
+    \item Implementation, Integration, and Test Plan: This section outlines the plan for implementing, integrating, and testing the system, including the order in which subsystems and components will be implemented
+    \item Effort Spent: This section provides information on the effort spent on the design process
+    \item References: This section includes a list of any references cited in the DD
+\end{itemize}

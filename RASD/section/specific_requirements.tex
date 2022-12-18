@@ -111,7 +111,7 @@ In this section a top-down approach is followed. We provide first use cases diag
 
 
 \subsubsection{Use case diagrams}
-
+\textbf{Note}: in the following diagrams, unless otherwise specified, it is the user who initiates the use case
 \vspace*{3cm}
 \begin{figure}[H]
     \centering
@@ -127,7 +127,7 @@ In this section a top-down approach is followed. We provide first use cases diag
 
 \begin{figure}[hp]
     \centering
-    \includegraphics[scale=0.5]{src/use_case_diagram/cpo.png}
+    \includegraphics[scale=0.4]{src/use_case_diagram/cpo.png}
     \caption{CPO use case diagram}
 \end{figure}
 
@@ -182,7 +182,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \item The system sends operator the registration form
         \item Operator enters company name, VAT, IBAN, and password. Then submits the data upon reading and accepting the Privacy Policy and the Terms of Service
         \item The system calls SMS Service API to send to the CPO an SMS containing a secret code
-        \item The SMS Service replies sending the SMS to the operator
+        \item The SMS Service sends the SMS to the operator
         \item The operator submits the received verification code
         \item The system processes the provided information and displays a success message
     \end{enumerate}
@@ -375,12 +375,8 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 
 \usecase
 {
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/startCharge.png}
-    \end{figure}
 }
-{6}
+{6.1}
 {Start a charge}
 {EV driver, OCPP Compliant CP client}
 {Authenticated EV driver is in the reservation page}
@@ -394,6 +390,30 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
     \end{enumerate}
 }
 {The charging is started}
+{
+    No exception in this use case
+}
+{
+}
+
+\usecase
+{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.8]{src/sequence_diagram/startCharge.png}
+    \end{figure}
+}
+{6.2}
+{End of Charge Notification}
+{EV driver, Push Notification Service}
+{The charge is completed}
+{
+    \begin{enumerate}
+        \item At the end of the charge, The system asks Push Notification Service to notify the user about the status of the charge
+        \item The Push Notification Service sends the notification to the user
+    \end{enumerate}
+}
+{The notification is sent to the user}
 {
     No exception in this use case
 }
@@ -514,10 +534,41 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 {
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/monitorEVCP.png}
+        \includegraphics[scale=0.9]{src/sequence_diagram/chargeSuggestion.png}
     \end{figure}
 }
 {11}
+{Send charging suggestion}
+{EV driver, Push Notification Service, Calendar API, EV Service}
+{Authenticated EV driver (not necessarily using the system)}
+{
+    \begin{enumerate}
+        \item The system calls the EV Service asking for the EV battery status
+        \item The EV Service replies with the battery status
+        \item The system calls the Calendar API asking for the user schedule
+        \item The Calendar API replies with the user schedule
+        \item The system asks Push Notification Service to suggest the user when and where to charge
+        \item The Push Notification Service sends the notification
+    \end{enumerate}
+}
+{The notification is pushed to the user}
+{
+    \begin{itemize}
+        \item ...
+    \end{itemize}
+}
+{
+    ...
+}
+
+\usecase
+{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{src/sequence_diagram/monitorEVCP.png}
+    \end{figure}
+}
+{12}
 {Monitor CPs} % name
 {CPO, OCPP compliant CP client} % actor
 {Authenticated CPO} % entry condition
@@ -544,7 +595,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 {
 
 }
-{12.1}
+{13.1}
 {Monitor specific CP} % name
 {CPO, OCPP compliant CP client} % actor
 {Authenticated CPO is in "Charging Points" tab} % entry condition
@@ -574,13 +625,13 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/monitorSpecificCP.png}
     \end{figure}
 }
-{12.2}
+{13.2}
 {Change Status of a CP} % name
 {CPO} % actor
 {Authenticated CPO is in "Charging Point" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator changes the state of the CP from the provided
+        \item The operator changes the state of the specific CP
         \item The system asks CP, through OCPP, to change to the desired status
         \item The CP replies, through OCPP, with the new status
         \item The system shows the details of the chosen CP
@@ -605,7 +656,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/addingCP.png}
     \end{figure}
 }
-{13}
+{14}
 {Adding a CP} % name
 {CPO, OCPP compliant CP client} % actor
 {Authenticated CPO is in "Charging Points" tab} % entry condition
@@ -637,7 +688,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/removingCP.png}
     \end{figure}
 }
-{14}
+{15}
 {Removing a CP} % name
 {CPO} % actor
 {Authenticated CPO is in "Charging Points" tab} % entry condition
@@ -666,7 +717,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/specialOffer.png}
     \end{figure}
 }
-{15}
+{16}
 {Add a special offer} % name
 {CPO} % actor
 {Authenticated CPO is in "Charging Points" tab} % entry condition
@@ -697,7 +748,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/ViewReservation.png}
     \end{figure}
 }
-{16}
+{17}
 {View reservations} % name
 {CPO} % actor
 {Authenticated CPO} % entry condition
@@ -725,7 +776,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/checkEnergy.png}
     \end{figure}
 }
-{17}
+{18}
 {Check energy in batteries} % name
 {CPO} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -754,7 +805,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/chooseEnergyMix.png}
     \end{figure}
 }
-{18}
+{19}
 {Choose energy mix} % name
 {CPO} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -781,7 +832,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 \usecase
 {
 }
-{19.1}
+{20.1}
 {Retrieve price of energy} % name
 {CPO, DSO Energy Price Service} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -811,7 +862,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/retrievePrices&chooseDSO.png}
     \end{figure}
 }
-{19.2}
+{20.2}
 {Choose DSO} % name
 {CPO, DSO Energy Pricing Service} % actor
 {Authenticated CPO is in "Energy" tab} % entry condition
@@ -837,47 +888,50 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 
 \pagebreak
 
-\subsubsection{CPO Functional Requirements}
+\subsubsection{CPMS subsystem Functional Requirements}
 \begin{table}[H]
-    \begin{tabularx}{\textwidth}{cX}
+    \begin{tabularx}{\textwidth}{cXc}
+        \textbf{Rx}  & Description                                                                                                                                              & Priority Level \\
         \toprule
-        \textbf{R1}  & The system must allow unregistered CPO to register an account                                                                                            \\
-        \textbf{R2}  & The system must allow registered CPO to login                                                                                                            \\
-        \textbf{R3}  & The system must allow authenticated CPOs making a special offer on their CPs prices                                                                      \\
-        \textbf{R4}  & The system must allow authenticated CPOs monitoring the charging process to infer when the battery is full                                               \\
-        \textbf{R5}  & The system must allow authenticated CPOs retrieving the amount of energy available in their EVCPs batteries                                              \\
-        \textbf{R6}  & The system must allow authenticated CPOs retrieving the number of vehicle being charged in their EVCPs and for each vehicle the amount of absorbed power \\
-        \textbf{R7}  & The system must allow authenticated CPOs retrieving the remaining charge time for each connected vehicle                                                 \\
-        \textbf{R8}  & The system must allow authenticated CPOs retrieving details on active and historical reservations on their EVCPs                                         \\
-        \textbf{R9}  & The system must allow authenticated CPOs acquiring information from the DSOs about the current price of energy                                           \\
-        \textbf{R10} & The system must allow authenticated CPOs deciding from which DSO to acquire energy from                                                                  \\
-        \textbf{R11} & The system must dynamically decide where to get energy for charging (electrical grid, battery or a mixture)                                              \\
-        \textbf{R12} & The system must allow authenticated CPOs statically deciding where to get energy for charging (electrical grid, battery or a mixture)                    \\
-        \textbf{R13} & The system must allow authenticated CPOs adding, modifying and deleting CPs                                                                              \\
-        \textbf{R14} & The system must allow authenticated CPOs changing availability status of their CPs                                                                       \\
+        \textbf{R1}  & The system must allow unregistered CPO to register an account                                                                                            & Must Have      \\
+        \textbf{R2}  & The system must allow registered CPO to login                                                                                                            & Must Have      \\
+        \textbf{R3}  & The system must allow authenticated CPOs making a special offer on their CPs prices                                                                      & Must Have      \\
+        \textbf{R4}  & The system must allow authenticated CPOs monitoring the charging process to infer when the battery is full                                               & Must Have      \\
+        \textbf{R5}  & The system must allow authenticated CPOs retrieving the amount of energy available in their EVCPs batteries                                              & Must Have      \\
+        \textbf{R6}  & The system must allow authenticated CPOs retrieving the number of vehicle being charged in their EVCPs and for each vehicle the amount of absorbed power & Must Have      \\
+        \textbf{R7}  & The system must allow authenticated CPOs retrieving the remaining charge time for each connected vehicle                                                 & Should Have    \\
+        \textbf{R8}  & The system must allow authenticated CPOs retrieving details on active and historical reservations on their EVCPs                                         & Should Have    \\
+        \textbf{R9}  & The system must allow authenticated CPOs acquiring information from the DSOs about the current price of energy                                           & Must Have      \\
+        \textbf{R10} & The system must allow authenticated CPOs deciding from which DSO to acquire energy from                                                                  & Must Have      \\
+        \textbf{R11} & The system must dynamically decide where to get energy for charging (electrical grid, battery or a mixture)                                              & Must Have      \\
+        \textbf{R12} & The system must allow authenticated CPOs statically deciding where to get energy for charging (electrical grid, battery or a mixture)                    & Must Have      \\
+        \textbf{R13} & The system must allow authenticated CPOs adding, modifying and deleting CPs                                                                              & Must Have      \\
+        \textbf{R14} & The system must allow authenticated CPOs changing availability status of their CPs                                                                       & Must Have      \\
         \bottomrule
     \end{tabularx}
 \end{table}
-\subsubsection{eMSP Functional Requirements}
+\subsubsection{eMSP subsystem Functional Requirements}
 \begin{table}[H]
-    \begin{tabularx}{\textwidth}{cX}
+    \begin{tabularx}{\textwidth}{cXc}
+        \textbf{Rx}  & Description                                                                                                       & Priority Level \\
         \toprule
-        \textbf{R15} & The system must allow unregistered users to register an account                                                   \\
-        \textbf{R16} & The system must allow registered users to login                                                                   \\
-        \textbf{R17} & The system must allow authenticated users to personalize their experience by providing information of their EV    \\
-        \textbf{R18} & The system must allow users to search for CPs in the map                                                          \\
-        \textbf{R19} & The system must show to the users CPs nearby their current position                                               \\
-        \textbf{R20} & The system must allow retrieving details on a given CP regarding connector types supported and cost of the charge \\
-        \textbf{R21} & The system must allow authenticated user to book a CP for a certain time interval                                 \\
-        \textbf{R22} & The system must allow booking a CP if and only if it is free for the specified time interval                      \\
-        \textbf{R23} & The system must notify users when the charging shift is about to start                                            \\
-        \textbf{R24} & The system must allow authenticated users to start the charge                                                     \\
-        \textbf{R25} & The system must suggest users when and where to charge based on daily schedule, special offers and availability   \\
-        \textbf{R26} & The system must allow authenticated users to monitor the charging status                                          \\
-        \textbf{R27} & The system must notify authenticated users when the charging process is completed                                 \\
-        \textbf{R28} & The system must allow authenticated users to pay for the charge                                                   \\
-        \textbf{R29} & The system must allow authenticated users to delete a reservation                                                 \\
-        \textbf{R30} & The system must allow authenticated users to view historical reservations                                         \\ \bottomrule
+        \textbf{R15} & The system must allow unregistered users to register an account                                                   & Must Have      \\
+        \textbf{R16} & The system must allow registered users to login                                                                   & Must Have      \\
+        \textbf{R17} & The system must allow authenticated users to personalize their experience by providing information of their EV    & Should Have    \\
+        \textbf{R18} & The system must allow users to search for CPs in the map                                                          & Must Have      \\
+        \textbf{R19} & The system must show to the users CPs nearby their current position                                               & Must Have      \\
+        \textbf{R20} & The system must allow retrieving details on a given CP regarding connector types supported and cost of the charge & Must Have      \\
+        \textbf{R21} & The system must allow authenticated user to book a CP for a certain time interval                                 & Must Have      \\
+        \textbf{R22} & The system must allow booking a CP if and only if it is free for the specified time interval                      & Must Have      \\
+        \textbf{R23} & The system must notify users when the charging shift is about to start                                            & Nice to Have   \\
+        \textbf{R24} & The system must allow authenticated users to start the charge                                                     & Must Have      \\
+        \textbf{R25} & The system must suggest users when and where to charge based on daily schedule, special offers and availability   & Must Have      \\
+        \textbf{R26} & The system must allow authenticated users to monitor the charging status                                          & Nice to Have   \\
+        \textbf{R27} & The system must notify authenticated users when the charging process is completed                                 & Must Have      \\
+        \textbf{R28} & The system must allow authenticated users to pay for the charge                                                   & Must Have      \\
+        \textbf{R29} & The system must allow authenticated users to delete a reservation                                                 & Should Have    \\
+        \textbf{R30} & The system must allow authenticated users to view historical reservations                                         & Should Have    \\
+        \bottomrule
     \end{tabularx}
 \end{table}
 
@@ -1009,20 +1063,21 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         U3 - Map Filtering                            & R18 R19               \\
         U4 - EVCP Details                             & R20                   \\
         U5 - Book a Charge                            & R21 R22 R28           \\
-        U6 - Start a Charge                           & R24                   \\
+        U6 - Start a Charge                           & R24 R27               \\
         U7 - Insert Car Details                       & R17                   \\
         U8 - (EV Driver) History of Reservation       & R26 R30               \\
         U9 - Details of the current charge            & R26                   \\
         U10 - Delete a reservation                    & R29                   \\
-        U11 - Monitor CPs                             & R4 R6 R7              \\
-        U12 - Monitor Specific CP and Change Status   & R14                   \\
-        U13 - Adding a CP                             & R13                   \\
-        U14 - Removing a CP                           & R13                   \\
-        U15 - Add a special offer                     & R3                    \\
-        U16 - (CPO) View reservation                  & R8                    \\
-        U17 - Check energy in batteries               & R5                    \\
-        U18 - Choose energy mix                       & R11 R12               \\
-        U19 - Retrieve price of energy and Choose DSO & R9 R10                \\
+        U11 - Send charging suggestion                & R25                   \\
+        U12 - Monitor CPs                             & R4 R6 R7              \\
+        U13 - Monitor Specific CP and Change Status   & R14                   \\
+        U14 - Adding a CP                             & R13                   \\
+        U15 - Removing a CP                           & R13                   \\
+        U16 - Add a special offer                     & R3                    \\
+        U17 - (CPO) View reservation                  & R8                    \\
+        U18 - Check energy in batteries               & R5                    \\
+        U19 - Choose energy mix                       & R11 R12               \\
+        U20 - Retrieve price of energy and Choose DSO & R9 R10                \\
         \bottomrule
     \end{tabularx}
 \end{table}
