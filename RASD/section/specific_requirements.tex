@@ -14,6 +14,7 @@ TODO: add an introduction
         \includegraphics[scale=0.32]{src/mockups/selectedStation.png}
     }
     \newline
+
     \subfloat[Book charge tab]{
         \includegraphics[scale=0.32]{src/mockups/book_charge.png}
     }
@@ -35,8 +36,21 @@ TODO: add an introduction
     \subfloat[Reservations]{
         \includegraphics[scale=0.32]{src/mockups/reservations.png}
     }
+    \subfloat[Suggestions]{
+        \includegraphics[scale=0.32]{src/mockups/suggested.png}
+    }
+    \newline
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \subfloat[Profile]{
         \includegraphics[scale=0.32]{src/mockups/profile.png}
+    }
+    \newline
+    \centering
+    \subfloat[Dashboard]{
+        \includegraphics[scale=0.28]{src/mockups/business_dashboard.png}
     }
     \newline
     % following mockups
@@ -44,24 +58,26 @@ TODO: add an introduction
 
 \begin{figure}[H]
     \centering
-    \subfloat[Dashboard]{
-        \includegraphics[scale=0.28]{src/mockups/business_dashboard.png}
-    }
-    \newline
     \subfloat[Charging Points]{
         \includegraphics[scale=0.28]{src/mockups/business_CPs.png}
+    }
+    \newline
+    \centering
+    \subfloat[Add a Charging Point]{
+        \includegraphics[scale=0.28]{src/mockups/business_addCP.png}
     }
     \newline
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfloat[Add a Charging Point]{
-        \includegraphics[scale=0.28]{src/mockups/business_addCP.png}
-    }
-    \newline
     \subfloat[Charging Point]{
         \includegraphics[scale=0.28]{src/mockups/business_CP.png}
+    }
+    \newline
+    \centering
+    \subfloat[Rates]{
+        \includegraphics[scale=0.28]{src/mockups/business_rates.png}
     }
     \newline
 \end{figure}
@@ -72,20 +88,14 @@ TODO: add an introduction
         \includegraphics[scale=0.28]{src/mockups/business_reservations.png}
     }
     \newline
+    \centering
     \subfloat[Energy management]{
         \includegraphics[scale=0.28]{src/mockups/business_energy.png}
     }
     \newline
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \subfloat[Reservations list]{
-        \includegraphics[scale=0.28]{src/mockups/business_rates.png}
-    }
-    \newline
-\end{figure}
-\pagebreak
+
 
 
 \subsubsection{Hardware Interfaces}
@@ -729,12 +739,12 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 {16}
 {Add a special offer} % name
 {CPO} % actor
-{Authenticated CPO is in "Charging Points" tab} % entry condition
+{Authenticated CPO is in "Rates" tab} % entry condition
 { % event flow
     \begin{enumerate}
-        \item The operator chooses a specific EVCP, selects a CP and clicks "Rate" button
-        \item The system shows a form in which the operator can select a discount and a time slot or day of the week in which it is valid
-        \item The operator fills and submits the form
+        \item The operator chooses a specific EVCP
+        \item The system shows the rates about the EVCP and a form to add a special rate
+        \item The operator fills the form by specifying a time slot and the percentage of discount then submits
         \item The system processes the information and shows a success message
     \end{enumerate}
 }
@@ -885,6 +895,38 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
     \end{enumerate}
 }
 {The choice of DSO is completed} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    ...
+}
+
+\usecase
+{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{src/sequence_diagram/addRate.png}
+    \end{figure}
+}
+{21}
+{Add a Rate} % name
+{CPO} % actor
+{Authenticated CPO is in "Rates" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator chooses a specific EVCP
+        \item The system shows the rates about the EVCP
+        \item The operator clicks "Add a rate" button
+        \item The system shows a form to fill to create a new rate
+        \item The operator fills the form with the rate formula, the schedule of the rate, the currency, the power of the connector and the sockets that will use that rate, the submits
+        \item The system shows the rates about the EVCP
+    \end{enumerate}
+}
+{The special offer is created} % exit condition
 { % exceptions
     \begin{itemize}
         \item Loss of internet connection
