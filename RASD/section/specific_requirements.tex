@@ -14,7 +14,9 @@ In this subsection we present user interfaces for both types of users, drivers a
         \includegraphics[scale=0.32]{src/mockups/selectedStation.png}
     }
     \newline
-
+\end{figure}
+\begin{figure}[H]
+    \centering
     \subfloat[Book charge tab]{
         \includegraphics[scale=0.32]{src/mockups/book_charge.png}
     }
@@ -22,10 +24,6 @@ In this subsection we present user interfaces for both types of users, drivers a
         \includegraphics[scale=0.32]{src/mockups/book_cost.png}
     }
     \newline
-\end{figure}
-
-\begin{figure}[H]
-    \centering
     \subfloat[Car status]{
         \includegraphics[scale=0.32]{src/mockups/car.png}
     }
@@ -33,6 +31,10 @@ In this subsection we present user interfaces for both types of users, drivers a
         \includegraphics[scale=0.32]{src/mockups/car_add.png}
     }
     \newline
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \subfloat[Reservations]{
         \includegraphics[scale=0.32]{src/mockups/reservations.png}
     }
@@ -40,62 +42,51 @@ In this subsection we present user interfaces for both types of users, drivers a
         \includegraphics[scale=0.32]{src/mockups/suggested.png}
     }
     \newline
-\end{figure}
-
-\begin{figure}[H]
-    \centering
     \subfloat[Profile]{
         \includegraphics[scale=0.32]{src/mockups/profile.png}
     }
 \end{figure}
+
 \begin{figure}[H]
     \centering
     \subfloat[Dashboard]{
         \includegraphics[scale=0.28]{src/mockups/business_dashboard.png}
     }
     \newline
-    % following mockups
-\end{figure}
-
-\begin{figure}[H]
-    \centering
     \subfloat[Charging Points]{
         \includegraphics[scale=0.28]{src/mockups/business_CPs.png}
     }
-    \newline
+\end{figure}
+
+\begin{figure}[H]
     \centering
     \subfloat[Add a Charging Point]{
         \includegraphics[scale=0.28]{src/mockups/business_addCP.png}
     }
     \newline
-\end{figure}
-
-\begin{figure}[H]
-    \centering
     \subfloat[Charging Point]{
         \includegraphics[scale=0.28]{src/mockups/business_CP.png}
     }
-    \newline
+\end{figure}
+
+\begin{figure}[H]
     \centering
     \subfloat[Rates]{
         \includegraphics[scale=0.28]{src/mockups/business_rates.png}
     }
     \newline
+    \subfloat[Reservations list]{
+        \includegraphics[scale=0.28]{src/mockups/business_reservations.png}
+    }
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfloat[Reservations list]{
-        \includegraphics[scale=0.28]{src/mockups/business_reservations.png}
-    }
-    \newline
-    \centering
     \subfloat[Energy management]{
         \includegraphics[scale=0.28]{src/mockups/business_energy.png}
     }
-    \newline
 \end{figure}
-
+\pagebreak
 
 
 
@@ -187,7 +178,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
     \end{itemize}
 }
 {
-    All the exception are treated the same: the system will notify user with a human-readable message
+    In case of exception the system will notify user with a human-readable message
 }
 
 \usecase
@@ -214,8 +205,6 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \item The operator is not associated to the given VAT
         \item A wrong verification code is submitted
         \item The timeout of verification expires
-        \item Loss of internet connection
-        \item The actor cancels the operation
     \end{itemize}
 }
 { % notes
@@ -249,8 +238,6 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \item A required registration field is missing when the form is submitted
         \item A wrong verification code is submitted
         \item The timeout of verification expires
-        \item Loss of internet connection
-        \item The actor cancels the operation
     \end{itemize}
 }
 {
@@ -280,7 +267,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
     \end{itemize}
 }
 {
-    The system shows an error and shows the map as it was
+    In case of exception the system ignores the filtering and continues showing the map as it was
 }
 
 \usecase
@@ -299,9 +286,12 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The filtered markers are displayed}
 {
-    No exception in this use case
+    \begin{itemize}
+        \item The provided connector is not recognized by the system
+    \end{itemize}
 }
 {
+    In case of exception the system ignores the filtering and continues showing the map as it was
 }
 
 \usecase
@@ -324,12 +314,9 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The filtered markers are displayed}
 {
-    \begin{itemize}
-        \item The result of geo-localization of the specified address is not defined
-    \end{itemize}
+    No exception in this use case
 }
 {
-    The system shows an error and the map as it was
 }
 
 \usecase
@@ -573,12 +560,9 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The notification is pushed to the user}
 {
-    \begin{itemize}
-        \item ...
-    \end{itemize}
+    No exception in this use case
 }
 {
-    ...
 }
 
 \usecase
@@ -602,13 +586,9 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The aggregate CPs details charts are displayed} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    No exception in this use case
 }
 { % notes
-    ...
 }
 
 \usecase
@@ -629,13 +609,9 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The details of the specific CP are displayed} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    No exception in this use case
 }
 { % notes
-    ...
 }
 
 \usecase
@@ -659,13 +635,9 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The change of status of the specific CP has been planned} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    No exception in this use case
 }
 { % notes
-    ...
 }
 
 \pagebreak
@@ -684,7 +656,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
     \begin{enumerate}
         \item The operator clicks "Add a new CP" button
         \item The system provides a popup to insert details of the new CP
-        \item The operator chooses specifies the ID (serial number of CP), the rate that will have to calculate charging costs, the EVCP in which it is, then clicks "connect" button
+        \item The operator specifies the ID (serial number of CP), the EVCP in which it is, then clicks "connect" button
         \item The system shows an OCPP URL to connect the CP to the CPMS and waits for a connection
         \item The operator connects the CP using the CP's manufacturer platform
         \item The system shows a message when the connection is established
@@ -692,13 +664,12 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The new CP is connected} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    \begin{enumerate}
+        \item The user cancels the operation
+    \end{enumerate}
 }
 { % notes
-    ...
+    In case of exception the system close the pupup
 }
 
 \usecase
@@ -720,13 +691,9 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The CP is removed} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    No exception in this use case
 }
 { % notes
-    ...
 }
 
 \pagebreak
@@ -751,13 +718,9 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The special offer is created} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    No exception in this use case
 }
 { % notes
-    ...
 }
 
 \usecase
@@ -784,12 +747,11 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 {The special offer is created} % exit condition
 { % exceptions
     \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
+        \item The operator cancels the operation
     \end{itemize}
 }
 { % notes
-    ...
+    In case of exception the system closes the form
 }
 
 \usecase
@@ -807,7 +769,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
     \begin{enumerate}
 
         \item The operator clicks "Reservations" tab
-        \item The system shows the reservations table
+        \item The system shows the reservations' table
         \item The operator choose a filter (completed, running, pending, upcoming) or to sort reservations (by CP, EVCP, ...)
     \end{enumerate}
 }
@@ -816,7 +778,6 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
     No exception in this use case
 }
 { % notes
-    ...
 }
 
 \pagebreak
@@ -839,13 +800,9 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The 'Check energy in batteries' chart is shown} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    No exception in this use case
 }
 { % notes
-    ...
 }
 
 \pagebreak
@@ -868,17 +825,10 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The choice of an EVCP energy storing mode is completed} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    No exception in this use case
 }
 { % notes
-    ...
 }
-
-
-
 
 \usecase
 {
@@ -897,13 +847,9 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The details of price energy are displayed} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    No exception in this use case
 }
 { % notes
-    ...
 }
 
 \usecase
@@ -928,13 +874,9 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
 }
 {The choice of DSO is completed} % exit condition
 { % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
+    No exception in this use case
 }
 { % notes
-    ...
 }
 
 \pagebreak
