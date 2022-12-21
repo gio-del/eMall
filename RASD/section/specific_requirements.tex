@@ -4,13 +4,13 @@
 In this section details about user interfaces, hardware and application programming interfaces are described.
 
 \subsubsection{User Interfaces}
-TODO: add an introduction
+In this subsection we present user interfaces for both types of users, drivers and CPOs
 \begin{figure}[H]
     \centering
     \subfloat[Home]{
         \includegraphics[scale=0.32]{src/mockups/home.png}
     }
-    \subfloat[Selected EVCP]{
+    \subfloat[Selected EVCP: drawer]{
         \includegraphics[scale=0.32]{src/mockups/selectedStation.png}
     }
     \newline
@@ -47,7 +47,8 @@ TODO: add an introduction
     \subfloat[Profile]{
         \includegraphics[scale=0.32]{src/mockups/profile.png}
     }
-    \newline
+\end{figure}
+\begin{figure}[H]
     \centering
     \subfloat[Dashboard]{
         \includegraphics[scale=0.28]{src/mockups/business_dashboard.png}
@@ -101,7 +102,7 @@ TODO: add an introduction
 \subsubsection{Hardware Interfaces}
 To use the system, both EV drivers and CPOs must have a mobile device or a personal computer.
 Due to the outdoor expected use of the system, a smartphone will be a more suitable device
-for a EV driver, instead for a CPO is suggested to use the system from a personal computer.
+for an EV driver, instead for a CPO is suggested to use the system from a personal computer.
 The system is based on the ability of gathering data from different sources, such as the CP, the battery storage that may be present in an EVCP and the battery status of an EV. These data are provided through hardware interfaces that are external
 to our system, and we assume that an API let the system access to these data
 
@@ -736,7 +737,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         \includegraphics[scale=0.9]{src/sequence_diagram/specialOffer.png}
     \end{figure}
 }
-{16}
+{16.1}
 {Add a special offer} % name
 {CPO} % actor
 {Authenticated CPO is in "Rates" tab} % entry condition
@@ -759,6 +760,37 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
     ...
 }
 
+\usecase
+{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.9]{src/sequence_diagram/addRate.png}
+    \end{figure}
+}
+{16.2}
+{Add a Rate} % name
+{CPO} % actor
+{Authenticated CPO is in "Rates" tab} % entry condition
+{ % event flow
+    \begin{enumerate}
+        \item The operator chooses a specific EVCP
+        \item The system shows the rates about the EVCP
+        \item The operator clicks "Add a rate" button
+        \item The system shows a form to fill to create a new rate
+        \item The operator fills the form with the rate formula, the schedule of the rate, the currency, the power of the connector and the sockets that will use that rate, the submits
+        \item The system shows the rates about the EVCP
+    \end{enumerate}
+}
+{The special offer is created} % exit condition
+{ % exceptions
+    \begin{itemize}
+        \item Loss of internet connection
+        \item The actor cancels the operation
+    \end{itemize}
+}
+{ % notes
+    ...
+}
 
 \usecase
 {
@@ -895,38 +927,6 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
     \end{enumerate}
 }
 {The choice of DSO is completed} % exit condition
-{ % exceptions
-    \begin{itemize}
-        \item Loss of internet connection
-        \item The actor cancels the operation
-    \end{itemize}
-}
-{ % notes
-    ...
-}
-
-\usecase
-{
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.9]{src/sequence_diagram/addRate.png}
-    \end{figure}
-}
-{21}
-{Add a Rate} % name
-{CPO} % actor
-{Authenticated CPO is in "Rates" tab} % entry condition
-{ % event flow
-    \begin{enumerate}
-        \item The operator chooses a specific EVCP
-        \item The system shows the rates about the EVCP
-        \item The operator clicks "Add a rate" button
-        \item The system shows a form to fill to create a new rate
-        \item The operator fills the form with the rate formula, the schedule of the rate, the currency, the power of the connector and the sockets that will use that rate, the submits
-        \item The system shows the rates about the EVCP
-    \end{enumerate}
-}
-{The special offer is created} % exit condition
 { % exceptions
     \begin{itemize}
         \item Loss of internet connection
@@ -1124,7 +1124,7 @@ In all the following use cases and sequence diagrams, the System To Be is shown 
         U13 - Monitor Specific CP and Change Status   & R14                   \\
         U14 - Adding a CP                             & R13                   \\
         U15 - Removing a CP                           & R13                   \\
-        U16 - Add a special offer                     & R3                    \\
+        U16 - Add a special offer and Add a Rate      & R3                    \\
         U17 - (CPO) View reservation                  & R8                    \\
         U18 - Check energy in batteries               & R5                    \\
         U19 - Choose energy mix                       & R11 R12               \\
