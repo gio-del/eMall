@@ -32,17 +32,17 @@ to specify what the system must do, how it will interact with the stakeholders a
 \end{table}
 
 \subsection{Scope}
-The main actors in this system are the drivers and the CPOs - Charging Point Operators, who manage their charging columns, along with the DSOs - Distribution System Operator, in charge of distributing the energy.
+The main actors in this system are the EV drivers and the CPOs - Charging Point Operators, who manage their charging columns, along with the DSOs - Distribution System Operator, in charge of distributing the energy that powers the grid.
 The digital system eMall should provide three main features:
 \begin{itemize}
-    \item \textbf{Booking} allows EV owners to book a charge. The remote booking avoids interference
+    \item \textbf{Booking:} allows EV owners to book a charge. The remote booking avoids interference
           in the daily schedule of the owners, and it includes a notification
           system that alerts owners when their reservation is going to start.
-    \item \textbf{Charging} allows EV owners to charge an EV, remotely monitor their charging
+    \item \textbf{Charging:} allows EV owners to charge an EV, remotely monitor their charging
           process and be notified at the end of the charge.
           Thanks to these features, owners have not anymore the need to
           physically go to the CP when they want to retrieve details of their charge.
-    \item  \textbf{Managing an EVCP} allows CPOs to get statistics on live and historical details
+    \item  \textbf{Managing an EVCP:} allows CPOs to get statistics on live and historical details
           about their EVCP - Electric Vehicle Charging Pool, to acquire information about the current energy price by
           DSOs and to decide in an automated way where to get energy for charging.
 \end{itemize}
@@ -93,10 +93,11 @@ The digital system eMall should provide three main features:
     \item EV Driver - Electric Vehicle Driver, people or entities who own an EV car and want to use the system for their charging needs
     \item EVCP - Electric Vehicle Charging Pool, is a station with multiple CPs
     \item CP - a synonym of EVSE - is a single charging column with multiple connectors
-    \item Connectors - charging sockets which can be of different types (e.g. CCS2, Type2)
+    \item Connector - charging sockets attached to a CP which can be of different types (e.g. CCS2, Type2). May be referred to as 'Socket' or 'Charging Socket'
+    \item CPO - Charging Point Operator, people or entities that manage their CPs
     \item OCPP - Open Charge Point Protocol \footnote{\href{https://www.openchargealliance.org/protocols/ocpp-201/}{OCPP Protocol}} - is a protocol that dictates the communication between CPMS and a controlled CP to achieve smart charging functionalities
     \item OCPI - Open Charge Point Interface \footnote{\href{https://evroaming.org/ocpi-background/}{OCPI Protocol}} - is a protocol that dictates the communication between CPMSs and eMsps to let the CPMSs to be accessible by multiple eMsps achieving roaming functionalities
-    \item Rate - 
+    \item Rate - the rate that the CPO decides to set for the CPs it manages. It contains a fixed part for parking and a variable part per kWh. Usually the rates are associated with a certain power (kW)
 \end{itemize}
 
 \subsubsection{Acronyms}
@@ -143,6 +144,15 @@ The digital system eMall should provide three main features:
 \end{table}
 
 \subsection{Revision history}
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{lcl}
+        \toprule
+        \textbf{Revised on} & Version & Description                     \\ \midrule
+        22-Dec-2022         & 1.0     & Initial Release of the document \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
 
 \subsection{Reference Documents}
 Assignment document A.Y. 2022/2023 ("Requirement Engineering and Design Project: goal, schedule and rules")
@@ -153,8 +163,8 @@ This document is composed of six sections:
 \begin{enumerate}
     \item  we introduce the problem and the goals of the system to be. In the scope subsection
           we provide a description of the various world and shared phenomena occurring. Lastly, we provide useful information to read this document properly, such as definitions and abbreviations
-    \item  we provide an overall description of the system, along with a description of the users and their main functionalities. Moreover domain diagrams are presented and several scenarios are described, lastly we provide the domain assumption of the system to be
-    \item  we specify the requirements of the system to be. This includes functional and non-functional requirements. Furthermore use cases diagrams are presented, along with a description of each use cases and a related sequence diagram. Lastly, we provide a mapping of the requirements on both goals and use cases
+    \item  we provide an overall description of the system, along with a description of the users and their main functionalities. Moreover, domain diagrams are presented, and several scenarios are described, lastly we provide the domain assumption of the system to be
+    \item  we specify the requirements of the system to be. This includes functional and non-functional requirements. Furthermore, use cases diagrams are presented, along with a description of each use cases and a related sequence diagram. Lastly, we provide a mapping of the requirements on both goals and use cases
     \item  we provide a formal analysis of the system to be with Alloy
     \item  we provide an estimate of the effort spent by each group member
     \item  we list the used references
