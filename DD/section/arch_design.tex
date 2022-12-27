@@ -1,26 +1,64 @@
 \section{Architectural Design}
 \subsection{Overview}
-The figure shown below represents an high-level description of the components which make up the System.
+The figure shown below represents a high-level description of the components which make up the System.
 The architectural design of the System is divided between eMSP and CPMS. \\
-The former describes the part of the System dedicated to offer a Web App for 
+The former describes the part of the System dedicated to offer a Web App for
 EV Drivers to plan their charges, book a charge and manage the charges. \\
-The latter whereas describes the second part of the System used by the CPOs 
-to manage the reservations, the CP, the energy mix and the contracts with the DSOs.
-Both the two parts consists of a three tier architecture to ensure high maintainability, scalability and security. 
-
-
-\subsection{Component view}
-This figures describes an high-level view of the components of the eMSP and CPMS that will be described in terms of their subcomponents in the next subsections.
+The latter describes the CPMSs used by the CPOs to manage the reservations, the CP, the energy mix and the contracts with the DSOs.
+Both the two parts consists of a four tier architecture that can be grouped into three logical layers: presentation, business logic and data.
+\begin {enumerate}
+\item Presentation Layer: it manages the presentation logic and all the interactions with the end users
+\item Business Logic Layer: it manages the application functions that the S2B provide
+\item Data Layer: it manages the safe storage and the access to data
+\end{enumerate}
+\hfill \\
+In this document the presentation layer and the Client (e.g. the Browser)
+will be referred to as the Frontend, while the Application Layer and the Data Layer
+will be referred to as the Backend.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.38]{src/ComponentDiagram/CPOdiagram.pdf}
-    \caption{Charging Point Operator}
+    \includegraphics[scale=0.32]{src/Overview/overview_diagram.png}
+\end{figure}
+
+\hfill \\
+The service is supposed to be accessed through a web interface.
+Since the features offered and the intensity of the interaction with the application server
+are very different depending on the type of user, the web interfaces will be developed following
+different principles.
+For the EV Drivers an SPA will be developed. An SPA is well-suited for applications
+that require a lot of interaction and do not need to perform frequent full page reloads.
+They can provide a faster and more seamless user experience for applications that require a
+lot of interaction.
+For the CPO an SSR Dashboard will be developed. SSR can provide a faster user experience
+the server pre-renders the content, reducing the amount of work that the client needs to do.
+The Overview Architecture of the S2B divides the application in the layers described
+above, and contains some replicated Web Servers, which act as a middleware
+between the user's browser and the application servers.
+Finally, the application servers interfaces with the DBMS APIs, in order
+to retrieve and store the data required for the considered computation.
+The applications servers are expected to be stateless, according to the
+REST standard definitions. The nodes are separated by firewalls to guarantee a higher level of security
+of the whole system.
+
+\begin{itemize}
+    \item Static Web Server: it does not execute any business logic, but simply receive requests from the client and serve an HTML file along with other static assets (CSS Sheets, JS files, \dots).
+          It does not route the request to the Application Server
+    \item Web Server: it does not execute any business logic, but simply receive requests from the client, route
+          them to the application servers which build the HTML page (along with the static assets) and send it back to the web server which serve the client
+\end{itemize}
+\pagebreak
+\subsection{Component view}
+These figures describe a high-level view of the components of the eMSP and CPMS that will be described in terms of their subcomponents in the next subsections.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{src/ComponentDiagram/component_diagram.pdf}
 \end{figure} \vspace{1cm}
 
 \subsubsection{CPMS Web App}
 It represents the application dedicated to the different CPOs using the system. This component contains the logic to receive HTTPS requests from the users' browser,
-forward them to the CPMS Application Server, and generate dynamic pages based on the response from the CPMS Application Server. (For the eMSP) It can be wrapped into a PWA to generate a downloadable application that 
+forward them to the CPMS Application Server, and generate dynamic pages based on the response from the CPMS Application Server. (For the eMSP) It can be wrapped into a PWA to generate a downloadable application that
 the mobile operating system renders as a native application.
 
 \subsubsection{CPMS Application Server}
@@ -29,18 +67,40 @@ the information flow between application layer and data layer.
 It is composed of several components, each of them used for a specific functionality:\\
 \begin{itemize}
     \item \textbf{Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate the requests in the CPMS application server.
-    It offer functionality to create new account, logging in, setting preferences and verify the authentication of the user at any time. 
-    To create a new account interacts with the external SMS API to make the user receive a code to verify the identity. 
+          It offers functionality to create new account, logging in, setting preferences and verify the authentication of the user at any time.
+          To create a new account interacts with the external SMS API to make the user receive a code to verify the identity.
 \end{itemize}
-
 
 \subsection{Deployment view}
 Infrastructure: deployment diagram(s) including non-logical elements (e.g., load balancer, firewall)
+
 \subsection{Runtime view}
 You can use sequence diagrams to describe the way components interact to accomplish specific tasks typically related to your use cases. Dynamics of the interactions: sequence
 diagrams (realization of use cases)
+
 \subsection{Component interfaces}
 Details for each interface (name, signature, returned objects)
+
+\subsection{Logical Description of Data}
+\begin{figure}[H]
+    \includegraphics[scale=0.35]{src/ERDiagram/er_diagram.png}
+\end{figure}
+
 \subsection{Architectural Styles and patterns}
 Please explain which styles/patterns you used, why, and how
+
+\begin{itemize}
+    \item MVC: what and why?
+    \item Three layers and Four Tier: what and why?
+    \item RESTful: what and why?
+    \item Adapter Pattern: The Query Manager component implements the Adapter pattern, as it mediates between the
+    business logic and the DBMS services, exposing only a restricted and higher level set of functionalities.
+\end{itemize}
 \subsection{Other design decisions}
+\subsubsection{PWA}
+\dots
+\subsubsection{Scale-out}
+\dots
+\subsubsection{Relational Database}
+\dots
+\subsubsection{The separation of eMSP and CPMSs}

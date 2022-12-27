@@ -7,15 +7,21 @@ Additionally, it includes instructions regarding the implementation, integration
 This document is intended to be a reference for the implementation of the system, and is aimed toward the developers, testers and project managers.
 
 \subsection{Scope}
-eMall is a system that allows EV Driver to plan efficiently their charging needs and CPO - Charging Point Operator - to be reached by EV Driver.
-
-In particular, eMall allows EV Driver to search and then book a charge to a CP - Charging Point, either at a specific
+eMall is a system that allows EV - Electric Vehicle - Driver to plan efficiently their charging needs and CPO - Charging Point Operator - to be reached by EV Driver.
+\\In particular, eMall allows EV Driver to search and then book a charge to a CP - Charging Point, either at a specific
 time, pay the charge, start a charge and being notified when the charging process is completed.
+The system allows CPO - Charging Point Operator - to smartly manage their charging points, choosing among other things rates and energy sources.
+The system consists of two subsystems: eMSP - electric mobility service provider - and CPMSs - charging point management systems. The former offer functionality to drivers, the latter offer management options to operators. One of the focuses of this document is the description of how these entities interact with each other. Instead, it is out of the scope the design of the physical CPs - Charging Points that are assumed to be already implemented and tested
+\\ For a detailed description of the features that the system offers to end users, please refer to the RASD.
 
-TODO: reviews the domain and product, summary of main architectural style/choices (e.g., 3-tier / 4-tier, …)
+TODO: main architectural styles and choices.\\
+The architecture of the S2B is divided into three layers physically separated because installed on different tiers.
 \subsection{Definitions, Acronyms, Abbreviations}
 \subsubsection{Definitions}
 \begin{itemize}
+    \item Tier -  physical components or servers that make up a system
+    \item Layer - a logical separation of components with related functionality
+    \item S2B - System To Be, is the system we are planning
     \item EV Driver - Electric Vehicle Driver, people or entities who own an EV car and want to use the
           system for their charging needs
     \item EVCP - Electric Vehicle Charging Pool, is a station with multiple CPs
@@ -32,9 +38,14 @@ TODO: reviews the domain and product, summary of main architectural style/choice
         \textbf{DD}    & Design Document                                 \\
         \textbf{EV}    & Electric Vehicle                                \\
         \textbf{CPO}   & Charging Point Operator                         \\
+        \textbf{DSO}   & Distribution System Operator                    \\
         \textbf{CP}    & Charging Point                                  \\
         \textbf{EVCP}  & Electric Vehicle Charging Pool                  \\
         \textbf{EVSE}  & Electric Vehicle Supply Equipment               \\
+        \textbf{CPMS}  & Charging Point Management System                \\
+        \textbf{eMSP}  & Electric Mobility Service Provider              \\
+        \textbf{SPA}   & Single Page Application                         \\
+        \textbf{SSR}   & Server Side Rendering                           \\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -49,8 +60,11 @@ TODO: reviews the domain and product, summary of main architectural style/choice
 \end{table}
 \subsection{Revision history}
 \subsection{Reference Documents}
-Assignment document A.Y. 2022/2023 (”Requirement Engineering and Design Project: goal, schedule
-and rules”)
+\begin{itemize}
+    \item Requirement Analysis and Specification Document (referred to as “RASD” in the document)
+    \item Assignment document A.Y. 2022/2023 (”Requirement Engineering and Design Project: goal, schedule
+          and rules”)
+\end{itemize}
 \subsection{Document Structure}
 
 This document is composed of seven sections:
