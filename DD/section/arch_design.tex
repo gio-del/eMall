@@ -18,7 +18,7 @@ will be referred to as the Backend.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.32]{src/Overview/overview_diagram.png}
+    \includegraphics[scale=0.42]{src/Overview/overview_diagram.pdf}
 \end{figure}
 
 \hfill \\
@@ -55,17 +55,39 @@ These figures describe a high-level view of the components of the eMSP and CPMS 
     \centering
     \includegraphics[scale=0.43]{src/ComponentDiagram/component_diagram.pdf}
 \end{figure} \vspace{1cm}
+\subsubsection{eMSP}
 
-\subsubsection{CPMS Web App}
+\paragraph*{eMSP Web App} \hfill \\
+It represents the application dedicated to the different EV drivers using the system.
+
+\paragraph*{eMSP Application Server} \hfill \\
+...TODO
+\begin{itemize}
+    \item \textbf{Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate
+          the requests in the CPMS application server.
+          It offers functionality to create new account, logging in, setting preferences and verify the authentication of the user at any time.
+          To create a new account interacts with the external SMS API to make the user receive a code to verify the identity.
+    \item \textbf{CP Search} \\ This component handles the operations needed to show the CPs in a specified range of km. Through the GPS service,
+          this component has the current latitude and longitude
+    \item \textbf{Car Manager} \\
+    \item \textbf{Reservation Manager} \\
+\end{itemize}
+
+
+\subsubsection{CPMS}
+
+\paragraph*{CPO Web App} \hfill \\
 It represents the application dedicated to the different CPOs using the system. This component contains the logic to receive HTTPS requests from the users' browser,
-forward them to the CPMS Application Server, and generate dynamic pages based on the response from the CPMS Application Server. (For the eMSP) It can be wrapped into a PWA to generate a downloadable application that
-the mobile operating system renders as a native application.
+forward them to the CPMS Application Server, and generate dynamic pages based on the response from the CPMS Application Server.
 
-\subsubsection{CPMS Application Server}
-The CPMS Application Server is responsible for the business logic to provide the functionality to the application for the CPOs and to coordinate.
-the information flow between application layer and data layer.
+\paragraph*{CPMS Application Server} \hfill \\
+The CPMS Application Server is responsible for the business logic to provide the functionality to the application for the CPOs and to coordinate the information flow between application layer and data layer.
 It is composed of several components, each of them used for a specific functionality:\\
 \begin{itemize}
+    \item \textbf{Reservation Manager} \\
+    \item \textbf{Rate Manager} \\
+    \item \textbf{Energy Manager} \\
+    \item \textbf{Charging Points Manager} \\
     \item \textbf{Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate the requests in the CPMS application server.
           It offers functionality to create new account, logging in, setting preferences and verify the authentication of the user at any time.
           To create a new account interacts with the external SMS API to make the user receive a code to verify the identity.
@@ -80,10 +102,53 @@ diagrams (realization of use cases)
 
 \subsection{Component interfaces}
 Details for each interface (name, signature, returned objects)
+\subsubsection{REST Endpoints}
+\renewcommand{\labelitemii}{}
+\renewcommand{\labelitemiii}{-}
+\begin{itemize}
+    \item \texttt{/api/search/<latitude|longitude>}
+          \begin{itemize}
+              \item Maps: \texttt{NomeMetodoMappato}
+              \item Type: TipoAPI(GET,POST)
+              \item URL Parameters:
+                    \begin{itemize}
+                        \item \texttt{<latitude|longitude>} - GPS Location, needed to find CPs nearby a certain location.
+                    \end{itemize}
+              \item Parameters:
+                    \begin{itemize}
+                        \item \texttt{authToken}
+                        \item \texttt{blabla} [string] - description
+                        \item \texttt{blabla} [boolean] - description
+                        \item \texttt{blabla} [number] - description
+                    \end{itemize}
+              \item Success:
+                    \begin{itemize}
+                        \item 200 - OK + Response
+                              \begin{lstlisting}
+            {
+                "cps": [
+                    {
+                        "id": "<store id>",
+                        "name": "<cp name>",
+                        "address": "<address>",
+                        "open": <boolean>,
+                        "distance": <number>,
+                    }
+                ]
+            }
+            \end{lstlisting}
+                    \end{itemize}
+              \item Errors:
+                    \begin{itemize}
+                        \item 400 - Bad request
+                        \item 404 - No store found
+                    \end{itemize}
+          \end{itemize}
+\end{itemize}
 
 \subsection{Logical Description of Data}
 \begin{figure}[H]
-    \includegraphics[scale=0.35]{src/ERDiagram/er_diagram.png}
+    \includegraphics[scale=0.30]{src/ERDiagram/er_diagram.pdf}
 \end{figure}
 
 \subsection{Architectural Styles and patterns}
@@ -94,7 +159,7 @@ Please explain which styles/patterns you used, why, and how
     \item Three layers and Four Tier: what and why?
     \item RESTful: what and why?
     \item Adapter Pattern: The Query Manager component implements the Adapter pattern, as it mediates between the
-    business logic and the DBMS services, exposing only a restricted and higher level set of functionalities.
+          business logic and the DBMS services, exposing only a restricted and higher level set of functionalities.
 \end{itemize}
 \subsection{Other design decisions}
 \subsubsection{PWA}
