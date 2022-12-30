@@ -49,12 +49,9 @@ of the whole system.
 \end{itemize}
 \pagebreak
 \subsection{Component view}
-These figures describe a high-level view of the components of the eMSP and CPMS that will be described in terms of their subcomponents in the next subsections.
+In this section we show the components of the S2B, their relationships and interfaces. The following sections will explain the interaction between interfaces and details on each method of interfaces with REST endpoints, if any.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.43]{src/ComponentDiagram/component_diagram.pdf}
-\end{figure} \vspace{1cm}
+
 \subsubsection{eMSP}
 
 \paragraph*{eMSP Web App} \hfill \\
@@ -92,6 +89,20 @@ It is composed of several components, each of them used for a specific functiona
           It offers functionality to create new account, logging in, setting preferences and verify the authentication of the user at any time.
           To create a new account interacts with the external SMS API to make the user receive a code to verify the identity.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \hspace*{-1.7cm}
+    \includegraphics[height=\textheight-0.1cm,keepaspectratio]{src/ComponentDiagram/component_diagram.pdf}
+    \caption{Component Diagram of the eMall System}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \hspace*{-2.5cm}
+    \includegraphics[height=\textheight-1.5cm,keepaspectratio]{src/componentInterfaces/component_interface.pdf}
+    \caption{Class Diagram with interfaces of the eMall System}
+\end{figure}
 
 \subsection{Deployment view}
 Infrastructure: deployment diagram(s) including non-logical elements (e.g., load balancer, firewall)
@@ -155,7 +166,6 @@ Details for each interface (name, signature, returned objects)
 Please explain which styles/patterns you used, why, and how
 
 \begin{itemize}
-    \item MVC: what and why?
     \item Three layers and Four Tier: what and why?
     \item RESTful: what and why?
     \item Adapter Pattern: The Query Manager component implements the Adapter pattern, as it mediates between the
