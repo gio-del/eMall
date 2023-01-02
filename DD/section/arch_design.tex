@@ -51,8 +51,22 @@ of the whole system.
 \subsection{Component view}
 In this section we show the components of the S2B, their relationships and interfaces. The following sections will explain the interaction between interfaces and details on each method of interfaces with REST endpoints, if any.
 
+\begin{figure}[H]
+    \centering
+    \hspace*{-2cm}
+    \includegraphics[scale=0.5]{src/ComponentDiagram/overview_component_diagram.pdf}
+    \caption{Component Diagram of the eMall System}
+\end{figure}
+
 
 \subsubsection{eMSP}
+
+\begin{figure}[H]
+    \centering
+    \hspace*{-2cm}
+    \includegraphics[scale=0.5]{src/ComponentDiagram/emsp_component_diagram.pdf}
+    \caption{Component Diagram of the eMSP subsystem}
+\end{figure}
 
 \paragraph*{eMSP Web App} \hfill \\
 It represents the application dedicated to the different EV drivers using the system.
@@ -73,6 +87,13 @@ It represents the application dedicated to the different EV drivers using the sy
 
 \subsubsection{CPMS}
 
+\begin{figure}[H]
+    \centering
+    \hspace*{-2cm}
+    \includegraphics[scale=0.5]{src/ComponentDiagram/cpms_component_diagram.pdf}
+    \caption{Component Diagram of the CPMS subsystem}
+\end{figure}
+
 \paragraph*{CPO Web App} \hfill \\
 It represents the application dedicated to the different CPOs using the system. This component contains the logic to receive HTTPS requests from the users' browser,
 forward them to the CPMS Application Server, and generate dynamic pages based on the response from the CPMS Application Server.
@@ -92,16 +113,15 @@ It is composed of several components, each of them used for a specific functiona
 
 \begin{figure}[H]
     \centering
-    \hspace*{-1.7cm}
-    \includegraphics[height=\textheight-0.1cm,keepaspectratio]{src/ComponentDiagram/component_diagram.pdf}
-    \caption{Component Diagram of the eMall System}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
     \hspace*{-2.5cm}
     \includegraphics[height=\textheight-1.5cm,keepaspectratio]{src/componentInterfaces/component_interface.pdf}
     \caption{Class Diagram with interfaces of the eMall System}
+\end{figure}
+
+
+\subsubsection{Logical Description of Data}
+\begin{figure}[H]
+    \includegraphics[scale=0.30]{src/ERDiagram/er_diagram.pdf}
 \end{figure}
 
 \subsection{Deployment view}
@@ -156,11 +176,6 @@ Details for each interface (name, signature, returned objects)
                     \end{itemize}
           \end{itemize}
 \end{itemize}
-
-\subsection{Logical Description of Data}
-\begin{figure}[H]
-    \includegraphics[scale=0.30]{src/ERDiagram/er_diagram.pdf}
-\end{figure}
 
 \subsection{Architectural Styles and patterns}
 Please explain which styles/patterns you used, why, and how
