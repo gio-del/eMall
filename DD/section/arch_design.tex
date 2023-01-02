@@ -55,19 +55,28 @@ In this section we show the components of the S2B, their relationships and inter
 \subsubsection{eMSP}
 
 \paragraph*{eMSP Web App} \hfill \\
-It represents the application dedicated to the different EV drivers using the system.
-
+It represents the application dedicated to the EV drivers. This component uses client side rendering of web pages. 
+The user through the browser sends a request to the server and the eMSP Application Server responds with the HTML and Javascript which the browser then
+downloads and execute. As the user interacts with the page, the Javascript can make additional requests to the server and update
+the page dynamically, without need to fully reload the page. 
 \paragraph*{eMSP Application Server} \hfill \\
-...TODO
+The eMSP Application Server is responsible for the business logic to provide the functionality to the application for the EV Drivers and to coordinate the information flow between application layer and data layer
+It is composed of several components, each of them used for a specific functionality:\\
 \begin{itemize}
     \item \textbf{Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate
           the requests in the CPMS application server.
           It offers functionality to create new account, logging in, setting preferences and verify the authentication of the user at any time.
           To create a new account interacts with the external SMS API to make the user receive a code to verify the identity.
-    \item \textbf{CP Search} \\ This component handles the operations needed to show the CPs in a specified range of km. Through the GPS service,
-          this component has the current latitude and longitude
-    \item \textbf{Car Manager} \\
-    \item \textbf{Reservation Manager} \\
+    \item \textbf{CP Search} \\ This component handles the operations needed to show the CPs in a specified range of km near a location. The location
+        can be described as an address, with coordinates or by geolocating the actual position of the incoming request. It selects the filtered CPs that are then 
+        shown in the map as placeholders.  
+    \item \textbf{Car Manager} \\ This component handles the operations related to the status of the car. It offers an interface to select the EV model among a list of 
+        all the marketed models and offers an interface to connect the car to the application. It uses these information to show the battery status of the EV, the 
+        amount of power during a charging process and to suggest charging plans based on the specific vehicle and status of it.
+    \item \textbf{Reservation Manager} \\ This component handles all the operations related to the reservations for the EV Drivers. It offers the possibility to create a reservation
+    for a charge and pay for that reservation, see the details of a reservation, start or pause a charge of a particular reservation and see the recap of an already occurred reservation.
+    It permits to pay for a reservation using an external Payment Gateway that handles all the payment process and returns the status of the payment.  
+
 \end{itemize}
 
 
@@ -82,9 +91,14 @@ The CPMS Application Server is responsible for the business logic to provide the
 It is composed of several components, each of them used for a specific functionality:\\
 \begin{itemize}
     \item \textbf{Reservation Manager} \\
-    \item \textbf{Rate Manager} \\
-    \item \textbf{Energy Manager} \\
-    \item \textbf{Charging Points Manager} \\
+    This component handles the operations regarding the reservation of a specific CPO. It offers the possibility to manage the reservations and to control their status.
+    \item \textbf{Rate Manager} \\ This component is responsible for the operations regarding the rates of that are associated with the CPs. It offers the possibility to
+    create a new rate in all its details, to add a special rate and specify the duration. The created rates then are associated to a specific CP.
+    \item \textbf{Energy Manager} \\ This component is responsible for the operations regarding the managing of the energy of the different EVCPs. 
+    It offers the possibility to verify the energy consumption and production of the different sources, modify and visualize the status of the energy storage system,
+    visualize the availability of energy contracts provided by the DSOs for a specific EVCP and stipulate a contract among the ones available.
+    \item \textbf{Charging Points Manager} \\ This component handles the operations regarding the managing of the CPs. It is an OCPP server for the CPs, offering the 
+    required functionalities for adding and removing a CP, for starting and stopping a charge and for receiving status data by the CP. It offers an interface to connect the different CPs through their platform.
     \item \textbf{Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate the requests in the CPMS application server.
           It offers functionality to create new account, logging in, setting preferences and verify the authentication of the user at any time.
           To create a new account interacts with the external SMS API to make the user receive a code to verify the identity.
