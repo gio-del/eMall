@@ -94,6 +94,8 @@ The implementation of the Application Server will be divided between eMSP and CP
     on to interact with the Database. It is the only component in which is necessary to implement the queries to the database.
     \item \textbf{Account Manager}: This is the component that permits to register or log in a user. It has an authorization interface that 
     is used by the other components to verify at each request that the user has the permissions to do the requested operations.
+    \item \textbf{CPMStoeMSPConnector}: The development of this module is particularly critic because is the component dedicated
+    to the communication with the eMSP. The dialogue between the two can be simulated during the implementation and tested after the integration.
     \item \textbf{Rates Manager}: This component has to be implemented before the Charging Points Manager because during the adding 
     of a new CP to the Manager, a rate needs to be associated to the CP.
     \item \textbf{Charging Points Manager and Reservation Manager}: These two components are the most critical to implement but also two 
@@ -112,13 +114,13 @@ The testing can be done in parallel between eMSP and CPMS.
 The first components to be tested together are the Query Manager and the DBMS as they are the components necessary for all the others when handling data.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/QueryDBMS.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSPQuery.pdf}
     \caption{Data Subsystem}
 \end{figure}
 Before implementing the Account Manager it is preferred to develop the Notification Manager.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/NotificationQuery.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSPNotification.pdf}
     \caption{Notification Subsystem}
 \end{figure}
 Then it can be implemented the Account Manager that provides the account managing functions and the authorization interface 
@@ -126,7 +128,7 @@ to verify the permissions to do operations with the other components. It handles
 to be tested carefully.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/AccountQuery.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSPAccount.pdf}
     \caption{Account Subsystem}
 \end{figure}
 The eMSPtoCPMSConnector can be implemented after the Account Manager, a stub of the CPMS can be implemented at this point to simulate
@@ -134,7 +136,7 @@ the response of the CPMS on the other side of the communication. This stub is an
 enables the possibility to develop separately the eMSP and the CPMS.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/ConnectorAccountQuery.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSPConnector.pdf}
     \caption{Connector Subsystem}
 \end{figure}
 Then the following subsystems could be developed in any order or in parallel because they are decoupled. All the components require
@@ -143,25 +145,75 @@ The develop can start from the most complex tasks such as the Charging Point Man
 Then the Suggestion Manager and the Car manager can be implemented.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/CP.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSPCP.pdf}
     \caption{Charging Points Subsystem}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/Reservation.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSPReservation.pdf}
     \caption{Reservation Subsystem}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/Car.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSPCar.pdf}
     \caption{Car Subsystem}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/Suggestion.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSPSuggestion.pdf}
     \caption{Suggestion Subsystem}
 \end{figure}
+After having implemented and tested all the subsystems, the client and the eMSP can be integrated 
+and tested together. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/Integration/eMSPFrontend.pdf}
+    \caption{Client Application Integration}
+\end{figure}
+
+
 \subsubsection{CPMS}
-TODO
+The first components to be tested together are the Query Manager and the DBMS as they are the
+components necessary for all the others when handling data.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/Integration/CPMSQuery.pdf}
+    \caption{Data Subsystem}
+\end{figure}
+Then it can be implemented the Account Manager that provides the account managing functions and the authorization interface 
+to verify the permissions to do operations with the other components. It handles personal CPO's data and for this reason needs
+to be tested carefully.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/Integration/CPMSAccount.pdf}
+    \caption{Account Subsystem}
+\end{figure}
+The CPMStoeMSPConnector can be implemented after the Account Manager, a stub of the eMSP can be implemented at this point to simulate
+the requests coming from the eMSP on the other side of the communication. This stab is an exception to the bottom-up approach, but
+enables the possibility to develop separately the eMSP and the CPMS. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/Integration/CPMSConnector.pdf}
+    \caption{Connector Subsystem}
+\end{figure}
+Then can be implemented the Rates Manager that offers an interface to create and modify rates that
+are later associated with the CPs.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/Integration/CPMSRates.pdf}
+    \caption{Rates Subsystem}
+\end{figure}
+
+
+
 \subsection{System Testing}
-TODO
+Eventually, when the integration of the components have taken place take place the testing of the entire System. 
+The aim is to verify the functional and non-functional requirements and must take place in a testing
+environment that is as close as possible to the production environment. 
+The eMall System will undergo the following test:
+\begin{itemize}
+    \item \textbf{Functional testing}: The system is tested against the functional requirements and specification 
+    specified on the RASD document.
+    \item \textbf{Performance testing}: Check wether a software remains functional with increase demand and 
+    various environment conditions.
+\end{itemize}
