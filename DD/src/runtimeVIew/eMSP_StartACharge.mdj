@@ -45,15 +45,6 @@
 									"name": "Start a Charge",
 									"ownedViews": [
 										{
-											"_type": "UMLActivationView",
-											"_id": "AAAAAAGFeCrGTF88U8Q=",
-											"font": "Arial;10;0",
-											"left": 345,
-											"top": 144,
-											"width": 14,
-											"height": 505
-										},
-										{
 											"_type": "UMLFrameView",
 											"_id": "AAAAAAGFeCR4NF5ti4I=",
 											"_parent": {
@@ -1542,7 +1533,7 @@
 															"top": 87,
 															"width": 105.5908203125,
 															"height": 10,
-															"text": "Reservation Manager"
+															"text": "Booking Manager"
 														},
 														{
 															"_type": "LabelView",
@@ -3680,7 +3671,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFeCR4M15ro5Y="
 									},
-									"name": "Reservation Manager",
+									"name": "Booking Manager",
 									"represent": {
 										"$ref": "AAAAAAGFe9jP3mOIxkU="
 									},

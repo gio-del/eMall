@@ -59,7 +59,7 @@ In the following two sections will be analyzed the complexity and the importance
             \hline
             Energy Manager & Medium & Medium \\
             \hline
-            Reservation Manager & High & High \\
+            Booking Manager & High & High \\
             \hline
             Charging Points Manager & High & High \\
             \hline
@@ -98,7 +98,7 @@ The implementation of the Application Server will be divided between eMSP and CP
     to the communication with the eMSP. The dialogue between the two can be simulated during the implementation and tested after the integration.
     \item \textbf{Rates Manager}: This component has to be implemented before the Charging Points Manager because during the adding 
     of a new CP to the Manager, a rate needs to be associated to the CP.
-    \item \textbf{Charging Points Manager and Reservation Manager}: These two components are the most critical to implement but also two 
+    \item \textbf{Charging Points Manager and Booking Manager}: These two components are the most critical to implement but also two 
     of the most essential components. The dialogue between the CPMS and the CPs is done through the Charging Points Manager that 
     needs to be implemented compliant with the OCPP protocol used by the CPs. The Reservation Manager on the other hand is the component
     that manages all the reservation done through the eMSP to the specific CPMS. These two components can be implemented in parallel.

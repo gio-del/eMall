@@ -47,12 +47,6 @@
 										{
 											"_type": "UMLActivationView",
 											"_id": "AAAAAAGFeCrGTF88U8Q=",
-											"_parent": {
-												"$ref": "AAAAAAGFeCrGTF84RbE="
-											},
-											"model": {
-												"$ref": "AAAAAAGFeCrGS183Exk="
-											},
 											"font": "Arial;10;0",
 											"left": 345,
 											"top": 144,
@@ -2027,7 +2021,7 @@
 															"top": 87,
 															"width": 105.5908203125,
 															"height": 10,
-															"text": "Reservation Manager"
+															"text": "Booking Manager"
 														},
 														{
 															"_type": "LabelView",
@@ -4989,7 +4983,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFeCR4M15ro5Y="
 									},
-									"name": "Reservation Manager",
+									"name": "Booking Manager",
 									"represent": {
 										"$ref": "AAAAAAGFe9jP3mOIxkU="
 									},

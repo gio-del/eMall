@@ -111,7 +111,7 @@ forward them to the CPMS Application Server, and generate dynamic pages based on
 The CPMS Application Server is responsible for the business logic to provide the functionality to the application for the CPOs and to coordinate the information flow between application layer and data layer.
 It is composed of several components, each of them used for a specific functionality:\\
 \begin{itemize}
-    \item \textbf{Reservation Manager} \\
+    \item \textbf{Booking Manager} \\
     This component handles the operations regarding the reservation of a specific CPO. It offers the possibility to manage the reservations and to control their status.
     \item \textbf{Rate Manager} \\ This component is responsible for the operations regarding the rates of that are associated with the CPs. It offers the possibility to
     create a new rate in all its details, to add a special rate and specify the duration. The created rates then are associated to a specific CP.
@@ -145,17 +145,52 @@ Infrastructure: deployment diagram(s) including non-logical elements (e.g., load
 You can use sequence diagrams to describe the way components interact to accomplish specific tasks typically related to your use cases. Dynamics of the interactions: sequence
 diagrams (realization of use cases)
 
+\subsubsection{eMSP}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/DriverRegistration.pdf}
+    \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Registration.pdf}
     \caption{EV Driver Registration process}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/DriverLogin.pdf}
-    \caption{EV Driver Login in the system}
+    \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Login.pdf}
+    \caption{EV Driver Logs in the system}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Search.pdf}
+    \caption{EV Driver searches on the map}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \hspace*{-2cm}
+    \includegraphics[scale=0.48]{src/runtimeVIew/eMSP_Book.pdf}
+    \caption{EV Driver books a charge}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \hspace*{-2cm}
+    \includegraphics[scale=0.50]{src/runtimeVIew/eMSP_StartACharge.pdf}
+    \caption{EV Driver starts a charge}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Reservations.pdf}
+    \caption{EV Driver sees the reservations}
+\end{figure}
+
+\subsubsection{CPMS}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_Reservations.pdf}
+    \caption{CPO sees the reservations}
+\end{figure}
+
 
 \subsection{Component interfaces}
 Details for each interface (name, signature, returned objects)
