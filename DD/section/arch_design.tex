@@ -64,7 +64,7 @@ In this section we show the components of the S2B, their relationships and inter
 \begin{figure}[H]
     \centering
     \hspace*{-2cm}
-    \includegraphics[scale=0.5]{src/ComponentDiagram/emsp_component_diagram.pdf}
+    \includegraphics[scale=0.48]{src/ComponentDiagram/emsp_component_diagram.pdf}
     \caption{Component Diagram of the eMSP subsystem}
 \end{figure}
 
@@ -77,7 +77,7 @@ the page dynamically, without need to fully reload the page.
 The eMSP Application Server is responsible for the business logic to provide the functionality to the application for the EV Drivers and to coordinate the information flow between application layer and data layer
 It is composed of several components, each of them used for a specific functionality:\\
 \begin{itemize}
-    \item \textbf{Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate
+    \item \textbf{eMPS's Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate
           the requests in the CPMS application server.
           It offers functionality to create new account, logging in, setting preferences and verify the authentication of the user at any time.
           To create a new account interacts with the external SMS API to make the user receive a code to verify the identity.
@@ -120,7 +120,7 @@ It is composed of several components, each of them used for a specific functiona
     visualize the availability of energy contracts provided by the DSOs for a specific EVCP and stipulate a contract among the ones available.
     \item \textbf{Charging Points Manager} \\ This component handles the operations regarding the managing of the CPs. It is an OCPP server for the CPs, offering the 
     required functionalities for adding and removing a CP, for starting and stopping a charge and for receiving status data by the CP. It offers an interface to connect the different CPs through their platform.
-    \item \textbf{Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate the requests in the CPMS application server.
+    \item \textbf{CPMS's Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate the requests in the CPMS application server.
           It offers functionality to create new account, logging in, setting preferences and verify the authentication of the user at any time.
           To create a new account interacts with the external SMS API to make the user receive a code to verify the identity.
 \end{itemize}
@@ -140,92 +140,148 @@ It is composed of several components, each of them used for a specific functiona
 
 \subsection{Deployment view}
 Infrastructure: deployment diagram(s) including non-logical elements (e.g., load balancer, firewall)
-
+\pagebreak
 \subsection{Runtime view}
-You can use sequence diagrams to describe the way components interact to accomplish specific tasks typically related to your use cases. Dynamics of the interactions: sequence
-diagrams (realization of use cases)
+The runtime view describe the interactions between actors, subsystems and interfaces of the system showing the specific method called.
+The views are devided between eMSP and CPMS.
 
 \subsubsection{eMSP}
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Registration.pdf}
-    \caption{EV Driver Registration process}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Login.pdf}
-    \caption{EV Driver Logs in the system}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Search.pdf}
-    \caption{EV Driver searches on the map}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \hspace*{-2cm}
-    \includegraphics[scale=0.48]{src/runtimeVIew/eMSP_Book.pdf}
-    \caption{EV Driver books a charge}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \hspace*{-2cm}
-    \includegraphics[scale=0.50]{src/runtimeVIew/eMSP_StartACharge.pdf}
-    \caption{EV Driver starts a charge}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Reservations.pdf}
-    \caption{EV Driver sees the reservations}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_AddCC.pdf}
-    \caption{EV Driver adds a credit card information}
-\end{figure}
+\begin{itemize}
+    \item \textbf{EV Driver Registration} : The following diagram represents the workflow that an EV Driver has to follow to register into eMall.\\
+    \\When the unregistered user enters the input data the System will check wether the data input is valid. If the input is valid,
+    the request is forwarded to the Account Manager that proceeds to evaluate if there is another user registered with 
+    the same phone number. If the user has inserted a phone number not already registered, then the user is created and an sms verification
+    code is sent to the user through the SMS Service. After receiving the correct verification code the user is notified that the 
+    registration is completed.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Registration.pdf}
+        \caption{EV Driver Registration process}
+    \end{figure}
+    \pagebreak
+    \item \textbf{EV Driver Log in} : The following diagram represents the workflow that the EV Driver has to follow to log in.\\
+    \\After submitting the login inputs, the Account Manager verifies the credentials by interacting with the Query Manager. If 
+    the input is correct authenticates the user through a token and redirects the EV Driver to the Map Homepage.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Login.pdf}
+        \caption{EV Driver Logs in the system}
+    \end{figure}
+    \item \textbf{EV Driver Search} : The following diagram represents the workflow that the EV Driver has to follow to search for CPs in the map.\\ 
+    \\By filtering the results by location, connector and/or date sends a request for an update of the page. The CP Search 
+    interacts with the Query Manager to get the filtered CPs and responds with the list.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Search.pdf}
+        \caption{EV Driver searches on the map}
+    \end{figure}
+    \pagebreak
+    \item \textbf{EV Driver books a charge} : The following diagram represents the workflow when the EV Driver books a charge.\\
+    \\After the submission of the reservation parameters by the user, the Reservation Manager interacts with the eMSPtoCPMSConnector to
+    contact the specific CPMS to book the charge. The reservations parameters are received by the specific CPMStoeMSPConnector that 
+    forwards the payload to the Booking Manager that contacts the Query Manager to verify that the reservations parameters aren't in 
+    conflict with others reservations. If the reservation is valid then is added to the database through the Query Manager and the Reservation
+    Manager of the eMSP is notified of the validity of the reservation. The Reservation Manager contacts the Payment Gateway to pre authorize the 
+    payment with the credit card that has been already added and selected by the EV Driver. 
+    \begin{figure}[H]
+        \centering
+        \hspace*{-2cm}
+        \includegraphics[scale=0.48]{src/runtimeVIew/eMSP_Book.pdf}
+        \caption{EV Driver books a charge}
+    \end{figure}
+    \pagebreak
+    \item \textbf{EV Driver starts a charge} : The following diagram represents the workflow when the EV Driver starts a charge.\\
+    \\The submission of the request contains the reservation identifier of the charge that has to be started and the car details.
+    The Reservation manager interacts with the eMSPtoCPMSConnector to contact the specific CPMS. Through the CPMStoeMSPConnector the 
+    Booking Manager receives the request to start a charge. Verifies through the Query Manager that the request corresponds to a reservation
+    that can be started. If so, the Booking Manager contacts the Charging Points Manager to activate the socket of the CP specified in the reservation.
+    The Charging Points Manager contacts the CP through the OCPP Compliant CP interface and starts the charge. 
+    \begin{figure}[H]
+        \centering
+        \hspace*{-2cm}
+        \includegraphics[scale=0.50]{src/runtimeVIew/eMSP_StartACharge.pdf}
+        \caption{EV Driver starts a charge}
+    \end{figure}
+    \item \textbf{EV Driver sees reservations} : The following diagram represents the workflow when the EV Driver wants to see the his/her reservations.\\
+    \\ The Reservation Manager is contacted and requires the Query Manager to find all the reservations associated with the EV Driver.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_Reservations.pdf}
+        \caption{EV Driver sees the reservations}
+    \end{figure}
+    \pagebreak
+    \item \textbf{EV Driver adds a credit card} : The following diagram represents the workflow when the EV Driver adds a credit card.\\
+    \\
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/eMSP_AddCC.pdf}
+        \caption{EV Driver adds a credit card information}
+    \end{figure}
+\end{itemize}
 
 \subsubsection{CPMS}
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_Reservations.pdf}
-    \caption{CPO sees the reservations}
-\end{figure}
+\begin{itemize}
+    \item \textbf{CPO sees the reservations} : The following diagram represents the workflow when the CPO wants to see the his/her reservations.\\
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_Reservations.pdf}
+        \caption{CPO sees the reservations}
+    \end{figure}
+    \pagebreak
+    \item \textbf{CPO adds a Charging Point} : The following diagram represents the workflow when the CPO adds a charging point.\\
+    \\ The request contains the information about the CP unique identifier, the EVCP in which the CP is going to be added and the rate associated with.
+   The Charging Points Manager interacts with the Query Manager to add the information. When the user, through the CP manufacturer's portal connects the 
+    CP to the CPMS, then the CP is connected and is able to receive OCPP messages from the CPMS of the CPO.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_AddCP.pdf}
+        \caption{CPO adds a Charging Point}
+    \end{figure}
+    \item \textbf{CPO adds a rate} : The following diagram represents the workflow when the CPO adds a rate.\\
+    \\
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_addRate.pdf}
+        \caption{CPO adds a rate}
+    \end{figure}
+    \pagebreak
+    \item \textbf{CPO sees the energy storage system capacity} : The following diagram represents the workflow when the CPO wants to see the energy storage system capacity.\\
+    \\ The request contains the specific EVCP identifier of where the energy storage system is located. The Energy Manager requires to the database the unique key to access
+    to the API of the Energy Storage. Then asks the Energy Storage API the information about the status.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_batteryCapacity.pdf}
+        \caption{CPO sees the energy storage system capacity}
+    \end{figure}
+    \item \textbf{CPO sees the status of its Charging Points} : The following diagram represents the workflow when the CPO wants to see the charging points status of an evcp.\\
+    \\ The request contains the specific EVCP identifier of where the CPs are located. The Charging Points manager asks the Query Manager for a list of CPs of the specific EVCP
+    and the contacts each one of the CP from the list with the OCPP Compliant CP interface.
+    \pagebreak
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_CPsStatus.pdf}
+        \caption{CPO sees the status of its Charging Points}
+    \end{figure}
+    \item \textbf{CPO adds a special offer} : The following diagram represents the workflow when the CPO adds a special offer.\\
+    \\
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_specialOffer.pdf}
+        \caption{CPO adds a special offer}
+    \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_AddCP.pdf}
-    \caption{CPO adds a Charging Point}
-\end{figure}
+\end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_addRate.pdf}
-    \caption{CPO adds a rate}
-\end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_batteryCapacity.pdf}
-    \caption{CPO sees the battery capacity}
-\end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_CPsStatus.pdf}
-    \caption{CPO sees the status of its Charging Points}
-\end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.55]{src/runtimeVIew/CPMS_specialOffer.pdf}
-    \caption{CPO adds a special offer}
-\end{figure}
+
+
+
+
+
+
 
 \subsection{Component interfaces}
 Details for each interface (name, signature, returned objects)

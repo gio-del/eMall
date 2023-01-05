@@ -45,15 +45,6 @@
 									"name": "Booking an EVCP",
 									"ownedViews": [
 										{
-											"_type": "UMLActivationView",
-											"_id": "AAAAAAGFeCrGTF88U8Q=",
-											"font": "Arial;10;0",
-											"left": 345,
-											"top": 144,
-											"width": 14,
-											"height": 505
-										},
-										{
 											"_type": "UMLFrameView",
 											"_id": "AAAAAAGFeCR4NF5ti4I=",
 											"_parent": {
@@ -2021,7 +2012,7 @@
 															"top": 87,
 															"width": 105.5908203125,
 															"height": 10,
-															"text": "Reservation Manager"
+															"text": "Booking Manager"
 														},
 														{
 															"_type": "LabelView",
@@ -4604,12 +4595,12 @@
 														"$ref": "AAAAAAGFfcVKLhKTd3I="
 													},
 													"font": "Arial;10;0",
-													"left": 670,
-													"top": 689,
+													"left": 719,
+													"top": 687,
 													"width": 152.83203125,
 													"height": 10,
-													"alpha": 1.5707963267948966,
-													"distance": 10,
+													"alpha": 0.24017096070890512,
+													"distance": 50.44799302251776,
 													"hostEdge": {
 														"$ref": "AAAAAAGFfcVKLhKUI/g="
 													},
@@ -5384,12 +5375,12 @@
 														"$ref": "AAAAAAGFfcYzehMvYzE="
 													},
 													"font": "Arial;10;0",
-													"left": 700,
-													"top": 781,
+													"left": 736,
+													"top": 779,
 													"width": 91.7138671875,
 													"height": 10,
-													"alpha": 1.5707963267948966,
-													"distance": 10,
+													"alpha": 2.8899027507442985,
+													"distance": 36.138621999185304,
 													"hostEdge": {
 														"$ref": "AAAAAAGFfcYzehMwEdk="
 													},
@@ -6373,7 +6364,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFeCR4M15ro5Y="
 									},
-									"name": "Reservation Manager",
+									"name": "Booking Manager",
 									"represent": {
 										"$ref": "AAAAAAGFe9jP3mOIxkU="
 									},
