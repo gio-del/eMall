@@ -1535,7 +1535,7 @@
 														"$ref": "AAAAAAGFcrPri8I1Bus="
 													},
 													"edgePosition": 1,
-													"text": "createUserToken(phoneNumber, token)"
+													"text": "insertUserToken(phoneNumber, token)"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -2188,7 +2188,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFch8N/b4kZ2I="
 									},
-									"name": "createUserToken",
+									"name": "insertUserToken",
 									"source": {
 										"$ref": "AAAAAAGFcqZ37cE3DUc="
 									},
@@ -2359,10 +2359,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGFch8N/L4jkgo="
 							},
-							"name": "Role2",
-							"type": {
-								"$ref": "AAAAAAGFco1acL42L1M="
-							}
+							"name": "Role2"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -2370,10 +2367,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGFch8N/L4jkgo="
 							},
-							"name": "Role3",
-							"type": {
-								"$ref": "AAAAAAGFco78VL6FLJU="
-							}
+							"name": "Role3"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -2381,10 +2375,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGFch8N/L4jkgo="
 							},
-							"name": "Role4",
-							"type": {
-								"$ref": "AAAAAAGFco9Xu7696Ko="
-							}
+							"name": "Role4"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -2392,10 +2383,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGFch8N/L4jkgo="
 							},
-							"name": "Role5",
-							"type": {
-								"$ref": "AAAAAAGFcpATHL8w7f8="
-							}
+							"name": "Role5"
 						},
 						{
 							"_type": "UMLAttribute",

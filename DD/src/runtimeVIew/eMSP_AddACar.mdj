@@ -1630,9 +1630,9 @@
 														"$ref": "AAAAAAGFgokd7ZquJss="
 													},
 													"font": "Arial;13;0",
-													"left": 819,
+													"left": 814,
 													"top": 288,
-													"width": 83.814453125,
+													"width": 93.91357421875,
 													"height": 13,
 													"alpha": 1.5707963267948966,
 													"distance": 10,
@@ -1640,7 +1640,7 @@
 														"$ref": "AAAAAAGFgokd7Zqvt2Y="
 													},
 													"edgePosition": 1,
-													"text": "addCar(query)"
+													"text": "insertCar(query)"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -2171,7 +2171,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFeCR4M15ro5Y="
 									},
-									"name": "addCar",
+									"name": "insertCar",
 									"source": {
 										"$ref": "AAAAAAGFgoCRupm+/rE="
 									},

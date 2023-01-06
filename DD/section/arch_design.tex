@@ -96,8 +96,9 @@ It is composed of several components, each of them used for a specific functiona
 
 
 \subsubsection{Logical Description of Data}
+In this section the ER diagram of the S2B data layer is shown. An ER diagram is a graphical representation of the structure of a database, showing the relationships between entities and their attributes.
 \begin{figure}[H]
-    \includegraphics[scale=0.30]{src/ERDiagram/er_diagram.pdf}
+    \includegraphics[scale=0.42]{src/ERDiagram/er_diagram.pdf}
 \end{figure}
 
 \subsection{Deployment view}
@@ -156,16 +157,15 @@ The views are divided between eMSP and CPMS.
           the input is correct authenticates the user through a token and redirects the EV Driver to the Map Homepage.
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/eMSP_Login.pdf}
+              \includegraphics[scale=0.60]{src/runtimeView/eMSP_Login.pdf}
               \caption{EV Driver Logs in the system}
           \end{figure}
-    \item \textbf{EV Driver Search} : The following diagram represents the workflow that the EV Driver has to follow to search for CPs in the map.\\
+    \item \textbf{EV Driver Search an EVCP} : The following diagram represents the workflow that the EV Driver has to follow to search for CPs in the map.\\
           \\By filtering the results by location, connector and/or date sends a request for an update of the page. The CP Search
           interacts with the Query Manager to get the filtered CPs and responds with the list.
-
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/eMSP_Search.pdf}
+              \includegraphics[scale=0.60]{src/runtimeView/eMSP_Search.pdf}
               \caption{EV Driver searches on the map}
           \end{figure}
           \pagebreak
@@ -199,7 +199,7 @@ The views are divided between eMSP and CPMS.
           \\ The Reservation Manager is contacted and requires the Query Manager to find all the reservations associated with the EV Driver.
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/eMSP_Reservations.pdf}
+              \includegraphics[scale=0.70]{src/runtimeView/eMSP_Reservations.pdf}
               \caption{EV Driver sees the reservations}
           \end{figure}
           \pagebreak
@@ -207,10 +207,17 @@ The views are divided between eMSP and CPMS.
           \\
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/eMSP_AddCC.pdf}
+              \includegraphics[scale=0.85]{src/runtimeView/eMSP_AddCC.pdf}
               \caption{EV Driver adds a credit card information}
           \end{figure}
-
+    \item \textbf{EV Driver adds a car} : The following diagram represents the workflow when the EV Driver adds a car.\\
+          \\
+          \begin{figure}[H]
+              \centering
+              \includegraphics[scale=0.65]{src/runtimeView/eMSP_AddACar.pdf}
+              \caption{EV Driver adds a credit card information}
+          \end{figure}
+          \pagebreak
     \item \textbf{Suggestion} : The following diagram represents the workflow when a Suggestion is sent to the EV Driver.\\
           \\After the discharge of the car, the interface EV Service sends "lowBatteryEvent".
           The Suggestion Manager receives carID such that can obtain through the Query Manager, from the DB, the corresponding userID.
@@ -227,12 +234,13 @@ The views are divided between eMSP and CPMS.
               \includegraphics[scale=0.48]{src/runtimeView/eMSP_Suggestion.pdf}
               \caption{Suggestion}
           \end{figure}
-
-    \item \textbf{Current Charge Info}: description
+          \pagebreak
+    \item \textbf{Current Charge Info}: The following diagram represents the workflow when the EV Driver wants to see details of the current charge.\\
+          \\The Reservation Manager receives a request from a driver for reservation details and uses the connector to cpms to contact the specific CPMS of the CPO that owns the charging point where the reservation is taking place. The CPMS then sends a request for meter values to the charging point via the OCPP protocol and receives a response with the requested information. This information is then passed back through the system and displayed to the driver through the web app.
           \\\begin{figure}[H]
               \centering
               \hspace*{-2cm}
-              \includegraphics[scale=0.44]{src/runtimeView/eMSP_currentChargeInfo.pdf}
+              \includegraphics[scale=0.45]{src/runtimeView/eMSP_currentChargeInfo.pdf}
               \caption{EV Driver books a charge}
           \end{figure}
 \end{itemize}
@@ -242,7 +250,7 @@ The views are divided between eMSP and CPMS.
     \item \textbf{CPO sees the reservations} : The following diagram represents the workflow when the CPO wants to see the his/her reservations.\\
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/CPMS_Reservations.pdf}
+              \includegraphics[scale=0.75]{src/runtimeView/CPMS_Reservations.pdf}
               \caption{CPO sees the reservations}
           \end{figure}
           \pagebreak
@@ -252,14 +260,14 @@ The views are divided between eMSP and CPMS.
           CP to the CPMS, then the CP is connected and is able to receive OCPP messages from the CPMS of the CPO.
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/CPMS_AddCP.pdf}
+              \includegraphics[scale=0.75]{src/runtimeView/CPMS_AddCP.pdf}
               \caption{CPO adds a Charging Point}
           \end{figure}
     \item \textbf{CPO adds a rate} : The following diagram represents the workflow when the CPO adds a rate.\\
           \\
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/CPMS_addRate.pdf}
+              \includegraphics[scale=0.80]{src/runtimeView/CPMS_addRate.pdf}
               \caption{CPO adds a rate}
           \end{figure}
           \pagebreak
@@ -268,23 +276,23 @@ The views are divided between eMSP and CPMS.
           to the API of the Energy Storage. Then asks the Energy Storage API the information about the status.
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/CPMS_batteryCapacity.pdf}
+              \includegraphics[scale=0.75]{src/runtimeView/CPMS_batteryCapacity.pdf}
               \caption{CPO sees the energy storage system capacity}
           \end{figure}
     \item \textbf{CPO sees the status of its Charging Points} : The following diagram represents the workflow when the CPO wants to see the charging points status of an evcp.\\
           \\ The request contains the specific EVCP identifier of where the CPs are located. The Charging Points manager asks the Query Manager for a list of CPs of the specific EVCP
           and the contacts each one of the CP from the list with the OCPP Compliant CP interface.
-          \pagebreak
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/CPMS_CPsStatus.pdf}
+              \includegraphics[scale=0.70]{src/runtimeView/CPMS_CPsStatus.pdf}
               \caption{CPO sees the status of its Charging Points}
           \end{figure}
+          \pagebreak
     \item \textbf{CPO adds a special offer} : The following diagram represents the workflow when the CPO adds a special offer.\\
           \\
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/CPMS_specialOffer.pdf}
+              \includegraphics[scale=0.75]{src/runtimeView/CPMS_specialOffer.pdf}
               \caption{CPO adds a special offer}
           \end{figure}
     \item \textbf{Choose energy Mix} : The following diagram represents the workflow when the CPO chooses the energy mix.\\
@@ -292,9 +300,10 @@ The views are divided between eMSP and CPMS.
           Then, the Energy Manager with this information and the mix attribute contacts the Energy Storage API and obtains the new mix.
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/CPMS_energyMix.pdf}
+              \includegraphics[scale=0.65]{src/runtimeView/CPMS_energyMix.pdf}
               \caption{Choose energy Mix}
           \end{figure}
+          \pagebreak
     \item \textbf{Choose DSO} : The following diagram represents the workflow when the CPO chooses DSO.\\
           \\ The CPO chooses DSO interacting with the Energy Manager. The Energy Manager interacts with the Query Manager obtaining the Commitment Date of the actual contract.
           If the Commitment date is not reached yet, the Energy Manager responds that the request is not valid.
@@ -302,12 +311,9 @@ The views are divided between eMSP and CPMS.
           Query Manager to store the new contract.
           \begin{figure}[H]
               \centering
-              \includegraphics[scale=0.55]{src/runtimeView/CPMS_chooseDSO.pdf}
+              \includegraphics[scale=0.60]{src/runtimeView/CPMS_chooseDSO.pdf}
               \caption{Choose DSO}
           \end{figure}
-
-
-
 \end{itemize}
 
 \subsection{Component interfaces}
@@ -359,11 +365,11 @@ Details for each interface (name, signature, returned objects)
 \subsection{Architectural Styles and patterns}
 \begin{itemize}
     \item \textbf{Three layers and Four Tier}\\
-    We decided to use a three-layer, four-tier architecture for our software system because it offers several benefits. First, it allows us to divide the system into distinct layers (presentation, business logic, data access) and tiers (client, static web server, application server, DBMS), which makes the system more modular and easier to modify or maintain. It also enables us to reuse code and components across different layers and tiers. Additionally, the separation of the layers and tiers allows us to scale the system more easily by distributing the workload across multiple servers. Finally, the architecture enables the use of load balancing and caching techniques to improve performance.
+          We decided to use a three-layer, four-tier architecture for our software system because it offers several benefits. First, it allows us to divide the system into distinct layers (presentation, business logic, data access) and tiers (client, static web server, application server, DBMS), which makes the system more modular and easier to modify or maintain. It also enables us to reuse code and components across different layers and tiers. Additionally, the separation of the layers and tiers allows us to scale the system more easily by distributing the workload across multiple servers. Finally, the architecture enables the use of load balancing and caching techniques to improve performance.
     \item \textbf{RESTful APIs}\\
-    We chose to use a REST API as the backend for the frontend application because it offers several benefits. The API is based on standard web technologies, making it easy to consume and integrate with other systems. It is stateless, which simplifies the development. Additionally, the REST API is scalable, which can improve the overall performance of the system.
+          We chose to use a REST API as the backend for the frontend application because it offers several benefits. The API is based on standard web technologies, making it easy to consume and integrate with other systems. It is stateless, which simplifies the development. Additionally, the REST API is scalable, which can improve the overall performance of the system.
     \item \textbf{Adapter Pattern}\\
-    The Query Manager component acts as an adapter between the business logic and the DBMS services. It provides a simplified interface for accessing the DBMS, while hiding the underlying complexity and exposing only a limited set of high-level functions.
+          The Query Manager component acts as an adapter between the business logic and the DBMS services. It provides a simplified interface for accessing the DBMS, while hiding the underlying complexity and exposing only a limited set of high-level functions.
 \end{itemize}
 \subsection{Other design decisions}
 \subsubsection{PWA}

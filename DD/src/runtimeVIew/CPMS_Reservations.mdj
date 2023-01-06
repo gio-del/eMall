@@ -933,9 +933,9 @@
 													},
 													"font": "Arial;15;0",
 													"showShadow": false,
-													"left": 588,
+													"left": 578,
 													"top": 159,
-													"width": 155.9033203125,
+													"width": 174.23583984375,
 													"height": 15,
 													"alpha": 1.5707963267948966,
 													"distance": 10,
@@ -943,7 +943,7 @@
 														"$ref": "AAAAAAGFd/wnMaIjw5Y="
 													},
 													"edgePosition": 1,
-													"text": "getReservations(query)"
+													"text": "selectReservations(query)"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -1421,7 +1421,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFd9Qwn6FNits="
 									},
-									"name": "getReservations",
+									"name": "selectReservations",
 									"source": {
 										"$ref": "AAAAAAGFd9UuWqHMW14="
 									},

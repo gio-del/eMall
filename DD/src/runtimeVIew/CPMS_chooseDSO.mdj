@@ -934,7 +934,7 @@
 														"$ref": "AAAAAAGFfdc6i3iz0Ig="
 													},
 													"edgePosition": 1,
-													"text": "verifyCommitmentDate(query)"
+													"text": "selectCommitmentDate(query)"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -2795,7 +2795,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFeCR4M15ro5Y="
 									},
-									"name": "verifyCommitmentDate",
+									"name": "selectCommitmentDate",
 									"source": {
 										"$ref": "AAAAAAGFfdYc1nhS6ok="
 									},
