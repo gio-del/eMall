@@ -8,25 +8,35 @@ This document is intended to be a reference for the implementation of the system
 
 \subsection{Scope}
 eMall is a system that allows EV - Electric Vehicle - Driver to plan efficiently their charging needs and CPO - Charging Point Operator - to be reached by EV Driver.
-\\In particular, eMall allows EV Driver to search and then book a charge to a CP - Charging Point, either at a specific
+\\In particular, eMall allows EV Driver to search and then book a charge to a CP - Charging Point, at a specific
 time, pay the charge, start a charge and being notified when the charging process is completed.
-The system allows CPO - Charging Point Operator - to smartly manage their charging points, choosing among other things rates and energy sources.
-The system consists of two subsystems: eMSP - electric mobility service provider - and CPMSs - charging point management systems. The former offer functionality to drivers, the latter offer management options to operators. One of the focuses of this document is the description of how these entities interact with each other. Instead, it is out of the scope the design of the physical CPs - Charging Points that are assumed to be already implemented and tested
-\\ For a detailed description of the features that the system offers to end users, please refer to the RASD.
-
-TODO: main architectural styles and choices.\\
+\\The system allows CPO - Charging Point Operator - to smartly manage their charging points, choosing rates and energy sources.
+\\The system consists of two subsystems: eMSP - electric mobility service provider - and CPMSs - charging point management systems. The former offer functionality to drivers, the latter offer management options to operators. One of the focuses of this document is the description of how these entities interact with each other. Instead, it is out of the scope the design of the physical CPs - Charging Points that are assumed to be already implemented and tested.
+\\The eMSP will interact with the CPMS of multiple CPOs
+\\For a more detailed description of the features that the system offers to end users, please refer to the RASD.
+\\
 The architecture of the S2B is divided into three layers physically separated because installed on different tiers.
+\\These layers are:
+\begin{itemize}
+    \item Presentation Layer: it manages the presentation logic and all the interactions with the end users
+    \item Business Logic Layer: it manages the application functions that the S2B provide
+    \item Data Layer: it manages the safe storage and the access to data
+\end{itemize}
 \subsection{Definitions, Acronyms, Abbreviations}
 \subsubsection{Definitions}
 \begin{itemize}
     \item Tier -  physical components or servers that make up a system
     \item Layer - a logical separation of components with related functionality
-    \item S2B - System To Be, is the system we are planning
+    \item S2B - System To Be, is the system we are designing
     \item EV Driver - Electric Vehicle Driver, people or entities who own an EV car and want to use the
           system for their charging needs
     \item EVCP - Electric Vehicle Charging Pool, is a station with multiple CPs
     \item CP - a synonym of EVSE - is a single charging column with multiple connectors
-    \item  Connector - charging socket that can be of different types (e.g. CCS2, Type2)
+    \item Connector - charging socket that can be of different types (e.g. CCS2, Type2)
+    \item Rate - the rate that the CPO decides to set for the CPs it manages. It contains a fixed part for
+          parking and a variable part per kWh. Usually the rates are associated with a certain power (kW)
+    \item OCPP - Open Charge Point Protocol \footnote{\href{https://www.openchargealliance.org/protocols/ocpp-201/}{OCPP Protocol}} - is a protocol that dictates the communication between CPMS and a controlled CP to achieve smart charging functionalities
+
 \end{itemize}
 
 \subsubsection{Acronyms}
@@ -45,7 +55,7 @@ The architecture of the S2B is divided into three layers physically separated be
         \textbf{CPMS}  & Charging Point Management System                \\
         \textbf{eMSP}  & Electric Mobility Service Provider              \\
         \textbf{SPA}   & Single Page Application                         \\
-        \textbf{SSR}   & Server Side Rendering                           \\
+        \textbf{DBMS}  & Database Management System                      \\
         \textbf{CDN}   & Content Delivery Network                        \\
         \bottomrule
     \end{tabularx}

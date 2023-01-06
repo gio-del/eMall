@@ -42,7 +42,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFeCR4M15ro5Y="
 									},
-									"name": "Start a Charge",
+									"name": "Current Charge Info",
 									"ownedViews": [
 										{
 											"_type": "UMLFrameView",
@@ -63,9 +63,9 @@
 													"font": "Arial;13;0",
 													"left": 40.72998046875,
 													"top": 13,
-													"width": 85.54443359375,
+													"width": 115.892578125,
 													"height": 13,
-													"text": "Start a Charge"
+													"text": "Current Charge Info"
 												},
 												{
 													"_type": "LabelView",
@@ -3225,7 +3225,7 @@
 														"$ref": "AAAAAAGFfJRDdnlJ8KI="
 													},
 													"edgePosition": 1,
-													"text": "values"
+													"text": "<200> OK"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -3582,7 +3582,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFeCR4M15ro5Y="
 									},
-									"name": "values",
+									"name": "<200> OK",
 									"source": {
 										"$ref": "AAAAAAGFeCc3GV7MBcQ="
 									},
