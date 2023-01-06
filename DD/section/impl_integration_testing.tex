@@ -114,13 +114,13 @@ The testing can be done in parallel between eMSP and CPMS.
 The first components to be tested together are the Query Manager and the DBMS as they are the components necessary for all the others when handling data.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/eMSPQuery.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSP_Query.pdf}
     \caption{Data Subsystem}
 \end{figure}
 Before implementing the Account Manager it is preferred to develop the Notification Manager.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/eMSPNotification.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSP_Notification.pdf}
     \caption{Notification Subsystem}
 \end{figure}
 Then it can be implemented the Account Manager that provides the account managing functions and the authorization interface 
@@ -128,7 +128,7 @@ to verify the permissions to do operations with the other components. It handles
 to be tested carefully.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/eMSPAccount.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSP_Account.pdf}
     \caption{Account Subsystem}
 \end{figure}
 The eMSPtoCPMSConnector can be implemented after the Account Manager, a stub of the CPMS can be implemented at this point to simulate
@@ -136,7 +136,7 @@ the response of the CPMS on the other side of the communication. This stub is an
 enables the possibility to develop separately the eMSP and the CPMS.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/eMSPConnector.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSP_Connector.pdf}
     \caption{Connector Subsystem}
 \end{figure}
 Then the following subsystems could be developed in any order or in parallel because they are decoupled. All the components require
@@ -145,29 +145,29 @@ The develop can start from the most complex tasks such as the Charging Point Man
 Then the Suggestion Manager and the Car manager can be implemented.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/eMSPCP.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSP_CP.pdf}
     \caption{Charging Points Subsystem}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/eMSPReservation.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSP_Reservation.pdf}
     \caption{Reservation Subsystem}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/eMSPCar.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSP_Car.pdf}
     \caption{Car Subsystem}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/eMSPSuggestion.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSP_Suggestion.pdf}
     \caption{Suggestion Subsystem}
 \end{figure}
 After having implemented and tested all the subsystems, the client and the eMSP can be integrated 
 and tested together. 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/eMSPFrontend.pdf}
+    \includegraphics[scale=0.6]{src/Integration/eMSP_Frontend.pdf}
     \caption{Client Application Integration}
 \end{figure}
 
@@ -177,7 +177,7 @@ The first components to be tested together are the Query Manager and the DBMS as
 components necessary for all the others when handling data.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/CPMSQuery.pdf}
+    \includegraphics[scale=0.6]{src/Integration/CPMS_Query.pdf}
     \caption{Data Subsystem}
 \end{figure}
 Then it can be implemented the Account Manager that provides the account managing functions and the authorization interface 
@@ -185,7 +185,7 @@ to verify the permissions to do operations with the other components. It handles
 to be tested carefully.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/CPMSAccount.pdf}
+    \includegraphics[scale=0.6]{src/Integration/CPMS_Account.pdf}
     \caption{Account Subsystem}
 \end{figure}
 The CPMStoeMSPConnector can be implemented after the Account Manager, a stub of the eMSP can be implemented at this point to simulate
@@ -193,14 +193,14 @@ the requests coming from the eMSP on the other side of the communication. This s
 enables the possibility to develop separately the eMSP and the CPMS. 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/CPMSConnector.pdf}
+    \includegraphics[scale=0.6]{src/Integration/CPMS_Connector.pdf}
     \caption{Connector Subsystem}
 \end{figure}
 Then can be implemented the Rates Manager that offers an interface to create and modify rates that
 are later associated with the CPs.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/CPMSRates.pdf}
+    \includegraphics[scale=0.6]{src/Integration/CPMS_Rates.pdf}
     \caption{Rates Subsystem}
 \end{figure}
 
