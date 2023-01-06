@@ -5,7 +5,6 @@
 *.synctex.gz
 *.synctex(busy)
 *.aux
-/*.pdf
 *.toc
 *.log
 *.out

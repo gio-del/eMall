@@ -11,17 +11,7 @@ will be referred to as the Backend.
 \end{figure}
 
 \hfill \\
-The service is supposed to be accessed through a web interface.
-For the users, both drivers and CPOs, of the system an SPA will be developed. An SPA is well-suited for applications
-that require a lot of interaction and do not need to perform frequent full page reloads.
-Furthermore, they can provide a faster and more seamless user experience.
-The Overview Architecture of the S2B divides the application in the layers described
-above.
-The application servers interfaces with the DBMS APIs, in order
-to retrieve and store the data required for the considered computation.
-The applications servers are expected to be stateless, according to the
-REST standard definitions. The nodes are separated by firewalls to guarantee a higher level of security
-of the whole system.
+A web interface will be used to access the service. A single page application (SPA) will be developed for drivers and CPOs to use the system. An SPA is a good choice for this type of application because it allows for a lot of interaction without the need for frequent page reloads, which can provide a faster and more seamless user experience. The overall architecture of the system is divided into different layers, with the application servers interacting with a database management system and using APIs to retrieve and store data. The application servers are designed to be stateless according to REST standards, and the system includes firewalls to enhance security.
 \pagebreak
 \subsection{Component view}
 In this section we show the components of the S2B, their relationships and interfaces. The following sections will explain the interaction between interfaces and details on each method of interfaces with REST endpoints, if any.
@@ -44,10 +34,8 @@ In this section we show the components of the S2B, their relationships and inter
 \end{figure}
 
 \paragraph*{eMSP Web App} \hfill \\
-It represents the application dedicated to the EV drivers. This component uses client side rendering of web pages.
-The user through the browser sends a request to the server and the eMSP Application Server responds with the HTML and Javascript which the browser then
-downloads and execute. As the user interacts with the page, the Javascript can make additional requests to the server and update
-the page dynamically, without need to fully reload the page.
+The EV drivers' application uses client-side rendering of web pages. When a user sends a request through their browser, the eMSP application server responds by sending back HTML and JavaScript code, which the browser downloads and runs. As the user interacts with the page, the JavaScript can make additional requests to the server and update the page dynamically without requiring a full page reload.
+
 \paragraph*{eMSP Application Server} \hfill \\
 The eMSP Application Server is responsible for the business logic to provide the functionality to the application for the EV Drivers and to coordinate the information flow between application layer and data layer
 It is composed of several components, each of them used for a specific functionality:\\
@@ -60,12 +48,11 @@ It is composed of several components, each of them used for a specific functiona
           can be described as an address, with coordinates or by geolocating the actual position of the incoming request. It selects the filtered CPs that are then
           shown in the map as placeholders.
     \item \textbf{Car Manager} \\ This component handles the operations related to the status of the car. It offers an interface to select the EV model among a list of
-          all the marketed models and offers an interface to connect the car to the application. It uses these information to show the battery status of the EV, the
+          all the marketed models and offers an interface to connect the car to the application. It uses this information to show the battery status of the EV, the
           amount of power during a charging process and to suggest charging plans based on the specific vehicle and status of it.
     \item \textbf{Reservation Manager} \\ This component handles all the operations related to the reservations for the EV Drivers. It offers the possibility to create a reservation
           for a charge and pay for that reservation, see the details of a reservation, start or pause a charge of a particular reservation and see the recap of an already occurred reservation.
-          It permits to pay for a reservation using an external Payment Gateway that handles all the payment process and returns the status of the payment.
-
+          It permits paying for a reservation using an external Payment Gateway that handles all the payment process and returns the status of the payment.
 \end{itemize}
 
 
@@ -153,7 +140,7 @@ The views are devided between eMSP and CPMS.
 \subsubsection{eMSP}
 \begin{itemize}
     \item \textbf{EV Driver Registration} : The following diagram represents the workflow that an EV Driver has to follow to register into eMall.\\
-          \\When the unregistered user enters the input data the System will check wether the data input is valid. If the input is valid,
+          \\When the unregistered user enters the input data the System will check whether the data input is valid. If the input is valid,
           the request is forwarded to the Account Manager that proceeds to evaluate if there is another user registered with
           the same phone number. If the user has inserted a phone number not already registered, then the user is created and an sms verification
           code is sent to the user through the SMS Service. After receiving the correct verification code the user is notified that the
@@ -187,7 +174,7 @@ The views are devided between eMSP and CPMS.
           contact the specific CPMS to book the charge. The reservations parameters are received by the specific CPMStoeMSPConnector that
           forwards the payload to the Booking Manager that contacts the Query Manager to verify that the reservations parameters aren't in
           conflict with others reservations. If the reservation is valid then is added to the database through the Query Manager and the Reservation
-          Manager of the eMSP is notified of the validity of the reservation. The Reservation Manager contacts the Payment Gateway to pre authorize the
+          Manager of the eMSP is notified of the validity of the reservation. The Reservation Manager contacts the Payment Gateway to pre-authorize the
           payment with the credit card that has been already added and selected by the EV Driver.
           \begin{figure}[H]
               \centering
@@ -225,12 +212,12 @@ The views are devided between eMSP and CPMS.
           \end{figure}
 
     \item \textbf{Suggestion} : The following diagram represents the workflow when a Suggestion is sent to the EV Driver.\\
-          \\After the discharge of the car, the interface EVService sends "lowBatteryEvent".
+          \\After the discharge of the car, the interface EV Service sends "lowBatteryEvent".
           The Suggestion Manager receives carID such that can obtain through the Query Manager, from the DB, the corresponding userID.
           The Suggestion Manager, thanks to the attribute calendar "key" of the user, interacts with the Calendar API and receives "FreeSpots" (those
           time intervals in the user Calendar that are free).
           The Suggestion Manager contacts the Query Manager with "getTopKSuggestions" through which obtains the top K suggestions according
-          to the ranking implemented from the system.
+          to the ranking algorithm implemented by the system.
           The Suggestion Manager contacts Notification Manager through which contacts the Query Manager to find the notification preferences.
           If the notification preferences of the user are such that he accepts suggestion, the Notification Manager pushes a notification through the Push Notification Service.
           \\
@@ -260,7 +247,7 @@ The views are devided between eMSP and CPMS.
           \end{figure}
           \pagebreak
     \item \textbf{CPO adds a Charging Point} : The following diagram represents the workflow when the CPO adds a charging point.\\
-          \\ The request contains the information about the CP unique identifier, the EVCP in which the CP is going to be added and the rate associated with.
+          \\ The request contains the information about the CP unique identifier, the EVCP in which the CP is going to be added, and the rate associated with.
           The Charging Points Manager interacts with the Query Manager to add the information. When the user, through the CP manufacturer's portal connects the
           CP to the CPMS, then the CP is connected and is able to receive OCPP messages from the CPMS of the CPO.
           \begin{figure}[H]
@@ -302,7 +289,7 @@ The views are devided between eMSP and CPMS.
           \end{figure}
     \item \textbf{Choose energy Mix} : The following diagram represents the workflow when the CPO chooses the energy mix.\\
           \\ The CPO changes energy mix interacting with the Energy Manager. The Energy Manager interacts with the Query Manager obtaining the battery and solar keys.
-          Then, the Energy Manager with these informations and the mix attribute contacts the Energy Storage API and obtains the new mix.
+          Then, the Energy Manager with this information and the mix attribute contacts the Energy Storage API and obtains the new mix.
           \begin{figure}[H]
               \centering
               \includegraphics[scale=0.55]{src/runtimeView/CPMS_energyMix.pdf}
@@ -311,7 +298,7 @@ The views are devided between eMSP and CPMS.
     \item \textbf{Choose DSO} : The following diagram represents the workflow when the CPO chooses DSO.\\
           \\ The CPO chooses DSO interacting with the Energy Manager. The Energy Manager interacts with the Query Manager obtaining the Commitment Date of the actual contract.
           If the Commitment date is not reached yet, the Energy Manager responds that the request is not valid.
-          Otherwise, the Energy Manager interacts with the Energy Storage API obtaining a contract. Then the Energy Manager sends an ack to the CPO and interacts with the
+          Otherwise, the Energy Manager interacts with the Energy Storage API obtaining a contract. Then the Energy Manager sends an ACK to the CPO and interacts with the
           Query Manager to store the new contract.
           \begin{figure}[H]
               \centering
@@ -370,19 +357,21 @@ Details for each interface (name, signature, returned objects)
 \end{itemize}
 
 \subsection{Architectural Styles and patterns}
-Please explain which styles/patterns you used, why, and how
-
 \begin{itemize}
-    \item Three layers and Four Tier: what and why?
-    \item RESTful: what and why?
-    \item Adapter Pattern: The Query Manager component implements the Adapter pattern, as it mediates between the
-          business logic and the DBMS services, exposing only a restricted and higher level set of functionalities.
+    \item \textbf{Three layers and Four Tier}\\
+    We decided to use a three-layer, four-tier architecture for our software system because it offers several benefits. First, it allows us to divide the system into distinct layers (presentation, business logic, data access) and tiers (client, static web server, application server, DBMS), which makes the system more modular and easier to modify or maintain. It also enables us to reuse code and components across different layers and tiers. Additionally, the separation of the layers and tiers allows us to scale the system more easily by distributing the workload across multiple servers. Finally, the architecture enables the use of load balancing and caching techniques to improve performance.
+    \item \textbf{RESTful APIs}\\
+    We chose to use a REST API as the backend for the frontend application because it offers several benefits. The API is based on standard web technologies, making it easy to consume and integrate with other systems. It is stateless, which simplifies the development. Additionally, the REST API is scalable, which can improve the overall performance of the system.
+    \item \textbf{Adapter Pattern}\\
+    The Query Manager component acts as an adapter between the business logic and the DBMS services. It provides a simplified interface for accessing the DBMS, while hiding the underlying complexity and exposing only a limited set of high-level functions.
 \end{itemize}
 \subsection{Other design decisions}
 \subsubsection{PWA}
-\dots
+The decision to build the web application as a PWA for drivers was made in order to improve the offline functionality, performance, and app-like experience of the application, as well as making it easier to install. This design choice enables the web application to work offline or with a low-quality network connection, using service workers to store assets and data locally. The PWA also improves performance by reducing the need for network requests and loading faster due to the use of service workers. Finally, the PWA can be easily installed on the user's device, similar to a native mobile app, making it convenient for drivers to access the application.
 \subsubsection{Scale-out}
-\dots
+The decision to implement a scale out design in the software was taken to enhance its ability to scale, its availability, and its performance. This design approach enables the system to expand its capacity to cope with increased demand by adding more resources, such as servers or machines, as needed. This can be more cost-effective than upgrading individual components and avoids the need for downtime. The scale out design also improves the system's reliability by providing redundant resources that can take over if any component fails. In addition, the design allows for flexibility, as resources can be added or removed as required. Lastly, the scale out design improves the system's performance by allowing workloads to be processed in parallel rather than sequentially.
+
 \subsubsection{Relational Database}
-\dots
+We selected a relational database for our system design because it is effective at storing structured data, enforcing data integrity, and providing fast query performance. It can also scale to handle large amounts of data and support many concurrent users. The database allows us to store and retrieve information efficiently, while also ensuring that the data is accurate and consistent.
 \subsubsection{The separation of eMSP and CPMSs}
+The decision to design eMSP and CPMSs as independent entities is driven by the need to maintain a consistent interface between them that follows a standard protocol. While this may initially lead to the duplication of some common components, it is necessary because the systems have distinct roles. As the operating environment is subject to change, it is possible that future standard protocols will require eMSP and CPMS to follow a single protocol for searching and booking CPs. By designing them as independent entities, it will be easier to incorporate any new protocol and enable eMSP to access CPMSs even from CPOs not directly subscribed to the system.
