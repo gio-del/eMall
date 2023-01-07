@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="Lw5kkMuMrnF7vJ6KjVIi" name="Pagina-1">
-        <mxGraphModel dx="1829" dy="1326" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2092" dy="1938" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -936,7 +936,7 @@
                 <mxCell id="865" value="&lt;font style=&quot;font-size: 15px&quot;&gt;BookingInt&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;" parent="5" vertex="1">
                     <mxGeometry x="97.7" y="620.5" width="150.13" height="19.5" as="geometry"/>
                 </mxCell>
-                <mxCell id="871" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.545;exitY=-0.002;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="5" source="336" target="343">
+                <mxCell id="871" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.545;exitY=-0.002;exitDx=0;exitDy=0;exitPerimeter=0;" parent="5" source="336" target="343" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="620" y="400" as="sourcePoint"/>
                         <mxPoint x="670" y="350" as="targetPoint"/>
@@ -961,10 +961,10 @@
                     <mxGeometry x="438.92999999999995" y="190.00043338683793" width="22.999999999999996" height="22.999999999999996" as="geometry"/>
                 </mxCell>
                 <mxCell id="gfm1DG6U235ydkwjRBoz-838" value="" style="group" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="-520" y="-77" width="303" height="90" as="geometry"/>
+                    <mxGeometry x="-520" y="-77" width="303" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="238" value="" style="group;fontStyle=0;fontSize=20;" parent="gfm1DG6U235ydkwjRBoz-838" vertex="1" connectable="0">
-                    <mxGeometry width="303" height="90" as="geometry"/>
+                    <mxGeometry width="303" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="239" value="" style="ellipse;fillColor=#ffffff;strokeColor=#000000;fontSize=20;fontStyle=4" parent="238" vertex="1">
                     <mxGeometry x="122.10526315789474" y="5" width="50.877192982456144" height="50" as="geometry"/>
@@ -985,8 +985,8 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="244" value="Reservation&amp;nbsp;&lt;br style=&quot;font-size: 18px;&quot;&gt;Interface" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=0" parent="238" vertex="1">
-                    <mxGeometry x="76.31578947368422" y="70" width="142.4561403508772" height="30" as="geometry"/>
+                <mxCell id="244" value="Reservation Manager&amp;nbsp;&lt;br style=&quot;font-size: 18px&quot;&gt;Interface" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=0" parent="238" vertex="1">
+                    <mxGeometry x="48.16" y="70" width="198.77" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="809" value="" style="endArrow=none;html=1;rounded=0;sketch=0;fontSize=20;endSize=6;strokeWidth=1;startArrow=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="gfm1DG6U235ydkwjRBoz-838" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -1030,10 +1030,10 @@
                     <mxGeometry x="-253" y="50.00216693418942" width="22.999999999999996" height="22.999999999999996" as="geometry"/>
                 </mxCell>
                 <mxCell id="830" value="" style="group" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="-520" y="30" width="303" height="90" as="geometry"/>
+                    <mxGeometry x="-520" y="30" width="303" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="831" value="" style="group;fontStyle=0;fontSize=20;" parent="830" vertex="1" connectable="0">
-                    <mxGeometry width="303" height="90" as="geometry"/>
+                    <mxGeometry width="303" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="832" value="" style="ellipse;fillColor=#ffffff;strokeColor=#000000;fontSize=20;fontStyle=4" parent="831" vertex="1">
                     <mxGeometry x="122.10526315789474" y="5" width="50.877192982456144" height="50" as="geometry"/>
@@ -1054,8 +1054,8 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="836" value="Suggestion&lt;br&gt;Interface" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=0" parent="831" vertex="1">
-                    <mxGeometry x="76.31578947368422" y="70" width="142.4561403508772" height="30" as="geometry"/>
+                <mxCell id="836" value="Suggestion Manager&lt;br&gt;Interface" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=0" parent="831" vertex="1">
+                    <mxGeometry x="63.16" y="70" width="168.77" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="837" value="" style="endArrow=none;html=1;rounded=0;sketch=0;fontSize=20;endSize=6;strokeWidth=1;startArrow=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="830" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">

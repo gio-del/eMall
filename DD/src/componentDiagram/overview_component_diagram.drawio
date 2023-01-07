@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="Lw5kkMuMrnF7vJ6KjVIi" name="Pagina-1">
-        <mxGraphModel dx="3336" dy="2980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2268" dy="1938" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -317,7 +317,7 @@
                 <mxCell id="533" value="" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;strokeWidth=0;strokeColor=none;rotation=-90;direction=south;" parent="531" vertex="1">
                     <mxGeometry x="94.39701754385968" y="-237.26315789473685" width="60" height="30.526315789473685" as="geometry"/>
                 </mxCell>
-                <mxCell id="536" value="Reservation&lt;br&gt;Interface" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;" parent="531" vertex="1">
+                <mxCell id="536" value="Booking&lt;br&gt;Interface" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;" parent="531" vertex="1">
                     <mxGeometry x="16.37999999999999" y="-317" width="193.68" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="646" value="" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;strokeColor=#FFFFFF;strokeWidth=1;" parent="531" vertex="1">
@@ -671,7 +671,7 @@
                 <mxCell id="WbtDh6yJyEdc71KF4MCt-1030" value="&lt;b&gt;CPMS&lt;/b&gt;" style="html=1;dropTarget=0;fontSize=20;fontStyle=0;" parent="WbtDh6yJyEdc71KF4MCt-915" vertex="1">
                     <mxGeometry x="100.5" y="370" width="162" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="WbtDh6yJyEdc71KF4MCt-1031" value="" style="shape=module;jettyWidth=8;jettyHeight=4;fontSize=20;fillColor=#d5e8d4;strokeColor=#82b366;" parent="WbtDh6yJyEdc71KF4MCt-1030" vertex="1">
+                <mxCell id="WbtDh6yJyEdc71KF4MCt-1031" value="" style="shape=module;jettyWidth=8;jettyHeight=4;fontSize=20;fillColor=#fff2cc;strokeColor=#d6b656;" parent="WbtDh6yJyEdc71KF4MCt-1030" vertex="1">
                     <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
                         <mxPoint x="-27" y="7" as="offset"/>
                     </mxGeometry>
@@ -682,7 +682,7 @@
                 <mxCell id="WbtDh6yJyEdc71KF4MCt-922" value="&lt;b style=&quot;font-size: 20px;&quot;&gt;Query Manager&lt;/b&gt;" style="html=1;dropTarget=0;fontSize=20;fontStyle=0;" parent="WbtDh6yJyEdc71KF4MCt-915" vertex="1">
                     <mxGeometry x="650" y="266.5" width="162" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="WbtDh6yJyEdc71KF4MCt-923" value="" style="shape=module;jettyWidth=8;jettyHeight=4;fontSize=20;fillColor=#d5e8d4;strokeColor=#82b366;" parent="WbtDh6yJyEdc71KF4MCt-922" vertex="1">
+                <mxCell id="WbtDh6yJyEdc71KF4MCt-923" value="" style="shape=module;jettyWidth=8;jettyHeight=4;fontSize=20;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="WbtDh6yJyEdc71KF4MCt-922" vertex="1">
                     <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
                         <mxPoint x="-27" y="7" as="offset"/>
                     </mxGeometry>

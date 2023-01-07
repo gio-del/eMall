@@ -3418,7 +3418,7 @@
 														"$ref": "AAAAAAGFgnSyjRlQAUs="
 													},
 													"edgePosition": 1,
-													"text": "pushSuggestion(suggestions)"
+													"text": "pushNotification(suggestions)"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -3916,7 +3916,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFeCR4M15ro5Y="
 									},
-									"name": "pushSuggestion",
+									"name": "pushNotification",
 									"source": {
 										"$ref": "AAAAAAGFeCd4Y18Vpkw="
 									},

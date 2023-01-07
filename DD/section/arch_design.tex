@@ -1,4 +1,5 @@
 \section{Architectural Design}
+The purpose of this section was to present and analyze the architecture of the S2B system in a top-down manner. We first introduced the overall architecture and then provided a diagram of the system's components, focusing on the eMSP and CPMS subcomponents. Next, we used an ER diagram to describe the system's logical data and presented the system's deployment view, including the layers and tiers involved. We also used sequence diagrams to depict important runtime views and class diagrams to analyze the component interfaces. Finally, we discussed the architectural design choices and the reasons behind them.
 \subsection{Overview}
 The figure shown below represents a high-level description of the components which make up the System.
 In this document the presentation layer and the Client (e.g. the Browser)
@@ -14,7 +15,7 @@ will be referred to as the Backend.
 A web interface will be used to access the service. A single page application (SPA) will be developed for drivers and CPOs to use the system. An SPA is a good choice for this type of application because it allows for a lot of interaction without the need for frequent page reloads, which can provide a faster and more seamless user experience. The overall architecture of the system is divided into different layers, with the application servers interacting with a database management system and using APIs to retrieve and store data. The application servers are designed to be stateless according to REST standards, and the system includes firewalls to enhance security.
 \pagebreak
 \subsection{Component view}
-In this section we show the components of the S2B, their relationships and interfaces. The following sections will explain the interaction between interfaces and details on each method of interfaces with REST endpoints, if any.
+In this section we show the components of the S2B and their relationships. The following sections will explain the interaction between interfaces and details on each method of interfaces with REST endpoints, if any.
 
 \begin{figure}[H]
     \centering
@@ -23,9 +24,11 @@ In this section we show the components of the S2B, their relationships and inter
     \caption{Component Diagram of the eMall System}
 \end{figure}
 
+\subsubsection{Query Manager}
+This component is responsible for communication with a Database Management System (DBMS). It follows the Adapter design pattern, allowing other components to interact with the DBMS without needing to write any SQL code themselves.
 
 \subsubsection{eMSP}
-
+This component is responsible for interacting with EV drivers. It allows them to view CPs near their location, book and pay for a charge, set the car they are using to receive suggestions based on the battery status, their appointments in the calendar, and any special offers at the EVCP.
 \begin{figure}[H]
     \centering
     \hspace*{-2cm}
@@ -37,7 +40,7 @@ In this section we show the components of the S2B, their relationships and inter
 The EV drivers' application uses client-side rendering of web pages. When a user sends a request through their browser, the eMSP application server responds by sending back HTML and JavaScript code, which the browser downloads and runs. As the user interacts with the page, the JavaScript can make additional requests to the server and update the page dynamically without requiring a full page reload.
 
 \paragraph*{eMSP Application Server} \hfill \\
-The eMSP Application Server is responsible for the business logic to provide the functionality to the application for the EV Drivers and to coordinate the information flow between application layer and data layer
+The eMSP Application Server is responsible for the business logic to provide the functionality to the application for the EV Drivers and to coordinate the information flow between application layer and data layer.
 It is composed of several components, each of them used for a specific functionality:\\
 \begin{itemize}
     \item \textbf{eMPS's Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate
@@ -53,11 +56,24 @@ It is composed of several components, each of them used for a specific functiona
     \item \textbf{Reservation Manager} \\ This component handles all the operations related to the reservations for the EV Drivers. It offers the possibility to create a reservation
           for a charge and pay for that reservation, see the details of a reservation, start or pause a charge of a particular reservation and see the recap of an already occurred reservation.
           It permits paying for a reservation using an external Payment Gateway that handles all the payment process and returns the status of the payment.
+    \item \textbf{Suggestion Manager} \\ This component provides recommendations to drivers. It obtains information from an EV Service that sends an alert when a car's battery is low, and from a Calendar API to identify open slots in the driver's schedule. The component also stores the suggestion in the DB and sends it to the driver through the notification manager's 'SendSuggestion' interface. Drivers can view these recommendations in a separate tab of their application.
+    \item \textbf{Notification Manager} \\ This component relies on a push notification service to provide other components with the ability to set notification preferences for drivers, send notifications when a charge has ended, and send suggestions. It offers interfaces for these functions to other components.
+    \item \textbf{eMSPtoCPMSConnector} \\ This component is responsible for implementing a protocol for communication with a specific CPMS. It hides the complexity of this communication by providing a simple interface for other components to use.
 \end{itemize}
 
+\paragraph*{eMSP external APIs} \hfill \\
+\begin{itemize}
+    \item \textbf{SMS Service} \\ This service is used to send SMS messages to drivers. One example of a service that can be used for this purpose is Twilio.
+    \item \textbf{Calendar API} \\ This service is used to access the calendars of drivers in order to identify available time slots for charging.
+    \item \textbf{Payment Gateway} \\ This service is used to handle all payment-related tasks. An example of a service that can be used for this purpose is Stripe.
+    \item \textbf{EV Service} \\ This service is used to access information about the car if the driver has chosen to personalize their experience by adding information about their car. This service allows the system to access the battery status of the car, which can be used to suggest when the driver should charge their vehicle.
+    \item \textbf{Push Notification Service} \\ This service is used to send push notifications to users.
+\end{itemize}
+
+\pagebreak
 
 \subsubsection{CPMS}
-
+This component is responsible for interacting with the CPOs. A CPMS is associated with each CPO. The CPMS is responsible for managing CPs, reservations, rates, and special offers. It also controls the source of energy and the source mix for the EVCP.
 \begin{figure}[H]
     \centering
     \hspace*{-2cm}
@@ -83,24 +99,23 @@ It is composed of several components, each of them used for a specific functiona
     \item \textbf{Charging Points Manager} \\ This component handles the operations regarding the managing of the CPs. It is an OCPP server for the CPs, offering the
           required functionalities for adding and removing a CP, for starting and stopping a charge and for receiving status data by the CP. It offers an interface to connect the different CPs through their platform.
     \item \textbf{CPMS's Account Manager} \\ This component handles all the account operations related to the CPO and offers an interface to authenticate the requests in the CPMS application server.
-          It offers functionality to create new account, logging in, setting preferences and verify the authentication of the user at any time.
-          To create a new account interacts with the external SMS API to make the user receive a code to verify the identity.
+          It offers functionality to create new account, logging in and verifying the authentication of the user at any time.
+    \item \textbf{CPMStoeMSPConnector} \\ This component is responsible for receiving commands from an eMSP using a standardized protocol. When a request is received, the component calls specific interfaces of internal components to handle the request.
 \end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \hspace*{-2.5cm}
-    \includegraphics[height=\textheight-1.5cm,keepaspectratio]{src/componentInterfaces/component_interface.pdf}
-    \caption{Class Diagram with interfaces of the eMall System}
-\end{figure}
-
-
+\paragraph*{CPMS external APIs} \hfill \\
+\begin{itemize}
+    \item \textbf{OCPP Compliant CP} \\ This API is used to interface with the CP that is supposed to implement the OCPP protocol.
+    \item \textbf{DSO Pricing Service} \\ This API is used to retrieve all information about the DSO and to change contracts.
+    \item \textbf{Energy Storage API} \\ This API is used to retrieve information about energy storage, which can be used to select a mix of energy sources.
+\end{itemize}
+\pagebreak
 \subsubsection{Logical Description of Data}
 In this section the ER diagram of the S2B data layer is shown. An ER diagram is a graphical representation of the structure of a database, showing the relationships between entities and their attributes.
 \begin{figure}[H]
     \includegraphics[scale=0.42]{src/ERDiagram/er_diagram.pdf}
 \end{figure}
-
+\pagebreak
 \subsection{Deployment view}
 
 Our system consists of two parts: a static web server and an application server. The static web server will be the entry point for clients to access the SPA, while the application server will provide the necessary APIs for the SPA to work. We have chosen to use two different solutions for these components. The static web server will be hosted on a CDN (Content Delivery Network) to ensure fast response times through its edge location caches and reverse proxies. The application server, which includes both a business logic layer and a data tier, will be hosted on a cloud provider.
@@ -215,7 +230,7 @@ The views are divided between eMSP and CPMS.
           \begin{figure}[H]
               \centering
               \includegraphics[scale=0.65]{src/runtimeView/eMSP_AddACar.pdf}
-              \caption{EV Driver adds a credit card information}
+              \caption{EV Driver adds a car}
           \end{figure}
           \pagebreak
     \item \textbf{Suggestion} : The following diagram represents the workflow when a Suggestion is sent to the EV Driver.\\
@@ -241,7 +256,7 @@ The views are divided between eMSP and CPMS.
               \centering
               \hspace*{-2cm}
               \includegraphics[scale=0.45]{src/runtimeView/eMSP_currentChargeInfo.pdf}
-              \caption{EV Driver books a charge}
+              \caption{EV sees the current charge information}
           \end{figure}
 \end{itemize}
 
@@ -301,7 +316,7 @@ The views are divided between eMSP and CPMS.
           \begin{figure}[H]
               \centering
               \includegraphics[scale=0.65]{src/runtimeView/CPMS_energyMix.pdf}
-              \caption{Choose energy Mix}
+              \caption{CPO chooses energy Mix}
           \end{figure}
           \pagebreak
     \item \textbf{Choose DSO} : The following diagram represents the workflow when the CPO chooses DSO.\\
@@ -312,55 +327,30 @@ The views are divided between eMSP and CPMS.
           \begin{figure}[H]
               \centering
               \includegraphics[scale=0.60]{src/runtimeView/CPMS_chooseDSO.pdf}
-              \caption{Choose DSO}
+              \caption{CPO chooses a DSO to acquire energy from}
           \end{figure}
 \end{itemize}
-
+\pagebreak
 \subsection{Component interfaces}
-Details for each interface (name, signature, returned objects)
-\subsubsection{REST Endpoints}
-\renewcommand{\labelitemii}{}
-\renewcommand{\labelitemiii}{-}
-\begin{itemize}
-    \item \texttt{/api/search/<latitude|longitude>}
-          \begin{itemize}
-              \item Maps: \texttt{NomeMetodoMappato}
-              \item Type: TipoAPI(GET,POST)
-              \item URL Parameters:
-                    \begin{itemize}
-                        \item \texttt{<latitude|longitude>} - GPS Location, needed to find CPs nearby a certain location.
-                    \end{itemize}
-              \item Parameters:
-                    \begin{itemize}
-                        \item \texttt{authToken}
-                        \item \texttt{blabla} [string] - description
-                        \item \texttt{blabla} [boolean] - description
-                        \item \texttt{blabla} [number] - description
-                    \end{itemize}
-              \item Success:
-                    \begin{itemize}
-                        \item 200 - OK + Response
-                              \begin{lstlisting}
-            {
-                "cps": [
-                    {
-                        "id": "<store id>",
-                        "name": "<cp name>",
-                        "address": "<address>",
-                        "open": <boolean>,
-                        "distance": <number>,
-                    }
-                ]
-            }
-            \end{lstlisting}
-                    \end{itemize}
-              \item Errors:
-                    \begin{itemize}
-                        \item 400 - Bad request
-                        \item 404 - No store found
-                    \end{itemize}
-          \end{itemize}
-\end{itemize}
+In this section, we will use a class diagram to illustrate the component interfaces. The methods are presented as clearly as possible, and we expect their functionality to be easily understandable.
+\begin{figure}[H]
+    \centering
+    \hspace*{-2.5cm}
+    \includegraphics[scale=0.6]{src/componentInterfaces/overview_interface.pdf}
+    \caption{Class Diagram with interfaces of the eMall System}
+\end{figure}
+\begin{figure}[hp]
+    \centering
+    \hspace*{-2.5cm}
+    \includegraphics[scale=0.55]{src/componentInterfaces/emsp_interface.pdf}
+    \caption{Class Diagram with interfaces of the eMSP System}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \hspace*{-2.5cm}
+    \includegraphics[scale=0.5]{src/componentInterfaces/cpms_interface.pdf}
+    \caption{Class Diagram with interfaces of the CPMS System}
+\end{figure}
 
 \subsection{Architectural Styles and patterns}
 \begin{itemize}
