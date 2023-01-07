@@ -94,14 +94,14 @@ The implementation of the Application Server will be divided between eMSP and CP
     on to interact with the Database. It is the only component in which is necessary to implement the queries to the database.
     \item \textbf{CPMS's account Manager}: This is the component that permits to register or log in a user. It has an authorization interface that 
     is used by the other components to verify at each request that the user has the permissions to do the requested operations.
+    \item \textbf{Rate Manager}: This component is necessary to enable the creation of new rates to associate with the CPs.
+    \item \textbf{Charging Points Manager}: The dialogue between the CPMS and the CPs is done through this Charging Points Manager that 
+    needs to be implemented compliant with the OCPP protocol used by the CPs.
+    \item \textbf{Booking Manager}: The Reservation Manager is the component
+    that manages all the reservation done through the eMSP to the specific CPMS. This component is used to access a reservation and can call the 
+    Charging Points Manager to do operations on CPs of a specific reservation.
     \item \textbf{CPMStoeMSPConnector}: The development of this module is particularly critic because is the component dedicated
     to the communication with the eMSP. The dialogue between the two can be simulated during the implementation and tested after the integration.
-    \item \textbf{Rate Manager}: This component has to be implemented before the Charging Points Manager because during the adding 
-    of a new CP to the Manager, a rate needs to be associated to the CP.
-    \item \textbf{Charging Points Manager and Booking Manager}: These two components are the most critical to implement but also two 
-    of the most essential components. The dialogue between the CPMS and the CPs is done through the Charging Points Manager that 
-    needs to be implemented compliant with the OCPP protocol used by the CPs. The Reservation Manager on the other hand is the component
-    that manages all the reservation done through the eMSP to the specific CPMS. These two components can be implemented in parallel.
     \item \textbf{Energy Manager}: This component has a medium complexity because it interacts with the DSO Pricing Service and Energy Storage API. 
 \end{enumerate}
 
@@ -195,7 +195,27 @@ to be tested carefully.
     \includegraphics[scale=0.6]{src/Integration/CPMS_Account.pdf}
     \caption{Account Subsystem}
 \end{figure}
-The CPMStoeMSPConnector can be implemented after the Account Manager, a stub of the eMSP can be implemented at this point to simulate
+The Rate Manager can be implemented to provide the functions to create new rates that can also be special.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/Integration/CPMS_Rates.pdf}
+    \caption{Rates Subsystem}
+\end{figure}
+Then can be implemented the Charging Points Manager. This component has an interface to the booking manager and uses the OCPP compliant CP
+to do manage the CP using the standard OCPP protocol.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/Integration/CPMS_CPs.pdf}
+    \caption{Charging Points Subsystem}
+\end{figure}
+After the implementation of the Charging Points Manager the Booking Manager can be implemented because depends on the interface offered by the former. 
+The usage of the interface is clarified in the second chapter.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{src/Integration/CPMS_Booking.pdf}
+    \caption{Booking Subsystem}
+\end{figure}
+The CPMStoeMSPConnector can be implemented after the Booking and Charging Points Managers. A stub of the eMSP can be implemented at this point to simulate
 the requests coming from the eMSP on the other side of the communication. This stab is an exception to the bottom-up approach, but
 enables the possibility to develop separately the eMSP and the CPMS. 
 \begin{figure}[H]
@@ -203,12 +223,13 @@ enables the possibility to develop separately the eMSP and the CPMS.
     \includegraphics[scale=0.6]{src/Integration/CPMS_Connector.pdf}
     \caption{Connector Subsystem}
 \end{figure}
-Then can be implemented the Rates Manager that offers an interface to create and modify rates that
-are later associated with the CPs.
+Then can be implemented the Energy Manager that doesn't depend on the others components. 
+The final result of the integration of the CPMS Web Application and the CPMS is the following:
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{src/Integration/CPMS_Rates.pdf}
-    \caption{Rates Subsystem}
+    \hspace*{-2cm}
+    \includegraphics[scale=0.41]{src/Integration/CPMS_Overview.pdf}
+    \caption{CPMS Subsystem}
 \end{figure}
 
 
