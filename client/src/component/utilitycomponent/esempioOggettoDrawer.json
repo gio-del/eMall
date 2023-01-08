@@ -1,0 +1,16 @@
+[
+  {
+    "type": "CCS2",
+    "power": "110 kW",
+    "price": "1,50$/h + 0,92$/kW",
+    "totalSockets": 1,
+    "availableSockets": 2
+  },
+  {
+    "type": "Type2",
+    "power": "110 kW",
+    "price": "1,50$/h + 0,92$/kW",
+    "totalSockets": 2,
+    "availableSockets": 3
+  }
+]

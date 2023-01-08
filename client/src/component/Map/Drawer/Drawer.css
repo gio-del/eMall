@@ -1,0 +1,52 @@
+.react-modal-sheet-backdrop {
+  background-color: rgb(0, 0, 0, 0.2) !important;
+}
+
+.react-modal-sheet-container {
+  /*drawer dark mode example*/
+  background-color: #eaeaea !important;
+}
+
+.dark .react-modal-sheet-container {
+  background-color: #3c4048 !important;
+}
+
+.react-modal-sheet-container,
+.dark .react-modal-sheet-container {
+  width: 40vw !important;
+  max-height: 100% !important;
+}
+
+.react-modal-sheet-header {
+}
+
+.react-modal-sheet-drag-indicator {
+  height: 6px !important;
+  width: 30px !important;
+  background-color: #3c4048 !important;
+}
+
+.dark .react-modal-sheet-drag-indicator {
+  height: 6px !important;
+  width: 30px !important;
+
+  background-color: #eaeaea !important;
+}
+.react-modal-sheet-content {
+  /* the content part */
+}
+@media not all and (min-width: 910px) {
+  .react-modal-sheet-container,
+  .dark .react-modal-sheet-container {
+    width: 60% !important;
+  }
+}
+
+@media not all and (min-width: 800px) {
+  .react-modal-sheet-container,
+  .dark .react-modal-sheet-container {
+    width: 100% !important;
+  }
+}
+
+

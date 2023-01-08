@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+html * {
+  font-family: "Roboto", sans-serif !important;
+}
+
+.leaflet-control {
+  z-index: 0 !important;
+}
+.leaflet-pane {
+  z-index: 0 !important;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 0 !important;
+}
+
+input,
+textarea,
+button,
+select,
+label,
+div,
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+@media not all and (min-width: 800px) {
+  input[type="date"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    display: none !important;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none !important;
+    display: none !important;
+  }
+}

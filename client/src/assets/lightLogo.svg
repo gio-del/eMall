@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="lightLogo.svg"
+   inkscape:export-filename="C:\Users\giova\Desktop\projects\SimpleTodoList\cpms\src\assets\lightLogo.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="2.1215981"
+     inkscape:cx="202.91308"
+     inkscape:cy="351.15039"
+     inkscape:window-width="1920"
+     inkscape:window-height="1046"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Livello 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       class="st0"
+       d="m 27.233213,69.959 h 13.282083 l -4.630208,10.721841 7.879292,0.164558 -19.200813,28.000811 3.693584,-18.421409 h -6.215063 z m -1.508125,16.924551 3.876146,-13.196596 h 6.019271 l -3.130021,10.047762 4.722812,0.09497 -7.945437,14.228273 2.368021,-11.174385 z"
+       id="path2500"
+       style="fill:#588157;fill-opacity:1;fill-rule:nonzero;stroke-width:0.264583" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;line-height:1.25;font-family:'Proxima Nova';-inkscape-font-specification:'Proxima Nova, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#588157;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="45.719658"
+       y="103.77094"
+       id="text6923"><tspan
+         sodipodi:role="line"
+         id="tspan6921"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:'Proxima Nova';-inkscape-font-specification:'Proxima Nova, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#588157;fill-opacity:1;stroke-width:0.264583"
+         x="45.719658"
+         y="103.77094">Electric Mobility For All</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;line-height:1.25;font-family:'Proxima Nova';-inkscape-font-specification:'Proxima Nova, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#344e41;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="44.004715"
+       y="94.70697"
+       id="text1131"><tspan
+         sodipodi:role="line"
+         id="tspan1129"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;font-family:'Proxima Nova';-inkscape-font-specification:'Proxima Nova, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#344e41;fill-opacity:1;stroke-width:0.264583"
+         x="44.004715"
+         y="94.70697">eMall</tspan></text>
+  </g>
+  <style
+     type="text/css"
+     id="style2498">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style>
+</svg>
