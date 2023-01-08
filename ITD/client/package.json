@@ -1,5 +1,6 @@
 {
   "name": "cpms",
+  "homepage": "https://gio-del.github.io/eMall",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +8,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "dev": "vite",
-    "build": "vite build --base=/eMallFrontEnd/",
+    "build": "vite build --base=/eMall/",
     "preview": "vite preview"
   },
   "dependencies": {
