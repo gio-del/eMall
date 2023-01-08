@@ -99,7 +99,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/eMallFrontEnd',
+    basename: '/eMall',
   },
 )
 
