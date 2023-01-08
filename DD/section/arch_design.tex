@@ -150,8 +150,16 @@ The deployment diagram offers a more detailed view over the hardware and softwar
 
 \pagebreak
 \subsection{Runtime view}
-The runtime view describe the interactions between actors, subsystems and interfaces of the system showing the specific method called.
+The runtime views describe the interactions between actors, subsystems and interfaces of the system showing the specific method called.
 The views are divided between eMSP and CPMS.
+
+\subsubsection{Token Validation}
+Users can only search and view details of a CP without first being authenticated and authorized. All other actions that a user (both drivers and CPOs) can perform are dependent on the validation of a token. The token is passed in the API request and the process of verifying it is shown in the sequence diagram below.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.75]{src/runtimeView/auth.pdf}
+    \caption{User token validation}
+\end{figure}
 
 \subsubsection{eMSP}
 \begin{itemize}

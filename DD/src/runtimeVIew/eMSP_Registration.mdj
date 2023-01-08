@@ -2243,9 +2243,9 @@
 													},
 													"font": "Arial;10;0",
 													"showShadow": false,
-													"left": 648,
+													"left": 645,
 													"top": 468,
-													"width": 263.427734375,
+													"width": 268.9794921875,
 													"height": 10,
 													"alpha": 0.08413823044180922,
 													"distance": 83.2946576918352,
@@ -2253,7 +2253,7 @@
 														"$ref": "AAAAAAGFctrysdlv04k="
 													},
 													"edgePosition": 1,
-													"text": "createUser(firstName, lastName, password, phoneNumber)"
+													"text": "createDriver(firstName, lastName, password, phoneNumber)"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -2811,9 +2811,9 @@
 													},
 													"font": "Arial;10;0",
 													"showShadow": false,
-													"left": 691,
+													"left": 688,
 													"top": 544,
-													"width": 215.673828125,
+													"width": 221.2255859375,
 													"height": 10,
 													"alpha": 0.10742794315335051,
 													"distance": 102.59142264341595,
@@ -2821,7 +2821,7 @@
 														"$ref": "AAAAAAGFcte4XtkCTos="
 													},
 													"edgePosition": 1,
-													"text": "createUserVerificationCode(phoneNumber,code)"
+													"text": "createDriverVerificationCode(phoneNumber,code)"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -4578,7 +4578,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFcr730dYUtYU="
 									},
-									"name": "createUser",
+									"name": "createDriver",
 									"source": {
 										"$ref": "AAAAAAGFcsC7B9Z3GvM="
 									},
@@ -4651,7 +4651,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFcr730dYUtYU="
 									},
-									"name": "createUserVerificationCode",
+									"name": "createDriverVerificationCode",
 									"source": {
 										"$ref": "AAAAAAGFcsC7B9Z3GvM="
 									},

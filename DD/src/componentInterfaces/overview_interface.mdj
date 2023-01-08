@@ -1072,7 +1072,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 149,
-											"width": 326.0478515625,
+											"width": 333.26513671875,
 											"height": 13,
 											"text": "«interface»"
 										},
@@ -1085,7 +1085,7 @@
 											"font": "Arial;13;1",
 											"left": 869,
 											"top": 164,
-											"width": 326.0478515625,
+											"width": 333.26513671875,
 											"height": 13,
 											"text": "QueryManagerInt"
 										},
@@ -1120,7 +1120,7 @@
 									"font": "Arial;13;0",
 									"left": 864,
 									"top": 144,
-									"width": 336.0478515625,
+									"width": 343.26513671875,
 									"height": 38,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGFjJOMWjkqXa0="
@@ -1173,7 +1173,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 187,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+checkIfAlreadyExist(phoneNumber)",
 											"horizontalAlignment": 0
@@ -1190,9 +1190,9 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 202,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
-											"text": "+createUser(firstName, lastName, password, phoneNumber)",
+											"text": "+createDriver(firstName, lastName, password, phoneNumber)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1207,9 +1207,9 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 217,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
-											"text": "+createUserVerificationCode(phoneNumber, code)",
+											"text": "+createDriverVerificationCode(phoneNumber, code)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1224,7 +1224,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 232,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+checkVerificationCode(phoneNumber, code)",
 											"horizontalAlignment": 0
@@ -1241,7 +1241,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 247,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+checkDriverCredentials(phoneNumber, password)",
 											"horizontalAlignment": 0
@@ -1258,9 +1258,9 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 262,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
-											"text": "+createUserToken(phoneNumber, token)",
+											"text": "+createDriverToken(phoneNumber, token)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1275,7 +1275,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 277,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+getCPs(latitude, longitude, [filters])",
 											"horizontalAlignment": 0
@@ -1292,7 +1292,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 292,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+checkAvailability(reservationParam)",
 											"horizontalAlignment": 0
@@ -1309,7 +1309,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 307,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+addReservation(reservationParam)",
 											"horizontalAlignment": 0
@@ -1326,7 +1326,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 322,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+removeReservation(reservationID)",
 											"horizontalAlignment": 0
@@ -1343,7 +1343,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 337,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+findSocket(reservationID)",
 											"horizontalAlignment": 0
@@ -1360,7 +1360,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 352,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+getReservations(user_id)",
 											"horizontalAlignment": 0
@@ -1377,7 +1377,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 367,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+addCar(Car, userID, location)",
 											"horizontalAlignment": 0
@@ -1394,7 +1394,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 382,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+getUserID(carID)",
 											"horizontalAlignment": 0
@@ -1411,7 +1411,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 397,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+getTopKSuggestions(carID, freeSpots)",
 											"horizontalAlignment": 0
@@ -1428,7 +1428,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 412,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+checkNotificationPreferences(userID)",
 											"horizontalAlignment": 0
@@ -1445,7 +1445,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 427,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+getReservations(cpo_id)",
 											"horizontalAlignment": 0
@@ -1462,7 +1462,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 442,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+addCP(cpID, evcpID, rate)",
 											"horizontalAlignment": 0
@@ -1479,7 +1479,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 457,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+activeCP(cpID)",
 											"horizontalAlignment": 0
@@ -1496,7 +1496,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 472,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+addRate(evcpID, flatPrice, variablePrice, powerkWh)",
 											"horizontalAlignment": 0
@@ -1513,7 +1513,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 487,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+getBatteryKey(evcpID)",
 											"horizontalAlignment": 0
@@ -1530,7 +1530,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 502,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+getCPs(evcpID)",
 											"horizontalAlignment": 0
@@ -1547,7 +1547,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 517,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+addSpecialOffer(evcpID, discount, timeframe)",
 											"horizontalAlignment": 0
@@ -1564,7 +1564,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 532,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+verifyCommitmentDate(cpoID)",
 											"horizontalAlignment": 0
@@ -1581,7 +1581,7 @@
 											"font": "Arial;13;0",
 											"left": 869,
 											"top": 547,
-											"width": 350.0478515625,
+											"width": 357.26513671875,
 											"height": 13,
 											"text": "+addContract(contract, cpoID)",
 											"horizontalAlignment": 0
@@ -1590,7 +1590,7 @@
 									"font": "Arial;13;0",
 									"left": 864,
 									"top": 182,
-									"width": 360.0478515625,
+									"width": 367.26513671875,
 									"height": 383
 								},
 								{
@@ -1630,7 +1630,7 @@
 							"containerChangeable": true,
 							"left": 864,
 							"top": 144,
-							"width": 360.0478515625,
+							"width": 367.26513671875,
 							"height": 421,
 							"stereotypeDisplay": "decoration-label",
 							"nameCompartment": {
@@ -5407,7 +5407,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGFjJOMWjkmZTU="
 							},
-							"name": "createUser",
+							"name": "createDriver",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -5415,8 +5415,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjPGLGzyH0BM="
 									},
-									"name": "firstName",
-									"type": ""
+									"name": "firstName"
 								},
 								{
 									"_type": "UMLParameter",
@@ -5424,8 +5423,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjPGLGzyH0BM="
 									},
-									"name": "lastName",
-									"type": ""
+									"name": "lastName"
 								},
 								{
 									"_type": "UMLParameter",
@@ -5433,8 +5431,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjPGLGzyH0BM="
 									},
-									"name": "password",
-									"type": ""
+									"name": "password"
 								},
 								{
 									"_type": "UMLParameter",
@@ -5442,8 +5439,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjPGLGzyH0BM="
 									},
-									"name": "phoneNumber",
-									"type": ""
+									"name": "phoneNumber"
 								}
 							]
 						},
@@ -5453,7 +5449,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGFjJOMWjkmZTU="
 							},
-							"name": "createUserVerificationCode",
+							"name": "createDriverVerificationCode",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -5461,8 +5457,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjPG88TyWZjw="
 									},
-									"name": "phoneNumber",
-									"type": ""
+									"name": "phoneNumber"
 								},
 								{
 									"_type": "UMLParameter",
@@ -5470,8 +5465,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjPG88TyWZjw="
 									},
-									"name": "code",
-									"type": ""
+									"name": "code"
 								}
 							]
 						},
@@ -5537,7 +5531,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGFjJOMWjkmZTU="
 							},
-							"name": "createUserToken",
+							"name": "createDriverToken",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -5545,8 +5539,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjPJA3zy3MXg="
 									},
-									"name": "phoneNumber",
-									"type": ""
+									"name": "phoneNumber"
 								},
 								{
 									"_type": "UMLParameter",
@@ -5554,8 +5547,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjPJA3zy3MXg="
 									},
-									"name": "token",
-									"type": ""
+									"name": "token"
 								}
 							]
 						},
@@ -6128,7 +6120,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjUGXU1D9Qhg="
 									},
-									"name": "price"
+									"name": "price",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -6136,7 +6129,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjUGXU1D9Qhg="
 									},
-									"name": "creditCard"
+									"name": "creditCard",
+									"type": ""
 								}
 							]
 						},
@@ -6154,7 +6148,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjUIQglEJDRQ="
 									},
-									"name": "creditCard"
+									"name": "creditCard",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -6162,7 +6157,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGFjUIQglEJDRQ="
 									},
-									"name": "minAmount"
+									"name": "minAmount",
+									"type": ""
 								}
 							]
 						}

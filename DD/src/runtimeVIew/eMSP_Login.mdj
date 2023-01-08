@@ -1079,7 +1079,7 @@
 														"$ref": "AAAAAAGFcqxc0cGuP2w="
 													},
 													"edgePosition": 1,
-													"text": "selectDriver(phoneNumber, password)"
+													"text": "selectDriver(query)"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -1411,9 +1411,9 @@
 													},
 													"font": "Arial;10;0",
 													"showShadow": false,
-													"left": 489,
+													"left": 486,
 													"top": 285,
-													"width": 175.0927734375,
+													"width": 180.64453125,
 													"height": 10,
 													"alpha": 1.5707963267948966,
 													"distance": 10,
@@ -1421,7 +1421,7 @@
 														"$ref": "AAAAAAGFcrKF78Ifg94="
 													},
 													"edgePosition": 1,
-													"text": "createUserToken(phoneNumber, token)"
+													"text": "createDriverToken(driverID, token)"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -1525,9 +1525,9 @@
 													},
 													"font": "Arial;10;0",
 													"showShadow": false,
-													"left": 727,
+													"left": 726,
 													"top": 295,
-													"width": 175.0927734375,
+													"width": 177.3046875,
 													"height": 10,
 													"alpha": 1.5707963267948966,
 													"distance": 10,
@@ -1535,7 +1535,7 @@
 														"$ref": "AAAAAAGFcrPri8I1Bus="
 													},
 													"edgePosition": 1,
-													"text": "insertUserToken(phoneNumber, token)"
+													"text": "insertDriverToken(query)"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -2135,7 +2135,7 @@
 									"target": {
 										"$ref": "AAAAAAGFcqvLb8GHOpw="
 									},
-									"arguments": "phoneNumber, password"
+									"arguments": "query"
 								},
 								{
 									"_type": "UMLMessage",
@@ -2173,14 +2173,14 @@
 									"_parent": {
 										"$ref": "AAAAAAGFch8N/b4kZ2I="
 									},
-									"name": "createUserToken",
+									"name": "createDriverToken",
 									"source": {
 										"$ref": "AAAAAAGFcqClzb+yjpo="
 									},
 									"target": {
 										"$ref": "AAAAAAGFcqZ37cE3DUc="
 									},
-									"arguments": "phoneNumber, token"
+									"arguments": "driverID, token"
 								},
 								{
 									"_type": "UMLMessage",
@@ -2188,7 +2188,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGFch8N/b4kZ2I="
 									},
-									"name": "insertUserToken",
+									"name": "insertDriverToken",
 									"source": {
 										"$ref": "AAAAAAGFcqZ37cE3DUc="
 									},
@@ -2196,7 +2196,7 @@
 										"$ref": "AAAAAAGFcqvLb8GHOpw="
 									},
 									"messageSort": "asynchCall",
-									"arguments": "phoneNumber, token"
+									"arguments": "query"
 								},
 								{
 									"_type": "UMLMessage",
@@ -2359,7 +2359,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGFch8N/L4jkgo="
 							},
-							"name": "Role2"
+							"name": "Role2",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -2367,7 +2368,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGFch8N/L4jkgo="
 							},
-							"name": "Role3"
+							"name": "Role3",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -2375,7 +2377,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGFch8N/L4jkgo="
 							},
-							"name": "Role4"
+							"name": "Role4",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -2383,7 +2386,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGFch8N/L4jkgo="
 							},
-							"name": "Role5"
+							"name": "Role5",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
