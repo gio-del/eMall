@@ -99,7 +99,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/eMall',
+    basename: '/BattistonDeLuciaCurro-swe2',
   },
 )
 
