@@ -1,6 +1,5 @@
 {
   "name": "client",
-  "homepage": "https://gio-del.github.io/BattistonDeLuciaCurro-swe2",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,10 +7,11 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "dev": "vite --host 0.0.0.0",
-    "build": "vite build --base=/BattistonDeLuciaCurro-swe2/",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "express": "^4.18.2",
     "leaflet": "^1.9.3",
     "leaflet.markercluster": "^1.5.3",
     "react": "^18.2.0",

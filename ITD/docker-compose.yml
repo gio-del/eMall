@@ -24,7 +24,7 @@ services:
       target: production
       dockerfile: Dockerfile
     ports:
-      - 8080:8080
+      - 3000:3000
     networks:
       - shared-networks
     depends_on:
@@ -44,5 +44,16 @@ services:
       - shared-networks
     depends_on:
       - server
+
+  adminer:
+    image: adminer
+    container_name: eMall_adminer
+    ports:
+      - 8080:8080
+    networks:
+      - shared-networks
+    depends_on:
+      - postgres
+
 networks:
   shared-networks:

@@ -11,7 +11,6 @@ RUN npm i
 
 COPY . .
 
-RUN npm install --global serve
 RUN npm run build
 
-CMD ["sh", "-c", "serve -p 5173 /dist"]
+CMD ["sh", "-c", "node index.cjs"]

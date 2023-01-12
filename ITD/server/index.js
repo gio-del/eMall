@@ -5,7 +5,7 @@ const driverRoutes = require('./routes/Driver')
 const cpoRoutes = require('./routes/CPO')
 
 
-const PORT = 8080
+const PORT = 3000
 
 // middleware, json to parse incoming request cors to avoid XSS attack
 app.use(express.json())
