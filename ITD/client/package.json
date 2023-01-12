@@ -1,5 +1,5 @@
 {
-  "name": "cpms",
+  "name": "client",
   "homepage": "https://gio-del.github.io/BattistonDeLuciaCurro-swe2",
   "private": true,
   "version": "0.0.0",
@@ -7,7 +7,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "vite build --base=/BattistonDeLuciaCurro-swe2/",
     "preview": "vite preview"
   },

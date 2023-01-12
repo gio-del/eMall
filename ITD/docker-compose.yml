@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:11.5
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=eMall
+    ports:
+      - 5432:5432
+    networks:
+      - shared-networks
+    volumes:
+      - ./postgres-db:/var/lib/postgresql/data
+
+  server:
+    container_name: eMall_server
+    restart: unless-stopped
+    image: emall-server-prod:1.0.0
+    build:
+      context: server
+      target: production
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - shared-networks
+    depends_on:
+      - postgres
+
+  client:
+    container_name: eMall_client
+    restart: unless-stopped
+    image: emall-client-prod:1.0.0
+    build:
+      context: client
+      target: production
+      dockerfile: Dockerfile
+    ports:
+      - 5173:5173
+    networks:
+      - shared-networks
+    depends_on:
+      - server
+networks:
+  shared-networks:
