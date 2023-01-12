@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage{booktabs,rotating,tabularx}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{hyperref} % provides \url{}
+\usepackage[shortlabels]{enumitem} % enumeration package
+\usepackage[position=top]{subfig}
+\usepackage{pdfpages}
+\usepackage{listings}
+
+% page layout and margin
+\usepackage[a4paper, margin=2.54cm]{geometry}
+
+% list spacing
+\usepackage{enumitem}
+\setlist{topsep=2pt, itemsep=2pt, partopsep=2pt, parsep=2pt}
+\def\arraystretch{1.5}
+% Header & Footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Software Engineering 2 - ITD}
+
+\begin{document}
+
+% title section
+\begin{titlepage}
+  \centering
+  {\normalsize
+    Software Engineering 2 - Prof. Di Nitto Elisabetta \\
+    Dipartimento di Elettronica, Informazione e Bioingegneria \\
+    Politecnico di Milano \par
+  }     \vspace{3cm}
+  {\Huge \textbf{eMall - e-Mobility for All\\} } \vspace{1cm}
+  {\large \textbf{ITD\\Implementation and Testing Deliverable} \par} \vspace{1cm}
+  {\normalsize February 5, 2023 \par} \vspace{4cm}
+  {\normalsize Giovanni De Lucia (10700658) \\ Lorenzo Battiston (10618906) \\  Matteo Salvatore Currò (10940719)\par} \vspace{4cm}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.3]{src/Logo_Politecnico_Milano.png}
+  \end{figure} \vspace{0.5cm}
+\end{titlepage}
+
+\tableofcontents
+
+\include{section/introduction.tex}
+\include{section/product_functions.tex}
+\include{section/frameworks.tex}
+\include{section/code_structure.tex}
+\include{section/testing.tex}
+\include{section/installation_guide.tex}
+\include{section/effort_spent.tex}
+\include{section/references.tex}
+
+\end{document}
