@@ -1,16 +1,27 @@
 import Sheet from 'react-modal-sheet'
-import { useRef } from 'react'
+import { useState } from 'react'
 import './Drawer.css'
 import DrawerContent from './DrawerContent'
 
 export default function Drawer({ isOpen, setIsOpen }) {
+  const [connectors, setConnectors] = useState([])
+
+  const getConnectors = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/driver/search`)
+      const jsonData = await response.json()
+      setConnectors(jsonData)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <Sheet
       isOpen={isOpen}
+      onOpenStart={() => getConnectors()}
       onClose={() => setIsOpen(false)}
       detent="content-height"
-
-      
     >
       <Sheet.Container>
         <Sheet.Header />
@@ -18,22 +29,7 @@ export default function Drawer({ isOpen, setIsOpen }) {
           <DrawerContent
             CPOName={'Ionity'}
             Address={'Via Gran Sasso, 1, Milano'}
-            Connectors={[
-              {
-                type: 'CCS2',
-                power: '110 kW',
-                price: '1,50$/h + 0,92$/kW',
-                totalSockets: 1,
-                availableSockets: 1,
-              },
-              {
-                type: 'Type2',
-                power: '50 kW',
-                price: '1,50$/h + 0,94$/kW',
-                totalSockets: 2,
-                availableSockets: 1,
-              },
-            ]}
+            Connectors={connectors}
           />
         </Sheet.Content>
       </Sheet.Container>
