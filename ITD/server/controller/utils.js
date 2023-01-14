@@ -1,5 +1,6 @@
 /**
  * This function is used to calculate the distances between two point given their coordinates
+ * ASSUMPTION: The Earth is a perfect sphere
  * @param {lat1}
  * @param {lon1}
  * @param {lat2}

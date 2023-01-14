@@ -1,5 +1,5 @@
 -- Table: car
-CREATE TABLE car (
+CREATE TABLE CAR (
     id serial PRIMARY KEY,
     driver_id int NOT NULL,
     carKey varchar(20) NOT NULL,
@@ -7,13 +7,14 @@ CREATE TABLE car (
 );
 
 -- Table: cp
-CREATE TABLE cp (
+CREATE TABLE CP (
     id serial PRIMARY KEY,
-    evcp_id int NOT NULL
+    evcp_id int NOT NULL,
+    is_active bool NOT NULL
 );
 
 -- Table: cpo
-CREATE TABLE cpo (
+CREATE TABLE CPO (
     id serial PRIMARY KEY,
     company_name varchar(255) NOT NULL,
     VAT_ID varchar(16) NOT NULL,
@@ -23,10 +24,9 @@ CREATE TABLE cpo (
 );
 
 -- Table: evcp
-CREATE TABLE evcp (
+CREATE TABLE EVCP (
     id serial PRIMARY KEY,
     description text NOT NULL,
-    is_active bool NOT NULL,
     cpo_id int NOT NULL,
     batteryKey varchar(128) NULL,
     solarKey varchar(128) NULL,
@@ -38,7 +38,7 @@ CREATE TABLE evcp (
 );
 
 -- Table: rate
-CREATE TABLE rate (
+CREATE TABLE RATE (
     id serial PRIMARY KEY,
     evcp_id int NOT NULL,
     power_kW decimal(5, 2) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE rate (
 );
 
 -- Table: reservation
-CREATE TABLE reservation (
+CREATE TABLE RESERVATION (
     id serial PRIMARY KEY,
     start_date date NOT NULL,
     end_date date NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE reservation (
 );
 
 -- Table: socket
-CREATE TABLE socket (
+CREATE TABLE SOCKET (
     id serial PRIMARY KEY,
     description text NOT NULL,
     current_price decimal(10, 2) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE socket (
 );
 
 -- Table: special_offer
-CREATE TABLE special_offer (
+CREATE TABLE SPECIAL_OFFER (
     id serial PRIMARY KEY,
     discount int NOT NULL,
     time_frame interval NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE special_offer (
 );
 
 -- Table: driver
-CREATE TABLE driver (
+CREATE TABLE DRIVER (
     id serial PRIMARY KEY,
     first_name varchar(128) NOT NULL,
     last_name varchar(128) NOT NULL,
@@ -92,38 +92,38 @@ CREATE TABLE driver (
 
 -- foreign keys
 -- Reference: car_driver (table: car)
-ALTER TABLE car
+ALTER TABLE CAR
     ADD CONSTRAINT car_driver FOREIGN KEY (driver_id) REFERENCES driver (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- Reference: cp_evcp (table: cp)
-ALTER TABLE cp
-    ADD CONSTRAINT cp_evcp FOREIGN KEY (evcp_id) REFERENCES evcp (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE CP
+    ADD CONSTRAINT cp_evcp FOREIGN KEY (evcp_id) REFERENCES EVCP (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- Reference: evcp_cpo (table: evcp)
-ALTER TABLE evcp
-    ADD CONSTRAINT evcp_cpo FOREIGN KEY (cpo_id) REFERENCES cpo (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE EVCP
+    ADD CONSTRAINT evcp_cpo FOREIGN KEY (cpo_id) REFERENCES CPO (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- Reference: rate_evcp (table: rate)
-ALTER TABLE rate
-    ADD CONSTRAINT rate_evcp FOREIGN KEY (evcp_id) REFERENCES evcp (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE RATE
+    ADD CONSTRAINT rate_evcp FOREIGN KEY (evcp_id) REFERENCES EVCP (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- Reference: reservation_socket (table: reservation)
-ALTER TABLE reservation
-    ADD CONSTRAINT reservation_socket FOREIGN KEY (socket_id) REFERENCES socket (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE RESERVATION
+    ADD CONSTRAINT reservation_socket FOREIGN KEY (socket_id) REFERENCES SOCKET (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- Reference: reservation_driver (table: reservation)
-ALTER TABLE reservation
-    ADD CONSTRAINT reservation_driver FOREIGN KEY (driver_id) REFERENCES driver (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE RESERVATION
+    ADD CONSTRAINT reservation_driver FOREIGN KEY (driver_id) REFERENCES DRIVER (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- Reference: socket_cp (table: socket)
-ALTER TABLE socket
-    ADD CONSTRAINT socket_cp FOREIGN KEY (cp_id) REFERENCES cp (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE SOCKET
+    ADD CONSTRAINT socket_cp FOREIGN KEY (cp_id) REFERENCES CP (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- Reference: special_offer_evcp (table: special_offer)
-ALTER TABLE special_offer
-    ADD CONSTRAINT special_offer_evcp FOREIGN KEY (evcp_id) REFERENCES evcp (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE SPECIAL_OFFER
+    ADD CONSTRAINT special_offer_evcp FOREIGN KEY (evcp_id) REFERENCES EVCP (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE evcp
+ALTER TABLE EVCP
     ADD CONSTRAINT evcp_lat_long_uk UNIQUE (latitude, longitude);
 
 -- End of file.
