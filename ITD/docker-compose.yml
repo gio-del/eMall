@@ -29,6 +29,8 @@ services:
       - shared-networks
     depends_on:
       - postgres
+    env_file:
+      - .env
 
   client:
     container_name: eMall_client

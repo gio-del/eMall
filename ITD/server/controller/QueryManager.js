@@ -1,7 +1,7 @@
 const pool = require('../db/db')
 const distance = require('./utils')
 
-// pool.query('SELECT * FROM TODO WHERE ID = $1,id)
+// pool.query('SELECT * FROM TODO WHERE ID = $1,[id])
 
 exports.getQueryManager = async () => {
     return {
@@ -14,9 +14,8 @@ exports.getQueryManager = async () => {
             return res.rowCount > 0
         },
         createDriver: async (firstName, lastName, password, phoneNumber) => {
-            // todo add crypt()
-            const res = await pool.query('INSERT INTO DRIVER(first_name, last_name, password, phone) VALUES($1,$2,$3,$4)', [firstName, lastName, password, phoneNumber])
-            return true
+            const res = await pool.query('INSERT INTO DRIVER(first_name, last_name, password, phone) VALUES($1,$2,$3,$4) RETURNING *', [firstName, lastName, password, phoneNumber])
+            return res.rows[0].id
         },
 
         checkDriverCredentials: async (phoneNumber, password) => {
@@ -24,14 +23,33 @@ exports.getQueryManager = async () => {
             return true
         },
 
-        createDriverVerificationCode: async (phoneNumber, code) => {
-            //const res = await pool.query('INSERT INTO ')
+        createDriverVerificationCode: async (driverID, code) => {
+            const res = await pool.query("INSERT INTO DRIVER_CODE(driver_id,expiry_date,code) VALUES($1, NOW() + INTERVAL '120 SECONDS', $2) RETURNING *", [driverID, code]);
+            return res.rows[0]
+        },
+
+        checkVerificationCode: async (driverID) => {
+            const res = await pool.query('SELECT * FROM DRIVER_CODE AS DC, DRIVER AS D WHERE DC.driver_id = D.id AND driver_id = $1', [driverID])
+            return res.rows[0]
+        },
+
+        updatePin: async (driverID, newPin) => {
+            const res = pool.query('UPDATE DRIVER_CODE SET code = $1 WHERE driver_id = $2', [newPin, driverID])
             return true
         },
 
-        checkVerificationCode: async (phoneNumber, code) => {
+        deletePin: async (driverID) => {
+            await pool.query('DELETE FROM DRIVER WHERE driver_id = $1', [driverID])
             return true
         },
+
+        deleteUser: async (driverID) => {
+            await pool.query('DELETE FROM DRIVER_CODE WHERE driver_id = $1', [driverID])
+            await pool.query('DELETE FROM DRIVER WHERE driver_id = $1', [driverID])
+            return true
+        },
+
+
 
         createDriverToken: async (phoneNumber, token) => {
             // a token to avoid to login every time, so the user provides the token within the request and we silently check the correctness, if not redirect to login component
@@ -42,7 +60,7 @@ exports.getQueryManager = async () => {
             // TODO check FILTERS: how do they are defined?
             const res = await pool.query('SELECT * FROM EVCP')
             res.rows.filter(row => distance(row.latitude, row.longitude, latitude, longitude) <= 30) // return the EVCP in a 30km range
-            return res
+            return res.rowCount > 0
         },
 
         checkAvailability: async (reservationParam) => {

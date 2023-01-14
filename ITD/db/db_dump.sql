@@ -2,8 +2,7 @@
 CREATE TABLE CAR (
     id serial PRIMARY KEY,
     driver_id int NOT NULL,
-    carKey varchar(20) NOT NULL,
-    location varchar(40) NOT NULL
+    carKey varchar(20) NOT NULL
 );
 
 -- Table: cp
@@ -21,6 +20,13 @@ CREATE TABLE CPO (
     email varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
     CONSTRAINT company_ak_1 UNIQUE (VAT_ID) NOT DEFERRABLE INITIALLY IMMEDIATE
+);
+
+CREATE TABLE DRIVER_CODE (
+    id serial PRIMARY KEY,
+    driver_id int UNIQUE,
+    expiry_date timestamp NOT NULL,
+    code int NOT NULL
 );
 
 -- Table: evcp
@@ -51,9 +57,7 @@ CREATE TABLE RESERVATION (
     id serial PRIMARY KEY,
     start_date date NOT NULL,
     end_date date NOT NULL,
-    ts_created timestamp NOT NULL,
-    ts_updated timestamp NOT NULL,
-    discount_percent decimal(5, 2) NOT NULL,
+    discount_percent decimal(5, 2) NULL,
     driver_id int NOT NULL,
     total_price decimal(10, 2) NOT NULL,
     socket_id int NOT NULL,
@@ -63,7 +67,7 @@ CREATE TABLE RESERVATION (
 -- Table: socket
 CREATE TABLE SOCKET (
     id serial PRIMARY KEY,
-    description text NOT NULL,
+    description text NULL,
     current_price decimal(10, 2) NOT NULL,
     cp_id int NOT NULL,
     type varchar(10) NOT NULL
@@ -82,18 +86,19 @@ CREATE TABLE DRIVER (
     id serial PRIMARY KEY,
     first_name varchar(128) NOT NULL,
     last_name varchar(128) NOT NULL,
-    email varchar(255) NOT NULL,
-    phone varchar(255) NULL,
-    address varchar(255) NULL,
-    notification_preferences boolean NOT NULL,
-    calendarKey varchar(20) NOT NULL,
-    password BYTEA NOT NULL
+    email varchar(255),
+    phone varchar(255) NULL UNIQUE,
+    notification_preferences boolean,
+    password varchar(60) NOT NULL
 );
 
 -- foreign keys
 -- Reference: car_driver (table: car)
 ALTER TABLE CAR
-    ADD CONSTRAINT car_driver FOREIGN KEY (driver_id) REFERENCES driver (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+    ADD CONSTRAINT car_driver FOREIGN KEY (driver_id) REFERENCES DRIVER (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE DRIVER_CODE
+    ADD CONSTRAINT code_driver FOREIGN KEY (driver_id) REFERENCES DRIVER (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- Reference: cp_evcp (table: cp)
 ALTER TABLE CP
