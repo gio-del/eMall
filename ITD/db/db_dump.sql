@@ -9,7 +9,7 @@ CREATE TABLE CAR (
 CREATE TABLE CP (
     id serial PRIMARY KEY,
     evcp_id int NOT NULL,
-    is_active bool NOT NULL
+    is_active boolean NULL
 );
 
 -- Table: cpo
@@ -46,7 +46,8 @@ CREATE TABLE EVCP (
     DSO_pricekW decimal(10, 2) NOT NULL,
     DSO_contract_expiry date NOT NULL,
     latitude varchar(20) NOT NULL,
-    longitude varchar(20) NOT NULL
+    longitude varchar(20) NOT NULL,
+    address varchar(50) NOT NULL
 );
 
 -- Table: rate

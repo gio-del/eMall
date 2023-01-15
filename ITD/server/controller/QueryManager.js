@@ -69,11 +69,18 @@ exports.getQueryManager = async () => {
             return true
         },
 
-        getCPs: async (latitude, longitude, filters) => {
+        getEVCPs: async (latitude, longitude, filters) => {
             // TODO check FILTERS: how do they are defined?
             const res = await pool.query('SELECT * FROM EVCP')
-            res.rows.filter(row => distance(row.latitude, row.longitude, latitude, longitude) <= 30) // return the EVCP in a 30km range
-            return res.rowCount > 0
+            res.rows.filter(row => distance(row.latitude, row.longitude, latitude, longitude) <= 100) // return the EVCP in a 5km range
+            const rows = res.rows
+            return rows ? rows.map((row) => ({ evcpID: row.id, latitude: row.latitude, longitude: row.longitude })) : undefined
+        },
+
+        getDetailsEVCP: async (evcpID) => {
+            const res = await pool.query('SELECT C.company_name, E.address FROM EVCP AS E, CPO AS C WHERE E.cpo_id = C.id')
+            const rows = res.rows
+            return rows ? rows.map((row) => ({ evcpID: row.id, latitude: row.latitude, longitude: row.longitude })) : undefined
         },
 
         checkAvailability: async (reservationParam) => {
@@ -130,7 +137,7 @@ exports.getQueryManager = async () => {
             const res = await pool.query('INSERT INTO RATE(evcp_id, flatPrice, variablePrice, power_kW) VALUES ($1,$2,$3,$4)', [evcpID, flatPrice, variablePrice, powerkWh])
             return true // if ok, or false ??
         },
-        getCPs: async (evcpID) => {
+        findCPsByEVCP: async (evcpID) => {
             // what is this used for??
             const res = await pool.query('SELECT * FROM CP WHERE evcp_id = $1', [evcpID])
             return res.rows
