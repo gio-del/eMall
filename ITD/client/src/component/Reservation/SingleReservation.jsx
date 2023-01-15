@@ -52,8 +52,8 @@ export default function SingleReservation ({reservation}){
                             <p className="text-tertiary font-medium">Start</p>
                         </div>
                     ) : (
-                        <div className="flex justify-center w-1/2 py-2">
-                            <p className="text-tertiary font-medium middle text-center text-sm">Costs: ${reservation.cost} for ${reservation.kw_charged} kWh</p>
+                        <div className="flex justify-center w-full py-2">
+                            <p className="text-tertiary font-medium middle text-center">Costs: ${reservation.cost} for ${reservation.kw_charged} kWh</p>
                         </div>
                     )}
                 </div>

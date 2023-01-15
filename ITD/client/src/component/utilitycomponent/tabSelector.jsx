@@ -20,15 +20,15 @@ export default function tabSelector({tabs, onTabChange}) {
     const [currentTab, setCurrentTab] = useState(tabs[0])
     useEffect(() => {
         tabs.map(tab => {
-            document.getElementById(tab).classList.remove('md:bg-dk-secondary', 'max-sm:border-tertiary')
-            document.getElementById(tab).classList.add('max-sm:border-dk-secondary')
+            document.getElementById(tab).classList.remove('md:bg-dk-secondary', 'max-sm:border-tertiary', 'md:border-dk-secondary')
+            document.getElementById(tab).classList.add('max-sm:border-dk-secondary', 'md:border-searchInput')
             document.getElementById(`svg-${tab}`).classList.remove('dark:fill-tertiary')
             document.getElementById(`svg-${tab}`).classList.add('dark:fill-dk-secondary')
             document.getElementById(`text-${tab}`).classList.remove('md:dark:text-tertiary', 'max-sm:font-semibold')
             document.getElementById(`text-${tab}`).classList.add('md:dark:text-dk-secondary', 'max-sm:font-regular')
         })
-        document.getElementById(currentTab).classList.add('md:bg-dk-secondary', 'max-sm:border-tertiary')
-        document.getElementById(currentTab).classList.remove('max-sm:border-dk-secondary')
+        document.getElementById(currentTab).classList.add('md:bg-dk-secondary', 'max-sm:border-tertiary', 'md:border-dk-secondary')
+        document.getElementById(currentTab).classList.remove('max-sm:border-dk-secondary', 'md:border-searchInput')
         document.getElementById(`svg-${currentTab}`).classList.remove('dark:fill-dk-secondary')
         document.getElementById(`svg-${currentTab}`).classList.add('dark:fill-tertiary')
         document.getElementById(`text-${currentTab}`).classList.remove('md:dark:text-dk-secondary', 'max-sm:font-regular')
@@ -44,7 +44,7 @@ export default function tabSelector({tabs, onTabChange}) {
         <div className="flex w-full md:w-1/3 h-auto justify-center">
             <div className="flex md:flex-col w-full h-min justify-evenly md:justify-start md:bg-searchInput max-sm:border-b-2 max-sm:border-searchInput md:rounded-2xl md:p-4 md:mt-12 md:mx-6">
                 {tabs.map(tab => (
-                    <div id={tab} className="flex items-center md:rounded-xl p-2 md:m-2 max-sm:border-b-2"
+                    <div id={tab} className="flex items-center cursor-pointer md:rounded-xl p-2 md:m-2 max-sm:border-b-2 md:border-2 hover:border-dk-secondary"
                     onClick={() => handleClick(tab)}>
                         <div className="max-sm:hidden flex items-center justify-center">
                             {getSVGtab(tab)}

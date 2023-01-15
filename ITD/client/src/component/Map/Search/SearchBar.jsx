@@ -1,22 +1,73 @@
-import { useEffect } from 'react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import ConnectorTypeDropdown from '../../utilitycomponent/ConnectorTypeDropdown'
+import { useMap } from 'react-leaflet';
+import { useState } from 'react';
+import { GeoSearchControl, OpenStreetMapProvider} from 'leaflet-geosearch';
+import L from "leaflet";
 
-export default function SearchBar({
-  setChosenDate,
-  connectors,
-  setConnectors,
-}) {
+
+
+export default function SearchBar({setChosenDate, connectors, setConnectors, onLocationChange}) {
+
+  const provider = new OpenStreetMapProvider()
+  const [searchResults, setSearchResults] = useState([]);
+
+  const debounce = (func, wait) => {
+    let timeout;
+  
+    return (...args) => {
+      const later = () => {
+        clearTimeout(timeout)
+        func(...args);
+      };
+  
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  };
+  
+  const handleSearch = async (event) => {
+    const searchValue = event.target.value;
+    if (!searchValue) {
+      setSearchResults([]);
+      return;
+    }
+    const results = await provider.search({query: searchValue})
+    const limitedResults = results.slice(0, 3);
+    setSearchResults(limitedResults);
+
+  };
+  const debouncedHandleSearch = debounce(handleSearch, 500);
+
+
+  const map = useMap()
+
+  const handleMapCentering = async (event) => {
+    const newLocation = {
+      latitude: searchResults[event.target.id].y,
+      longitude: searchResults[event.target.id].x,
+    };
+    map.flyTo([newLocation.latitude, newLocation.longitude], 12, { duration: 0.5 });
+    setSearchResults([]);
+    onLocationChange(newLocation);
+    
+  }
+
   function handleChange() {
     const date = document.getElementById('date')
     setChosenDate(date.value)
   }
+
+  
+
   return (
-    <div className="flex flex-col justify-start mx-2 border-2 border-searchInput drop-shadow-2xl bg-tertiary dark:bg-dk-secondary rounded-2xl mb-4 shadow-lg p-4">
+    <div className="flex flex-col justify-start mx-2 border-2 border-searchInput drop-shadow-2xl bg-tertiary dark:bg-dk-secondary rounded-2xl mb-4 shadow-lg p-4 cursor-default">
       <div className="flex items-center justify-center mb-3">
+
         <input
           type="text"
           placeholder="Search"
+          onChange={debouncedHandleSearch}
           className="w-full rounded-xl dark:bg-searchInput text-[15px] placeholder-gray-500 dark:placeholder-dk-secondary placeholder:font-semibold p-3 focus:outline-0"
         />
         <svg
@@ -65,8 +116,19 @@ export default function SearchBar({
             connectors={connectors}
             setConnectors={setConnectors}
           />
+
         </div>
       </div>
+
+      <div id="results" className='mt-4'>
+        {searchResults.map((result) => (
+          <div className='border-2 border-tertiary p-2 rounded-xl m-2 cursor-pointer hover:bg-dk-nav'
+          onClick={handleMapCentering}>          
+            <p className='dark:text-tertiary' id={searchResults.indexOf(result)} key={searchResults.indexOf(result)}>{result.label}</p>
+          </div>
+        ))}
+      </div>
+
     </div>
   )
 }

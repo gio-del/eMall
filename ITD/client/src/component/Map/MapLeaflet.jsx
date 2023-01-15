@@ -60,6 +60,11 @@ export default function MapLeaflet() {
     getMarkers()
   }, [currentLocation])
 
+  const handleLocationChange = (newLocation) => {
+    setCurrentLocation(newLocation);
+  }
+
+
   return (
     <div className="fixed">
       <MapContainer
@@ -83,6 +88,14 @@ export default function MapLeaflet() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {isGPSok && <SelfMarker position={[latitude, longitude]}></SelfMarker>}
+        <div className="absolute z-10 md:w-2/3 lg:w-3/5 xl:w-2/5 w-full top-[0.5rem]">
+        <SearchBar
+          setChosenDate={setChosenDate}
+          connectors={chosenConnectors}
+          setConnectors={setChosenConnectors}
+          onLocationChange={handleLocationChange}
+        />
+      </div>
         <MarkerClusterGroup>
           {markers.map((marker) => (
             <MarkerCustom
@@ -103,17 +116,12 @@ export default function MapLeaflet() {
             setGPSok={setGPSok}
             setLatitude={setLatitude}
             setLongitude={setLongitude}
+            setCurrentLocation={setCurrentLocation}
           />
         </Control>
         <ZoomControl position="bottomright" className="zoomControl" />
       </MapContainer>
-      <div className="absolute z-10 md:w-2/3 lg:w-3/5 xl:w-2/5 w-full top-[0.5rem]">
-        <SearchBar
-          setChosenDate={setChosenDate}
-          connectors={chosenConnectors}
-          setConnectors={setChosenConnectors}
-        />
-      </div>
+      
     </div>
   )
 }
