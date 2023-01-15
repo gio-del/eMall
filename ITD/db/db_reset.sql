@@ -1,4 +1,7 @@
 -- foreign keys
+ALTER TABLE TOKEN
+    DROP CONSTRAINT token_driver;
+
 ALTER TABLE DRIVER_CODE
     DROP CONSTRAINT code_driver;
 
@@ -27,6 +30,8 @@ ALTER TABLE SPECIAL_OFFER
     DROP CONSTRAINT special_offer_evcp;
 
 -- tables
+DROP TABLE TOKEN;
+
 DROP TABLE CAR;
 
 DROP TABLE CP;

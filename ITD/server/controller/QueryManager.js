@@ -1,36 +1,56 @@
 const pool = require('../db/db')
 const distance = require('./utils')
-
-// pool.query('SELECT * FROM TODO WHERE ID = $1,[id])
+const bcrypt = require('bcrypt')
+const uuid = require('uuid')
 
 exports.getQueryManager = async () => {
     return {
-        /**
-         * @param {*} phoneNumber the phone to check
-         * @returns true if already exists, false otherwise
-         */
-        checkIfAlreadyExist: async (phoneNumber) => {
-            const res = await pool.query('SELECT * FROM DRIVER WHERE phone=$1', [phoneNumber])
-            return res.rowCount > 0
-        },
         createDriver: async (firstName, lastName, password, phoneNumber) => {
             const res = await pool.query('INSERT INTO DRIVER(first_name, last_name, password, phone) VALUES($1,$2,$3,$4) RETURNING *', [firstName, lastName, password, phoneNumber])
             return res.rows[0].id
         },
 
+        findDriverByPhoneNumber: async (phoneNumber) => {
+            const res = await pool.query('SELECT * FROM DRIVER WHERE phone = $1', [phoneNumber])
+            const row = res.rows[0]
+            return row ? { driverID: row.id } : undefined
+        },
+
         checkDriverCredentials: async (phoneNumber, password) => {
-            // bcrypt or something to check the password for the user, we store only the HASH salted
-            return true
+            const res = await pool.query('SELECT * FROM DRIVER WHERE phone = $1', [phoneNumber])
+            user = res.rows[0]
+            return bcrypt.compareSync(password, user.password)
+        },
+
+        createDriverToken: async (driverID) => {
+            await pool.query('DELETE FROM TOKEN WHERE driver_id = $1', [driverID])
+            let token = uuid.v4()
+            let tokenTuple = await pool.query('INSERT INTO TOKEN(driver_id, token) VALUES($1, $2) RETURNING *', [driverID, token])
+
+            while (tokenTuple.rowCount === 0) {
+                token = uuid.v4()
+                tokenTuple = await pool.query('INSERT INTO TOKEN(driver_id, token) VALUES($1, $2) RETURNING *', [driverID, token])
+            }
+            const row = tokenTuple.rows[0]
+            return row.token
+        },
+
+        validateToken: async (token) => {
+            const res = await pool.query('SELECT driver_id FROM TOKEN WHERE token = $1', [token])
+            const row = res.rows[0]
+            return row ? { driverID: row.driver_id } : undefined
         },
 
         createDriverVerificationCode: async (driverID, code) => {
             const res = await pool.query("INSERT INTO DRIVER_CODE(driver_id,expiry_date,code) VALUES($1, NOW() + INTERVAL '120 SECONDS', $2) RETURNING *", [driverID, code]);
-            return res.rows[0]
+            const row = res.rows[0]
+            return row ? { id: row.id, driverID: row.driver_id, expiryDate: row.expiry_date, code: row.code } : undefined
         },
 
         checkVerificationCode: async (driverID) => {
-            const res = await pool.query('SELECT * FROM DRIVER_CODE AS DC, DRIVER AS D WHERE DC.driver_id = D.id AND driver_id = $1', [driverID])
-            return res.rows[0]
+            const res = await pool.query('SELECT * FROM DRIVER_CODE AS DC, DRIVER AS D WHERE DC.driver_id = D.id AND DC.driver_id = $1', [driverID])
+            const row = res.rows[0]
+            return row ? { code: row.code, expiryDate: row.expiry_date, phoneNumber: row.phone } : undefined
         },
 
         updatePin: async (driverID, newPin) => {
@@ -39,20 +59,13 @@ exports.getQueryManager = async () => {
         },
 
         deletePin: async (driverID) => {
-            await pool.query('DELETE FROM DRIVER WHERE driver_id = $1', [driverID])
+            await pool.query('DELETE FROM DRIVER_CODE WHERE driver_id = $1', [driverID])
             return true
         },
 
         deleteUser: async (driverID) => {
             await pool.query('DELETE FROM DRIVER_CODE WHERE driver_id = $1', [driverID])
-            await pool.query('DELETE FROM DRIVER WHERE driver_id = $1', [driverID])
-            return true
-        },
-
-
-
-        createDriverToken: async (phoneNumber, token) => {
-            // a token to avoid to login every time, so the user provides the token within the request and we silently check the correctness, if not redirect to login component
+            await pool.query('DELETE FROM DRIVER WHERE id = $1', [driverID])
             return true
         },
 
