@@ -64,6 +64,32 @@ export default function MapLeaflet() {
     setCurrentLocation(newLocation);
   }
 
+  const createClusterCustomIcon = (cluster) => {
+    const count = cluster.getChildCount();
+    let size = 'LargeXL';
+  
+    if (count < 10) {
+      size = 'Small';
+    }
+    else if (count >= 10 && count < 100) {
+      size = 'Medium';
+    }
+    else if (count >= 100 && count < 500) {
+      size = 'Large';
+    }
+    const options = {
+      cluster: `markerCluster${size}`,
+    };
+  
+    return L.divIcon({
+      html:
+        `<div>
+          <span class="markerClusterLabel bg-dk-primary p-2 rounded-full bg-opacity-60">${count}</span>
+        </div>`,
+      className: `${options.cluster}`,
+    });
+  };
+
 
   return (
     <div className="fixed">
@@ -96,7 +122,7 @@ export default function MapLeaflet() {
           onLocationChange={handleLocationChange}
         />
       </div>
-        <MarkerClusterGroup>
+        <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
           {markers.map((marker) => (
             <MarkerCustom
               key={marker.evcpID}
