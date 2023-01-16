@@ -2,6 +2,7 @@ const pool = require('../db/db')
 const distance = require('./utils')
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
+const dedent = require('dedent')
 
 exports.getQueryManager = async () => {
     return {
@@ -72,15 +73,25 @@ exports.getQueryManager = async () => {
         getEVCPs: async (latitude, longitude, filters) => {
             // TODO check FILTERS: how do they are defined?
             const res = await pool.query('SELECT * FROM EVCP')
-            res.rows.filter(row => distance(row.latitude, row.longitude, latitude, longitude) <= 100) // return the EVCP in a 5km range
-            const rows = res.rows
+            const rows = res.rows.filter(row => distance(row.latitude, row.longitude, latitude, longitude) <= 50) // return the EVCP in a km range
             return rows ? rows.map((row) => ({ evcpID: row.id, latitude: row.latitude, longitude: row.longitude })) : undefined
         },
 
         getDetailsEVCP: async (evcpID) => {
-            const res = await pool.query('SELECT C.company_name, E.address FROM EVCP AS E, CPO AS C WHERE E.cpo_id = C.id')
-            const rows = res.rows
-            return rows ? rows.map((row) => ({ evcpID: row.id, latitude: row.latitude, longitude: row.longitude })) : undefined
+            const firstQuery = await pool.query('SELECT C.company_name, E.address FROM EVCP AS E, CPO AS C WHERE E.cpo_id = C.id AND E.id = $1', [evcpID])
+            const rows1 = firstQuery.rows[0];
+            if (!rows1) return
+            const secondQuery = await pool.query(dedent`SELECT DISTINCT T.type_name, S.id, TYPE_FREE.number AS "free", TYPE_TOTAL.number AS "total", R.flatprice, R.variableprice, S.power_kW
+                                                        FROM EVCP AS E
+                                                        JOIN CP ON E.id = CP.evcp_id
+                                                        JOIN Socket AS S ON CP.id = S.cp_id
+                                                        JOIN Type AS T ON S.type_id = T.id
+                                                        JOIN TYPE_FREE ON T.id = TYPE_FREE.id
+                                                        JOIN TYPE_TOTAL ON T.id = TYPE_TOTAL.id
+                                                        JOIN Rate AS R ON R.evcp_id = E.id
+                                                        WHERE E.id = $1 AND R.type_id = T.id AND TYPE_FREE.evcp_id = E.id AND TYPE_TOTAL.evcp_id = E.id`, [evcpID])
+            const rows2 = secondQuery.rows.map((row) => ({ typeName: row.type_name, socketID: row.id, freeSpots: row.free, totalSpots: row.total, flatPrice: row.flatprice, variablePrice: row.variableprice, power: row.power_kw }))
+            return rows2 ? { companyName: rows1.company_name, address: rows1.address, connectors: rows2 } : undefined
         },
 
         checkAvailability: async (reservationParam) => {

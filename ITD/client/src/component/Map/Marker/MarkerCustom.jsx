@@ -1,6 +1,6 @@
 import { Marker, useMap } from 'react-leaflet'
 
-export default function MarkerCustom({ setIsDrawerOpen, icon, position }) {
+export default function MarkerCustom({ id, setSelectedMarker, setIsDrawerOpen, icon, position }) {
   const map = useMap()
 
   function handleMapCentering() {
@@ -13,6 +13,7 @@ export default function MarkerCustom({ setIsDrawerOpen, icon, position }) {
       eventHandlers={{
         click: () => {
           handleMapCentering()
+          setSelectedMarker({id: id, latitude: position[0], longitude: position[1]})
           setIsDrawerOpen(() => true)
         },
       }}

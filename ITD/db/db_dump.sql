@@ -50,20 +50,11 @@ CREATE TABLE EVCP (
     address varchar(50) NOT NULL
 );
 
--- Table: rate
-CREATE TABLE RATE (
-    id serial PRIMARY KEY,
-    evcp_id int NOT NULL,
-    power_kW decimal(5, 2) NOT NULL,
-    flatPrice decimal(10, 2) NOT NULL,
-    variablePrice decimal(10, 2) NOT NULL
-);
-
 -- Table: reservation
 CREATE TABLE RESERVATION (
     id serial PRIMARY KEY,
-    start_date date NOT NULL,
-    end_date date NOT NULL,
+    start_date timestamp NOT NULL,
+    end_date timestamp NOT NULL,
     discount_percent decimal(5, 2) NULL,
     driver_id int NOT NULL,
     total_price decimal(10, 2) NOT NULL,
@@ -71,13 +62,26 @@ CREATE TABLE RESERVATION (
     chargedKWh real NULL
 );
 
+-- Table: rate
+CREATE TABLE RATE (
+    id serial PRIMARY KEY,
+    evcp_id int NOT NULL,
+    type_id int NOT NULL,
+    flatPrice decimal(10, 2) NOT NULL,
+    variablePrice decimal(10, 2) NOT NULL
+);
+
+CREATE TABLE TYPE (
+    id serial PRIMARY KEY,
+    type_name varchar(10) UNIQUE NOT NULL
+);
+
 -- Table: socket
 CREATE TABLE SOCKET (
     id serial PRIMARY KEY,
-    description text NULL,
-    current_price decimal(10, 2) NOT NULL,
     cp_id int NOT NULL,
-    type varchar(10) NOT NULL
+    power_kW decimal(5, 2) NOT NULL,
+    type_id int NOT NULL
 );
 
 -- Table: special_offer
@@ -122,6 +126,9 @@ ALTER TABLE EVCP
 ALTER TABLE RATE
     ADD CONSTRAINT rate_evcp FOREIGN KEY (evcp_id) REFERENCES EVCP (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
+ALTER TABLE RATE
+    ADD CONSTRAINT rate_type FOREIGN KEY (type_id) REFERENCES TYPE (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+
 -- Reference: reservation_socket (table: reservation)
 ALTER TABLE RESERVATION
     ADD CONSTRAINT reservation_socket FOREIGN KEY (socket_id) REFERENCES SOCKET (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
@@ -134,11 +141,65 @@ ALTER TABLE RESERVATION
 ALTER TABLE SOCKET
     ADD CONSTRAINT socket_cp FOREIGN KEY (cp_id) REFERENCES CP (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
+ALTER TABLE SOCKET
+    ADD CONSTRAINT socket_type FOREIGN KEY (type_id) REFERENCES TYPE (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+
 -- Reference: special_offer_evcp (table: special_offer)
 ALTER TABLE SPECIAL_OFFER
     ADD CONSTRAINT special_offer_evcp FOREIGN KEY (evcp_id) REFERENCES EVCP (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 ALTER TABLE EVCP
     ADD CONSTRAINT evcp_lat_long_uk UNIQUE (latitude, longitude);
+
+-- VIEWS
+CREATE VIEW TYPE_FREE (id, evcp_id, number)
+AS (
+    SELECT
+        T.id,
+        E.id,
+        count(*)
+    FROM
+        EVCP AS E,
+        CP,
+        Socket AS S,
+        Type AS T
+    WHERE
+        CP.evcp_id = E.id
+        AND S.cp_id = CP.id
+        AND S.type_id = T.id
+        AND S.id NOT IN (
+            SELECT
+                S.id
+            FROM
+                Socket AS S,
+                Reservation AS R
+            WHERE
+                S.id = R.socket_id
+                AND NOW() > R.start_date
+                AND NOW() < R.end_date)
+        GROUP BY
+            T.id,
+            E.id,
+            S.power_kw);
+
+CREATE VIEW TYPE_TOTAL (id, evcp_id, number)
+AS (
+    SELECT
+        T.id,
+        E.id,
+        count(*)
+    FROM
+        EVCP AS E,
+        CP,
+        Socket AS S,
+        Type AS T
+    WHERE
+        CP.evcp_id = E.id
+        AND S.cp_id = CP.id
+        AND S.type_id = T.id
+    GROUP BY
+        T.id,
+        E.id,
+        S.power_kw);
 
 -- End of file.

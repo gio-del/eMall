@@ -18,6 +18,7 @@ import Control from 'react-leaflet-custom-control'
 import LocateMeControl from './LocateMeControl'
 import SelfMarker from './Marker/SelfMarker'
 import './MapLeaflet.css'
+import { BASE_API } from '../../constant'
 
 function GetIcon() {
   return L.icon({
@@ -31,19 +32,24 @@ export default function MapLeaflet() {
   const [latitude, setLatitude] = useState(0)
   const [longitude, setLongitude] = useState(0)
   const [currentLocation, setCurrentLocation] = useState({
-    latitude: '41.87',
-    longitude: '12.56',
+    latitude: '45.458424',
+    longitude: '9.1694971',
   })
   const [markers, setMarkers] = useState([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [chosenDate, setChosenDate] = useState(new Date())
   const [chosenConnectors, setChosenConnectors] = useState([])
   const [isGPSok, setGPSok] = useState(false)
+  const [selectedMarker, setSelectedMarker] = useState({
+    id: 1,
+    latitude: 40,
+    longitude: 50,
+  })
 
   const getMarkers = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/driver/search?latitude=${currentLocation.latitude}&longitude=${currentLocation.longitude}`,
+        `${BASE_API}/driver/search?latitude=${currentLocation.latitude}&longitude=${currentLocation.longitude}`,
       )
       const jsonData = await response.json()
       setMarkers(jsonData)
@@ -61,35 +67,31 @@ export default function MapLeaflet() {
   }, [currentLocation])
 
   const handleLocationChange = (newLocation) => {
-    setCurrentLocation(newLocation);
+    setCurrentLocation(newLocation)
   }
 
   const createClusterCustomIcon = (cluster) => {
-    const count = cluster.getChildCount();
-    let size = 'LargeXL';
-  
+    const count = cluster.getChildCount()
+    let size = 'LargeXL'
+
     if (count < 10) {
-      size = 'Small';
-    }
-    else if (count >= 10 && count < 100) {
-      size = 'Medium';
-    }
-    else if (count >= 100 && count < 500) {
-      size = 'Large';
+      size = 'Small'
+    } else if (count >= 10 && count < 100) {
+      size = 'Medium'
+    } else if (count >= 100 && count < 500) {
+      size = 'Large'
     }
     const options = {
       cluster: `markerCluster${size}`,
-    };
-  
+    }
+
     return L.divIcon({
-      html:
-        `<div>
+      html: `<div>
           <span class="markerClusterLabel bg-dk-primary p-2 rounded-full bg-opacity-60">${count}</span>
         </div>`,
       className: `${options.cluster}`,
-    });
-  };
-
+    })
+  }
 
   return (
     <div className="fixed">
@@ -115,17 +117,19 @@ export default function MapLeaflet() {
         />
         {isGPSok && <SelfMarker position={[latitude, longitude]}></SelfMarker>}
         <div className="absolute z-10 md:w-2/3 lg:w-3/5 xl:w-2/5 w-full top-[0.5rem]">
-        <SearchBar
-          setChosenDate={setChosenDate}
-          connectors={chosenConnectors}
-          setConnectors={setChosenConnectors}
-          onLocationChange={handleLocationChange}
-        />
-      </div>
+          <SearchBar
+            setChosenDate={setChosenDate}
+            connectors={chosenConnectors}
+            setConnectors={setChosenConnectors}
+            onLocationChange={handleLocationChange}
+          />
+        </div>
         <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
           {markers.map((marker) => (
             <MarkerCustom
               key={marker.evcpID}
+              id={marker.evcpID}
+              setSelectedMarker={setSelectedMarker}
               setIsDrawerOpen={setIsDrawerOpen}
               icon={GetIcon()}
               position={[marker.latitude, marker.longitude]}
@@ -135,7 +139,12 @@ export default function MapLeaflet() {
         </MarkerClusterGroup>
 
         <div className="absolute inset-x-0 bottom-4 items-center max-w-md mx-auto z-10">
-          <Drawer isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
+          <Drawer
+            isOpen={isDrawerOpen}
+            setIsOpen={setIsDrawerOpen}
+            selectedMarker={selectedMarker}
+            currentLocation={currentLocation}
+          />
         </div>
         <Control prepend position="bottomright">
           <LocateMeControl
@@ -147,7 +156,6 @@ export default function MapLeaflet() {
         </Control>
         <ZoomControl position="bottomright" className="zoomControl" />
       </MapContainer>
-      
     </div>
   )
 }
