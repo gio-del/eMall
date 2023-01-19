@@ -14,6 +14,7 @@ import MapView from './view/MapView'
 import Car from './component/Car/Car'
 import Reservation from './component/Reservation/Reservation'
 import Profile from './component/Profile/Profile'
+import DashboardView from './view/DashboardView'
 
 const router = createBrowserRouter([
   {
@@ -49,17 +50,21 @@ const router = createBrowserRouter([
           },
           {
             path: '/main/reservation',
-            element: <Reservation/>,
-          },          
+            element: <Reservation />,
+          },
           {
             path: '/main/car',
             element: <Car />,
           },
           {
             path: '/main/profile',
-            element: <Profile/>,
+            element: <Profile />,
           },
         ],
+      },
+      {
+        path: '/cpo/*',
+        element: <DashboardView />,
       },
     ],
   },

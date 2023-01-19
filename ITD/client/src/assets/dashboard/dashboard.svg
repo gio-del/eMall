@@ -1,0 +1,14 @@
+<svg
+    fill="#000000"
+    width="24px"
+    height="24px"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    class="dashboard-icon"
+    className="icon glyph"
+>
+    <rect x="2" y="2" width="9" height="11" rx="2"></rect>
+    <rect x="13" y="2" width="9" height="7" rx="2"></rect>
+    <rect x="2" y="15" width="9" height="7" rx="2"></rect>
+    <rect x="13" y="11" width="9" height="11" rx="2"></rect>
+</svg>
