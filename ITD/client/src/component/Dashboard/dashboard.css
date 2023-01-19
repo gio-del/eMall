@@ -1,0 +1,13 @@
+.active::before {
+  content: "";
+  width: 15px;
+  height: 50px;
+  left: -8px;
+  position: absolute;
+  background: theme("colors.tertiary");
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  -ms-border-radius: 100px;
+  -o-border-radius: 100px;
+}
