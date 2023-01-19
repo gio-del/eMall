@@ -1,19 +1,24 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
-export default function BottomBar({ actualTab, setActualTab }) {
+export default function BottomBar() {
+  const [activeTab, setActiveTab] = useState()
+  const location = useLocation()
+
+  useEffect(() => {
+    const path = location.pathname.split('/')[2]
+    setActiveTab(path)
+  }, [location])
+
   return (
     <div className="fixed bottom-0 w-full ">
       <ul className="inline-flex justify-around items-center w-full pt-1 bg-tertiary dark:bg-dk-nav dark:text-tertiary text-sm ">
         <li className="w-full">
-          <Link
-            onClick={() => setActualTab('map')}
-            to="/main"
-            className="w-full"
-          >
+          <Link to="/main" className="w-full">
             <div className="flex flex-col items-center dark:fill-tertiary w-full">
               <div
-                class={`bg-${
-                  actualTab == 'map' ? 'dk-primary' : 'transparent'
+                className={`bg-${
+                  activeTab === undefined ? 'dk-primary' : 'transparent'
                 } rounded-full flex w-1/2 justify-center items-center`}
               >
                 <svg
@@ -30,15 +35,11 @@ export default function BottomBar({ actualTab, setActualTab }) {
           </Link>
         </li>
         <li className="w-full">
-          <Link
-            onClick={() => setActualTab('reservation')}
-            to="./reservation"
-            className="w-full"
-          >
+          <Link to="./reservation" className="w-full">
             <div className="flex flex-col items-center dark:fill-tertiary w-full">
               <div
                 className={`bg-${
-                  actualTab == 'reservation' ? 'dk-primary' : 'transparent'
+                  activeTab === 'reservation' ? 'dk-primary' : 'transparent'
                 } rounded-full flex w-1/2 justify-center items-center`}
               >
                 <svg
@@ -55,15 +56,11 @@ export default function BottomBar({ actualTab, setActualTab }) {
           </Link>
         </li>
         <li className="w-full">
-          <Link
-            onClick={() => setActualTab('car')}
-            to="./car"
-            className="w-full"
-          >
+          <Link to="./car" className="w-full">
             <div className="flex flex-col items-center dark:fill-tertiary w-full">
               <div
                 className={`bg-${
-                  actualTab == 'car' ? 'dk-primary' : 'transparent'
+                  activeTab === 'car' ? 'dk-primary' : 'transparent'
                 } rounded-full flex w-1/2 justify-center items-center`}
               >
                 <svg
@@ -80,15 +77,11 @@ export default function BottomBar({ actualTab, setActualTab }) {
           </Link>
         </li>
         <li className="w-full">
-          <Link
-            onClick={() => setActualTab('profile')}
-            to="./profile"
-            className="w-full"
-          >
+          <Link to="./profile" className="w-full">
             <div className="flex flex-col items-center dark:fill-tertiary w-full">
               <div
                 className={`bg-${
-                  actualTab == 'profile' ? 'dk-primary' : 'transparent'
+                  activeTab === 'profile' ? 'dk-primary' : 'transparent'
                 } rounded-full flex w-1/2 justify-center items-center`}
               >
                 <svg
