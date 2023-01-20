@@ -9,7 +9,14 @@ module.exports = {
         "tertiary": "#EAEAEA",
         "searchInput": "#B2B2B2",
         "dk-gray": "#D9D9D9",
-        "dk-nav" : "#161a21"
+        "dk-nav" : "#161a21",
+        "dash-gray" : "#f3f3f3",
+        "dash-green" : "#00be06",
+        "dash-red" : "#ff3823",
+        "dash-black" : "#202123",
+        "dash-gray-dark" : "#606060",
+
+
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

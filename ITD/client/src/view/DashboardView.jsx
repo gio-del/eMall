@@ -60,57 +60,60 @@ export default function DashboardView() {
           <div className="mt-20 p-5 text-tertiary">
             <Link to="/cpo">
               <div
-                className={`flex flex-row mb-5 items-center ${
+                className={`flex flex-row mb-5 items-center hover:bg-dk-secondary p-4 rounded-2xl ${
                   activeTab === undefined ? 'active' : ''
                 }`}
               >
                 <IconSVG src={dashboard} className="fill-tertiary" />
-                <p>Overview</p>
+                <p  className='ml-4'>Overview</p>
               </div>
             </Link>
             <Link to="/cpo/charging-points">
               <div
-                className={`flex flex-row mb-5 items-center ${
+                className={`flex flex-row mb-5 items-center hover:bg-dk-secondary p-4 rounded-2xl ${
                   activeTab === 'charging-points' ? 'active' : ''
                 }`}
               >
                 <IconSVG src={cps} className="fill-tertiary" />
-                <p>Charging Points</p>
+                <p className='ml-4'>Charging Points</p>
               </div>
             </Link>
             <Link to="/cpo/rates">
               <div
-                className={`flex flex-row mb-5 items-center ${
+                className={`flex flex-row mb-5 items-center hover:bg-dk-secondary p-4 rounded-2xl ${
                   activeTab === 'rates' ? 'active' : ''
                 }`}
               >
                 <IconSVG src={rates} className="fill-tertiary" />
-                <p>Rates</p>
+                <p  className='ml-4'>Rates</p>
               </div>
             </Link>
             <Link to="/cpo/reservations">
               <div
-                className={`flex flex-row mb-5 items-center ${
+                className={`flex flex-row mb-5 items-center hover:bg-dk-secondary p-4 rounded-2xl ${
                   activeTab === 'reservations' ? 'active' : ''
                 }`}
               >
                 <IconSVG src={reservations} className="fill-tertiary" />
-                <p>Reservations</p>
+                <p  className='ml-4'>Reservations</p>
               </div>
             </Link>
             <Link to="/cpo/energy">
               <div
-                className={`flex flex-row mb-5 items-center ${
+                className={`flex flex-row mb-5 items-center hover:bg-dk-secondary p-4 rounded-2xl ${
                   activeTab === 'energy' ? 'active' : ''
                 }`}
               >
                 <IconSVG src={energy} className="fill-tertiary" />
-                <p>Energy</p>
+                <p  className='ml-4'>Energy</p>
               </div>
             </Link>
           </div>
         </div>
-        {activeRoutes}
+        <div className='bg-dash-gray w-full flex-col'>
+          {activeRoutes}
+        </div>
+      
       </div>
     </>
   )
