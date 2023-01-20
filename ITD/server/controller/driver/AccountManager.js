@@ -14,7 +14,7 @@ router.post('/signup', async (req, res) => {
 
     const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
     if (!passwordRegex.test(password))
-        return res.status(400).json({ error: "Password must contain at least 8 character, at least 1 special symbol and at least 1 number" })
+        return res.status(400).json({ error: "Password must contain at least 8 character (at least one uppercase), at least 1 special symbol and at least 1 number" })
 
     const queryManagerInterface = await queryManager.getQueryManager()
 
@@ -30,19 +30,19 @@ router.post('/signup', async (req, res) => {
     }
 
     else {
-        return res.status(409).json({ error: 'The chosen phone number is already selected' })
+        return res.status(409).json({ error: 'An account with the same phone number already exist, retry' })
     }
 })
 
 router.post('/code', async (req, res) => {
     const { driverID, code } = req.body
-    const queryManagerInterface = await queryManager.getQueryManager()
-    const row = await queryManagerInterface.checkVerificationCode(driverID)
 
     const codeRegex = /^\d{6}$/
     if (!codeRegex.test(code))
         return res.status(400).json({ error: 'Code must be a six-digit number' })
 
+    const queryManagerInterface = await queryManager.getQueryManager()
+    const row = await queryManagerInterface.checkVerificationCode(driverID)
     if (row) {
         // console.log((new Date().getTime() - row.expiryDate.getTime()) / 1000)
 
@@ -55,12 +55,12 @@ router.post('/code', async (req, res) => {
                 const code = getCode()
                 await queryManagerInterface.updatePin(driverID, code)
                 sms.sendVerificationCode(row.phoneNumber, code)
-                return res.status(400).json({ message: "Wrong code, retry", id: driverID })
+                return res.status(400).json({ error: "Wrong code, retry", id: driverID })
             }
 
         } else {
             await queryManagerInterface.deleteUser(driverID)
-            return res.status(410).json({ error: "Too late, code expired" })
+            return res.status(410).json({ error: "Too late, the code is expired. Register a new account." })
         }
     }
     else {
@@ -82,7 +82,7 @@ router.post('/login', async (req, res) => {
     const user = await queryManagerInterface.findDriverByPhoneNumber(phoneNumber)
 
     if (!user)
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ error: 'Phone number or Password are wrong' });
 
     // check that the user is verified, so there is no verification code associated to it
     const toVerify = await queryManagerInterface.checkVerificationCode(user.driverID)
@@ -93,7 +93,7 @@ router.post('/login', async (req, res) => {
             return res.status(200).json({ token: token })
         }
         else {
-            return res.status(401).json({ error: 'Invalid credentials' })
+            return res.status(401).json({ error: 'Phone number or Password are wrong' })
         }
     } else {
         // sendCode and usual stuff
