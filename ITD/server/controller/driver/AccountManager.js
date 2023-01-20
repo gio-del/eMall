@@ -116,4 +116,7 @@ const authenticate = async (token) => {
     return userID
 }
 
-module.exports = router
+module.exports = {
+    authenticate: authenticate,
+    router: router
+}

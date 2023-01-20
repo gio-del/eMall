@@ -12,16 +12,16 @@ export default function BookSection({ connectors }) {
   const [currentTimeEnd, setCurrentTimeEnd] = useState()
   const [onlyAvailable, setOnlyAvailable] = useState(false)
 
-  const connectorTypes = connectors.map((connector) => connector.type)
+  const connectorIds = connectors.map(
+    (connector) => connector.typeName + connector.power,
+  )
 
   useEffect(() => {
-    connectorTypes.forEach((type) => {
-      document
-        .getElementById(`connectorType-${type}`)
-        ?.classList.remove('checked')
+    connectorIds.forEach((id) => {
+      document.getElementById(`connector-${id}`)?.classList.remove('checked')
     })
     document
-      .getElementById(`connectorType-${selectedConnector}`)
+      .getElementById(`connector-${selectedConnector}`)
       ?.classList.add('checked')
   }, [selectedConnector])
 
@@ -29,20 +29,22 @@ export default function BookSection({ connectors }) {
     <>
       <div class="flex flex-row justify-around mt-7">
         {connectors.map((connector) => (
-          <div key={connector.type}>
+          <div key={connector.socketID}>
             <RadioComponent
-              id={`connectorType-${connector.type}`}
-              onChange={() => setSelectedConnector(connector.type)}
+              id={`connector-${connector.typeName + connector.power}`}
+              onChange={() =>
+                setSelectedConnector(connector.typeName + connector.power)
+              }
             >
               <label
-                for={`connectorType-${connector.type}`}
+                for={`connector-${connector.typeName + connector.power}`}
                 className="flex flex-row justify-start items-center pr-10 rounded-2xl cursor-pointer dark:text-tertiary text-dk-secondary border-2 dark:border-tertiary border-dk-secondary"
               >
-                <ConnectorSVG type={connector.type} />
+                <ConnectorSVG type={connector.typeName} />
                 <div className="border-l-2 dark:border-tertiary border-dk-secondary flex  h-full p-3">
                   <div>
-                    <p className="font-semibold">{connector.type}</p>
-                    <p className="font-light text-sm">{connector.power}</p>
+                    <p className="font-semibold">{connector.typeName}</p>
+                    <p className="font-light text-sm">{connector.power}KW</p>
                   </div>
                 </div>
               </label>
@@ -50,7 +52,7 @@ export default function BookSection({ connectors }) {
           </div>
         ))}
       </div>
-      <Calendar/>
+      <Calendar />
       <div className="flex justify-between items-center pr-7">
         <label
           htmlFor="showOnlyAvailable"

@@ -1,6 +1,3 @@
-import type2 from './../../../assets/socketType2.svg'
-import CCS2 from './../../../assets/socketTypeCCS2.svg'
-import CCS2dark from './../../../assets/socketTypeCCS2dark.svg'
 import DirectionButtonUtility from '../../utilitycomponent/DirectionButtonUtility'
 import ConnectorSVG from '../../utilitycomponent/ConnectorSVG'
 
@@ -10,7 +7,11 @@ export default function DrawerContent({
   Connectors,
   Source,
   Destination,
+  setBooking,
 }) {
+  const onClick = () => {
+    setBooking(true)
+  }
   return (
     <div className="flex flex-col px-3">
       <div className="flex justify-between">
@@ -28,17 +29,20 @@ export default function DrawerContent({
         />
       </div>
       <div className="my-3">
-        <button className="py-3 md:py-4 w-full bg-dk-primary rounded-full text-center text-tertiary font-semibold">
+        <button
+          className="py-3 md:py-4 w-full bg-dk-primary rounded-full text-center text-tertiary font-semibold"
+          onClick={() => onClick()}
+        >
           Book a charge
         </button>
       </div>
-      <div className='mb-2'>
+      <div className="mb-2">
         <p className="dark:text-tertiary text-dk-secondary mb-1">
           Equipment and current status
         </p>
         {Connectors.map((connector) => (
           <div
-            key={connector.id}
+            key={connector.socketID}
             className="flex flex-row justify-start border-2 border-dk-secondary dark:border-tertiary rounded-2xl mb-2"
           >
             <ConnectorSVG type={connector.typeName} />
@@ -55,7 +59,10 @@ export default function DrawerContent({
                 </p>
               </div>
               <div className="flex items-center justify-center">
-                <button className="p-4 w-full mx-4 bg-dk-primary rounded-2xl text-center text-tertiary font-semibold">
+                <button
+                  className="p-4 w-full mx-4 bg-dk-primary rounded-2xl text-center text-tertiary font-semibold"
+                  onClick={() => onClick()}
+                >
                   NOW {connector.freeSpots}/{connector.totalSpots}
                 </button>
               </div>

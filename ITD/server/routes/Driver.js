@@ -1,4 +1,4 @@
-const accountManager = require('../controller/driver/AccountManager')
+const accountManager = require('../controller/driver/AccountManager').router;
 const cpSearch = require('../controller/driver/CPSearch')
 const reservationManager = require('../controller/driver/ReservationManager')
 const carManager = require('../controller/driver/CarManager')

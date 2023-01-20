@@ -57,7 +57,7 @@ CREATE TABLE RESERVATION (
     end_date timestamp NOT NULL,
     discount_percent decimal(5, 2) NULL,
     driver_id int NOT NULL,
-    total_price decimal(10, 2) NOT NULL,
+    total_price decimal(10, 2) NULL,
     socket_id int NOT NULL,
     chargedKWh real NULL
 );

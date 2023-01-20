@@ -1,13 +1,20 @@
 import Sheet from 'react-modal-sheet'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
 import './Drawer.css'
 import DrawerContent from './DrawerContent'
+import Booking from '../../Booking/Booking'
 import { BASE_API } from '../../../constant'
-import { useEffect } from 'react'
 
-export default function Drawer({ isOpen, setIsOpen, selectedMarker, currentLocation }) {
+export default function Drawer({
+  isOpen,
+  setIsOpen,
+  selectedMarker,
+  currentLocation,
+}) {
   const [details, setDetails] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [booking, setBooking] = useState(false)
 
   useEffect(() => {
     getConnectors()
@@ -30,7 +37,10 @@ export default function Drawer({ isOpen, setIsOpen, selectedMarker, currentLocat
   return (
     <Sheet
       isOpen={isOpen}
-      onOpenStart={() => getConnectors()}
+      onOpenStart={() => {
+        setBooking(false)
+        getConnectors()
+      }}
       onClose={() => setIsOpen(false)}
       detent="content-height"
     >
@@ -39,13 +49,27 @@ export default function Drawer({ isOpen, setIsOpen, selectedMarker, currentLocat
         <Sheet.Content>
           {isLoading ? (
             <div>Loading...</div>
-          ) : (
+          ) : !booking ? (
             <DrawerContent
               CPOName={details.companyName}
               Address={details.address}
               Connectors={details.connectors}
-              Source={{latitude: selectedMarker.latitude,longitude: selectedMarker.longitude}}
-              Destination={{latitude: currentLocation.latitude,longitude: currentLocation.longitude}}
+              Source={{
+                latitude: selectedMarker.latitude,
+                longitude: selectedMarker.longitude,
+              }}
+              Destination={{
+                latitude: currentLocation.latitude,
+                longitude: currentLocation.longitude,
+              }}
+              setBooking={setBooking}
+            />
+          ) : (
+            <Booking
+              CPOName={details.companyName}
+              Address={details.address}
+              Connectors={details.connectors}
+              Date={'ok'}
             />
           )}
         </Sheet.Content>

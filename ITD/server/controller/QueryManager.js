@@ -91,16 +91,27 @@ exports.getQueryManager = async () => {
                                                         JOIN Rate AS R ON R.evcp_id = E.id
                                                         WHERE E.id = $1 AND R.type_id = T.id AND TYPE_FREE.evcp_id = E.id AND TYPE_TOTAL.evcp_id = E.id`, [evcpID])
             const rows2 = secondQuery.rows.map((row) => ({ typeName: row.type_name, socketID: row.id, freeSpots: row.free, totalSpots: row.total, flatPrice: row.flatprice, variablePrice: row.variableprice, power: row.power_kw }))
-            return rows2 ? { companyName: rows1.company_name, address: rows1.address, connectors: rows2 } : undefined
+            return rows2 ? { companyName: rows1.company_name, address: rows1.address, evcpID: evcpID, connectors: rows2 } : undefined
         },
 
-        checkAvailability: async (reservationParam) => {
-            // What reservationParam are?
-            return true
+        checkAvailability: async (evcpID, type, power, timeFrom, timeTo) => {
+            const res = await pool.query(dedent`SELECT S.id
+                                                FROM SOCKET AS S
+                                                JOIN CP ON CP.id = S.cp_id
+                                                JOIN EVCP AS E ON CP.evcp_id = E.id
+                                                JOIN TYPE AS T ON S.type_id = T.id
+                                                WHERE E.id = $1 AND type_name = $2 AND S.power_kW = $3
+                                                AND socket_id NOT IN
+                                                    (SELECT R.socket_id
+                                                     FROM RESERVATION AS R
+                                                     WHERE R.start_date < $4 AND R.end_date > $5
+                                                    )`, [evcpID, type, power, timeFrom, timeTo])
+            const rows = res.rows
+            return rows ? { socketID: rows.id } : undefined
         },
 
-        addReservation: async (reservationParam) => {
-            // Same as above
+        addReservation: async (driverID, socketID, timeFrom, timeTo) => {
+            const res = await pool.query('INSERT INTO RESERVATION(driver_id, socket_id, start_date, end_date) VALUES($1, $2, $3, $4)', [driverID, socketID, timeFrom, timeTo])
             return true
         },
 
@@ -114,9 +125,10 @@ exports.getQueryManager = async () => {
             return res.rows[0] //id is unique so this is ok, but what if there is no  reservation with the provided id?
         },
 
-        getReservations: async (userID) => {
-            const res = await pool.query('SELECT * FROM RESERVATION WHERE driver_id = $1', [userID])
-            return res.rows // here no problem rows CAN be empty
+        getDriverReservations: async (driverID) => {
+            const res = await pool.query('SELECT * FROM RESERVATION WHERE driver_id = $1', [driverID])
+            const rows = res.rows.map((row) => ({ timeFrom: row.start_date, timeTo: row.end_date, discount: row.discount_percent, driverID: row.driver_id, totalPrice: row.total_price, socketID: row.socket_id, chargedKWh: row.chargedKWh }))
+            return rows
         },
 
         addCar: async (car, userID, location) => {
@@ -131,7 +143,7 @@ exports.getQueryManager = async () => {
             const res = await pool.query('SELECT notification_preferences FROM DRIVER WHERE id = $1', [userID])
             return res.rows[0] // this is ok since notification_preferences is a boolean
         },
-        getReservations: async (cpoID) => {
+        getCPOReservations: async (cpoID) => {
             const res = await pool.query(`SELECT * FROM RESERVATION AS R, SOCKET AS S, CP, EVCP AS E\
                                           WHERE R.socket_id = S.id AND S.cp_id = CP.id AND CP.evcp_id = E.id AND E.cpo_id = $1`, [cpoID])
             return res.rows
@@ -141,7 +153,7 @@ exports.getQueryManager = async () => {
             return true
         },
         activeCP: async (cpID) => {
-            // this method is used to retrieve wether the CP is activated or not
+            // this method is used to retrieve whether the CP is activated or not
             return true
         },
         addRate: async (evcpID, flatPrice, variablePrice, powerkWh) => {
