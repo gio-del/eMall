@@ -52,7 +52,7 @@ export default function RegistrationView() {
         code: parseInt(code),
       }),
     })
-    if (response.status === 200) navigate('/login')
+    if (response.status === 200) navigate('../login')
     else response.json((data) => setError(data.error))
   }
 

@@ -38,13 +38,13 @@ export default function NavBar() {
         <div className="hidden lg:block">
           <ul className="inline-flex">
             <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
-              <Link to={'/'}>Home</Link>
+              <Link to={'./'}>Home</Link>
             </li>
             <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
-              <Link to={'/login'}>Login</Link>
+              <Link to={'./login'}>Login</Link>
             </li>
             <li className="p-4 hover:text-gray-700 dark:text-dk-primary">
-              <Link to={'/signup'}>Sign Up</Link>
+              <Link to={'./signup'}>Sign Up</Link>
             </li>
             <li className="px-4 flex">
               <DarkModeUtility />
@@ -62,13 +62,13 @@ export default function NavBar() {
       >
         <ul className="w-full">
           <li className="p-4 shadow-sm  hover:text-gray-700 dark:text-dk-primary">
-            <Link to={'/'}>Home</Link>
+            <Link to={'./'}>Home</Link>
           </li>
           <li className="p-4 shadow-sm  hover:text-gray-700 dark:text-dk-primary">
-            <Link to={'/login'}>Login</Link>
+            <Link to={'./login'}>Login</Link>
           </li>
           <li className="p-4 shadow-sm  hover:text-gray-700 dark:text-dk-primary">
-            <Link to={'/signup'}>Sign Up</Link>
+            <Link to={'./signup'}>Sign Up</Link>
           </li>
           <li className="p-4 shadow-sm  hover:text-gray-700 dark:text-dk-primary">
             <DarkModeUtility />

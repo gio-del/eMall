@@ -7,6 +7,7 @@ export default function BottomBar() {
 
   useEffect(() => {
     const path = location.pathname.split('/')[2]
+    console.log(path)
     setActiveTab(path)
   }, [location])
 
@@ -14,7 +15,7 @@ export default function BottomBar() {
     <div className="fixed bottom-0 w-full ">
       <ul className="inline-flex justify-around items-center w-full pt-1 bg-tertiary dark:bg-dk-nav dark:text-tertiary text-sm ">
         <li className="w-full">
-          <Link to="/main" className="w-full">
+          <Link to="/map" className="w-full">
             <div className="flex flex-col items-center dark:fill-tertiary w-full">
               <div
                 className={`bg-${
