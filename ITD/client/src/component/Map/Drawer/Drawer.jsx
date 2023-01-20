@@ -5,6 +5,7 @@ import './Drawer.css'
 import DrawerContent from './DrawerContent'
 import Booking from '../../Booking/Booking'
 import { BASE_API } from '../../../constant'
+import DirectionButtonUtility from '../../utilitycomponent/DirectionButtonUtility'
 
 export default function Drawer({
   isOpen,
@@ -13,8 +14,8 @@ export default function Drawer({
   currentLocation,
 }) {
   const [details, setDetails] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
   const [booking, setBooking] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     getConnectors()
@@ -22,7 +23,6 @@ export default function Drawer({
 
   const getConnectors = async () => {
     try {
-      setIsLoading(true)
       const response = await fetch(
         `${BASE_API}/driver/search/${selectedMarker.id}`,
       )
@@ -39,38 +39,48 @@ export default function Drawer({
       isOpen={isOpen}
       onOpenStart={() => {
         setBooking(false)
-        getConnectors()
       }}
-      onClose={() => setIsOpen(false)}
+      onClose={() => {
+        setBooking(false)
+        setIsOpen(false)
+        setIsLoading(true)
+        setDetails([])
+      }}
       detent="content-height"
     >
       <Sheet.Container>
         <Sheet.Header />
         <Sheet.Content>
           {isLoading ? (
-            <div>Loading...</div>
-          ) : !booking ? (
-            <DrawerContent
-              CPOName={details.companyName}
-              Address={details.address}
-              Connectors={details.connectors}
-              Source={{
-                latitude: selectedMarker.latitude,
-                longitude: selectedMarker.longitude,
-              }}
-              Destination={{
-                latitude: currentLocation.latitude,
-                longitude: currentLocation.longitude,
-              }}
-              setBooking={setBooking}
-            />
+            <p>Loading...</p>
           ) : (
-            <Booking
-              CPOName={details.companyName}
-              Address={details.address}
-              Connectors={details.connectors}
-              Date={'ok'}
-            />
+            <div class="max-h-screen max-w-md px-3">
+              <div className="flex justify-between px-3">
+                <div>
+                  <p className="font-medium dark:text-tertiary text-dk-secondary">
+                    {details.companyName}
+                  </p>
+                  <p className="font-light  dark:text-tertiary text-dk-secondary">
+                    {details.address}
+                  </p>
+                </div>
+                <DirectionButtonUtility
+                  source={[currentLocation.latitude, currentLocation.longitude]}
+                  destination={[
+                    selectedMarker.latitude,
+                    selectedMarker.longitude,
+                  ]}
+                />
+              </div>
+              {!booking ? (
+                <DrawerContent
+                  Connectors={details.connectors}
+                  setBooking={setBooking}
+                />
+              ) : (
+                <Booking Connectors={details.connectors} Date={'ok'} />
+              )}
+            </div>
           )}
         </Sheet.Content>
       </Sheet.Container>

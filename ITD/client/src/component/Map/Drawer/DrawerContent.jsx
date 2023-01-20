@@ -1,36 +1,15 @@
 import DirectionButtonUtility from '../../utilitycomponent/DirectionButtonUtility'
 import ConnectorSVG from '../../utilitycomponent/ConnectorSVG'
 
-export default function DrawerContent({
-  CPOName,
-  Address,
-  Connectors,
-  Source,
-  Destination,
-  setBooking,
-}) {
+export default function DrawerContent({ Connectors, setBooking }) {
   const onClick = () => {
     setBooking(true)
   }
   return (
-    <div className="flex flex-col px-3">
-      <div className="flex justify-between">
-        <div>
-          <p className="font-medium dark:text-tertiary text-dk-secondary">
-            {CPOName}
-          </p>
-          <p className="font-light  dark:text-tertiary text-dk-secondary">
-            {Address}
-          </p>
-        </div>
-        <DirectionButtonUtility
-          source={[Source.latitude, Source.longitude]}
-          destination={[Destination.latitude, Destination.longitude]}
-        />
-      </div>
+    <div className="flex flex-col px-3 max-h-screen max-w-md">
       <div className="my-3">
         <button
-          className="py-3 md:py-4 w-full bg-dk-primary rounded-full text-center text-tertiary font-semibold"
+          className="py-3 w-full bg-dk-primary rounded-full text-center text-tertiary font-semibold"
           onClick={() => onClick()}
         >
           Book a charge

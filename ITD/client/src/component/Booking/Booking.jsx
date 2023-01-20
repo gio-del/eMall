@@ -5,7 +5,7 @@ import BookSection from './Book/BookSection'
 import CostSection from './Cost/CostSection'
 import DetailsSection from './Details/DetailsSection'
 
-export default function Booking({ CPOName, Address, Connectors, Date }) {
+export default function Booking({ Connectors, Date }) {
   const [currentTab, setCurrentTab] = useState(1)
   const tabs = ['tab-0', 'tab-1', 'tab-2']
   useEffect(() => {
@@ -22,17 +22,6 @@ export default function Booking({ CPOName, Address, Connectors, Date }) {
 
   return (
     <div className="bg-tertiary dark:bg-dk-secondary max-h-screen max-w-lg p-3">
-      <div className="flex justify-between mb-4">
-        <div>
-          <p className="font-medium dark:text-tertiary text-dk-secondary">
-            {CPOName}
-          </p>
-          <p className="font-light dark:text-tertiary text-dk-secondary">
-            {Address}
-          </p>
-        </div>
-        <DirectionButtonUtility source={[10, 10]} destination={[12, 12]} />
-      </div>
       <ul className="select-none cursor-pointer inline-flex justify-around w-full dark:text-tertiary text-dk-secondary font-light border-b-2 text-center dark:border-b-tertiary border-b-dk-secondary">
         <li
           id="tab-0"

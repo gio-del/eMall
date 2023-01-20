@@ -1,10 +1,4 @@
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  ZoomControl,
-} from 'react-leaflet'
+import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet'
 import MarkerClusterGroup from './Marker/MarkerClusterGroup'
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useState } from 'react'
@@ -19,7 +13,7 @@ import SelfMarker from './Marker/SelfMarker'
 import './MapLeaflet.css'
 import { BASE_API } from '../../constant'
 
-function GetIcon() {
+function getIcon() {
   return L.icon({
     iconUrl: blueMarker,
     iconSize: [48, 48],
@@ -55,10 +49,6 @@ export default function MapLeaflet() {
     } catch (err) {
       console.error(err)
     }
-  }
-
-  const removeMarker = (id) => {
-    setMarkers(markers.filter((marker) => marker.id !== id))
   }
 
   useEffect(() => {
@@ -97,7 +87,7 @@ export default function MapLeaflet() {
       <MapContainer
         zoomControl={false}
         style={{
-          height: 'calc(100vh - 3.4rem)',
+          height: 'calc(100vh - 3.5rem)',
           width: '100vw',
           position: 'relative',
         }}
@@ -130,9 +120,8 @@ export default function MapLeaflet() {
               id={marker.evcpID}
               setSelectedMarker={setSelectedMarker}
               setIsDrawerOpen={setIsDrawerOpen}
-              icon={GetIcon()}
+              icon={getIcon()}
               position={[marker.latitude, marker.longitude]}
-              removeMarker={removeMarker}
             />
           ))}
         </MarkerClusterGroup>

@@ -13,7 +13,10 @@
 
 .react-modal-sheet-container,
 .dark .react-modal-sheet-container {
-  width: 40vw !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content !important;
   max-height: 100% !important;
 }
 
