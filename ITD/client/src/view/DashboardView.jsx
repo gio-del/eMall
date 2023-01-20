@@ -108,6 +108,9 @@ export default function DashboardView() {
                 <p  className='ml-4'>Energy</p>
               </div>
             </Link>
+            <div className='flex justify-center rounded-2xl border-2 border-dash-black hover:bg-dash-black py-3'>
+              Logout
+            </div>
           </div>
         </div>
         <div className='bg-dash-gray w-full flex-col'>
