@@ -122,7 +122,7 @@ export default function Calendar({onDateChange}) {
                   <label
                     id={`date-label-${uniqueDay.day}`}
                     className="flex aspect-square rounded-full w-12 h-12 font-semibold cursor-pointer dark:text-tertiary text-dk-secondary items-center"
-                    for={`date-${uniqueDay.day}`}
+                    htmlFor={`date-${uniqueDay.day}`}
                   >
                     <span className="text-inherit w-full text-center text-xl">
                       {uniqueDay.day}

@@ -7,7 +7,6 @@ export default function BottomBar() {
 
   useEffect(() => {
     const path = location.pathname.split('/')[2]
-    console.log(path)
     setActiveTab(path)
   }, [location])
 

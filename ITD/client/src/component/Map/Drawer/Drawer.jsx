@@ -22,6 +22,7 @@ export default function Drawer({
   }, [selectedMarker])
 
   const getConnectors = async () => {
+    if (!selectedMarker) return
     try {
       const response = await fetch(
         `${BASE_API}/driver/search/${selectedMarker.id}`,
@@ -48,13 +49,13 @@ export default function Drawer({
       }}
       detent="content-height"
     >
-      <Sheet.Container >
+      <Sheet.Container>
         <Sheet.Header />
         <Sheet.Content>
           {isLoading ? (
             <p>Loading...</p>
           ) : (
-            <div class="max-h-screen w-full">
+            <div className="max-h-screen w-full">
               <div className="flex justify-between px-3">
                 <div>
                   <p className="font-medium dark:text-tertiary text-dk-secondary">
@@ -78,7 +79,11 @@ export default function Drawer({
                   setBooking={setBooking}
                 />
               ) : (
-                <Booking Connectors={details.connectors} Date={'ok'} id={selectedMarker.id} />
+                <Booking
+                  Connectors={details.connectors}
+                  Date={'ok'}
+                  id={selectedMarker.id}
+                />
               )}
             </div>
           )}

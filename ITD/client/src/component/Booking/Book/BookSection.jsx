@@ -46,7 +46,7 @@ export default function BookSection({ connectors, id }) {
   return (
     <>
       <div className='px-3 pb-3'>
-        <div class="flex flex-row justify-around mt-7">
+        <div className="flex flex-row justify-around mt-7">
           {connectors.map((connector) => (
             <div key={connector.socketID}>
               <RadioComponent
@@ -57,7 +57,7 @@ export default function BookSection({ connectors, id }) {
                 }}
               >
                 <label
-                  for={`connector-${connector.typeName + connector.power}`}
+                  htmlFor={`connector-${connector.typeName + connector.power}`}
                   className="flex flex-row justify-start items-center pr-10 rounded-2xl cursor-pointer dark:text-tertiary text-dk-secondary border-2 dark:border-tertiary border-dk-secondary"
                 >
                   <ConnectorSVG type={connector.typeName} />
@@ -81,7 +81,7 @@ export default function BookSection({ connectors, id }) {
             {mockupData.forEach((slot) => {
               <RadioComponent id="anotherHour">
               <label
-                for={`anotherHour`}
+                htmlFor={`anotherHour`}
                 className="flex justify-center py-4 px-1 items-center rounded-2xl cursor-pointer dark:text-tertiary text-dk-secondary border-2 dark:border-tertiary border-dk-secondary"
               >
                 <p className="font-semibold">{slot.from}</p>

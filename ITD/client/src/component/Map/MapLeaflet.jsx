@@ -33,11 +33,7 @@ export default function MapLeaflet() {
   const [chosenDate, setChosenDate] = useState(new Date())
   const [chosenConnectors, setChosenConnectors] = useState([])
   const [isGPSok, setGPSok] = useState(false)
-  const [selectedMarker, setSelectedMarker] = useState({
-    id: 1,
-    latitude: 40,
-    longitude: 50,
-  })
+  const [selectedMarker, setSelectedMarker] = useState()
 
   const getMarkers = async () => {
     try {

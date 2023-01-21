@@ -1,10 +1,10 @@
 export default function DirectionButtonUtility({source,destination}) {
   return (
-    <div class="inline-flex items-center justify-center">
+    <div className="inline-flex items-center justify-center">
       <a href={`https://www.google.com/maps/dir/${source.join(',')}/${destination.join(',')}`} target="_blank" rel="noopener"
         className="w-full inline-flex justify-between items-center px-4 h-11 rounded-full border-[1px] dark:border-tertiary border-dk-secondary font-light  dark:text-tertiary text-dk-secondary"
       >
-        <div class="inline-flex justify-between items-center w-full">
+        <div className="inline-flex justify-between items-center w-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="48"

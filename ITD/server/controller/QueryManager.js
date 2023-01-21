@@ -115,11 +115,9 @@ exports.getQueryManager = async () => {
                                                 ORDER BY R.start_date`, [today, tomorrow])
             let first = res1.rowCount > 0 ? res1.rows[0].end_date : date
             const queue = res.rows.filter(row => new Date(row.start_date) > date).reverse()
-            console.log(queue)
             const slots = []
             while (queue.length > 0) {
                 const nextFirst = queue.pop()
-                console.log("next:", nextFirst)
                 slots.push({ from: first, to: nextFirst.start_date })
                 first = nextFirst.end_date
             }
@@ -142,7 +140,6 @@ exports.getQueryManager = async () => {
                                                 JOIN TYPE AS T ON S.type_id = T.id
                                                 WHERE E.id = $1 AND T.type_name = $2 AND S.power_kW = $3 AND R.start_date >= $4`, [id, type, power, timeFrom])
             const row = res2.rows[0]
-            console.log(res2.rows[0].max_duration)
             return row && row.max_duration ? { maxDuration: row.max_duration, inf: false } : { inf: true }
         },
 
