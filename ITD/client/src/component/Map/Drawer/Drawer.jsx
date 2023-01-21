@@ -48,13 +48,13 @@ export default function Drawer({
       }}
       detent="content-height"
     >
-      <Sheet.Container>
+      <Sheet.Container >
         <Sheet.Header />
         <Sheet.Content>
           {isLoading ? (
             <p>Loading...</p>
           ) : (
-            <div class="max-h-screen max-w-md px-3">
+            <div class="max-h-screen w-full">
               <div className="flex justify-between px-3">
                 <div>
                   <p className="font-medium dark:text-tertiary text-dk-secondary">
@@ -78,7 +78,7 @@ export default function Drawer({
                   setBooking={setBooking}
                 />
               ) : (
-                <Booking Connectors={details.connectors} Date={'ok'} />
+                <Booking Connectors={details.connectors} Date={'ok'} id={selectedMarker.id} />
               )}
             </div>
           )}

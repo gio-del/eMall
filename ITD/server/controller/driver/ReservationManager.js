@@ -16,6 +16,38 @@ router.get('/', async (req, res) => {
     return res.status(401).json({ error: 'Unauthorized' })
 })
 
+router.get('/slot/:id', async (req, res) => {
+    const { type, power, date } = req.query
+    const { id } = req.params
+
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            const slots = await queryManagerInterface.checkReservationSlots(id, type, power, date)
+            return res.status(200).json(slots)
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+router.get('/duration/:id', async (req, res) => {
+    const { type, power, timeFrom } = req.query
+    const { id } = req.params
+
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            const maxDuration = await queryManagerInterface.checkMaxDuration(id, type, power, timeFrom)
+            return res.status(200).json(maxDuration)
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
 router.post('/', async (req, res) => {
     const { evcpID, type, power, timeFrom, timeTo } = req.body
     if (req.cookies.token) {

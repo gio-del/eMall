@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from 'react'
 import { RadioDate } from './RadioDate'
 import './Calendar.css'
 
-export default function Calendar() {
+export default function Calendar({onDateChange}) {
   const [selectedDate, setSelectedDate] = useState()
   const scrollTimerRef = useRef()
   const scrollVelocity = 150
   const dates = []
-
+  
   const onWheel = (e) => {
     const container = scrollRef.current
     const containerScrollPosition = scrollRef.current.scrollLeft
@@ -22,12 +22,25 @@ export default function Calendar() {
 
   const selectableDates = () => {
     const startDate = new Date()
+    const value = {
+      id: `${startDate.toISOString()}`,
+      day: `${startDate.getDate()}`,
+      name: `${startDate.toString().split(' ')[0]}`,
+      month: `${startDate.toString().split(' ')[1]}`,
+    }
+    dates.push(value)
+
+
     for (let i = 0; i < 10; i++) {
       const currentDate = new Date(
         startDate.getTime() + (1 + i) * 24 * 60 * 60 * 1000,
       )
+      currentDate.setHours(0)
+      currentDate.setMinutes(0)
+      currentDate.setSeconds(0)
+      currentDate.setMilliseconds(0)
       const value = {
-        id: `${currentDate.getDate()}`,
+        id: `${currentDate.toISOString()}`,
         day: `${currentDate.getDate()}`,
         name: `${currentDate.toString().split(' ')[0]}`,
         month: `${currentDate.toString().split(' ')[1]}`,
@@ -37,8 +50,9 @@ export default function Calendar() {
     return dates
   }
 
-  const handleChange = (newDateId) => {
-    setSelectedDate(newDateId)
+  const handleChange = (newDate) => {
+    setSelectedDate(newDate.day)
+    onDateChange(newDate.id)
   }
 
   const scroll = (scrollOffset) => {
@@ -46,24 +60,17 @@ export default function Calendar() {
   }
 
   useEffect(() => {
-    const datesIds = dates.map((uniqueDay) => uniqueDay.id)
-    datesIds.forEach((id) => {
-      document.getElementById(`date-${id}`)?.classList.remove('checked')
-      document
-        .getElementById(`date-label-${id}`)
-        ?.classList.remove('text-tertiary')
-      document
-        .getElementById(`date-label-${id}`)
-        ?.classList.add('text-dk-secondary')
+    const datesIds = dates.map((uniqueDay) => uniqueDay.day)
+    datesIds.forEach((day) => {
+      document.getElementById(`date-${day}`)?.classList.remove('checked', 'text-tertiary')
+      document.getElementById(`date-label-${day}`)?.classList.add('text-dk-secondary')
     })
-    document.getElementById(`date-${selectedDate}`)?.classList.add('checked')
-    document
-      .getElementById(`date-label-${selectedDate}`)
-      ?.classList.remove('text-dk-secondary')
-    document
-      .getElementById(`date-label-${selectedDate}`)
-      ?.classList.add('text-tertiary')
+    document.getElementById(`date-${selectedDate}`)?.classList.add('checked', 'text-tertiary')
+    document.getElementById(`date-label-${selectedDate}`)?.classList.remove('text-dk-secondary')
+    
   }, [selectedDate])
+
+  
 
   return (
     <>
@@ -101,7 +108,7 @@ export default function Calendar() {
           >
             {selectableDates().map((uniqueDay) => (
               <div
-                key={uniqueDay.id}
+                key={uniqueDay.day}
                 className="relative px-3 mb-2 w-full left-0"
               >
                 <div className="text-center">
@@ -110,7 +117,7 @@ export default function Calendar() {
                   </p>
                   <RadioDate
                     id={`date-${uniqueDay.day}`}
-                    onChange={() => handleChange(uniqueDay.id)}
+                    onChange={() => handleChange(uniqueDay)}
                   />
                   <label
                     id={`date-label-${uniqueDay.day}`}

@@ -7,6 +7,10 @@
   background-color: #eaeaea !important;
 }
 
+.react-modal-sheet-content {
+  width: 100% !important;
+}
+
 .dark .react-modal-sheet-container {
   background-color: #3c4048 !important;
 }
@@ -16,8 +20,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: fit-content !important;
   max-height: 100% !important;
+  width: 30% !important;
 }
 
 .react-modal-sheet-header {
@@ -35,9 +39,14 @@
 
   background-color: #eaeaea !important;
 }
-.react-modal-sheet-content {
-  /* the content part */
+
+@media not all and (min-width: 1200px) {
+  .react-modal-sheet-container,
+  .dark .react-modal-sheet-container {
+    width: 40% !important;
+  }
 }
+
 @media not all and (min-width: 910px) {
   .react-modal-sheet-container,
   .dark .react-modal-sheet-container {

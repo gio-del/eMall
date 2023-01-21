@@ -3,7 +3,7 @@ import ConnectorSVG from '../../utilitycomponent/ConnectorSVG'
 export default function CostSection({ connectors }) {
   return (
     <>
-      <div class="flex flex-col">
+      <div class="flex flex-col px-3 w-full">
         {connectors.map((connector) => (
           <div class="flex-grow" key={connector.socketID}>
             <div className="flex p-4">

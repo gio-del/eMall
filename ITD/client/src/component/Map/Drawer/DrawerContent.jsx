@@ -6,7 +6,7 @@ export default function DrawerContent({ Connectors, setBooking }) {
     setBooking(true)
   }
   return (
-    <div className="flex flex-col px-3 max-h-screen max-w-md">
+    <div className="flex flex-col max-h-screen w-full p-3">
       <div className="my-3">
         <button
           className="py-3 w-full bg-dk-primary rounded-full text-center text-tertiary font-semibold"
@@ -22,7 +22,7 @@ export default function DrawerContent({ Connectors, setBooking }) {
         {Connectors.map((connector) => (
           <div
             key={connector.socketID}
-            className="flex flex-row justify-start border-2 border-dk-secondary dark:border-tertiary rounded-2xl mb-2"
+            className="flex flex-row justify-start border-2 border-dk-secondary dark:border-tertiary rounded-2xl mt-2"
           >
             <ConnectorSVG type={connector.typeName} />
             <div className="p-1 flex flex-row justify-between w-full border-l-2 dark:border-l-tertiary border-l-dk-secondary">

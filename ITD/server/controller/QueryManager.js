@@ -94,6 +94,58 @@ exports.getQueryManager = async () => {
             return rows2 ? { companyName: rows1.company_name, address: rows1.address, evcpID: evcpID, connectors: rows2 } : undefined
         },
 
+        checkReservationSlots: async (id, type, power, date) => {
+            const res1 = await pool.query(dedent`SELECT *
+                                                 FROM RESERVATION AS R
+                                                 WHERE R.start_date <= $1 AND R.end_date >= $1`, [date])
+            date = new Date(date)
+            const tomorrow = new Date(new Date(date).getTime() + 24 * 60 * 60 * 1000)
+            tomorrow.setHours(0)
+            tomorrow.setMinutes(0)
+            tomorrow.setSeconds(0)
+            tomorrow.setMilliseconds(0)
+            const today = new Date(date)
+            today.setHours(0)
+            today.setMinutes(0)
+            today.setSeconds(0)
+            today.setMilliseconds(0)
+            const res = await pool.query(dedent`SELECT *
+                                                FROM RESERVATION AS R
+                                                WHERE R.start_date >= $1 AND R.end_date <= $2
+                                                ORDER BY R.start_date`, [today, tomorrow])
+            let first = res1.rowCount > 0 ? res1.rows[0].end_date : date
+            const queue = res.rows.filter(row => new Date(row.start_date) > date).reverse()
+            console.log(queue)
+            const slots = []
+            while (queue.length > 0) {
+                const nextFirst = queue.pop()
+                console.log("next:", nextFirst)
+                slots.push({ from: first, to: nextFirst.start_date })
+                first = nextFirst.end_date
+            }
+            if (new Date(first) < tomorrow) {
+                slots.push({ from: first, to: tomorrow })
+            }
+            return slots
+        },
+
+        checkMaxDuration: async (id, type, power, timeFrom) => {
+            const res1 = await pool.query(dedent`SELECT R.id
+                                                 FROM RESERVATION AS R
+                                                 WHERE R.start_date <= $1 AND R.end_date > $1`, [timeFrom])
+            if (res1.rowCount > 0) return { inf: false }
+            const res2 = await pool.query(dedent`SELECT MIN(R.start_date - $4) AS max_duration
+                                                FROM RESERVATION AS R
+                                                JOIN SOCKET AS S ON R.socket_id = S.id
+                                                JOIN CP ON S.cp_id = CP.id
+                                                JOIN EVCP AS E ON CP.evcp_id = E.id
+                                                JOIN TYPE AS T ON S.type_id = T.id
+                                                WHERE E.id = $1 AND T.type_name = $2 AND S.power_kW = $3 AND R.start_date >= $4`, [id, type, power, timeFrom])
+            const row = res2.rows[0]
+            console.log(res2.rows[0].max_duration)
+            return row && row.max_duration ? { maxDuration: row.max_duration, inf: false } : { inf: true }
+        },
+
         checkAvailability: async (evcpID, type, power, timeFrom, timeTo) => {
             const res = await pool.query(dedent`SELECT S.id
                                                 FROM SOCKET AS S

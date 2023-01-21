@@ -42,7 +42,7 @@ export default function tabSelector({tabs, onTabChange}) {
 
     return <>
         <div className="flex w-full md:w-1/3 h-auto justify-center">
-            <div className="flex md:flex-col w-full h-min justify-evenly md:justify-start md:bg-searchInput max-sm:border-b-2 max-sm:border-searchInput md:rounded-2xl md:p-4 md:mt-12 md:mx-6">
+            <div className="flex md:flex-col w-full h-min justify-evenly md:justify-start md:bg-searchInput max-sm:border-b-2 md:rounded-2xl md:p-4 md:mt-12 md:mx-6">
                 {tabs.map(tab => (
                     <div id={tab} className="flex items-center cursor-pointer md:rounded-xl p-2 md:m-2 max-sm:border-b-2 md:border-2 hover:border-dk-secondary"
                     onClick={() => handleClick(tab)}>
