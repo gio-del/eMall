@@ -41,18 +41,24 @@ export default function DurationSlider({
     return time.toLocaleTimeString('en-US', options)
   }
   return (
-    <div className="flex flex-row justify-between items-center mt-2">
-      <input
-        className="h-2 bg-dk-secondary dark:bg-dk-primary rounded-lg appearance-none cursor-pointer"
-        type="range"
-        min={0}
-        max={maxTime.current}
-        step={0.5}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      <span>End: {endDate(value)}</span>
-      <span>Duration: {getTime(value)}</span>
+    <div>
+      <div className="flex flex-row justify-evenly items-center mt-2">
+      
+        <div className='bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary' onClick={(e) => setValue(value > 0 ? value - 0.5 : 0.0)}>
+          <p className='text-tertiary font-semibold'>-30min</p>
+        </div>
+        <div className=' dark:border-tertiary border-dk-secondary px-4 py-2 rounded-xl flex-col justify-center'>
+          <span className='dark:text-tertiary text-dk-secondary text-md font-semibold text-center'> {`${endDate(value)}`}</span>
+        </div>
+        <div className='bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary' onClick={(e) => setValue(value + 0.5)}>
+          <p className='text-tertiary font-semibold'>+30min</p>
+        </div>
+      </div>
+      <div className=' dark:border-tertiary border-dk-secondary px-4 py-2 rounded-xl flex justify-center'>
+          <span className='dark:text-tertiary text-dk-secondary font-medium text-center'> {`(${getTime(value)})`}</span>
+        </div>
+      
     </div>
+    
   )
 }

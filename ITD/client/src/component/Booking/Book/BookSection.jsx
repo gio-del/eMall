@@ -174,7 +174,7 @@ export default function BookSection({ connectors, id }) {
             {maxDuration && currentTimeStart && (
               <div className="mt-4">
                 <p className="text-dk-secondary dark:text-tertiary">
-                  Charge Duration
+                  Book until
                 </p>
                 <div className="px-2">
                   <DurationSlider
@@ -183,9 +183,9 @@ export default function BookSection({ connectors, id }) {
                     setCurrentDuration={setCurrentDuration}
                   />
                 </div>
-                {currentDuration && (
+                {(
                   <button
-                    className="mt-8 w-full bg-dk-primary rounded-full h-14"
+                    className={`mt-2 w-full bg-dk-primary text-tertiary font-semibold rounded-full h-14`}
                     onClick={book}
                   >
                     Book
