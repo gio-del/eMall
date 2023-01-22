@@ -81,16 +81,16 @@ exports.getQueryManager = async () => {
             const firstQuery = await pool.query('SELECT C.company_name, E.address FROM EVCP AS E, CPO AS C WHERE E.cpo_id = C.id AND E.id = $1', [evcpID])
             const rows1 = firstQuery.rows[0];
             if (!rows1) return
-            const secondQuery = await pool.query(dedent`SELECT DISTINCT T.type_name, S.id, TYPE_FREE.number AS "free", TYPE_TOTAL.number AS "total", R.flatprice, R.variableprice, S.power_kW
+            const secondQuery = await pool.query(dedent`SELECT DISTINCT T.type_name, TYPE_FREE.number AS "free", TYPE_TOTAL.number AS "total", R.flatprice, R.variableprice, S.power_kW
                                                         FROM EVCP AS E
                                                         JOIN CP ON E.id = CP.evcp_id
                                                         JOIN Socket AS S ON CP.id = S.cp_id
                                                         JOIN Type AS T ON S.type_id = T.id
-                                                        JOIN TYPE_FREE ON T.id = TYPE_FREE.id
-                                                        JOIN TYPE_TOTAL ON T.id = TYPE_TOTAL.id
+                                                        JOIN TYPE_FREE ON T.id = TYPE_FREE.id AND TYPE_FREE.power_kW = S.power_kW
+                                                        JOIN TYPE_TOTAL ON T.id = TYPE_TOTAL.id AND TYPE_TOTAL.power_kW = S.power_kW
                                                         JOIN Rate AS R ON R.evcp_id = E.id
                                                         WHERE E.id = $1 AND R.type_id = T.id AND TYPE_FREE.evcp_id = E.id AND TYPE_TOTAL.evcp_id = E.id`, [evcpID])
-            const rows2 = secondQuery.rows.map((row) => ({ typeName: row.type_name, socketID: row.id, freeSpots: row.free, totalSpots: row.total, flatPrice: row.flatprice, variablePrice: row.variableprice, power: row.power_kw }))
+            const rows2 = secondQuery.rows.map((row) => ({ typeName: row.type_name, freeSpots: row.free, totalSpots: row.total, flatPrice: row.flatprice, variablePrice: row.variableprice, power: row.power_kw }))
             return rows2 ? { companyName: rows1.company_name, address: rows1.address, evcpID: evcpID, connectors: rows2 } : undefined
         },
 
@@ -155,13 +155,13 @@ exports.getQueryManager = async () => {
                                                 JOIN EVCP AS E ON CP.evcp_id = E.id
                                                 JOIN TYPE AS T ON S.type_id = T.id
                                                 WHERE E.id = $1 AND type_name = $2 AND S.power_kW = $3
-                                                AND socket_id NOT IN
+                                                AND S.id NOT IN
                                                     (SELECT R.socket_id
                                                      FROM RESERVATION AS R
                                                      WHERE R.start_date < $4 AND R.end_date > $5
                                                     )`, [evcpID, type, power, timeFrom, timeTo])
             const rows = res.rows
-            return rows ? { socketID: rows.id } : undefined
+            return rows.length > 0 ? { socketID: rows[0].id } : undefined
         },
 
         addReservation: async (driverID, socketID, timeFrom, timeTo) => {

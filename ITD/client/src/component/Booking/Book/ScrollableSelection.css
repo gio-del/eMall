@@ -1,0 +1,22 @@
+.html,
+body {
+  overflow: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Works on Firefox */
+* {
+  scrollbar-width: 2px;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  height: 5px;
+  width: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #00abb3;
+  border-radius: 20px;
+}

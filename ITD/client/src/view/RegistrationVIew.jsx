@@ -17,7 +17,6 @@ export default function RegistrationView() {
   const navigate = useNavigate()
 
   const handleSubmitSignUp = async () => {
-    console.log(phoneNumber)
     const response = await fetch(`${BASE_API}/driver/user/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -31,7 +30,6 @@ export default function RegistrationView() {
 
     if (response.status === 200) {
       response.json().then((data) => {
-        console.log(data.id)
         setId(data.id)
         setIntervalId(
           setInterval(() => {

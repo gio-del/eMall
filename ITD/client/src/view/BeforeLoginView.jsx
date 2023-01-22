@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, useNavigate, useRoutes } from 'react-router-dom'
 import NavBar from '../component/NavBar'
 import LoginView from './LoginView'
-import RegistrationView from './RegistrationVIew'
+import RegistrationView from './RegistrationView'
 import WelcomeView from './WelcomeView'
 /**
  * This view should handle the token authentication, if there's a token redirect to the main content

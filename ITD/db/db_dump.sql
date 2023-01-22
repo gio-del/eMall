@@ -152,40 +152,30 @@ ALTER TABLE EVCP
     ADD CONSTRAINT evcp_lat_long_uk UNIQUE (latitude, longitude);
 
 -- VIEWS
-CREATE VIEW TYPE_FREE (id, evcp_id, number)
+CREATE VIEW TYPE_FREE (id, power_kW, evcp_id, number)
 AS (
     SELECT
+        T.id,
+        S.power_kW,
+        E.id,
+        COUNT(S.id) - COUNT(R.socket_id) AS free_spots
+    FROM
+        TYPE T
+        JOIN SOCKET S ON S.type_id = T.id
+        JOIN CP ON S.cp_id = CP.id
+        JOIN EVCP AS E ON cp.evcp_id = E.id
+        LEFT JOIN RESERVATION R ON R.socket_id = S.id
+            AND NOW() BETWEEN R.start_date AND R.end_date
+    GROUP BY
         T.id,
         E.id,
-        count(*)
-    FROM
-        EVCP AS E,
-        CP,
-        Socket AS S,
-        Type AS T
-    WHERE
-        CP.evcp_id = E.id
-        AND S.cp_id = CP.id
-        AND S.type_id = T.id
-        AND S.id NOT IN (
-            SELECT
-                S.id
-            FROM
-                Socket AS S,
-                Reservation AS R
-            WHERE
-                S.id = R.socket_id
-                AND NOW() > R.start_date
-                AND NOW() < R.end_date)
-        GROUP BY
-            T.id,
-            E.id,
-            S.power_kw);
+        S.power_kW);
 
-CREATE VIEW TYPE_TOTAL (id, evcp_id, number)
+CREATE VIEW TYPE_TOTAL (id, power_kW,evcp_id, number)
 AS (
     SELECT
         T.id,
+        S.power_kW,
         E.id,
         count(*)
     FROM
