@@ -95,28 +95,33 @@ exports.getQueryManager = async () => {
         },
 
         checkReservationSlots: async (id, type, power, date) => {
+            console.log('date:', date)
+
             const res1 = await pool.query(dedent`SELECT *
                                                  FROM RESERVATION AS R
-                                                 WHERE R.start_date <= $1 AND R.end_date >= $1`, [date])
-            date = new Date(date)
-            const tomorrow = new Date(new Date(date).getTime() + 24 * 60 * 60 * 1000)
-            tomorrow.setHours(0)
-            tomorrow.setMinutes(0)
-            tomorrow.setSeconds(0)
-            tomorrow.setMilliseconds(0)
-            const today = new Date(date)
-            today.setHours(0)
-            today.setMinutes(0)
-            today.setSeconds(0)
-            today.setMilliseconds(0)
+                                                 JOIN SOCKET AS S ON S.id = R.socket_id
+                                                 JOIN CP ON CP.id = S.cp_id
+                                                 JOIN EVCP AS E ON E.id = CP.evcp_id
+                                                 JOIN TYPE AS T ON T.id = S.type_id
+                                                 WHERE R.start_date <= $1 AND R.end_date >= $1 AND E.id = $2 AND T.type_name = $3 AND S.power_kW = $4`, [date, id, type, power])
+            console.log('RES1:', res1.rows)
+            let today = new Date(date)
+            let tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000))
+            console.log('today:', today)
+            console.log('tomorrow:', tomorrow)
             const res = await pool.query(dedent`SELECT *
                                                 FROM RESERVATION AS R
-                                                WHERE R.start_date >= $1 AND R.end_date <= $2
-                                                ORDER BY R.start_date`, [today, tomorrow])
+                                                JOIN SOCKET AS S ON S.id = R.socket_id
+                                                JOIN CP ON CP.id = S.cp_id
+                                                JOIN EVCP AS E ON E.id = CP.evcp_id
+                                                JOIN TYPE AS T ON T.id = S.type_id
+                                                WHERE R.start_date >= $1 AND R.end_date <= $2 AND E.id = $3 AND T.type_name = $4 AND S.power_kW = $5
+                                                ORDER BY R.start_date`, [today, tomorrow, id, type, power])
+            console.log('RES2:', res.rows)
             let first = res1.rowCount > 0 ? res1.rows[0].end_date : date
-            const queue = res.rows.filter(row => new Date(row.start_date) > date).reverse()
+            const queue = res.rows.filter(row => new Date(row.start_date) > new Date(date)).reverse()
             const slots = []
-            while (queue.length > 0) {
+            while (queue.length > 0 && new Date(first) < tomorrow) {
                 const nextFirst = queue.pop()
                 slots.push({ from: first, to: nextFirst.start_date })
                 first = nextFirst.end_date

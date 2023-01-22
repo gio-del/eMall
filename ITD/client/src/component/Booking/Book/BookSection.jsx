@@ -3,32 +3,63 @@ import ConnectorSVG from './../../utilitycomponent/ConnectorSVG'
 import { useState, useEffect } from 'react'
 import './BookSection.css'
 import Calendar from './Calendar'
-
-
-const mockupData = [{
-  from: '09:30:00',
-  to: '10:00:00'
-}, {
-  from: '11:30:00',
-  to: '13:00:00'
-}, {
-  from: '14:30:00',
-  to: '18:00:00'
-},{
-  from: '19:30:00',
-  to: '21:00:00'
-}]
+import { BASE_API } from '../../../constant'
 
 export default function BookSection({ connectors, id }) {
   const [typeName, setTypeName] = useState(connectors[0].typeName)
   const [power, setPower] = useState(connectors[0].power)
   const [selectedDate, setSelectedDate] = useState()
+  const [slots, setSlots] = useState()
   const [currentTimeStart, setCurrentTimeStart] = useState()
+  const [maxDuration, setMaxDuration] = useState()
   const [currentTimeEnd, setCurrentTimeEnd] = useState()
 
   const connectorIds = connectors.map(
     (connector) => connector.typeName + connector.power,
   )
+
+  const createDate = (data) => {
+    const split = data.split(':', 3)
+    const date = new Date()
+    date.setHours(split[0])
+    date.setMinutes(split[1])
+    date.setSeconds(split[2])
+    return date
+  }
+
+  const calculateFrom = (data) => {
+    const from = new Date(data.from)
+    const to = new Date(data.to)
+    let last = new Date(from.getTime())
+    const result = []
+    for (let i = 0; last.getTime() + 1000 * 60 * 30 < to.getTime(); i++) {
+      last = new Date(from.getTime() + 1000 * 60 * 30 * i)
+      result.push(last)
+    }
+    return result
+  }
+
+  const getMaxDuration = async () => {
+    if (!currentTimeStart) return
+    try {
+      const timeFrom = new Date()
+      timeFrom.setHours(currentTimeStart.split(':', 2)[0])
+      timeFrom.setMinutes(currentTimeStart.split(':', 2)[1])
+      const response = await fetch(
+        `${BASE_API}/driver/reserve/duration/${id}?type=${typeName}&power=${power}&timeFrom=${timeFrom.toUTCString()}`,
+        { credentials: 'include' },
+      )
+      const maxDuration = await response.json()
+      setMaxDuration(maxDuration)
+      console.log(maxDuration)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(() => {
+    getMaxDuration()
+  }, [currentTimeStart])
 
   useEffect(() => {
     connectorIds.forEach((id) => {
@@ -39,21 +70,39 @@ export default function BookSection({ connectors, id }) {
       ?.classList.add('checked')
   }, [typeName, power])
 
+  const getSlots = async () => {
+    if (!selectedDate) return
+    try {
+      const response = await fetch(
+        `${BASE_API}/driver/reserve/slot/${id}?type=${typeName}&power=${power}&date=${selectedDate}`,
+        { credentials: 'include' },
+      )
+      const jsonData = await response.json()
+      setSlots(jsonData)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(() => {
+    getSlots()
+  }, [selectedDate])
+
   const handleDateChange = (date) => {
     setSelectedDate(date)
   }
 
   return (
     <>
-      <div className='px-3 pb-3'>
+      <div className="px-3 pb-3">
         <div className="flex flex-row justify-around mt-7">
           {connectors.map((connector) => (
             <div key={connector.socketID}>
               <RadioComponent
                 id={`connector-${connector.typeName + connector.power}`}
                 onChange={() => {
-                  setTypeName(connector.typeName);
-                  setPower(connector.power);
+                  setTypeName(connector.typeName)
+                  setPower(connector.power)
                 }}
               >
                 <label
@@ -72,35 +121,41 @@ export default function BookSection({ connectors, id }) {
             </div>
           ))}
         </div>
-        <Calendar onDateChange={handleDateChange}/>
+        <Calendar onDateChange={handleDateChange} />
         <div className="mt-4">
           <p className="text-dk-secondary dark:text-tertiary">
             Start the charge at
           </p>
-          <div className="grid grid-cols-5 gap-4">
-            {mockupData.forEach((slot) => {
-              <RadioComponent id="anotherHour">
-              <label
-                htmlFor={`anotherHour`}
-                className="flex justify-center py-4 px-1 items-center rounded-2xl cursor-pointer dark:text-tertiary text-dk-secondary border-2 dark:border-tertiary border-dk-secondary"
-              >
-                <p className="font-semibold">{slot.from}</p>
-              </label>
-            </RadioComponent>
-            })}
+          <div className="grid grid-cols-5 gap-4 mt-1">
+            {slots &&
+              slots.map((data) =>
+                calculateFrom(data).map((slot) => (
+                  <RadioComponent
+                    key={`${slot.getHours()}:${slot.getMinutes()}`}
+                    id={`${slot.getHours()}:${slot.getMinutes()}`}
+                    onChange={(e) => setCurrentTimeStart(e.target.id)}
+                  >
+                    <label
+                      htmlFor={`${slot.getHours()}:${slot.getMinutes()}`}
+                      className="flex justify-center py-2 px-1 items-center rounded-2xl cursor-pointer dark:text-tertiary text-dk-secondary border-2 dark:border-tertiary border-dk-secondary"
+                    >
+                      <p className="font-semibold">{`${slot.getHours()}:${slot.getMinutes()}`}</p>
+                    </label>
+                  </RadioComponent>
+                )),
+              )}
           </div>
         </div>
         <div className="mt-4">
           <p className="text-dk-secondary dark:text-tertiary">
             End the charge at
           </p>
-          <div className="grid grid-cols-5 gap-4">
-          </div>
+          <div className="grid grid-cols-5 gap-4"></div>
           <button className="mt-8 w-full bg-dk-primary rounded-full h-14">
             Book
           </button>
         </div>
       </div>
     </>
-  );
+  )
 }

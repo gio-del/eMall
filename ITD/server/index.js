@@ -10,8 +10,15 @@ const PORT = 3000
 
 // middleware, json to parse incoming request, cors to avoid XSS attack and cookie-parser
 app.use(express.json())
-app.use(cors())
+app.use(cors({ origin: true, credentials: true }))
 app.use(cookieParser())
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Headers", "*");
+    res.header("Access-Control-Allow-Origin", req.headers.origin);
+    res.header("Access-Control-Allow-Credentials", true);
+    next();
+});
 
 // LOG requests
 app.use((req, res, next) => {

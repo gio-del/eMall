@@ -17,6 +17,7 @@ export default function LoginView() {
     const response = await fetch(`${BASE_API}/driver/user/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         phoneNumber: phoneNumber,
         password: password,
@@ -24,10 +25,8 @@ export default function LoginView() {
     })
 
     if (response.status === 200) {
-      response.json().then((data) => {
-        console.log(data.token)
-        setCookie('token', data.token, { path: '/' })
-      })
+      console.log(response.headers)
+      navigate('./../../map')
     } else response.json().then((data) => setError(data.error))
   }
 

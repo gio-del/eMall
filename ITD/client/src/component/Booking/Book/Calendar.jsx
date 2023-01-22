@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from 'react'
 import { RadioDate } from './RadioDate'
 import './Calendar.css'
 
-export default function Calendar({onDateChange}) {
+export default function Calendar({ onDateChange }) {
   const [selectedDate, setSelectedDate] = useState()
   const scrollTimerRef = useRef()
   const scrollVelocity = 150
   const dates = []
-  
+
   const onWheel = (e) => {
     const container = scrollRef.current
     const containerScrollPosition = scrollRef.current.scrollLeft
@@ -23,13 +23,12 @@ export default function Calendar({onDateChange}) {
   const selectableDates = () => {
     const startDate = new Date()
     const value = {
-      id: `${startDate.toISOString()}`,
+      id: `${startDate.toUTCString()}`,
       day: `${startDate.getDate()}`,
       name: `${startDate.toString().split(' ')[0]}`,
       month: `${startDate.toString().split(' ')[1]}`,
     }
     dates.push(value)
-
 
     for (let i = 0; i < 10; i++) {
       const currentDate = new Date(
@@ -40,7 +39,7 @@ export default function Calendar({onDateChange}) {
       currentDate.setSeconds(0)
       currentDate.setMilliseconds(0)
       const value = {
-        id: `${currentDate.toISOString()}`,
+        id: `${currentDate.toUTCString()}`,
         day: `${currentDate.getDate()}`,
         name: `${currentDate.toString().split(' ')[0]}`,
         month: `${currentDate.toString().split(' ')[1]}`,
@@ -62,15 +61,20 @@ export default function Calendar({onDateChange}) {
   useEffect(() => {
     const datesIds = dates.map((uniqueDay) => uniqueDay.day)
     datesIds.forEach((day) => {
-      document.getElementById(`date-${day}`)?.classList.remove('checked', 'text-tertiary')
-      document.getElementById(`date-label-${day}`)?.classList.add('text-dk-secondary')
+      document
+        .getElementById(`date-${day}`)
+        ?.classList.remove('checked', 'text-tertiary')
+      document
+        .getElementById(`date-label-${day}`)
+        ?.classList.add('text-dk-secondary')
     })
-    document.getElementById(`date-${selectedDate}`)?.classList.add('checked', 'text-tertiary')
-    document.getElementById(`date-label-${selectedDate}`)?.classList.remove('text-dk-secondary')
-    
+    document
+      .getElementById(`date-${selectedDate}`)
+      ?.classList.add('checked', 'text-tertiary')
+    document
+      .getElementById(`date-label-${selectedDate}`)
+      ?.classList.remove('text-dk-secondary')
   }, [selectedDate])
-
-  
 
   return (
     <>

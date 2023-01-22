@@ -90,7 +90,7 @@ router.post('/login', async (req, res) => {
         const valid = await queryManagerInterface.checkDriverCredentials(phoneNumber, password)
         if (valid) {
             const token = await queryManagerInterface.createDriverToken(user.driverID)
-            return res.status(200).json({ token: token })
+            return res.status(200).cookie('token', token, { maxAge: 60 * 60 * 24 * 20 * 1000, httpOnly: false }).json({ message: 'Cookie Token has been set' });
         }
         else {
             return res.status(401).json({ error: 'Phone number or Password are wrong' })
