@@ -59,7 +59,14 @@ CREATE TABLE RESERVATION (
     driver_id int NOT NULL,
     total_price decimal(10, 2) NULL,
     socket_id int NOT NULL,
-    chargedKWh real NULL
+    chargedKWh real NULL,
+    CONSTRAINT no_two_overlapping_reservation CHECK (NOT EXISTS (
+    SELECT
+        *
+    FROM
+        RESERVATION AS NEW
+    WHERE
+        socket_id = NEW.socket_id AND (start_date, end_date) OVERLAPS(NEW.start_date, NEW.end_date)))
 );
 
 -- Table: rate
@@ -171,7 +178,7 @@ AS (
         E.id,
         S.power_kW);
 
-CREATE VIEW TYPE_TOTAL (id, power_kW,evcp_id, number)
+CREATE VIEW TYPE_TOTAL (id, power_kW, evcp_id, number)
 AS (
     SELECT
         T.id,

@@ -24,17 +24,20 @@ export default function BookSection({ connectors, id }) {
   )
 
   const slotIds = (slotArray) => {
-    return slotArray.map((data) => {
-      return calculateFrom(data).map((slot) => {
-        return `${slot.getHours()}:${slot.getMinutes()}`
+    return slotArray
+      .map((data) => {
+        return calculateFrom(data).map((slot) => {
+          return `${slot.getHours()}:${slot.getMinutes()}`
+        })
       })
-    })[0]
+      .flat(1)
   }
 
   const calculateFrom = (data) => {
+    if (!slots) return
     const from = new Date(data.from)
     const to = new Date(data.to)
-    const midnight = new Date(from)
+    const midnight = new Date(selectedDate)
     midnight.setHours(24)
     midnight.setMinutes(0)
     midnight.setSeconds(0)
@@ -51,6 +54,7 @@ export default function BookSection({ connectors, id }) {
     }
     return result
   }
+
   const dateFrom = () => {
     const timeFrom = new Date(selectedDate)
     timeFrom.setHours(currentTimeStart.split(':', 2)[0])
@@ -59,7 +63,7 @@ export default function BookSection({ connectors, id }) {
     return timeFrom
   }
   const book = async () => {
-    if (!currentTimeStart && !currentDuration) return
+    if (!currentTimeStart || !currentDuration || !(currentDuration > 0)) return
     try {
       const from = dateFrom()
       const to = new Date(from)
@@ -133,7 +137,7 @@ export default function BookSection({ connectors, id }) {
       )
       if (response.status === 200) {
         const jsonData = await response.json()
-        jsonData.map
+
         setSlots(jsonData)
       }
     } catch (err) {
@@ -183,14 +187,14 @@ export default function BookSection({ connectors, id }) {
                     setCurrentDuration={setCurrentDuration}
                   />
                 </div>
-                {(
+                {
                   <button
                     className={`mt-2 w-full bg-dk-primary text-tertiary font-semibold rounded-full h-14`}
                     onClick={book}
                   >
                     Book
                   </button>
-                )}
+                }
               </div>
             )}
           </>

@@ -13,6 +13,7 @@ export default function DurationSlider({
     if (maxDuration.inf) {
       maxTime.current = 5
     } else {
+      console.log('slid', maxDuration)
       maxTime.current = Math.min(
         5,
         maxDuration.hours +
@@ -43,22 +44,33 @@ export default function DurationSlider({
   return (
     <div>
       <div className="flex flex-row justify-evenly items-center mt-2">
-      
-        <div className='bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary' onClick={(e) => setValue(value > 0 ? value - 0.5 : 0.0)}>
-          <p className='text-tertiary font-semibold'>-30min</p>
+        <div
+          className="bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary"
+          onClick={(e) => setValue(value > 0 ? value - 0.5 : 0.0)}
+        >
+          <p className="text-tertiary font-semibold">-30min</p>
         </div>
-        <div className=' dark:border-tertiary border-dk-secondary px-4 py-2 rounded-xl flex-col justify-center'>
-          <span className='dark:text-tertiary text-dk-secondary text-md font-semibold text-center'> {`${endDate(value)}`}</span>
+        <div className=" dark:border-tertiary border-dk-secondary px-4 py-2 rounded-xl flex-col justify-center">
+          <span className="dark:text-tertiary text-dk-secondary text-md font-semibold text-center">
+            {' '}
+            {`${endDate(value)}`}
+          </span>
         </div>
-        <div className='bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary' onClick={(e) => setValue(value + 0.5)}>
-          <p className='text-tertiary font-semibold'>+30min</p>
+        <div
+          className="bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary"
+          onClick={(e) =>
+            setValue(value < maxTime.current ? value + 0.5 : value)
+          }
+        >
+          <p className="text-tertiary font-semibold">+30min</p>
         </div>
       </div>
-      <div className=' dark:border-tertiary border-dk-secondary px-4 py-2 rounded-xl flex justify-center'>
-          <span className='dark:text-tertiary text-dk-secondary font-medium text-center'> {`(${getTime(value)})`}</span>
-        </div>
-      
+      <div className=" dark:border-tertiary border-dk-secondary px-4 py-2 rounded-xl flex justify-center">
+        <span className="dark:text-tertiary text-dk-secondary font-medium text-center">
+          {' '}
+          {`(${getTime(value)})`}
+        </span>
+      </div>
     </div>
-    
   )
 }

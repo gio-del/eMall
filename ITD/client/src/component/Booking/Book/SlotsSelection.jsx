@@ -8,12 +8,9 @@ export default function SlotsSelection({
   return (
     <>
       {slots &&
-        slots.map((data) =>
-          calculateFrom(data).map((slot) => (
-            <div
-              key={`${slot.getHours()}:${slot.getMinutes()}`}
-              className="px-2"
-            >
+        slots.map((data, outer) =>
+          calculateFrom(data).map((slot, inner) => (
+            <div key={`${outer}-${inner}`} className="px-2">
               <RadioComponent
                 id={`${slot.getHours()}:${slot.getMinutes()}`}
                 onChange={(e) => setCurrentTimeStart(e.target.id)}
