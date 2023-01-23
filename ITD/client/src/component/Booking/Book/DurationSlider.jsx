@@ -49,29 +49,31 @@ export default function DurationSlider({
     <div>
       <div className="flex flex-row justify-evenly items-center mt-2">
         <div
-          className="hover:bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary"
+          className="hover:bg-dk-primary bg-inherit px-4 py-2 rounded-xl cursor-pointer border-2 dark:border-tertiary border-dk-secondary"
           onClick={(e) => setValue(value > 0 ? value - 0.5 : 0.0)}
         >
-          <p className="text-tertiary font-semibold">-30min</p>
+          <p className="dark:text-tertiary text-dk-secondary font-semibold">
+            -30min
+          </p>
         </div>
         <div className=" dark:border-tertiary border-dk-secondary px-4 py-2 rounded-xl flex-col justify-center">
           <span className="dark:text-tertiary text-dk-secondary text-md font-semibold text-center">
-            {' '}
             {`${endDate(value)}`}
           </span>
         </div>
         <div
-          className="hover:bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary"
+          className="hover:bg-dk-primary bg-inherit px-4 py-2 rounded-xl cursor-pointer border-2 dark:border-tertiary border-dk-secondary"
           onClick={(e) =>
             setValue(value < maxTime.current ? value + 0.5 : value)
           }
         >
-          <p className="text-tertiary font-semibold">+30min</p>
+          <p className="dark:text-tertiary text-dk-secondary font-semibold">
+            +30min
+          </p>
         </div>
       </div>
       <div className=" dark:border-tertiary border-dk-secondary px-4 py-2 rounded-xl flex justify-center">
         <span className="dark:text-tertiary text-dk-secondary font-medium text-center">
-          {' '}
           {`(${getTime(value)})`}
         </span>
       </div>

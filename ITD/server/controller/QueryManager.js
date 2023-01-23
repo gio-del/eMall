@@ -58,7 +58,7 @@ exports.getQueryManager = async () => {
         checkVerificationCode: async (driverID) => {
             const res = await pool.query('SELECT * FROM DRIVER_CODE AS DC, DRIVER AS D WHERE DC.driver_id = D.id AND DC.driver_id = $1', [driverID])
             const row = res.rows[0]
-            return row ? { code: row.code, expiryDate: row.expiry_date, phoneNumber: row.phone } : undefined
+            return row ? { code: row.code, expiryDate: new Date(row.expiry_date), phoneNumber: row.phone } : undefined
         },
 
         updatePin: async (driverID, newPin) => {

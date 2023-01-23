@@ -16,9 +16,8 @@ CREATE TABLE CP (
 CREATE TABLE CPO (
     id serial PRIMARY KEY,
     company_name varchar(255) NOT NULL,
-    VAT_ID varchar(16) NOT NULL,
     email varchar(255) NOT NULL,
-    password varchar(255) NOT NULL,
+    password varchar(60) NOT NULL,
     CONSTRAINT company_ak_1 UNIQUE (VAT_ID) NOT DEFERRABLE INITIALLY IMMEDIATE
 );
 

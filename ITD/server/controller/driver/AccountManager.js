@@ -19,8 +19,11 @@ router.post('/signup', async (req, res) => {
     const queryManagerInterface = await queryManager.getQueryManager()
 
     const user = await queryManagerInterface.findDriverByPhoneNumber(phoneNumber)
-
-    if (!user) {
+    let oldCode
+    if (user) oldCode = await queryManagerInterface.checkVerificationCode(user.driverID)
+    console.log(oldCode)
+    if (!user || oldCode) {
+        if (user) await queryManagerInterface.deleteUser(user.driverID)
         const hash = await bcrypt.hash(password, 10)
         const driverID = await queryManagerInterface.createDriver(firstName, lastName, hash, phoneNumber)
         const code = getCode()
@@ -29,9 +32,8 @@ router.post('/signup', async (req, res) => {
         return res.status(200).json({ message: 'A verification code is sent via SMS', id: driverID })
     }
 
-    else {
-        return res.status(409).json({ error: 'An account with the same phone number already exist, retry' })
-    }
+    else return res.status(409).json({ error: 'An account with the same phone number already exist, retry' })
+
 })
 
 router.post('/code', async (req, res) => {
@@ -96,7 +98,8 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Phone number or Password are wrong' })
         }
     } else {
-        // sendCode and usual stuff
+        await queryManagerInterface.deleteUser(user.driverID)
+        return res.status(410).json({ error: "User not verified. Register a new account." })
     }
 })
 

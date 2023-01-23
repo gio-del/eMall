@@ -10,7 +10,7 @@ export default function RegistrationView() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [id, setId] = useState(0)
-  const [code, setCode] = useState()
+  const [code, setCode] = useState('')
   const [showVerification, setShowVerification] = useState(false)
   const [seconds, setSeconds] = useState(120)
   const [intervalId, setIntervalId] = useState()
@@ -51,7 +51,7 @@ export default function RegistrationView() {
       }),
     })
     if (response.status === 200) navigate('../login')
-    else response.json((data) => setError(data.error))
+    else response.json().then((data) => setError(data.error))
   }
 
   const handleSubmit = async (e) => {
@@ -86,6 +86,7 @@ export default function RegistrationView() {
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              required
             />
           </div>
           <div className="mb-4">
@@ -101,6 +102,7 @@ export default function RegistrationView() {
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              required
             />
           </div>
           <div className="mb-4">
@@ -117,6 +119,7 @@ export default function RegistrationView() {
               pattern="[0-9]{10}"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
+              required
             />
           </div>
           <div className="mb-4">
@@ -132,6 +135,7 @@ export default function RegistrationView() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
@@ -160,6 +164,7 @@ export default function RegistrationView() {
               placeholder="Enter 6-digit code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
+              required
             />
           </div>
           <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
