@@ -59,14 +59,7 @@ CREATE TABLE RESERVATION (
     driver_id int NOT NULL,
     total_price decimal(10, 2) NULL,
     socket_id int NOT NULL,
-    charged_kWh real NULL,
-    CONSTRAINT no_two_overlapping_reservation CHECK (NOT EXISTS (
-    SELECT
-        *
-    FROM
-        RESERVATION AS NEW
-    WHERE
-        socket_id = NEW.socket_id AND (start_date, end_date) OVERLAPS(NEW.start_date, NEW.end_date)))
+    charged_kWh real NULL
 );
 
 -- Table: rate
@@ -109,6 +102,9 @@ CREATE TABLE DRIVER (
     notification_preferences boolean,
     password varchar(60) NOT NULL
 );
+
+-- Avoid Overlapping Reservations
+CREATE UNIQUE INDEX no_two_overlapping_reservation ON reservation (socket_id, start_date, end_date);
 
 -- foreign keys
 -- Reference: car_driver (table: car)

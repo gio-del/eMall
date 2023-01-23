@@ -17,8 +17,8 @@ export default function Tab({ currentTab, setCurrentTab, reservations }) {
         />
         <div className="flex w-full justify-center h-min">
           <div className="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-4 w-full overflow-hidden m-6">
-            {reservations.map((reservation) => (
-              <SingleReservation reservation={reservation} />
+            {reservations.map((reservation, idx) => (
+              <SingleReservation key={idx} reservation={reservation} />
             ))}
           </div>
         </div>

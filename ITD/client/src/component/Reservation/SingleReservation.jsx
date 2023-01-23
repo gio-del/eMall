@@ -1,10 +1,4 @@
-import { useEffect } from 'react'
-import ConnectorSVG from '../utilitycomponent/ConnectorSVG'
-
 export default function SingleReservation({ reservation }) {
-  useEffect(() => {
-    console.log(reservation)
-  }, [reservation])
   return (
     <>
       <div className="flex flex-col">
@@ -12,8 +6,8 @@ export default function SingleReservation({ reservation }) {
           <p className="dark:text-tertiary font-medium italic text">{`${new Date(
             reservation.timeFrom,
           )
-            .toISOString()
-            .substring(0, 10)}`}</p>
+            .toString()
+            .substring(3, 15)}`}</p>
         </div>
         <div className="flex flex-col border-2 dark:border-searchInput rounded-3xl py-2 px-4">
           <div className="flex justify-between my-2">
@@ -39,14 +33,20 @@ export default function SingleReservation({ reservation }) {
             <div className="flex flex-col">
               <p className="text-tertiary text-sm">From</p>
               <p className="text-tertiary text-md font-medium">
-                {new Date(reservation.timeFrom).toISOString().substring(11, 16)}
+                {new Date(reservation.timeFrom)
+                  .toString()
+                  .substring(15, 21)
+                  .trim()}
               </p>
             </div>
             <div className="border-b-2 border-white"></div>
             <div className="flex flex-col">
               <p className="text-tertiary text-right text-sm">To</p>
               <p className="text-tertiary text-right text-md font-medium">
-                {new Date(reservation.timeTo).toISOString().substring(11, 16)}
+                {new Date(reservation.timeTo)
+                  .toString()
+                  .substring(15, 21)
+                  .trim()}
               </p>
             </div>
           </div>

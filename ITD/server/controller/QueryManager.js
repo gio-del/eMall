@@ -201,8 +201,15 @@ exports.getQueryManager = async () => {
         },
 
         getDriverReservations: async (driverID) => {
-            const res = await pool.query('SELECT * FROM RESERVATION WHERE driver_id = $1', [driverID])
-            const rows = res.rows.map((row) => ({ timeFrom: row.start_date, timeTo: row.end_date, discount: row.discount_percent, driverID: row.driver_id, totalPrice: row.total_price, socketID: row.socket_id, chargedkWh: row.charged_kWh }))
+            const res = await pool.query(dedent`SELECT C.company_name, E.address, R.start_date, R.end_date, T.type_name, S.power_kw, R.total_price, R.charged_kwh, R.discount_percent
+                                                FROM RESERVATION AS R
+                                                JOIN SOCKET AS S ON S.id = R.socket_id
+                                                JOIN CP ON CP.id = S.cp_id
+                                                JOIN EVCP AS E ON E.id = CP.evcp_id
+                                                JOIN TYPE AS T ON T.id = S.type_id
+                                                JOIN CPO AS C ON C.id = E.cpo_id
+                                                WHERE R.driver_id = $1`, [driverID])
+            const rows = res.rows.map((row) => ({ cpo: row.company_name, address: row.address, timeFrom: row.start_date, timeTo: row.end_date, connectorTypeName: row.type_name, connectorPower: row.power_kw, discount: row.discount_percent, totalPrice: row.total_price, chargedkWh: row.charged_kwh }))
             return rows
         },
 

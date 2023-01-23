@@ -23,8 +23,6 @@ export default function Reservation() {
 
         const now = new Date()
         now.setSeconds(0)
-
-        console.log(jsonData)
         jsonData.forEach((data) => {
           if (new Date(data.timeTo) > now) {
             newUpcomingReservations.push(data)
