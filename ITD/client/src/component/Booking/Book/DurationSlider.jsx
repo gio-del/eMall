@@ -13,15 +13,19 @@ export default function DurationSlider({
     if (maxDuration.inf) {
       maxTime.current = 5
     } else {
-      console.log('slid', maxDuration)
       maxTime.current = Math.min(
         5,
-        maxDuration.hours +
-          maxDuration.minutes / 60 +
-          maxDuration.seconds / 3600,
+        (maxDuration?.maxDuration?.days || 0) * 24 +
+          (maxDuration?.maxDuration?.hours || 0) +
+          (maxDuration?.maxDuration?.minutes || 0) / 60 +
+          (maxDuration?.maxDuration?.seconds || 0) / 3600,
       )
     }
   }, [maxDuration])
+
+  useEffect(() => {
+    setValue(0)
+  }, [currentTimeStart])
 
   useEffect(() => {
     setCurrentDuration(value)

@@ -1,5 +1,6 @@
 import DirectionButtonUtility from '../../utilitycomponent/DirectionButtonUtility'
 import ConnectorSVG from '../../utilitycomponent/ConnectorSVG'
+import { useEffect } from 'react'
 
 export default function DrawerContent({ Connectors, setBooking }) {
   const onClick = () => {
@@ -21,7 +22,7 @@ export default function DrawerContent({ Connectors, setBooking }) {
         </p>
         {Connectors.map((connector) => (
           <div
-            key={connector.socketID}
+            key={`${connector.typeName}-${connector.power}`}
             className="flex flex-row justify-start border-2 border-dk-secondary dark:border-tertiary rounded-2xl mt-2"
           >
             <ConnectorSVG type={connector.typeName} />

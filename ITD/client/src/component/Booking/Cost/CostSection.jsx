@@ -5,7 +5,10 @@ export default function CostSection({ connectors }) {
     <>
       <div className="flex flex-col px-3 w-full">
         {connectors.map((connector) => (
-          <div className="flex-grow" key={connector.socketID}>
+          <div
+            className="flex-grow"
+            key={`${connector.typeName}-${connector.power}`}
+          >
             <div className="flex p-4">
               <div className="flex flex-col border-2 rounded-2xl border-tertiary px-6">
                 <div className="flex flex-grow items-center justify-center">

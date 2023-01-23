@@ -9,7 +9,7 @@ export default function ConnectorsSelection({
   return (
     <div className="flex flex-row justify-around mt-7">
       {connectors.map((connector) => (
-        <div key={connector.socketID}>
+        <div key={`${connector.typeName}-${connector.power}`}>
           <RadioComponent
             id={`connector-${connector.typeName + connector.power}`}
             onChange={() => {

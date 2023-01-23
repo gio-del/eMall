@@ -202,7 +202,7 @@ exports.getQueryManager = async () => {
 
         getDriverReservations: async (driverID) => {
             const res = await pool.query('SELECT * FROM RESERVATION WHERE driver_id = $1', [driverID])
-            const rows = res.rows.map((row) => ({ timeFrom: row.start_date, timeTo: row.end_date, discount: row.discount_percent, driverID: row.driver_id, totalPrice: row.total_price, socketID: row.socket_id, chargedKWh: row.chargedKWh }))
+            const rows = res.rows.map((row) => ({ timeFrom: row.start_date, timeTo: row.end_date, discount: row.discount_percent, driverID: row.driver_id, totalPrice: row.total_price, socketID: row.socket_id, chargedkWh: row.charged_kWh }))
             return rows
         },
 

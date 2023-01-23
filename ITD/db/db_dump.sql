@@ -59,7 +59,7 @@ CREATE TABLE RESERVATION (
     driver_id int NOT NULL,
     total_price decimal(10, 2) NULL,
     socket_id int NOT NULL,
-    chargedKWh real NULL,
+    charged_kWh real NULL,
     CONSTRAINT no_two_overlapping_reservation CHECK (NOT EXISTS (
     SELECT
         *
