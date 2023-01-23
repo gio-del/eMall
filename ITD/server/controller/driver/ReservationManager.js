@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
         const user = await authenticate(token)
         if (user) {
             const queryManagerInterface = await queryManager.getQueryManager()
-            const reservations = await queryManagerInterface.getDriverReservations(user.driverID)
+            const reservations = await queryManagerInterface.getDriverReservations(user)
             return res.status(200).json(reservations)
         }
     }
@@ -55,8 +55,7 @@ router.post('/:id', async (req, res) => {
         const token = req.cookies.token
         const user = await authenticate(token)
         if (user) {
-            const userID = user.driverID
-            const resBooking = await book(userID, id, type, power, timeFrom, timeTo)
+            const resBooking = await book(user, id, type, power, timeFrom, timeTo)
             if (resBooking) return res.status(200).json({ message: "The reservation has been accepted" })
             else return res.status(409).json({ error: 'Conflict' })
         }

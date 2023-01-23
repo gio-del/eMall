@@ -1,14 +1,9 @@
 export default function CheckBox({ id, label, onChange }) {
-  function handleChange(e) {
-    document.getElementById('CCS').innerHTML = 'ciao'
-    onChange(e)
-  }
-
   return (
     <div className="w-full">
       <input
         onChange={(e) => {
-          handleChange(e)
+          onChange(e)
         }}
         type="checkbox"
         id={id}

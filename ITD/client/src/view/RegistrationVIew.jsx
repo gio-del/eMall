@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import FormField from '../component/utilitycomponent/FormField'
+import RadioButton from '../component/utilitycomponent/RadioButton'
 import { BASE_API } from '../constant'
 
 export default function RegistrationView() {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [companyName, setCompanyName] = useState('')
+  const [email, setEmail] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -14,9 +17,11 @@ export default function RegistrationView() {
   const [showVerification, setShowVerification] = useState(false)
   const [seconds, setSeconds] = useState(120)
   const [intervalId, setIntervalId] = useState()
+  const [role, setRole] = useState('Driver')
+
   const navigate = useNavigate()
 
-  const handleSubmitSignUp = async () => {
+  const handleSubmitDriverSignUp = async () => {
     const response = await fetch(`${BASE_API}/driver/user/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -41,7 +46,31 @@ export default function RegistrationView() {
     } else response.json().then((data) => setError(data.error))
   }
 
-  const handleSubmitCode = async () => {
+  const handleSubmitCPOSignUp = async () => {
+    const response = await fetch(`${BASE_API}/cpo/user/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        companyName: companyName,
+        email: email,
+        password: password,
+      }),
+    })
+
+    if (response.status === 200) {
+      response.json().then((data) => {
+        setId(data.id)
+        setIntervalId(
+          setInterval(() => {
+            setSeconds((seconds) => seconds - 1)
+          }, 1000),
+        )
+        setShowVerification(true)
+      })
+    } else response.json().then((data) => setError(data.error))
+  }
+
+  const handleSubmitDriverCode = async () => {
     const response = await fetch(`${BASE_API}/driver/user/code`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -54,11 +83,34 @@ export default function RegistrationView() {
     else response.json().then((data) => setError(data.error))
   }
 
+  const handleSubmitCPOCode = async () => {
+    const response = await fetch(`${BASE_API}/cpo/user/code`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        cpoID: id,
+        code: parseInt(code),
+      }),
+    })
+    if (response.status === 200) navigate('../login')
+    else response.json().then((data) => setError(data.error))
+  }
+
+  const handleDriverSubmit = async () => {
+    if (!showVerification) await handleSubmitDriverSignUp()
+    else await handleSubmitDriverCode()
+  }
+
+  const handleCPOSubmit = async () => {
+    if (!showVerification) await handleSubmitCPOSignUp()
+    else await handleSubmitCPOCode()
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    if (!showVerification) await handleSubmitSignUp()
-    else await handleSubmitCode()
+    if (role === 'Driver') await handleDriverSubmit()
+    else if (role === 'CPO') await handleCPOSubmit()
   }
 
   useEffect(() => {
@@ -73,100 +125,95 @@ export default function RegistrationView() {
       {!showVerification && (
         <form className="bg-white p-6 rounded-lg" onSubmit={handleSubmit}>
           <h2 className="text-lg font-medium mb-4">Sign Up</h2>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 font-medium mb-2"
-              htmlFor="firstName"
-            >
-              First Name
-            </label>
-            <input
-              className="border border-gray-400 p-2 rounded-lg w-full"
-              id="firstName"
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
+          <p>Select a Role</p>
+          <div className="flex flex-row gap-10">
+            <RadioButton role={role} name="Driver" setRole={setRole} />
+            <RadioButton role={role} name="CPO" setRole={setRole} />
           </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 font-medium mb-2"
-              htmlFor="lastName"
-            >
-              Last Name
-            </label>
-            <input
-              className="border border-gray-400 p-2 rounded-lg w-full"
-              id="lastName"
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 font-medium mb-2"
-              htmlFor="phoneNumber"
-            >
-              Phone Number
-            </label>
-            <input
-              className="border border-gray-400 p-2 rounded-lg w-full"
-              id="phoneNumber"
-              type="tel"
-              pattern="[0-9]{10}"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 font-medium mb-2"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <input
-              className="border border-gray-400 p-2 rounded-lg w-full"
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-            Sign Up
-          </button>
+          {role === 'Driver' && (
+            <>
+              <FormField
+                id="firstName"
+                type="text"
+                onChange={(e) => setFirstName(e.target.value)}
+                value={firstName}
+              >
+                First Name
+              </FormField>
+              <FormField
+                id="lastName"
+                type="text"
+                onChange={(e) => setLastName(e.target.value)}
+                value={lastName}
+              >
+                Last Name
+              </FormField>
+              <FormField
+                id="phoneNumber"
+                type="tel"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                pattern="[0-9]{10}"
+                value={phoneNumber}
+              >
+                Phone Number
+              </FormField>
+            </>
+          )}
+          {role === 'CPO' && (
+            <>
+              <FormField
+                id="companyName"
+                type="text"
+                onChange={(e) => setCompanyName(e.target.value)}
+                value={companyName}
+              >
+                Company Name
+              </FormField>
+              <FormField
+                id="email"
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              >
+                Email
+              </FormField>
+            </>
+          )}
+          {(role === 'Driver' || role === 'CPO') && (
+            <>
+              <FormField
+                id="password"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              >
+                Password
+              </FormField>
+              <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
+                Sign Up
+              </button>
+            </>
+          )}
         </form>
       )}
       {showVerification && (
         <form className="bg-white p-6 rounded-lg" onSubmit={handleSubmit}>
           <h2 className="text-lg font-medium mb-4">Account Verification</h2>
           <p>
-            An SMS with a 6-digit code has been sent. Time remaining: {seconds}
+            {`${
+              role === 'Driver' ? 'An SMS' : 'A mail'
+            } with a 6-digit code has been sent. Time remaining: ${seconds}`}
           </p>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 font-medium mb-2"
-              htmlFor="code"
-            >
-              Code
-            </label>
-            <input
-              className="border border-gray-400 p-2 rounded-lg w-full"
-              type="text"
-              pattern="[0-9]{6}"
-              placeholder="Enter 6-digit code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              required
-            />
-          </div>
+          <FormField
+            id="code"
+            type="text"
+            onChange={(e) => setCode(e.target.value)}
+            pattern="[0-9]{6}"
+            placeholder="Enter 6-digit code"
+            value={code}
+          >
+            Code
+          </FormField>
           <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
             Submit
           </button>

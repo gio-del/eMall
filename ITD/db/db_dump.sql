@@ -17,19 +17,26 @@ CREATE TABLE CPO (
     id serial PRIMARY KEY,
     company_name varchar(255) NOT NULL,
     email varchar(255) NOT NULL,
-    password varchar(60) NOT NULL,
-    CONSTRAINT company_ak_1 UNIQUE (VAT_ID) NOT DEFERRABLE INITIALLY IMMEDIATE
+    password varchar(60) NOT NULL
 );
 
 CREATE TABLE TOKEN (
     id serial PRIMARY KEY,
     driver_id int UNIQUE,
+    cpo_id int UNIQUE,
     token varchar(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE DRIVER_CODE (
     id serial PRIMARY KEY,
     driver_id int UNIQUE,
+    expiry_date timestamp NOT NULL,
+    code int NOT NULL
+);
+
+CREATE TABLE CPO_CODE (
+    id serial PRIMARY KEY,
+    cpo_id int UNIQUE,
     expiry_date timestamp NOT NULL,
     code int NOT NULL
 );
@@ -113,8 +120,14 @@ ALTER TABLE CAR
 ALTER TABLE DRIVER_CODE
     ADD CONSTRAINT code_driver FOREIGN KEY (driver_id) REFERENCES DRIVER (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
+ALTER TABLE CPO_CODE
+    ADD CONSTRAINT code_cpo FOREIGN KEY (cpo_id) REFERENCES CPO (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+
 ALTER TABLE TOKEN
     ADD CONSTRAINT token_driver FOREIGN KEY (driver_id) REFERENCES DRIVER (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE TOKEN
+    ADD CONSTRAINT token_cpo FOREIGN KEY (cpo_id) REFERENCES CPO (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- Reference: cp_evcp (table: cp)
 ALTER TABLE CP

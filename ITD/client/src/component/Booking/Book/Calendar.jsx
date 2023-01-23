@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { RadioDate } from './RadioDate'
+import RadioComponent from './RadioComponent'
 
 export default function Calendar({ onDateChange }) {
   const [selectedDate, setSelectedDate] = useState()
@@ -65,7 +65,7 @@ export default function Calendar({ onDateChange }) {
             <p className="text-sm mb-2 text-dk-secondary dark:text-tertiary">
               {uniqueDay.name}
             </p>
-            <RadioDate
+            <RadioComponent
               id={`date-${uniqueDay.day}`}
               onChange={() => handleChange(uniqueDay)}
             />

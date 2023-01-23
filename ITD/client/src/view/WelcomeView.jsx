@@ -13,13 +13,13 @@ export default function WelcomeView() {
 
   const onInstallClick = async () => {
     if (deferredInstallRef !== null) {
-        deferredInstallRef.current.prompt();
-        const { outcome } = await deferredInstallRef.current.userChoice;
-        if (outcome === 'accepted') {
-            deferredInstallRef.current = null;
-        }
+      deferredInstallRef.current.prompt()
+      const { outcome } = await deferredInstallRef.current.userChoice
+      if (outcome === 'accepted') {
+        deferredInstallRef.current = null
+      }
     }
-}
+  }
 
   return (
     <div className="py-10 dark:bg-dk-secondary bg-dk-primary">
@@ -31,7 +31,10 @@ export default function WelcomeView() {
           <h3 className="text-xl sm:text-3xl mb-8 text-dk-secondary dark:text-tertiary">
             Make your charging processes easy, non plan-ruiner and fun
           </h3>
-          <button className="bg-white hover:outline-dk-secondary dark:hover:outline-dk-primary outline-none outline-2 font-bold rounded-full py-4 px-8 shadow-lg uppercase tracking-wider" onClick={onInstallClick}>
+          <button
+            className="bg-white hover:outline-dk-secondary dark:hover:outline-dk-primary outline-none outline-2 font-bold rounded-full py-4 px-8 shadow-lg uppercase tracking-wider"
+            onClick={onInstallClick}
+          >
             Discover now
           </button>
         </div>

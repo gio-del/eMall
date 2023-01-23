@@ -17,17 +17,44 @@ exports.getQueryManager = async () => {
             const res = await pool.query('INSERT INTO DRIVER(first_name, last_name, password, phone) VALUES($1,$2,$3,$4) RETURNING *', [firstName, lastName, password, phoneNumber])
             return res.rows[0].id
         },
-
+        createCPO: async (companyName, password, email) => {
+            const res = await pool.query('INSERT INTO CPO(company_name, password, email) VALUES($1,$2,$3) RETURNING *', [companyName, password, email])
+            return res.rows[0].id
+        },
         findDriverByPhoneNumber: async (phoneNumber) => {
             const res = await pool.query('SELECT * FROM DRIVER WHERE phone = $1', [phoneNumber])
             const row = res.rows[0]
             return row ? { driverID: row.id } : undefined
+        },
+        findCPOByEmail: async (email) => {
+            const res = await pool.query('SELECT * FROM CPO WHERE email = $1', [email])
+            const row = res.rows[0]
+            return row ? { cpoID: row.id } : undefined
         },
 
         checkDriverCredentials: async (phoneNumber, password) => {
             const res = await pool.query('SELECT * FROM DRIVER WHERE phone = $1', [phoneNumber])
             user = res.rows[0]
             return bcrypt.compareSync(password, user.password)
+        },
+
+        checkCPOCredentials: async (email, password) => {
+            const res = await pool.query('SELECT * FROM CPO WHERE email = $1', [email])
+            user = res.rows[0]
+            return bcrypt.compareSync(password, user.password)
+        },
+
+        createCPOToken: async (cpoID) => {
+            await pool.query('DELETE FROM TOKEN WHERE cpo_id = $1', [cpoID])
+            let token = uuid.v4()
+            let tokenTuple = await pool.query('INSERT INTO TOKEN(cpo_id, token) VALUES($1, $2) RETURNING *', [cpoID, token])
+
+            while (tokenTuple.rowCount === 0) {
+                token = uuid.v4()
+                tokenTuple = await pool.query('INSERT INTO TOKEN(cpo_id, token) VALUES($1, $2) RETURNING *', [cpoID, token])
+            }
+            const row = tokenTuple.rows[0]
+            return row.token
         },
 
         createDriverToken: async (driverID) => {
@@ -44,9 +71,9 @@ exports.getQueryManager = async () => {
         },
 
         validateToken: async (token) => {
-            const res = await pool.query('SELECT driver_id FROM TOKEN WHERE token = $1', [token])
+            const res = await pool.query('SELECT * FROM TOKEN WHERE token = $1', [token])
             const row = res.rows[0]
-            return row ? { driverID: row.driver_id } : undefined
+            return row ? { driverID: row.driver_id, cpoID: row.cpo_id } : undefined
         },
 
         createDriverVerificationCode: async (driverID, code) => {
@@ -55,25 +82,50 @@ exports.getQueryManager = async () => {
             return row ? { id: row.id, driverID: row.driver_id, expiryDate: row.expiry_date, code: row.code } : undefined
         },
 
-        checkVerificationCode: async (driverID) => {
+        createCPOVerificationCode: async (cpoID, code) => {
+            const res = await pool.query("INSERT INTO CPO_CODE(cpo_id,expiry_date,code) VALUES($1, NOW() + INTERVAL '120 SECONDS', $2) RETURNING *", [cpoID, code]);
+            const row = res.rows[0]
+            return row ? { id: row.id, cpoID: row.cpo_id, expiryDate: row.expiry_date, code: row.code } : undefined
+        },
+
+        checkCPOVerificationCode: async (cpoID) => {
+            const res = await pool.query('SELECT * FROM CPO_CODE AS CC, CPO AS C WHERE CC.cpo_id = C.id AND CC.cpo_id = $1', [cpoID])
+            const row = res.rows[0]
+            return row ? { code: row.code, expiryDate: new Date(row.expiry_date), email: row.email } : undefined
+        },
+        checkDriverVerificationCode: async (driverID) => {
             const res = await pool.query('SELECT * FROM DRIVER_CODE AS DC, DRIVER AS D WHERE DC.driver_id = D.id AND DC.driver_id = $1', [driverID])
             const row = res.rows[0]
             return row ? { code: row.code, expiryDate: new Date(row.expiry_date), phoneNumber: row.phone } : undefined
         },
 
-        updatePin: async (driverID, newPin) => {
+        updateDriverCode: async (driverID, newPin) => {
             const res = pool.query('UPDATE DRIVER_CODE SET code = $1 WHERE driver_id = $2', [newPin, driverID])
             return true
         },
-
-        deletePin: async (driverID) => {
-            await pool.query('DELETE FROM DRIVER_CODE WHERE driver_id = $1', [driverID])
+        updateCPOCode: async (cpoID, newPin) => {
+            const res = pool.query('UPDATE CPO_CODE SET code = $1 WHERE cpo_id = $2', [newPin, cpoID])
             return true
         },
 
-        deleteUser: async (driverID) => {
+        deleteDriverCode: async (driverID) => {
+            await pool.query('DELETE FROM DRIVER_CODE WHERE driver_id = $1', [driverID])
+            return true
+        },
+        deleteCPOCode: async (cpoID) => {
+            await pool.query('DELETE FROM CPO_CODE WHERE cpo_id = $1', [cpoID])
+            return true
+        },
+
+        deleteDriver: async (driverID) => {
             await pool.query('DELETE FROM DRIVER_CODE WHERE driver_id = $1', [driverID])
             await pool.query('DELETE FROM DRIVER WHERE id = $1', [driverID])
+            return true
+        },
+
+        deleteCPO: async (cpoID) => {
+            await pool.query('DELETE FROM CPO_CODE WHERE cpo_id = $1', [cpoID])
+            await pool.query('DELETE FROM CPO WHERE id = $1', [cpoID])
             return true
         },
 

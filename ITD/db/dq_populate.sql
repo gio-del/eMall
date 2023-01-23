@@ -1,11 +1,8 @@
-INSERT INTO CPO (company_name, VAT_ID, email, PASSWORD)
-    VALUES ('FakeEnergyCo1', '1234567890', 'fakeco1@example.com', 'password1'), ('FakeEnergyCo2', '0987654321', 'fakeco2@example.com', 'password2');
+INSERT INTO CPO (company_name, email, PASSWORD)
+    VALUES ('FakeEnergyCo1', 'fakeco1@example.com', 'password1'), ('FakeEnergyCo2', 'fakeco2@example.com', 'password2');
 
 INSERT INTO TYPE (type_name)
     VALUES ('Type2'), ('CCS2');
-
-INSERT INTO DRIVER (first_name, last_name, email, phone, notification_preferences, PASSWORD)
-    VALUES ('Conte', 'Ugolino', NULL, NULL, NULL, 'password');
 
 INSERT INTO EVCP (description, cpo_id, DSO_name, DSO_pricekW, DSO_contract_expiry, latitude, longitude, address)
     VALUES ('EVCP1', 1, 'FakeEnergyDSO1', 0.15, '2022-12-31', '45.465422', '9.185924', 'Via Degli Ulivi'), ('EVCP2', 1, 'FakeEnergyDSO2', 0.20, '2022-12-31', '45.6982642', '9.6772698', 'Via Degli Ulivi'), ('EVCP3', 2, 'FakeEnergyDSO3', 0.18, '2022-12-31', '45.5328389', '10.2295612', 'Via Degli Ulivi'), ('EVCP4', 2, 'FakeEnergyDSO4', 0.22, '2022-12-31', '45.8098653', '9.0829532', 'Via Degli Ulivi'), ('EVCP5', 1, 'FakeEnergyDSO5', 0.12, '2022-12-31', '45.1333333', '10.0166667', 'Via Degli Ulivi'), ('EVCP6', 2, 'FakeEnergyDSO6', 0.28, '2022-12-31', '45.8666667', '9.41666667', 'Via Degli Ulivi'), ('EVCP7', 1, 'FakeEnergyDSO7', 0.15, '2022-12-31', '45.3168584', '9.5068107', 'Via Degli Ulivi'), ('EVCP8', 2, 'FakeEnergyDSO8', 0.20, '2022-12-31', '45.5823489', '9.2744789', 'Via Degli Ulivi'), ('EVCP9', 1, 'FakeEnergyDSO9', 0.18, '2022-12-31', '45.1833333', '9.15', 'Via Degli Ulivi'), ('EVCP10', 2, 'FakeEnergyDSO10', 0.22, '2022-12-31', '45.81778', '8.82861', 'Via Degli Ulivi'), ('EVCP10', 1, 'FakeEnergyDSO1', 0.15, '2022-12-31', '45.465522', '9.185924', 'Via Degli Ulivi'), ('EVCP11', 1, 'FakeEnergyDSO1', 0.15, '2022-12-31', '45.465422', '9.185424', 'Via Degli Ulivi'), ('EVCP12', 1, 'FakeEnergyDSO1', 0.15, '2022-12-31', '45.465422', '9.1859255', 'Via Degli Ulivi');
@@ -20,7 +17,4 @@ INSERT INTO SOCKET (cp_id, power_kW, type_id)
 -- Inserting dummy data for RATE table
 INSERT INTO RATE (evcp_id, type_id, flatPrice, variablePrice)
     VALUES (1, 1, 20, 0.10), (2, 2, 25, 0.12), (3, 1, 30, 0.15), (4, 2, 35, 0.18), (5, 1, 40, 0.20), (6, 2, 45, 0.22), (7, 1, 50, 0.25), (8, 2, 55, 0.28), (9, 1, 60, 0.30), (10, 2, 65, 0.32);
-
-INSERT INTO RESERVATION (start_date, end_date, discount_percent, driver_id, total_price, socket_id, charged_kWh)
-    VALUES ('2023-01-22 12:00:00', '2023-01-22 13:00:00', 10.00, 1, 100.00, 1, 20.00), ('2023-01-022 14:00:00', '2023-01-22 15:00:00', 5.00, 1, 90.00, 1, 25.00);
 
