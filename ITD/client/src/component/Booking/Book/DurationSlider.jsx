@@ -49,7 +49,7 @@ export default function DurationSlider({
     <div>
       <div className="flex flex-row justify-evenly items-center mt-2">
         <div
-          className="bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary"
+          className="hover:bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary"
           onClick={(e) => setValue(value > 0 ? value - 0.5 : 0.0)}
         >
           <p className="text-tertiary font-semibold">-30min</p>
@@ -61,7 +61,7 @@ export default function DurationSlider({
           </span>
         </div>
         <div
-          className="bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary"
+          className="hover:bg-dk-primary px-4 py-2 rounded-xl cursor-pointer border-2 border-tertiary"
           onClick={(e) =>
             setValue(value < maxTime.current ? value + 0.5 : value)
           }
