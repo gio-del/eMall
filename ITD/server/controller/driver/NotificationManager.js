@@ -1,17 +1,10 @@
 const queryManager = require('../QueryManager')
 const admin = require('firebase-admin')
+const serviceAccount = require('../../emall-b53e5-firebase-adminsdk-ztnob-ef034764f2.json')
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAv2gmZCuO_UUXPJF8WjZDnZh0-njMM2-8",
-    authDomain: "emall-b53e5.firebaseapp.com",
-    projectId: "emall-b53e5",
-    storageBucket: "emall-b53e5.appspot.com",
-    messagingSenderId: "691467551189",
-    appId: "1:691467551189:web:03c83abbb6f38d30adfd5c",
-    measurementId: "G-288NY5Z3GD"
-}
-
-admin.initializeApp(firebaseConfig)
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+})
 
 const notifyUsers = async () => {
     // Retrieve all reservations that have ended and haven't been notified yet
@@ -25,7 +18,7 @@ const notifyUsers = async () => {
     }
     tokens.forEach((token) => {
         if (token.notificationToken) {
-            admin.messaging().sendToDevice(token.notificationToken, payload)
+            admin.messaging().sendToDevice(token.notificationToken, payload).then((res) => console.log(`Sent a notification`))
                 .catch((error) => {
                     console.log('Error sending message:', error);
                 })

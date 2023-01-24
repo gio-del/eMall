@@ -43,6 +43,6 @@ app.get('/api', (req, res) => {
 app.use('/api/driver', driverRoutes)
 app.use('/api/cpo', cpoRoutes)
 
-cron.schedule('*/5 * * * *', async () => {
+cron.schedule('*/1 * * * *', async () => {
     await notifyUsers();
 });

@@ -160,7 +160,7 @@ exports.getQueryManager = async () => {
 
         checkReservationSlots: async (id, type, power, date) => {
             const day = standardize(date)
-            console.log('date (standardized): ', day)
+
 
             const res1 = await pool.query(dedent`SELECT *
                                                  FROM RESERVATION AS R
@@ -169,11 +169,10 @@ exports.getQueryManager = async () => {
                                                  JOIN EVCP AS E ON E.id = CP.evcp_id
                                                  JOIN TYPE AS T ON T.id = S.type_id
                                                  WHERE R.start_date <= $1 AND R.end_date >= $1 AND E.id = $2 AND T.type_name = $3 AND S.power_kW = $4`, [day, id, type, power])
-            console.log('RES1:', res1.rows)
+
             let today = new Date(day)
             let tomorrow = new Date(today.getTime() + (29 * 60 * 60 * 1000))
-            console.log('today:', today)
-            console.log('tomorrow:', tomorrow)
+
             const res = await pool.query(dedent`SELECT *
                                                 FROM RESERVATION AS R
                                                 JOIN SOCKET AS S ON S.id = R.socket_id
@@ -182,14 +181,14 @@ exports.getQueryManager = async () => {
                                                 JOIN TYPE AS T ON T.id = S.type_id
                                                 WHERE R.start_date >= $1 AND R.end_date <= $2 AND E.id = $3 AND T.type_name = $4 AND S.power_kW = $5
                                                 ORDER BY R.start_date`, [today, tomorrow, id, type, power])
-            console.log('RES2:', res.rows)
+
             let first = res1.rowCount > 0 ? res1.rows[0].end_date : day
             const queue = res.rows.filter(row => new Date(row.start_date) > new Date(day)).reverse()
             const slots = []
             while (queue.length > 0 && new Date(first) < tomorrow) {
                 const nextFirst = queue.pop()
                 if (String(first).valueOf() !== String(nextFirst.start_date).valueOf()) {
-                    console.log('first', first, '!===', 'nextFirst.start_date', nextFirst.start_date)
+
                     slots.push({ from: standardize(first), to: standardize(nextFirst.start_date) })
                 }
 
@@ -342,12 +341,12 @@ exports.getQueryManager = async () => {
         },
 
         checkReservationsEnded: async () => {
-            const res = await pool.query(`SELECT id, notification_token FROM RESERVATION AS R JOIN DRIVER AS D ON D.id = R.driver_id WHERE R.end_date <= NOW() AND R.notified = false`)
+            const res = await pool.query(`SELECT R.id, D.notification_token FROM RESERVATION AS R JOIN DRIVER AS D ON D.id = R.driver_id WHERE R.end_date <= NOW() AND R.notified = false`)
             const rows = res.rows
             for (const row of rows) {
                 await pool.query('UPDATE RESERVATION SET notified = true WHERE id = $1', [row.id])
             }
-            return rows ? rows.map((row) => { notificationToken: row.notification_token }) : undefined
+            return rows ? rows.map((row) => ({ notificationToken: row.notification_token })) : undefined
         }
     }
 }
