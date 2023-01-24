@@ -4,7 +4,7 @@ INSERT INTO CPO (company_name, email, PASSWORD)
 INSERT INTO TYPE (type_name)
     VALUES ('Type2'), ('CCS2');
 
-INSERT INTO EVCP (description, cpo_id, DSO_name, DSO_pricekW, DSO_contract_expiry, latitude, longitude, address)
+INSERT INTO EVCP (name, cpo_id, DSO_name, DSO_pricekW, DSO_contract_expiry, latitude, longitude, address)
     VALUES ('EVCP1', 1, 'FakeEnergyDSO1', 0.15, '2022-12-31', '45.465422', '9.185924', 'Via Degli Ulivi'), ('EVCP2', 1, 'FakeEnergyDSO2', 0.20, '2022-12-31', '45.6982642', '9.6772698', 'Via Degli Ulivi'), ('EVCP3', 2, 'FakeEnergyDSO3', 0.18, '2022-12-31', '45.5328389', '10.2295612', 'Via Degli Ulivi'), ('EVCP4', 2, 'FakeEnergyDSO4', 0.22, '2022-12-31', '45.8098653', '9.0829532', 'Via Degli Ulivi'), ('EVCP5', 1, 'FakeEnergyDSO5', 0.12, '2022-12-31', '45.1333333', '10.0166667', 'Via Degli Ulivi'), ('EVCP6', 2, 'FakeEnergyDSO6', 0.28, '2022-12-31', '45.8666667', '9.41666667', 'Via Degli Ulivi'), ('EVCP7', 1, 'FakeEnergyDSO7', 0.15, '2022-12-31', '45.3168584', '9.5068107', 'Via Degli Ulivi'), ('EVCP8', 2, 'FakeEnergyDSO8', 0.20, '2022-12-31', '45.5823489', '9.2744789', 'Via Degli Ulivi'), ('EVCP9', 1, 'FakeEnergyDSO9', 0.18, '2022-12-31', '45.1833333', '9.15', 'Via Degli Ulivi'), ('EVCP10', 2, 'FakeEnergyDSO10', 0.22, '2022-12-31', '45.81778', '8.82861', 'Via Degli Ulivi'), ('EVCP10', 1, 'FakeEnergyDSO1', 0.15, '2022-12-31', '45.465522', '9.185924', 'Via Degli Ulivi'), ('EVCP11', 1, 'FakeEnergyDSO1', 0.15, '2022-12-31', '45.465422', '9.185424', 'Via Degli Ulivi'), ('EVCP12', 1, 'FakeEnergyDSO1', 0.15, '2022-12-31', '45.465422', '9.1859255', 'Via Degli Ulivi');
 
 INSERT INTO CP (evcp_id)

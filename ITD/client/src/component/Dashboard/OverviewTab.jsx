@@ -99,10 +99,10 @@ export default function OverviewTab() {
           <Link to="./energy" className="lg:col-span-3 lg:row-span-4">
             <ReservationChart />
           </Link>
-          <Link to="./energy" className="lg:row-span-2">
+          <Link to="./energy" className="lg:row-span-2 max-lg:hidden">
             <ChartButton data={data} text={'Energy mix now'} />
           </Link>
-          <Link to="./energy" className="lg:row-span-2">
+          <Link to="./energy" className="lg:row-span-2 max-lg:hidden">
             <ChartButton data={data} text={'Energy mix this week'} />
           </Link>
         </div>

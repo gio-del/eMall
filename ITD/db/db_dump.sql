@@ -44,13 +44,13 @@ CREATE TABLE CPO_CODE (
 -- Table: evcp
 CREATE TABLE EVCP (
     id serial PRIMARY KEY,
-    description text NOT NULL,
+    name text NOT NULL,
     cpo_id int NOT NULL,
     batteryKey varchar(128) NULL,
     solarKey varchar(128) NULL,
-    DSO_name varchar(128) NOT NULL,
-    DSO_pricekW decimal(10, 2) NOT NULL,
-    DSO_contract_expiry date NOT NULL,
+    DSO_name varchar(128) NULL,
+    DSO_pricekW decimal(10, 2) NULL,
+    DSO_contract_expiry date NULL,
     latitude varchar(20) NOT NULL,
     longitude varchar(20) NOT NULL,
     address varchar(50) NOT NULL

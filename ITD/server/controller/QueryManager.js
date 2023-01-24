@@ -136,6 +136,11 @@ exports.getQueryManager = async () => {
             return rows ? rows.map((row) => ({ evcpID: row.id, latitude: row.latitude, longitude: row.longitude })) : undefined
         },
 
+        getEVCPsByCPO: async (cpoID) => {
+            const res = await pool.query('SELECT * FROM EVCP WHERE cpo_id = $1', [cpoID])
+            return rows ? rows.map((row) => ({ evcpID: row.id, name: row.name })) : undefined
+        },
+
         getDetailsEVCP: async (evcpID) => {
             const firstQuery = await pool.query('SELECT C.company_name, E.address FROM EVCP AS E, CPO AS C WHERE E.cpo_id = C.id AND E.id = $1', [evcpID])
             const rows1 = firstQuery.rows[0];
@@ -282,18 +287,35 @@ exports.getQueryManager = async () => {
                                           WHERE R.socket_id = S.id AND S.cp_id = CP.id AND CP.evcp_id = E.id AND E.cpo_id = $1`, [cpoID])
             return res.rows
         },
-        addCP: async (cpID, evcpID, rate) => {
-            // how is RATE defined??
-            return true
+
+        addEVCP: async (cpoID, name, latitude, longitude, address) => {
+            const res = await pool.query('INSERT INTO EVCP(name, cpo_id, latitude, longitude, address) VALUES($1, $2, $3, $4, $5) RETURNING *', [name, cpoID, latitude, longitude, address])
+            return res.rowCount > 0
         },
+
+        addCP: async (evcpID) => {
+            const res = await pool.query('INSERT INTO CP(evcp_id, is_active) VALUES($1, FALSE) RETURNING *', [evcpID])
+            return res.rowCount > 0
+        },
+
         activeCP: async (cpID) => {
             // this method is used to retrieve whether the CP is activated or not
             return true
         },
+
+        addSocket: async (cpID, power, type) => {
+            const firstQuery = await pool.query('SELECT id FROM TYPE WHERE type_name = $1', [type])
+            const row1 = firstQuery.rows[0]
+            if (!row1) return
+            const secondQuery = await pool.query('INSERT INTO SOCKET(cp_id, power_kW, type_id) VALUES($1, $2, $3)', [cpID, power, row1.id])
+            return secondQuery.rowCount > 0
+        },
+
         addRate: async (evcpID, flatPrice, variablePrice, powerkWh) => {
             const res = await pool.query('INSERT INTO RATE(evcp_id, flatPrice, variablePrice, power_kW) VALUES ($1,$2,$3,$4)', [evcpID, flatPrice, variablePrice, powerkWh])
             return true // if ok, or false ??
         },
+
         findCPsByEVCP: async (evcpID) => {
             // what is this used for??
             const res = await pool.query('SELECT * FROM CP WHERE evcp_id = $1', [evcpID])
