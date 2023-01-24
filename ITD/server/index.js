@@ -4,7 +4,8 @@ const cookieParser = require('cookie-parser')
 const app = express()
 const driverRoutes = require('./routes/Driver')
 const cpoRoutes = require('./routes/CPO')
-
+const cron = require('node-cron')
+const notifyUsers = require('./controller/driver/NotificationManager')
 
 const PORT = 3000
 
@@ -41,3 +42,7 @@ app.get('/api', (req, res) => {
 
 app.use('/api/driver', driverRoutes)
 app.use('/api/cpo', cpoRoutes)
+
+cron.schedule('*/5 * * * *', async () => {
+    await notifyUsers();
+});

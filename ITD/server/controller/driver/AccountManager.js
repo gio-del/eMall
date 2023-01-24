@@ -103,6 +103,20 @@ router.post('/login', async (req, res) => {
     }
 })
 
+router.patch('/notification', async (req, res) => {
+    const { messagingToken } = req.body
+    const queryManagerInterface = await queryManager.getQueryManager()
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            await queryManagerInterface.updateNotificationToken(user, messagingToken)
+            return res.status(200).json({ message: 'Notification Token Set Correctly' })
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
 /**
  * Generate a random 6-digit verification code
  * @returns the random verification code
@@ -115,8 +129,8 @@ const authenticate = async (token) => {
     const queryManagerInterface = await queryManager.getQueryManager()
 
     const user = await queryManagerInterface.validateToken(token)
-
-    return user.driverID
+    if (user) return user.driverID
+    else return undefined
 }
 
 module.exports = {

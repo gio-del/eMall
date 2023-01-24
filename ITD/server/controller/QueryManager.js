@@ -274,14 +274,17 @@ exports.getQueryManager = async () => {
             // i dont know what car is, maybe an object but is better if who calls this methods provide the 'unpacked' version
             return true
         },
+
         getUserID: async (carID) => {
             // what is this method used for?? i think for suggestion because the suggestion manager needs to know who has a car discharged
             return true
         },
-        checkNotificationPreferences: async (userID) => {
-            const res = await pool.query('SELECT notification_preferences FROM DRIVER WHERE id = $1', [userID])
-            return res.rows[0] // this is ok since notification_preferences is a boolean
+
+        updateNotificationToken: async (driverID, messagingToken) => {
+            const res = await pool.query('UPDATE DRIVER SET notification_token = $1 WHERE id = $2', [messagingToken, driverID])
+            return true
         },
+
         getCPOReservations: async (cpoID) => {
             const res = await pool.query(`SELECT * FROM RESERVATION AS R, SOCKET AS S, CP, EVCP AS E\
                                           WHERE R.socket_id = S.id AND S.cp_id = CP.id AND CP.evcp_id = E.id AND E.cpo_id = $1`, [cpoID])
@@ -337,5 +340,14 @@ exports.getQueryManager = async () => {
             //                             SET DSO_name = $1, DSO_pricekW = $2, DSO_contract_expiry = $3`,[.........])
             return true
         },
+
+        checkReservationsEnded: async () => {
+            const res = await pool.query(`SELECT id, notification_token FROM RESERVATION AS R JOIN DRIVER AS D ON D.id = R.driver_id WHERE R.end_date <= NOW() AND R.notified = false`)
+            const rows = res.rows
+            for (const row of rows) {
+                await pool.query('UPDATE RESERVATION SET notified = true WHERE id = $1', [row.id])
+            }
+            return rows ? rows.map((row) => { notificationToken: row.notification_token }) : undefined
+        }
     }
 }

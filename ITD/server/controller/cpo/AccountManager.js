@@ -114,8 +114,8 @@ const authenticate = async (token) => {
     const queryManagerInterface = await queryManager.getQueryManager()
 
     const user = await queryManagerInterface.validateToken(token)
-
-    return user.cpoID
+    if (user) return user.cpoID
+    else return undefined
 }
 
 module.exports = {

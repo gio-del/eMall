@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import './index.css'
+
 import ErrorView from './view/404'
 import RootLayout from './view/RootLayout'
 import BeforeLoginView from './view/BeforeLoginView'

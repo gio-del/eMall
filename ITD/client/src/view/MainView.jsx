@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Outlet, useNavigate, useRoutes } from 'react-router-dom'
+import { useNavigate, useRoutes } from 'react-router-dom'
+import { messaging } from '../firebase'
+import { getToken } from 'firebase/messaging'
+import { BASE_API } from '../constant'
+
 import BottomBar from '../component/BottomBar'
 import Car from '../component/Car/Car'
 import Profile from '../component/Profile/Profile'
@@ -11,11 +15,57 @@ import MapView from './MapView'
  */
 export default function MainView() {
   const navigate = useNavigate()
+  const [messagingToken, setMessagingToken] = useState()
+
+  const notificationPermissionListener = () => {
+    if (Notification.permission === 'granted') return
+    Notification.requestPermission().then(function (status) {
+      if (status === 'denied') {
+        console.log('Notification permission denied')
+      } else if (status === 'granted') {
+        getToken(messaging, {
+          vapidKey:
+            'BORUQGOlid8A8zzieKgNFxJDp4BUKvdM8FRCnO_WQVyjT-xWOzHqslcDSk3Tw7U10Ey8Gbcf4JRcUAzbABcCUFY',
+        }).then((token) => {
+          console.log(token)
+          setMessagingToken(token)
+          document.removeEventListener('click', () =>
+            notificationPermissionListener(),
+          )
+        })
+      }
+    })
+  }
+
   useEffect(() => {
-    if (false)
-      // this should be if(!there is a token) so you are not authenticate and navigate to login
-      navigate('/login')
+    if (Notification.permission !== 'granted') {
+      document.addEventListener('click', () => notificationPermissionListener())
+    } else {
+      document.removeEventListener('click', () =>
+        notificationPermissionListener(),
+      )
+    }
   }, [])
+
+  const handlePatchMessagingToken = async () => {
+    const response = await fetch(`${BASE_API}/driver/user/notification`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        messagingToken: messagingToken,
+      }),
+    })
+  }
+
+  useEffect(() => {
+    document.removeEventListener('click', () =>
+      notificationPermissionListener(),
+    )
+    if (messagingToken) {
+      handlePatchMessagingToken()
+    }
+  }, [messagingToken])
 
   const activeRoutes = useRoutes([
     {

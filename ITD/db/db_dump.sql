@@ -65,7 +65,8 @@ CREATE TABLE RESERVATION (
     driver_id int NOT NULL,
     total_price decimal(10, 2) NULL,
     socket_id int NOT NULL,
-    charged_kWh real NULL
+    charged_kWh real NULL,
+    notified boolean DEFAULT FALSE
 );
 
 -- Table: rate
@@ -105,7 +106,7 @@ CREATE TABLE DRIVER (
     last_name varchar(128) NOT NULL,
     email varchar(255),
     phone varchar(255) NULL UNIQUE,
-    notification_preferences boolean,
+    notification_token varchar(255) NULL,
     password varchar(60) NOT NULL
 );
 
