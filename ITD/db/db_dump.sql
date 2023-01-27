@@ -69,13 +69,13 @@ CREATE TABLE RESERVATION (
     notified boolean DEFAULT FALSE
 );
 
--- Table: rate
 CREATE TABLE RATE (
     id serial PRIMARY KEY,
     evcp_id int NOT NULL,
     type_id int NOT NULL,
     flatPrice decimal(10, 2) NOT NULL,
-    variablePrice decimal(10, 2) NOT NULL
+    variablePrice decimal(10, 2) NOT NULL,
+    UNIQUE (evcp_id, type_id)
 );
 
 CREATE TABLE TYPE (

@@ -46,3 +46,5 @@ app.use('/api/cpo', cpoRoutes)
 cron.schedule('*/1 * * * *', async () => {
     await notifyUsers();
 });
+
+module.exports = app

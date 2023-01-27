@@ -138,7 +138,14 @@ exports.getQueryManager = async () => {
 
         getEVCPsByCPO: async (cpoID) => {
             const res = await pool.query('SELECT * FROM EVCP WHERE cpo_id = $1', [cpoID])
+            const rows = res.rows
             return rows ? rows.map((row) => ({ evcpID: row.id, name: row.name })) : undefined
+        },
+
+        getSpecificEVCP: async (evcpID) => {
+            const res = await pool.query('SELECT * FROM EVCP AS E JOIN CP ON CP.evcp_id = E.id JOIN SOCKET AS S ON S.cp_id = CP.id WHERE E.id = $1', [evcpID])
+            const rows = res.rows
+            return rows
         },
 
         getDetailsEVCP: async (evcpID) => {
@@ -313,9 +320,12 @@ exports.getQueryManager = async () => {
             return secondQuery.rowCount > 0
         },
 
-        addRate: async (evcpID, flatPrice, variablePrice, powerkWh) => {
-            const res = await pool.query('INSERT INTO RATE(evcp_id, flatPrice, variablePrice, power_kW) VALUES ($1,$2,$3,$4)', [evcpID, flatPrice, variablePrice, powerkWh])
-            return true // if ok, or false ??
+        addRate: async (evcpID, typeName, flatPrice, variablePrice) => {
+            const firstQuery = await pool.query('SELECT id FROM TYPE WHERE type_name = $1', [typeName])
+            const row1 = firstQuery.rows[0]
+            if (!row1) return false
+            const res = await pool.query('INSERT INTO RATE(evcp_id, type_id, flatPrice, variablePrice) VALUES ($1, $2, $3, $4) RETURNING *', [evcpID, row1.id, flatPrice, variablePrice])
+            return res
         },
 
         findCPsByEVCP: async (evcpID) => {

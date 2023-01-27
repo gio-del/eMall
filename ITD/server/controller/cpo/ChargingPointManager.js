@@ -15,6 +15,20 @@ router.get('/', async (req, res) => {
     return res.status(401).json({ error: 'Unauthorized' })
 })
 
+router.get('/:evcpID', async (req, res) => {
+    const { evcpID } = req.params
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            const evcps = await queryManagerInterface.getSpecificEVCP(evcpID) // TODO CHECK THIS METHOD
+            return res.status(200).json(evcps)
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
 router.post('/', async (req, res) => {
     const { name, latitude, longitude, address } = req.body
     if (req.cookies.token) {

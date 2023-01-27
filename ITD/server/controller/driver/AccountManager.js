@@ -4,9 +4,11 @@ const smsAPI = require('../smsAPI')
 
 const router = require('express').Router()
 
+/**
+ * This is a router post request for signup. It takes the firstName, lastName, password and phoneNumber from the request body. It then checks if the phoneNumber is valid using a regex and if the password is valid using another regex. It then checks if there is an existing user with the same phone number in the database and deletes it if it exists. It then hashes the password and creates a new driver in the database with the given information. Finally, it generates a verification code for that driver and sends it via SMS to their phone number. If everything goes well, it returns a message saying that a verification code has been sent via SMS along with an id of that driver.
+ */
 router.post('/signup', async (req, res) => {
     const { firstName, lastName, password, phoneNumber } = req.body
-
     const phoneNumRegex = /^\d{10}$/
     if (!phoneNumRegex.test(phoneNumber))
         return res.status(400).json({ error: "Phone number not valid" })
@@ -21,7 +23,6 @@ router.post('/signup', async (req, res) => {
     const user = await queryManagerInterface.findDriverByPhoneNumber(phoneNumber)
     let oldCode
     if (user) oldCode = await queryManagerInterface.checkDriverVerificationCode(user.driverID)
-    console.log(oldCode)
     if (!user || oldCode) {
         if (user) await queryManagerInterface.deleteDriver(user.driverID)
         const hash = await bcrypt.hash(password, 10)
@@ -36,6 +37,12 @@ router.post('/signup', async (req, res) => {
 
 })
 
+/**
+ * This is a router post request that handles a driver's verification code. It first checks if the code is a six-digit number using a regex. If it is not, it returns an error message.
+   It then queries the database to check if the driverID exists and retrieves the row associated with it. If the row exists, it checks if the current time is before the expiry date of the code, and if so, checks if the code matches what was sent in the request body. If it does, it deletes the driver's code from the database and returns a success message. 
+   If the code does not match, it generates a new 6-digit code and sends it to the driver's phone number via SMS API. If not successful, an error message is returned with an ID for retry.
+   If either of these checks fail (i.e., time expired or driverID does not exist), an error message is returned accordingly.
+ */
 router.post('/code', async (req, res) => {
     const { driverID, code } = req.body
 
@@ -71,7 +78,7 @@ router.post('/code', async (req, res) => {
 })
 
 /**
- * Login create the token if the credentials are valid
+ * This is a router post request for the '/login' endpoint. It takes in a phone number and password from the request body and checks if the phone number is valid using a regex. If it is not valid, it returns an error message. If it is valid, it looks for a user with that phone number in the database. If no user is found, an error message is returned. If a user is found, it checks if that user has been verified and if not, returns an error message. If the user has been verified, it checks if the credentials match those in the database and if they do, creates a token cookie and returns a success message.
  */
 router.post('/login', async (req, res) => {
     const { phoneNumber, password } = req.body
@@ -103,6 +110,9 @@ router.post('/login', async (req, res) => {
     }
 })
 
+/**
+ * This code is a router patch request that is used to update the notification token for a user. The code first checks if the request contains a cookie with a token, and if so, it authenticates the user. If the user is authenticated, it updates the notification token in the query manager interface with the messaging token from the request body. If successful, it returns a status of 200 with a message of 'Notification Token Set Correctly'. If authentication fails, it returns an error of 401 Unauthorized.
+ */
 router.patch('/notification', async (req, res) => {
     const { messagingToken } = req.body
     const queryManagerInterface = await queryManager.getQueryManager()
@@ -125,6 +135,9 @@ const getCode = () => {
     return Math.floor(100000 + Math.random() * 900000)
 }
 
+/**
+ * authenticate() is an asynchronous function that takes in a token as an argument. It uses the queryManager module to get the queryManagerInterface, and then uses the validateToken() method of the queryManagerInterface to validate the token. If the token is valid, it returns the driverID associated with it, otherwise it returns undefined. 
+ */
 const authenticate = async (token) => {
     const queryManagerInterface = await queryManager.getQueryManager()
 
