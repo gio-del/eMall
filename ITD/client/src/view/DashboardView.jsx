@@ -23,36 +23,30 @@ export default function DashboardView() {
     [undefined, 'Overview'],
   ])
 
-
-
-  const evcpMockupList = ['evcp1', 'evcp2']
-
-  const getEvcps = async () => {/*
+  const getEvcps = async () => {
     try {
-      const response = await fetch(
-        `${BASE_API}/cpo/cp/evcps/`,
-        { credentials: 'include' },
-      )
+      const response = await fetch(`${BASE_API}/cpo/cp/`, {
+        credentials: 'include',
+      })
 
       if (response.status === 200) {
-        const evcpsRows = await response.json()
+        const jsonData = await response.json()
+        console.log(jsonData)
+        setEvcpList(jsonData)
       }
     } catch (err) {
       console.error(err)
     }
-    */
-  
   }
 
+  useEffect(() => {
+    getEvcps()
+  }, [])
 
   useEffect(() => {
     const path = location.pathname.split('/')[2]
     setActiveTab(path)
   }, [location])
-
-  useEffect(() => {
-    getEvcps()
-  },  )
 
   const activeRoutes = useRoutes([
     {
@@ -61,16 +55,19 @@ export default function DashboardView() {
     },
     {
       path: '/charging-points',
-      element: <ChargingPointsTab evcpList={evcpMockupList}/>,
+      element: <ChargingPointsTab evcpList={evcpList} />,
     },
     {
       path: '/rates',
-      element: <RatesTab evcpList={evcpMockupList}/>,
+      element: <RatesTab evcpList={evcpList} />,
     },
-    { path: '/reservations', element: <ReservationsTab evcpList={evcpMockupList}/> },
+    {
+      path: '/reservations',
+      element: <ReservationsTab evcpList={evcpList} />,
+    },
     {
       path: '/energy',
-      element: <EnergyTab evcpList={evcpMockupList}/>,
+      element: <EnergyTab evcpList={evcpList} />,
     },
   ])
 

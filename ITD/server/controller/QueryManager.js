@@ -76,6 +76,11 @@ exports.getQueryManager = async () => {
             return row ? { driverID: row.driver_id, cpoID: row.cpo_id } : undefined
         },
 
+        verifyEVCPAssociation: async (cpoID, evcpID) => {
+            const res = await pool.query('SELECT * FROM EVCP WHERE id = $1 AND cpo_id = $2', [evcpID, cpoID])
+            return res.rowCount === 1
+        },
+
         createDriverVerificationCode: async (driverID, code) => {
             const res = await pool.query("INSERT INTO DRIVER_CODE(driver_id,expiry_date,code) VALUES($1, NOW() + INTERVAL '120 SECONDS', $2) RETURNING *", [driverID, code]);
             const row = res.rows[0]
@@ -258,6 +263,12 @@ exports.getQueryManager = async () => {
             return true // true if ok, or false ?
         },
 
+        aggregateCPOData: async (cpoID) => {
+            const res = await pool.query(dedent`SELECT E.id, R.start_date, SUM(R.total_price) AS profit, SUM(R.charged_kwh) AS energy FROM RESERVATION AS R JOIN SOCKET AS S ON R.socket_id = S.id JOIN CP ON S.cp_id = CP.id JOIN EVCP AS E ON E.id = CP.evcp_id JOIN CPO ON E.cpo_id = CPO.id WHERE CPO.id = $1 GROUP BY E.id, R.start_date`, [cpoID])
+            const rows = res.rows
+            return rows ? rows.map((row) => ({ evcpID: row.id, date: row.start_date, profit: row.profit, energy: row.energy })) : []
+        },
+
         findSocket: async (reservationID) => {
             const res = await pool.query('SELECT socket_id FROM RESERVATION WHERE id = $1', [reservationID])
             return res.rows[0] //id is unique so this is ok, but what if there is no  reservation with the provided id?
@@ -291,10 +302,11 @@ exports.getQueryManager = async () => {
             return true
         },
 
-        getCPOReservations: async (cpoID) => {
-            const res = await pool.query(`SELECT * FROM RESERVATION AS R, SOCKET AS S, CP, EVCP AS E\
-                                          WHERE R.socket_id = S.id AND S.cp_id = CP.id AND CP.evcp_id = E.id AND E.cpo_id = $1`, [cpoID])
-            return res.rows
+        getCPOReservations: async (evcpID) => {
+            const res = await pool.query(dedent`SELECT * FROM RESERVATION AS R JOIN SOCKET AS S ON S.id = R.socket_id JOIN CP ON CP.id = S.cp_id JOIN EVCP AS E ON E.id = CP.evcp_id
+                                                WHERE E.id = $1`, [evcpID])
+            const rows = res.rows
+            return rows ? rows.map((row) => ({ reservationID: row.id, driverID: row.driver_id, socketID: row.socket_id, timeFrom: row.start_date, timeTo: row.end_date, totalPrice: row.total_price, chargedkWh: row.charged_kwh, discount: row.discount_percent })) : []
         },
 
         addEVCP: async (cpoID, name, latitude, longitude, address) => {
@@ -328,6 +340,12 @@ exports.getQueryManager = async () => {
             return res
         },
 
+        getRate: async (evcpID) => {
+            const res = await pool.query('SELECT * FROM RATE AS R JOIN  TYPE AS T ON T.id = R.type_id WHERE R.evcp_id = $1', [evcpID])
+            const rows = res.rows
+            return rows ? rows.map((row) => ({ typeName: row.type_name, flatPrice: row.flat_price, variablePrice: row.variable_price })) : []
+        },
+
         findCPsByEVCP: async (evcpID) => {
             // what is this used for??
             const res = await pool.query('SELECT * FROM CP WHERE evcp_id = $1', [evcpID])
@@ -347,6 +365,17 @@ exports.getQueryManager = async () => {
             // Contract should be an obj with DSO_name, DSO_pricekW, DSO_contract_expiry. Also cpoID is not ok since as above...
             //const res = await pool.query(`UPDATE EVCP\
             //                             SET DSO_name = $1, DSO_pricekW = $2, DSO_contract_expiry = $3`,[.........])
+            return true
+        },
+
+        getDSO: async (evcpID) => {
+            const res = await pool.query('SELECT DSO_name, DSO_pricekW, DSO_contract_expiry FROM EVCP WHERE id = $1', [evcpID])
+            const rows = res.rows
+            return rows[0] ? { DSOname: rows[0].dso_name, DSOprice: rows[0].dso_pricekw, DSOexpiry: rows[0].dso_contract_expiry } : []
+        },
+
+        updateDSO: async (evcpID, DSO_name, DSO_pricekW, DSO_contract_expiry) => {
+            const res = await pool.query('UPDATE EVCP SET DSO_name = $1, DSO_pricekW = $2, DSO_contract_expiry = $3 WHERE id = $4', [DSO_name, DSO_pricekW, DSO_contract_expiry, evcpID])
             return true
         },
 

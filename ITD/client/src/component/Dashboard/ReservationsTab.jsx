@@ -1,17 +1,47 @@
-import { useState } from "react"
-import TabSelectorDash from "../utilitycomponent/TabSelectorDash";
+import { useState, useEffect } from 'react'
+import TabSelectorDash from '../utilitycomponent/TabSelectorDash'
+import { BASE_API } from '../../constant'
 
+export default function ReservationsTab({ evcpList }) {
+  const [currentEvcp, setCurrentEvcp] = useState()
+  const [reservations, setReservations] = useState()
 
-export default function ReservationsTab({evcpList}) {
-  const [currentEvcp, setCurrentEvcp] = useState('evcp1')
+  const getData = async () => {
+    if (!currentEvcp) return
+    try {
+      const response = await fetch(
+        `${BASE_API}/cpo/book/${currentEvcp.evcpID}`,
+        {
+          credentials: 'include',
+        },
+      )
+      if (response.status === 200) {
+        const jsonData = await response.json()
+        console.log(jsonData)
+        setReservations(jsonData)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
-  return <>
-    <div>
-      <TabSelectorDash
-        tabs={evcpList}
-        currentTab={currentEvcp}
-        setCurrentTab={setCurrentEvcp}
-      />
-    </div>
-  </>
+  useEffect(() => {
+    getData()
+  }, [currentEvcp])
+
+  return (
+    <>
+      <div>
+        <TabSelectorDash
+          tabs={evcpList}
+          currentTab={currentEvcp}
+          setCurrentTab={setCurrentEvcp}
+        />
+      </div>
+      <div>
+        {reservations &&
+          reservations.map((reservation) => <p>{reservation.start_date}</p>)}
+      </div>
+    </>
+  )
 }

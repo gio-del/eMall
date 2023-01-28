@@ -11,7 +11,8 @@ import {
 import { Line } from 'react-chartjs-2'
 import faker from 'faker'
 
-export default function ReservationChart() {
+export default function ReservationChart({earnings, filter}) {
+
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -34,6 +35,7 @@ export default function ReservationChart() {
       },
     },
   }
+
 
   const labels = [
     'January',

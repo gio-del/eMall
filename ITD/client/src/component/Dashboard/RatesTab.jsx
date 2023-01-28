@@ -2,7 +2,7 @@ import { useState } from "react";
 import TabSelectorDash from "../utilitycomponent/TabSelectorDash";
 
 export default function RatesTab({evcpList}) {
-  const [currentEvcp, setCurrentEvcp] = useState('evcp1')
+  const [currentEvcp, setCurrentEvcp] = useState()
 
   return <>
   <div>
