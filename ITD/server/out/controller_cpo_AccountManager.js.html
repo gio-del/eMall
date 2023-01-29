@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controller/cpo/AccountManager.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controller/cpo/AccountManager.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const queryManager = require('../QueryManager')
+const bcrypt = require('bcrypt')
+const emailAPI = require('./emailAPI')
+
+const router = require('express').Router()
+
+/**
+ * This route is used to sign up a new CPO
+ */
+router.post('/signup', async (req, res) => {
+    const { companyName, email, password } = req.body
+
+    const emailRegex = /^[a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    if (!emailRegex.test(email))
+        return res.status(400).json({ error: "eMail not valid" })
+
+    const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&amp;*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+    if (!passwordRegex.test(password))
+        return res.status(400).json({ error: "Password must contain at least 8 character (at least one uppercase), at least 1 special symbol and at least 1 number" })
+
+    const queryManagerInterface = await queryManager.getQueryManager()
+
+    const user = await queryManagerInterface.findCPOByEmail(email)
+    let oldCode
+    if (user) oldCode = await queryManagerInterface.checkCPOVerificationCode(user.cpoID)
+    console.log(oldCode)
+    if (!user || oldCode) {
+        if (user) await queryManagerInterface.deleteCPO(user.cpoID)
+        const hash = await bcrypt.hash(password, 10)
+        const cpoID = await queryManagerInterface.createCPO(companyName, hash, email)
+        const code = getCode()
+        queryManagerInterface.createCPOVerificationCode(cpoID, code)
+        emailAPI.sendVerificationCode(email, code)
+        return res.status(200).json({ message: 'A verification code is sent via mail', id: cpoID })
+    }
+
+    else return res.status(409).json({ error: 'An account with the same email already exist, retry' })
+
+})
+
+/**
+ * This route is used to verify the code sent via mail
+ */
+router.post('/code', async (req, res) => {
+    const { cpoID, code } = req.body
+
+    const codeRegex = /^\d{6}$/
+    if (!codeRegex.test(code))
+        return res.status(400).json({ error: 'Code must be a six-digit number' })
+
+    const queryManagerInterface = await queryManager.getQueryManager()
+    const row = await queryManagerInterface.checkCPOVerificationCode(cpoID)
+    if (row) {
+        // console.log((new Date().getTime() - row.expiryDate.getTime()) / 1000)
+
+        if (new Date() - row.expiryDate &lt; 0) {
+            if (code === row.code) {
+                await queryManagerInterface.deleteCPOCode(cpoID)
+                return res.status(200).json({ message: 'Code inserted is valid, user verified' })
+            }
+            else {
+                const code = getCode()
+                await queryManagerInterface.updateCPOCode(cpoID, code)
+                emailAPI.sendVerificationCode(row.email, code)
+                return res.status(400).json({ error: "Wrong code, retry", id: cpoID })
+            }
+
+        } else {
+            await queryManagerInterface.deleteCPO(cpoID)
+            return res.status(410).json({ error: "Too late, the code is expired. Register a new account." })
+        }
+    }
+    else {
+        return res.status(409).json({ error: 'Intrusion' })
+    }
+})
+
+/**
+ * This route is used to login a CPO. If the user is not verified, it will be deleted. If the user is verified, a token will be created and sent to the client if the credentials are correct
+ */
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body
+    const queryManagerInterface = await queryManager.getQueryManager()
+
+    const emailRegex = /^[a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    if (!emailRegex.test(email))
+        return res.status(400).json({ error: "eMail not valid" })
+
+    const user = await queryManagerInterface.findCPOByEmail(email)
+
+    if (!user)
+        return res.status(401).json({ error: 'Email or Password are wrong' });
+
+    // check that the user is verified, so there is no verification code associated to it
+    const toVerify = await queryManagerInterface.checkCPOVerificationCode(user.cpoID)
+    if (!toVerify) {
+        const valid = await queryManagerInterface.checkCPOCredentials(email, password)
+        if (valid) {
+            const token = await queryManagerInterface.createCPOToken(user.cpoID)
+            return res.status(200).cookie('token', token, { maxAge: 60 * 60 * 24 * 20 * 1000, httpOnly: false }).json({ message: 'Cookie Token has been set' });
+        }
+        else {
+            return res.status(401).json({ error: 'Email or Password are wrong' })
+        }
+    } else {
+        await queryManagerInterface.deleteCPO(user.cpoID)
+        return res.status(410).json({ error: "User not verified. Register a new account." })
+    }
+})
+
+/**
+ * Generates a random 6-digit number
+ * @returns a random 6-digit number
+ */
+const getCode = () => {
+    return Math.floor(100000 + Math.random() * 900000)
+}
+
+/**
+ * Authenticates a user by checking if the token is valid
+ * @param {*} token the token to check
+ * @returns the cpoID if the token is valid, undefined otherwise
+ */
+const authenticate = async (token) => {
+    const queryManagerInterface = await queryManager.getQueryManager()
+
+    const user = await queryManagerInterface.validateToken(token)
+    if (user) return user.cpoID
+    else return undefined
+}
+
+module.exports = {
+    authenticate: authenticate,
+    router: router
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DSOs">DSOs</a></li><li><a href="global.html#aWeekAgo">aWeekAgo</a></li><li><a href="global.html#addCP">addCP</a></li><li><a href="global.html#addEVCP">addEVCP</a></li><li><a href="global.html#addRate">addRate</a></li><li><a href="global.html#addReservation">addReservation</a></li><li><a href="global.html#addSocket">addSocket</a></li><li><a href="global.html#addSpecialOffer">addSpecialOffer</a></li><li><a href="global.html#aggregateCPOData">aggregateCPOData</a></li><li><a href="global.html#authenticate">authenticate</a></li><li><a href="global.html#book">book</a></li><li><a href="global.html#checkAvailability">checkAvailability</a></li><li><a href="global.html#checkCPOCredentials">checkCPOCredentials</a></li><li><a href="global.html#checkCPOVerificationCode">checkCPOVerificationCode</a></li><li><a href="global.html#checkDriverCredentials">checkDriverCredentials</a></li><li><a href="global.html#checkDriverVerificationCode">checkDriverVerificationCode</a></li><li><a href="global.html#checkMaxDuration">checkMaxDuration</a></li><li><a href="global.html#checkReservationSlots">checkReservationSlots</a></li><li><a href="global.html#cpms">cpms</a></li><li><a href="global.html#createCPO">createCPO</a></li><li><a href="global.html#createCPOToken">createCPOToken</a></li><li><a href="global.html#createCPOVerificationCode">createCPOVerificationCode</a></li><li><a href="global.html#createDriver">createDriver</a></li><li><a href="global.html#createDriverToken">createDriverToken</a></li><li><a href="global.html#createDriverVerificationCode">createDriverVerificationCode</a></li><li><a href="global.html#deleteCPO">deleteCPO</a></li><li><a href="global.html#deleteCPOCode">deleteCPOCode</a></li><li><a href="global.html#deleteDriver">deleteDriver</a></li><li><a href="global.html#deleteDriverCode">deleteDriverCode</a></li><li><a href="global.html#distance">distance</a></li><li><a href="global.html#findCPOByEmail">findCPOByEmail</a></li><li><a href="global.html#findDriverByPhoneNumber">findDriverByPhoneNumber</a></li><li><a href="global.html#findSocket">findSocket</a></li><li><a href="global.html#getCPOReservations">getCPOReservations</a></li><li><a href="global.html#getChargeValue">getChargeValue</a></li><li><a href="global.html#getCode">getCode</a></li><li><a href="global.html#getDSO">getDSO</a></li><li><a href="global.html#getDetailsEVCP">getDetailsEVCP</a></li><li><a href="global.html#getDriverReservations">getDriverReservations</a></li><li><a href="global.html#getEVCPs">getEVCPs</a></li><li><a href="global.html#getEVCPsByCPO">getEVCPsByCPO</a></li><li><a href="global.html#getRate">getRate</a></li><li><a href="global.html#getSpecificEVCP">getSpecificEVCP</a></li><li><a href="global.html#handleMeterValues">handleMeterValues</a></li><li><a href="global.html#meterValues">meterValues</a></li><li><a href="global.html#notifyUsers">notifyUsers</a></li><li><a href="global.html#pool">pool</a></li><li><a href="global.html#sendVerificationCode">sendVerificationCode</a></li><li><a href="global.html#startCharge">startCharge</a></li><li><a href="global.html#toRadians">toRadians</a></li><li><a href="global.html#updateCPOCode">updateCPOCode</a></li><li><a href="global.html#updateDSO">updateDSO</a></li><li><a href="global.html#updateDriverCode">updateDriverCode</a></li><li><a href="global.html#updateNotificationToken">updateNotificationToken</a></li><li><a href="global.html#validateToken">validateToken</a></li><li><a href="global.html#verifyEVCPAssociation">verifyEVCPAssociation</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Sun Jan 29 2023 14:59:33 GMT+0100 (Ora standard dell’Europa centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

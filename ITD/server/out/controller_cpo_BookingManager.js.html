@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controller/cpo/BookingManager.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controller/cpo/BookingManager.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const queryManager = require('../QueryManager')
+const router = require('express').Router()
+const { authenticate } = require('./AccountManager')
+
+/**
+ * This route is used to book a socket
+ * @param {*} driverID the ID of the driver
+ * @param {*} evcpID the ID of the EVCP
+ * @param {*} type the type of socket
+ * @param {*} power the power of the socket
+ * @param {*} timeFrom the time from which the socket is booked
+ * @param {*} timeTo the time to which the socket is booked
+ * @returns true if the socket is booked, false otherwise
+ */
+const book = async (driverID, evcpID, type, power, timeFrom, timeTo) => {
+    const queryManagerInterface = await queryManager.getQueryManager()
+    const available = await queryManagerInterface.checkAvailability(evcpID, type, power, timeFrom, timeTo)
+    if (available) {
+        return await queryManagerInterface.addReservation(driverID, available.socketID, timeFrom, timeTo)
+    }
+    return false
+}
+
+/**
+ * This route is used to see the reservations of a specific EVCP
+ */
+router.get('/:evcpID', async (req, res) => {
+    const { evcpID } = req.params
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        const queryManagerInterface = await queryManager.getQueryManager()
+        if (user &amp;&amp; queryManagerInterface.verifyEVCPAssociation(user, evcpID)) {
+            const reservations = await queryManagerInterface.getCPOReservations(evcpID)
+            return res.status(200).json(reservations)
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+/**
+ * This route is used to get an aggregated view of the reservations of a CPO in all its EVCPs
+ */
+router.get('/', async (req, res) => {
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        const queryManagerInterface = await queryManager.getQueryManager()
+        if (user) {
+            const aggregation = await queryManagerInterface.aggregateCPOData(user)
+            return res.status(200).json(aggregation)
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+module.exports = { router: router, book: book }</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DSOs">DSOs</a></li><li><a href="global.html#aWeekAgo">aWeekAgo</a></li><li><a href="global.html#addCP">addCP</a></li><li><a href="global.html#addEVCP">addEVCP</a></li><li><a href="global.html#addRate">addRate</a></li><li><a href="global.html#addReservation">addReservation</a></li><li><a href="global.html#addSocket">addSocket</a></li><li><a href="global.html#addSpecialOffer">addSpecialOffer</a></li><li><a href="global.html#aggregateCPOData">aggregateCPOData</a></li><li><a href="global.html#authenticate">authenticate</a></li><li><a href="global.html#book">book</a></li><li><a href="global.html#checkAvailability">checkAvailability</a></li><li><a href="global.html#checkCPOCredentials">checkCPOCredentials</a></li><li><a href="global.html#checkCPOVerificationCode">checkCPOVerificationCode</a></li><li><a href="global.html#checkDriverCredentials">checkDriverCredentials</a></li><li><a href="global.html#checkDriverVerificationCode">checkDriverVerificationCode</a></li><li><a href="global.html#checkMaxDuration">checkMaxDuration</a></li><li><a href="global.html#checkReservationSlots">checkReservationSlots</a></li><li><a href="global.html#cpms">cpms</a></li><li><a href="global.html#createCPO">createCPO</a></li><li><a href="global.html#createCPOToken">createCPOToken</a></li><li><a href="global.html#createCPOVerificationCode">createCPOVerificationCode</a></li><li><a href="global.html#createDriver">createDriver</a></li><li><a href="global.html#createDriverToken">createDriverToken</a></li><li><a href="global.html#createDriverVerificationCode">createDriverVerificationCode</a></li><li><a href="global.html#deleteCPO">deleteCPO</a></li><li><a href="global.html#deleteCPOCode">deleteCPOCode</a></li><li><a href="global.html#deleteDriver">deleteDriver</a></li><li><a href="global.html#deleteDriverCode">deleteDriverCode</a></li><li><a href="global.html#distance">distance</a></li><li><a href="global.html#findCPOByEmail">findCPOByEmail</a></li><li><a href="global.html#findDriverByPhoneNumber">findDriverByPhoneNumber</a></li><li><a href="global.html#findSocket">findSocket</a></li><li><a href="global.html#getCPOReservations">getCPOReservations</a></li><li><a href="global.html#getChargeValue">getChargeValue</a></li><li><a href="global.html#getCode">getCode</a></li><li><a href="global.html#getDSO">getDSO</a></li><li><a href="global.html#getDetailsEVCP">getDetailsEVCP</a></li><li><a href="global.html#getDriverReservations">getDriverReservations</a></li><li><a href="global.html#getEVCPs">getEVCPs</a></li><li><a href="global.html#getEVCPsByCPO">getEVCPsByCPO</a></li><li><a href="global.html#getRate">getRate</a></li><li><a href="global.html#getSpecificEVCP">getSpecificEVCP</a></li><li><a href="global.html#handleMeterValues">handleMeterValues</a></li><li><a href="global.html#meterValues">meterValues</a></li><li><a href="global.html#notifyUsers">notifyUsers</a></li><li><a href="global.html#pool">pool</a></li><li><a href="global.html#sendVerificationCode">sendVerificationCode</a></li><li><a href="global.html#startCharge">startCharge</a></li><li><a href="global.html#toRadians">toRadians</a></li><li><a href="global.html#updateCPOCode">updateCPOCode</a></li><li><a href="global.html#updateDSO">updateDSO</a></li><li><a href="global.html#updateDriverCode">updateDriverCode</a></li><li><a href="global.html#updateNotificationToken">updateNotificationToken</a></li><li><a href="global.html#validateToken">validateToken</a></li><li><a href="global.html#verifyEVCPAssociation">verifyEVCPAssociation</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Sun Jan 29 2023 14:59:33 GMT+0100 (Ora standard dell’Europa centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

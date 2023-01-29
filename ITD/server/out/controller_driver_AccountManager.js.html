@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controller/driver/AccountManager.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controller/driver/AccountManager.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const queryManager = require('../QueryManager')
+const bcrypt = require('bcrypt')
+const smsAPI = require('./smsAPI')
+
+const router = require('express').Router()
+
+/**
+ * This is a router post request for signup. It takes the firstName, lastName, password and phoneNumber from the request body. It then checks if the phoneNumber is valid using a regex and if the password is valid using another regex. It then checks if there is an existing user with the same phone number in the database and deletes it if it exists. It then hashes the password and creates a new driver in the database with the given information. Finally, it generates a verification code for that driver and sends it via SMS to their phone number. If everything goes well, it returns a message saying that a verification code has been sent via SMS along with an id of that driver.
+ */
+router.post('/signup', async (req, res) => {
+    const { firstName, lastName, password, phoneNumber } = req.body
+    const phoneNumRegex = /^\d{10}$/
+    if (!phoneNumRegex.test(phoneNumber))
+        return res.status(400).json({ error: "Phone number not valid" })
+
+
+    const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&amp;*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+    if (!passwordRegex.test(password))
+        return res.status(400).json({ error: "Password must contain at least 8 character (at least one uppercase), at least 1 special symbol and at least 1 number" })
+
+    const queryManagerInterface = await queryManager.getQueryManager()
+
+    const user = await queryManagerInterface.findDriverByPhoneNumber(phoneNumber)
+    let oldCode
+    if (user) oldCode = await queryManagerInterface.checkDriverVerificationCode(user.driverID)
+    if (!user || oldCode) {
+        if (user) await queryManagerInterface.deleteDriver(user.driverID)
+        const hash = await bcrypt.hash(password, 10)
+        const driverID = await queryManagerInterface.createDriver(firstName, lastName, hash, phoneNumber)
+        const code = getCode()
+        queryManagerInterface.createDriverVerificationCode(driverID, code)
+        smsAPI.sendVerificationCode(phoneNumber, code)
+        return res.status(200).json({ message: 'A verification code is sent via SMS', id: driverID })
+    }
+
+    else return res.status(409).json({ error: 'An account with the same phone number already exist, retry' })
+
+})
+
+/**
+ * This is a router post request that handles a driver's verification code. It first checks if the code is a six-digit number using a regex. If it is not, it returns an error message.
+   It then queries the database to check if the driverID exists and retrieves the row associated with it. If the row exists, it checks if the current time is before the expiry date of the code, and if so, checks if the code matches what was sent in the request body. If it does, it deletes the driver's code from the database and returns a success message. 
+   If the code does not match, it generates a new 6-digit code and sends it to the driver's phone number via SMS API. If not successful, an error message is returned with an ID for retry.
+   If either of these checks fail (i.e., time expired or driverID does not exist), an error message is returned accordingly.
+ */
+router.post('/code', async (req, res) => {
+    const { driverID, code } = req.body
+
+    const codeRegex = /^\d{6}$/
+    if (!codeRegex.test(code))
+        return res.status(400).json({ error: 'Code must be a six-digit number' })
+
+    const queryManagerInterface = await queryManager.getQueryManager()
+    const row = await queryManagerInterface.checkDriverVerificationCode(driverID)
+    if (row) {
+        // console.log((new Date().getTime() - row.expiryDate.getTime()) / 1000)
+
+        if (new Date() - row.expiryDate &lt; 0) {
+            if (code === row.code) {
+                await queryManagerInterface.deleteDriverCode(driverID)
+                return res.status(200).json({ message: 'Code inserted is valid, user verified' })
+            }
+            else {
+                const code = getCode()
+                await queryManagerInterface.updateDriverCode(driverID, code)
+                smsAPI.sendVerificationCode(row.phoneNumber, code)
+                return res.status(400).json({ error: "Wrong code, retry", id: driverID })
+            }
+
+        } else {
+            await queryManagerInterface.deleteDriver(driverID)
+            return res.status(410).json({ error: "Too late, the code is expired. Register a new account." })
+        }
+    }
+    else {
+        return res.status(409).json({ error: 'Intrusion' })
+    }
+})
+
+/**
+ * This is a router post request for the '/login' endpoint. It takes in a phone number and password from the request body and checks if the phone number is valid using a regex. If it is not valid, it returns an error message. If it is valid, it looks for a user with that phone number in the database. If no user is found, an error message is returned. If a user is found, it checks if that user has been verified and if not, returns an error message. If the user has been verified, it checks if the credentials match those in the database and if they do, creates a token cookie and returns a success message.
+ */
+router.post('/login', async (req, res) => {
+    const { phoneNumber, password } = req.body
+    const queryManagerInterface = await queryManager.getQueryManager()
+
+    const phoneNumRegex = /^\d{10}$/
+    if (!phoneNumRegex.test(phoneNumber))
+        return res.status(400).json({ error: "Phone number not valid" })
+
+    const user = await queryManagerInterface.findDriverByPhoneNumber(phoneNumber)
+
+    if (!user)
+        return res.status(401).json({ error: 'Phone number or Password are wrong' });
+
+    // check that the user is verified, so there is no verification code associated to it
+    const toVerify = await queryManagerInterface.checkDriverVerificationCode(user.driverID)
+    if (!toVerify) {
+        const valid = await queryManagerInterface.checkDriverCredentials(phoneNumber, password)
+        if (valid) {
+            const token = await queryManagerInterface.createDriverToken(user.driverID)
+            return res.status(200).cookie('token', token, { maxAge: 60 * 60 * 24 * 20 * 1000, httpOnly: false }).json({ message: 'Cookie Token has been set' });
+        }
+        else {
+            return res.status(401).json({ error: 'Phone number or Password are wrong' })
+        }
+    } else {
+        await queryManagerInterface.deleteDriver(user.driverID)
+        return res.status(410).json({ error: "User not verified. Register a new account." })
+    }
+})
+
+/**
+ * This code is a router patch request that is used to update the notification token for a user. The code first checks if the request contains a cookie with a token, and if so, it authenticates the user. If the user is authenticated, it updates the notification token in the query manager interface with the messaging token from the request body. If successful, it returns a status of 200 with a message of 'Notification Token Set Correctly'. If authentication fails, it returns an error of 401 Unauthorized.
+ */
+router.patch('/notification', async (req, res) => {
+    const { messagingToken } = req.body
+    const queryManagerInterface = await queryManager.getQueryManager()
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            await queryManagerInterface.updateNotificationToken(user, messagingToken)
+            return res.status(200).json({ message: 'Notification Token Set Correctly' })
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+/**
+ * Generate a random 6-digit verification code
+ * @returns the random verification code
+ */
+const getCode = () => {
+    return Math.floor(100000 + Math.random() * 900000)
+}
+
+/**
+ * authenticate() is an asynchronous function that takes in a token as an argument. It uses the queryManager module to get the queryManagerInterface, and then uses the validateToken() method of the queryManagerInterface to validate the token. If the token is valid, it returns the driverID associated with it, otherwise it returns undefined. 
+ */
+const authenticate = async (token) => {
+    const queryManagerInterface = await queryManager.getQueryManager()
+
+    const user = await queryManagerInterface.validateToken(token)
+    if (user) return user.driverID
+    else return undefined
+}
+
+module.exports = {
+    authenticate: authenticate,
+    router: router
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DSOs">DSOs</a></li><li><a href="global.html#aWeekAgo">aWeekAgo</a></li><li><a href="global.html#addCP">addCP</a></li><li><a href="global.html#addEVCP">addEVCP</a></li><li><a href="global.html#addRate">addRate</a></li><li><a href="global.html#addReservation">addReservation</a></li><li><a href="global.html#addSocket">addSocket</a></li><li><a href="global.html#addSpecialOffer">addSpecialOffer</a></li><li><a href="global.html#aggregateCPOData">aggregateCPOData</a></li><li><a href="global.html#authenticate">authenticate</a></li><li><a href="global.html#book">book</a></li><li><a href="global.html#checkAvailability">checkAvailability</a></li><li><a href="global.html#checkCPOCredentials">checkCPOCredentials</a></li><li><a href="global.html#checkCPOVerificationCode">checkCPOVerificationCode</a></li><li><a href="global.html#checkDriverCredentials">checkDriverCredentials</a></li><li><a href="global.html#checkDriverVerificationCode">checkDriverVerificationCode</a></li><li><a href="global.html#checkMaxDuration">checkMaxDuration</a></li><li><a href="global.html#checkReservationSlots">checkReservationSlots</a></li><li><a href="global.html#cpms">cpms</a></li><li><a href="global.html#createCPO">createCPO</a></li><li><a href="global.html#createCPOToken">createCPOToken</a></li><li><a href="global.html#createCPOVerificationCode">createCPOVerificationCode</a></li><li><a href="global.html#createDriver">createDriver</a></li><li><a href="global.html#createDriverToken">createDriverToken</a></li><li><a href="global.html#createDriverVerificationCode">createDriverVerificationCode</a></li><li><a href="global.html#deleteCPO">deleteCPO</a></li><li><a href="global.html#deleteCPOCode">deleteCPOCode</a></li><li><a href="global.html#deleteDriver">deleteDriver</a></li><li><a href="global.html#deleteDriverCode">deleteDriverCode</a></li><li><a href="global.html#distance">distance</a></li><li><a href="global.html#findCPOByEmail">findCPOByEmail</a></li><li><a href="global.html#findDriverByPhoneNumber">findDriverByPhoneNumber</a></li><li><a href="global.html#findSocket">findSocket</a></li><li><a href="global.html#getCPOReservations">getCPOReservations</a></li><li><a href="global.html#getChargeValue">getChargeValue</a></li><li><a href="global.html#getCode">getCode</a></li><li><a href="global.html#getDSO">getDSO</a></li><li><a href="global.html#getDetailsEVCP">getDetailsEVCP</a></li><li><a href="global.html#getDriverReservations">getDriverReservations</a></li><li><a href="global.html#getEVCPs">getEVCPs</a></li><li><a href="global.html#getEVCPsByCPO">getEVCPsByCPO</a></li><li><a href="global.html#getRate">getRate</a></li><li><a href="global.html#getSpecificEVCP">getSpecificEVCP</a></li><li><a href="global.html#handleMeterValues">handleMeterValues</a></li><li><a href="global.html#meterValues">meterValues</a></li><li><a href="global.html#notifyUsers">notifyUsers</a></li><li><a href="global.html#pool">pool</a></li><li><a href="global.html#sendVerificationCode">sendVerificationCode</a></li><li><a href="global.html#startCharge">startCharge</a></li><li><a href="global.html#toRadians">toRadians</a></li><li><a href="global.html#updateCPOCode">updateCPOCode</a></li><li><a href="global.html#updateDSO">updateDSO</a></li><li><a href="global.html#updateDriverCode">updateDriverCode</a></li><li><a href="global.html#updateNotificationToken">updateNotificationToken</a></li><li><a href="global.html#validateToken">validateToken</a></li><li><a href="global.html#verifyEVCPAssociation">verifyEVCPAssociation</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Sun Jan 29 2023 14:59:33 GMT+0100 (Ora standard dell’Europa centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controller/cpo/ChargingPointManager.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controller/cpo/ChargingPointManager.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const router = require('express').Router()
+const queryManager = require('../QueryManager')
+const { authenticate } = require('./AccountManager')
+
+const { CentralSystem } = require('@voltbras/ts-ocpp')
+
+/**
+ * This function returns all EVCPs of the CPO
+ */
+router.get('/', async (req, res) => {
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            const evcps = await queryManagerInterface.getEVCPsByCPO(user)
+            return res.status(200).json(evcps)
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+/**
+ * This function returns the details of the EVCP with the given evcpID
+ */
+router.get('/:evcpID', async (req, res) => {
+    const { evcpID } = req.params
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            const evcps = await queryManagerInterface.getSpecificEVCP(evcpID) // TODO CHECK THIS METHOD
+            return res.status(200).json(evcps)
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+/**
+ * This function adds an EVCP to the CPO
+ */
+router.post('/', async (req, res) => {
+    const { name, latitude, longitude, address } = req.body
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            const evcps = await queryManagerInterface.addEVCP(user, name, latitude, longitude, address)
+            if (evcps) {
+                return res.status(200).json({ message: 'EVCP added' })
+            }
+            return res.status(409).json({ error: 'An EVCP in the same spot already exists' })
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+/**
+ * This function adds a charge point to the EVCP with the given evcpID
+ */
+router.post('/:evcpID', async (req, res) => {
+    const { evcpID } = req.params
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            cp = await queryManagerInterface.addCP(evcpID)
+            if (cp)
+                return res.status(200).json({ message: 'CP added' })
+            return res.status(400).json({ error: 'EVCP not available' })
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+/**
+ * This function adds a socket to the charge point with the given cpID
+ */
+router.post('/:cpID', async (req, res) => {
+    const { cpID } = req.params
+    const { power, type } = req.body
+
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            const socket = await queryManagerInterface.addSocket(cpID, power, type)
+            if (socket)
+                return res.status(200).json({ message: 'Socket added' })
+            return res.status(400).json({ error: 'Wrong body' })
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+// THE PART DEDICATED TO THE OCPP SERVER
+
+/**
+ * This function creates a new CentralSystem object that will handle the requests from the charge points
+ */
+const cpms = new CentralSystem(5000, (req, metadata) => {
+    const { ocppVersion } = req;
+    switch (req.action) {
+        case 'Authorize':
+            return { action: req.action, ocppVersion };
+        case 'MeterValues':
+            return handleMeterValues(req, metadata)
+        case 'Heartbeat':
+            console.log('hearbeat by: ', metadata.chargePointId)
+            return { action: req.action, ocppVersion, currentTime: new Date().toISOString() };
+        case 'StatusNotification':
+            return { action: req.action, ocppVersion };
+    }
+    throw new Error('not supported');
+});
+
+/**
+ * This array contains the updated meter values received from the charge points
+ */
+let meterValues = []
+
+/**
+ * This function handles the meter values received from the charge points
+ * @param {*} req the request received from the charge point
+ * @param {*} metadata the metadata of the charge point
+ * @returns th
+ */
+const handleMeterValues = (req, metadata) => {
+    const { chargePointId } = metadata
+    const { connectorId, meterValue } = req
+    const { timestamp, sampledValue } = meterValue[0]
+    const { value } = sampledValue[0]
+    console.log('Meter values received from: ', chargePointId, 'connector: ', connectorId, 'value: ', value, 'timestamp: ', timestamp)
+    const meterValueObject = { chargePointId, connectorId, timestamp, value }
+    const index = meterValues.findIndex(mv => mv.chargePointId === chargePointId)
+    if (index === -1)
+        meterValues.push(meterValueObject)
+    else
+        meterValues[index] = meterValueObject
+    return { action: req.action, ocppVersion: req.ocppVersion }
+}
+
+cpms.addConnectionListener(async (id, status) => {
+    if (status === 'connected') {
+        console.log('New CP connected: ', id)
+        await startCharge(12)
+    }
+    if (status === 'disconnected')
+        console.log('CP disconnected: ', id)
+})
+
+/**
+ * This function starts a charge in the socket with the given socketID
+ * @param {*} socketID the ID of the socket to start the charge in
+ */
+const startCharge = async (socketID) => {
+    const response = await cpms.sendRequest({
+        ocppVersion: 'v1.6-json',
+        action: 'RemoteStartTransaction',
+        chargePointId: socketID,
+        payload: {
+            connectorId: 1,
+            idTag: '1234567890',
+        }
+    })
+    console.log(response.extract())
+}
+
+/**
+ * Gets the current charge value of the socket with the given socketID
+ * @param {*} socketID the ID of the socket to get the charge value from
+ * @returns the current charge value of the socket with the given socketID
+ */
+const getChargeValue = (socketID) => {
+    const index = meterValues.findIndex(mv => mv.chargePointId === socketID)
+    if (index === -1)
+        return 0
+    return meterValues[index].value
+}
+
+module.exports = { chargingPointManger: router, startCharge, getChargeValue }</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DSOs">DSOs</a></li><li><a href="global.html#aWeekAgo">aWeekAgo</a></li><li><a href="global.html#addCP">addCP</a></li><li><a href="global.html#addEVCP">addEVCP</a></li><li><a href="global.html#addRate">addRate</a></li><li><a href="global.html#addReservation">addReservation</a></li><li><a href="global.html#addSocket">addSocket</a></li><li><a href="global.html#addSpecialOffer">addSpecialOffer</a></li><li><a href="global.html#aggregateCPOData">aggregateCPOData</a></li><li><a href="global.html#authenticate">authenticate</a></li><li><a href="global.html#book">book</a></li><li><a href="global.html#checkAvailability">checkAvailability</a></li><li><a href="global.html#checkCPOCredentials">checkCPOCredentials</a></li><li><a href="global.html#checkCPOVerificationCode">checkCPOVerificationCode</a></li><li><a href="global.html#checkDriverCredentials">checkDriverCredentials</a></li><li><a href="global.html#checkDriverVerificationCode">checkDriverVerificationCode</a></li><li><a href="global.html#checkMaxDuration">checkMaxDuration</a></li><li><a href="global.html#checkReservationSlots">checkReservationSlots</a></li><li><a href="global.html#cpms">cpms</a></li><li><a href="global.html#createCPO">createCPO</a></li><li><a href="global.html#createCPOToken">createCPOToken</a></li><li><a href="global.html#createCPOVerificationCode">createCPOVerificationCode</a></li><li><a href="global.html#createDriver">createDriver</a></li><li><a href="global.html#createDriverToken">createDriverToken</a></li><li><a href="global.html#createDriverVerificationCode">createDriverVerificationCode</a></li><li><a href="global.html#deleteCPO">deleteCPO</a></li><li><a href="global.html#deleteCPOCode">deleteCPOCode</a></li><li><a href="global.html#deleteDriver">deleteDriver</a></li><li><a href="global.html#deleteDriverCode">deleteDriverCode</a></li><li><a href="global.html#distance">distance</a></li><li><a href="global.html#findCPOByEmail">findCPOByEmail</a></li><li><a href="global.html#findDriverByPhoneNumber">findDriverByPhoneNumber</a></li><li><a href="global.html#findSocket">findSocket</a></li><li><a href="global.html#getCPOReservations">getCPOReservations</a></li><li><a href="global.html#getChargeValue">getChargeValue</a></li><li><a href="global.html#getCode">getCode</a></li><li><a href="global.html#getDSO">getDSO</a></li><li><a href="global.html#getDetailsEVCP">getDetailsEVCP</a></li><li><a href="global.html#getDriverReservations">getDriverReservations</a></li><li><a href="global.html#getEVCPs">getEVCPs</a></li><li><a href="global.html#getEVCPsByCPO">getEVCPsByCPO</a></li><li><a href="global.html#getRate">getRate</a></li><li><a href="global.html#getSpecificEVCP">getSpecificEVCP</a></li><li><a href="global.html#handleMeterValues">handleMeterValues</a></li><li><a href="global.html#meterValues">meterValues</a></li><li><a href="global.html#notifyUsers">notifyUsers</a></li><li><a href="global.html#pool">pool</a></li><li><a href="global.html#sendVerificationCode">sendVerificationCode</a></li><li><a href="global.html#startCharge">startCharge</a></li><li><a href="global.html#toRadians">toRadians</a></li><li><a href="global.html#updateCPOCode">updateCPOCode</a></li><li><a href="global.html#updateDSO">updateDSO</a></li><li><a href="global.html#updateDriverCode">updateDriverCode</a></li><li><a href="global.html#updateNotificationToken">updateNotificationToken</a></li><li><a href="global.html#validateToken">validateToken</a></li><li><a href="global.html#verifyEVCPAssociation">verifyEVCPAssociation</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Sun Jan 29 2023 14:59:33 GMT+0100 (Ora standard dell’Europa centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
