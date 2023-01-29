@@ -182,4 +182,4 @@ const getChargeValue = (socketID) => {
     return meterValues[index].value
 }
 
-module.exports = { router, startCharge, getChargeValue }
+module.exports = { chargingPointManger: router, startCharge, getChargeValue }
