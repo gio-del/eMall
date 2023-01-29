@@ -2,6 +2,9 @@ const router = require('express').Router()
 
 const queryManager = require('../QueryManager')
 
+/**
+ * This route is used to get the list of EVCPs
+ */
 router.get('/', async (req, res) => {
     const { latitude, longitude, filters } = req.query
 

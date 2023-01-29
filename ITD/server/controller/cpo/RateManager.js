@@ -2,6 +2,9 @@ const router = require('express').Router()
 const { authenticate } = require('./AccountManager')
 const queryManager = require('../QueryManager')
 
+/**
+ * This route is used to add a new rate to a specific EVCP
+ */
 router.post('/:evcpID', async (req, res) => {
     const { evcpID } = req.params
     const { typeName, flatPrice, variablePrice } = req.body
@@ -19,7 +22,9 @@ router.post('/:evcpID', async (req, res) => {
     return res.status(401).json({ error: 'Unauthorized' })
 })
 
-
+/**
+ * This route is used to get the rates of a specific EVCP
+ */
 router.get('/:evcpID', async (req, res) => {
     const { evcpID } = req.params
     if (req.cookies.token) {

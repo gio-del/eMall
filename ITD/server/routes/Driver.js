@@ -1,12 +1,10 @@
+// This file contains the routes for the driver
+
 const accountManager = require('../controller/driver/AccountManager').router;
 const cpSearch = require('../controller/driver/CPSearch')
 const reservationManager = require('../controller/driver/ReservationManager')
 const carManager = require('../controller/driver/CarManager')
 
-/*
-    This component handles the routes related to the drivers
-    All the routes starts with /api/driver
-*/
 const router = require('express').Router()
 
 

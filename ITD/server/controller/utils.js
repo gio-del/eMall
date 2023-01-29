@@ -1,11 +1,10 @@
 /**
- * This function is used to calculate the distances between two point given their coordinates
- * ASSUMPTION: The Earth is a perfect sphere
- * @param {lat1}
- * @param {lon1}
- * @param {lat2}
- * @param {lon2}
- * @returns the distance between the two points
+ * This function calculates the distance between two points. The assumption is that the Earth is a perfect sphere.
+ * @param {*} lat1 the latitude of the first point
+ * @param {*} lon1 the longitude of the first point
+ * @param {*} lat2 the latitude of the second point
+ * @param {*} lon2 the longitude of the second point
+ * @returns the distance between the two points in kilometers
  */
 function distance(lat1, lon1, lat2, lon2) {
     var R = 6371; // radius of Earth in kilometers
@@ -19,6 +18,11 @@ function distance(lat1, lon1, lat2, lon2) {
     return d;
 }
 
+/**
+ * Converts degrees to radians
+ * @param {*} degree the degree to convert
+ * @returns the degree converted to radians
+ */
 function toRadians(degree) {
     return degree * (Math.PI / 180);
 }

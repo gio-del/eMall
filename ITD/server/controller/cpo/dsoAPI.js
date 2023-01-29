@@ -1,5 +1,14 @@
-const aWeekFromNow = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
+// This class is used to simulate the DSO API
 
+
+/**
+ * The idea is that a DSO can be changed if and only if a contractual bound is expired. For the sake of the demo, we assume that the bound are already expired
+ */
+const aWeekAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+
+/**
+ * A list of mocked DSOs available for the EVCPs
+ */
 const DSOs = [
     { dsoID: 1, DSOname: "Xenel", DSOprice: 10, DSOexpiry: aWeekFromNow },
     { dsoID: 2, DSOname: 'Medison', DSOprice: 0.67, DSOexpiry: aWeekFromNow },
@@ -14,10 +23,23 @@ const DSOs = [
 ]
 
 module.exports = {
+    /**
+     * This function returns a list of DSOs available for the EVCP
+     * @param {*} evcpID the ID of the EVCP
+     * @returns the list of DSOs available for the EVCP
+     */
     getDSOsAvailable: async (evcpID) => {
         return DSOs.sort(() => 0.5 - Math.random()).slice(0, 5)
     },
+    /**
+     * This function sets the DSO for the EVCP
+     * @param {*} dsoID the ID of the DSO
+     * @returns the DSO object
+     */
     setDSO: async (dsoID) => {
-        return DSOs.filter((dso) => dso.dsoID === dsoID)[0]
+        dso = DSOs.filter((dso) => dso.dsoID === dsoID)[0]
+        if (dso && new Date() < DSOs.filter((dso) => dso.dsoID === dsoID)[0].DSOexpiry)
+            return undefined
+        return dso
     }
 }

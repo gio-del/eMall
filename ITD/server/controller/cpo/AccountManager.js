@@ -4,6 +4,9 @@ const emailAPI = require('./emailAPI')
 
 const router = require('express').Router()
 
+/**
+ * This route is used to sign up a new CPO
+ */
 router.post('/signup', async (req, res) => {
     const { companyName, email, password } = req.body
 
@@ -35,6 +38,9 @@ router.post('/signup', async (req, res) => {
 
 })
 
+/**
+ * This route is used to verify the code sent via mail
+ */
 router.post('/code', async (req, res) => {
     const { cpoID, code } = req.body
 
@@ -70,7 +76,7 @@ router.post('/code', async (req, res) => {
 })
 
 /**
- * Login create the token if the credentials are valid
+ * This route is used to login a CPO. If the user is not verified, it will be deleted. If the user is verified, a token will be created and sent to the client if the credentials are correct
  */
 router.post('/login', async (req, res) => {
     const { email, password } = req.body
@@ -103,13 +109,18 @@ router.post('/login', async (req, res) => {
 })
 
 /**
- * Generate a random 6-digit verification code
- * @returns the random verification code
+ * Generates a random 6-digit number
+ * @returns a random 6-digit number
  */
 const getCode = () => {
     return Math.floor(100000 + Math.random() * 900000)
 }
 
+/**
+ * Authenticates a user by checking if the token is valid
+ * @param {*} token the token to check
+ * @returns the cpoID if the token is valid, undefined otherwise
+ */
 const authenticate = async (token) => {
     const queryManagerInterface = await queryManager.getQueryManager()
 

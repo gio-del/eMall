@@ -1,8 +1,11 @@
 const router = require('express').Router()
 const queryManager = require('../QueryManager')
 const dsoAPI = require('./dsoAPI')
-const {authenticate} = require('./AccountManager')
+const { authenticate } = require('./AccountManager')
 
+/**
+ * This route is used to get the DSO of a specific EVCP
+ */
 router.get('/:evcpID', async (req, res) => {
     const { evcpID } = req.params
     if (req.cookies.token) {
@@ -17,6 +20,9 @@ router.get('/:evcpID', async (req, res) => {
     return res.status(401).json({ error: 'Unauthorized' })
 })
 
+/**
+ * This route is used to get the DSOs available for a specific EVCP
+ */
 router.get('/dso/:evcpID', async (req, res) => {
     const { evcpID } = req.params
     if (req.cookies.token) {
@@ -31,7 +37,9 @@ router.get('/dso/:evcpID', async (req, res) => {
     return res.status(401).json({ error: 'Unauthorized' })
 })
 
-
+/**
+ * This route is used to set the DSO of a specific EVCP
+ */
 router.post('/dso/:evcpID', async (req, res) => {
     const { evcpID } = req.params
     const { dsoID } = req.body

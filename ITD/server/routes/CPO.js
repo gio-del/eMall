@@ -1,13 +1,11 @@
+// This file contains the routes for the CPO
+
 const accountManager = require('../controller/cpo/AccountManager').router
 const bookingManager = require('../controller/cpo/BookingManager').router
 const chargingPointManger = require('../controller/cpo/ChargingPointManager')
 const energyManager = require('../controller/cpo/EnergyManager')
 const rateManager = require('../controller/cpo/RateManager')
 
-/*
-    This component handles the routes related to the CPOs
-    All the routes starts with /api/cpo
-*/
 const router = require('express').Router()
 
 router.use('/user', accountManager)
