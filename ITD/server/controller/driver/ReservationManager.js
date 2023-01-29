@@ -1,7 +1,8 @@
-const authenticate = require('../driver/AccountManager').authenticate
+const { authenticate } = require('../driver/AccountManager')
 const queryManager = require('../QueryManager')
-const book = require('../cpo/BookingManager').book
+const { book } = require('../cpo/BookingManager')
 const router = require('express').Router()
+const { startCharge } = require('../cpo/ChargingPointManager')
 
 router.get('/', async (req, res) => {
     if (req.cookies.token) {
@@ -58,6 +59,25 @@ router.post('/:id', async (req, res) => {
             const resBooking = await book(user, id, type, power, timeFrom, timeTo)
             if (resBooking) return res.status(200).json({ message: "The reservation has been accepted" })
             else return res.status(409).json({ error: 'Conflict' })
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+/**
+ * Start the charging of a reservation given its reservationID
+ */
+router.post('/start/:id', async (req, res) => {
+    const { id } = req.params
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            const socketID = await queryManagerInterface.findSocket(id)
+            const resStart = await startCharge(socketID)
+            if (resStart) return res.status(200).json({ message: "The charging has been started" })
+            else return res.status(404).json({ error: 'Charging not started, error' })
         }
     }
     return res.status(401).json({ error: 'Unauthorized' })

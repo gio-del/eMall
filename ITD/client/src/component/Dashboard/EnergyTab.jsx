@@ -51,6 +51,11 @@ export default function EnergyTab({ evcpList }) {
 
   return (
     <>
+      <TabSelectorDash
+        tabs={evcpList}
+        currentTab={currentEvcp}
+        setCurrentTab={setCurrentEvcp}
+      />
       <div>
         <p>Selected DSO</p>
         <p>{selectedDSO && selectedDSO.DSOname}</p>
@@ -59,11 +64,6 @@ export default function EnergyTab({ evcpList }) {
         <p>Availalble DSOs</p>
         <p>{DSOs && DSOs.map((dso) => <span>{dso.DSOname}</span>)}</p>
       </div>
-      <TabSelectorDash
-        tabs={evcpList}
-        currentTab={currentEvcp}
-        setCurrentTab={setCurrentEvcp}
-      />
     </>
   )
 }

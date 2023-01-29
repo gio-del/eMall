@@ -1,6 +1,6 @@
 const queryManager = require('../QueryManager')
 const router = require('express').Router()
-const authenticate = require('./AccountManager').authenticate
+const { authenticate } = require('./AccountManager')
 
 const book = async (driverID, evcpID, type, power, timeFrom, timeTo) => {
     const queryManagerInterface = await queryManager.getQueryManager()

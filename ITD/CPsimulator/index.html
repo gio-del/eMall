@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CP Simulator</title>
+  </head>
+  <body>
+    <h1>Charging Point Simulator</h1>
+    <h2>Add a Charging Point</h2>
+
+    <form
+      action="http://localhost:3001/api"
+      method="POST"
+      onsubmit="onSubmit()"
+    >
+      <label for="id">ID</label>
+      <input type="number" name="id" id="id" />
+      <label for="power">Power in kWh</label>
+      <input type="number" name="power" id="power" />
+      <button type="submit">Add</button>
+    </form>
+    <h2>Charging Points</h2>
+    <div id="charging-points"></div>
+    <button onclick="window.location.reload()">Refresh</button>
+
+    <script>
+      const onSubmit = () => {
+        event.preventDefault();
+        const id = document.getElementById("id").value;
+        const power = document.getElementById("power").value;
+        const data = { id, power };
+        fetch("http://localhost:3001/api", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Success:", data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      };
+      fetch("http://localhost:3001/api")
+        .then((response) => response.json())
+        .then((cps) => {
+          const cpsHtml = cps.map((cp) => {
+            return `<div class="cp">
+                      <div>ID:${cp.cp.id}</div>
+                      <div> STATUS:${cp.status}</div>
+                      <div> POWER IN kWh:${cp.power}</div>
+                      <div> START TIME:${cp.start}</div>
+                    </div>`;
+          });
+          document.getElementById("charging-points").innerHTML =
+            cpsHtml.join("");
+        });
+    </script>
+    <style>
+      .cp {
+        width: fit-content;
+        border: 1px solid black;
+        padding: 10px;
+        margin: 10px;
+      }
+    </style>
+  </body>
+</html>

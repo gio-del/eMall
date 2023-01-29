@@ -31,16 +31,16 @@ export default function ReservationsTab({ evcpList }) {
 
   return (
     <>
-      <div>
-        <TabSelectorDash
-          tabs={evcpList}
-          currentTab={currentEvcp}
-          setCurrentTab={setCurrentEvcp}
-        />
-      </div>
+      <TabSelectorDash
+        tabs={evcpList}
+        currentTab={currentEvcp}
+        setCurrentTab={setCurrentEvcp}
+      />
       <div>
         {reservations &&
-          reservations.map((reservation) => <p>{reservation.start_date}</p>)}
+          reservations.map((reservation) => (
+            <p key={reservation.reservatioID}>{reservation.timeTo}</p>
+          ))}
       </div>
     </>
   )

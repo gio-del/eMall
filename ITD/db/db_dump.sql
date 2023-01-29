@@ -1,4 +1,4 @@
--- Table: car
+--- Table: car
 CREATE TABLE CAR (
     id serial PRIMARY KEY,
     driver_id int NOT NULL,

@@ -1,6 +1,6 @@
 const queryManager = require('../QueryManager')
 const bcrypt = require('bcrypt')
-const smsAPI = require('../smsAPI')
+const smsAPI = require('./smsAPI')
 
 const router = require('express').Router()
 

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const authenticate = require('./AccountManager').authenticate
+const { authenticate } = require('./AccountManager')
 const queryManager = require('../QueryManager')
 
 router.post('/:evcpID', async (req, res) => {

@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const queryManager = require('../QueryManager')
 const dsoAPI = require('./dsoAPI')
-const authenticate = require('./AccountManager').authenticate
+const {authenticate} = require('./AccountManager')
 
 router.get('/:evcpID', async (req, res) => {
     const { evcpID } = req.params
