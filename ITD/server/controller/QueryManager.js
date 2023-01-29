@@ -454,7 +454,8 @@ exports.getQueryManager = async () => {
          */
         findSocket: async (reservationID) => {
             const res = await pool.query('SELECT socket_id FROM RESERVATION WHERE id = $1', [reservationID])
-            return res.rows[0] //id is unique so this is ok, but what if there is no  reservation with the provided id?
+            const rows = res.rows
+            return res.rowCount > 0 ? rows[0].socket_id : undefined
         },
 
         /**

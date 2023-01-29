@@ -340,7 +340,7 @@ Users can only search and view details of a CP without first being authenticated
 \end{itemize}
 \pagebreak
 \subsection{Component interfaces}
-In this section, we will use a class diagram to illustrate the component interfaces. The methods are presented as clearly as possible, and we expect their functionality to be easily understandable.
+In this section, we use a class diagram to illustrate the component interfaces. The methods are presented as clearly as possible, and we expect their functionality to be easily understandable.
 \begin{figure}[H]
     \centering
     \hspace*{-2.5cm}
@@ -359,6 +359,604 @@ In this section, we will use a class diagram to illustrate the component interfa
     \includegraphics[scale=0.5]{src/componentInterfaces/cpms_interface.pdf}
     \caption{Class Diagram with interfaces of the CPMS System}
 \end{figure}
+
+\subsubsection{API endpoints}
+In this section the API endpoints are presented. The focus is on the method used, on the parameters required and on the response.
+
+\section*{Endpoint: api/cpo/user/signup}
+\subsection*{Method: POST}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item companyName: String
+    \item email: String
+    \item password: String
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("A verification code is sent via mail")
+              \item id: number
+          \end{itemize}
+    \item 400
+          \begin{itemize}
+              \item error: String ("eMail not valid", "Password must contain at least 8 character (at least one uppercase), at least 1 special symbol and at least 1 number")
+          \end{itemize}
+    \item 409
+          \begin{itemize}
+              \item error: String ("An account with the same email already exist, retry")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/user/code}
+\subsection*{Method: POST}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item cpoID: number
+    \item code: String (6-digit number)
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("Code inserted is valid, user verified")
+          \end{itemize}
+    \item 400
+          \begin{itemize}
+              \item error: String ("Code must be a six-digit number", "Wrong code, retry")
+              \item id: number (if error is "Wrong code, retry")
+          \end{itemize}
+    \item 409
+          \begin{itemize}
+              \item error: String ("Intrusion")
+          \end{itemize}
+    \item 410
+          \begin{itemize}
+              \item error: String ("Too late, the code is expired. Register a new account.")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/user/login}
+\subsection*{Method: POST}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item email: String
+    \item password: String
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("Cookie Token has been set")
+          \end{itemize}
+    \item 400
+          \begin{itemize}
+              \item error: String ("eMail not valid", "Password must contain at least 8 character (at least one uppercase), at least 1 special symbol and at least 1 number")
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Email or Password are wrong")
+          \end{itemize}
+    \item 410
+          \begin{itemize}
+              \item error: String ("User not verified. Register a new account.")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/book/:evcpID}
+\subsection*{Method: GET}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item reservations: Array of Objects
+                    \begin{itemize}
+                        \item id: number
+                        \item evcpID: number
+                        \item driverID: number
+                        \item start: String (date)
+                        \item end: String (date)
+                    \end{itemize}
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/book/}
+\subsection*{Method: GET}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item aggregated: Array of Objects
+                    \begin{itemize}
+                        \item evcpID: number
+                        \item date: String (date)
+                        \item profit: number
+                    \end{itemize}
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/cp/}
+\subsection*{Method: GET}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item EVCPs: Array of Objects
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/cp/:evcpID}
+\subsection*{Method: GET}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item evcpDetails: Array of Objects
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/cp/}
+\subsection*{Method: POST}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item name: String
+    \item latitude: number
+    \item longitude: number
+    \item address: String
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("EVCP added")
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+    \item 409
+          \begin{itemize}
+              \item error: String ("An EVCP in the same spot already exists")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/cp/:evcpID}
+\subsection*{Method: POST}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("CP added")
+          \end{itemize}
+    \item 400
+          \begin{itemize}
+              \item error: String ("EVCP not found")
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/cp/:cpID}
+\subsection*{Method: POST}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item cpID: number
+\end{itemize}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item power: number
+    \item type: String
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("Socket added")
+          \end{itemize}
+    \item 400
+          \begin{itemize}
+              \item error: String ("CP not found")
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/energy/:evcpID}
+\subsection*{Method: GET}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item dso: Object (Name, contract, price)
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/energy/dso/:evcpID}
+\subsection*{Method: GET}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item availableDSOs: Array of Objects
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/energy/dso/:evcpID}
+\subsection*{Method: POST}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item dsoID: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("DSO updated")
+          \end{itemize}
+    \item 400
+          \begin{itemize}
+              \item error: String ("DSO not available")
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/rate/:evcpID}
+\subsection*{Method: POST}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item typeName: String
+    \item flatPrice: number
+    \item variablePrice: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("Rate added")
+          \end{itemize}
+    \item 400
+          \begin{itemize}
+              \item error: String ("EVCP not found")
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/cpo/rate/:evcpID}
+\subsection*{Method: GET}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item rates: Array of Objects
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/user/signup}
+\subsection*{Method: POST}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item firstName: String
+    \item lastName: String
+    \item phoneNumber: String
+    \item password: String
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("A verification code is sent via SMS")
+              \item id: number
+          \end{itemize}
+    \item 400
+          \begin{itemize}
+              \item error: String ("Phone number not valid","Password must contain at least 8 character (at least one uppercase), at least 1 special symbol and at least 1 number")
+          \end{itemize}
+    \item 409
+          \begin{itemize}
+              \item error: String ("An account with the same phone number already exist, retry")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/user/code}
+\subsection*{Method: POST}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item driverID: number
+    \item code: number (6-digit code)
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("A verification code is sent via SMS")
+              \item id: number
+          \end{itemize}
+    \item 400
+          \begin{itemize}
+              \item error: String ("Code must be a six-digit number","Wrong code, retry")
+              \item id: number (if error is "Wrong code, retry")
+          \end{itemize}
+    \item 410
+          \begin{itemize}
+              \item error: String ("Too late, the code is expired. Register a new account")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/user/login}
+\subsection*{Method: POST}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item phoneNumber: String
+    \item password: String
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("Cookie Token is set")
+          \end{itemize}
+    \item 400
+          \begin{itemize}
+              \item error: String ("Phone number not valid")
+          \end{itemize}à
+    \item 401
+          \begin{itemize}
+              \item error: String ("Phone number or Password are wrong")
+          \end{itemize}
+    \item 410
+          \begin{itemize}
+              \item error: String ("User not verified. Register a new account")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/user/notification}
+\subsection*{Method: PATCH}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item notificationToken: String
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("Notification Token Set Correctly")
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/search}
+\subsection*{Method: GET}
+\subsubsection*{URL Query Parameters}
+\begin{itemize}
+    \item latitude: number
+    \item longitude: number
+    \item filters: Array of Objects
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item EVCPs: Array of Objects
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/search/:evcpID}
+\subsection*{Method: GET}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item evcpDetails: Array of Objects
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/reserve}
+\subsection*{Method: GET}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item listOfReservations: Array of Objects
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/reserve/slot/:evcpID}
+\subsection*{Method: GET}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{URL Query Parameters}
+\begin{itemize}
+    \item socketType: String
+    \item power: number
+    \item date: String
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item availableSlots: Array of Objects
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/reserve/duration/:evcpID}
+\subsection*{Method: GET}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{URL Query Parameters}
+\begin{itemize}
+    \item socketType: String
+    \item power: number
+    \item date: String
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item maxDurations: Array of Objects
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/reserve/:evcpID}
+\subsection*{Method: POST}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item evcpID: number
+\end{itemize}
+\subsubsection*{Request Body}
+\begin{itemize}
+    \item socketType: String
+    \item power: number
+    \item timeFrom: String (date)
+    \item timeTo: String (date)
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("The reservation has been accepted")
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+    \item 409
+          \begin{itemize}
+              \item error: String ("Conflict")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/reserve/start/:reservationID}
+\subsection*{Method: POST}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item reservationID: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item message: String ("The charging has been started")
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+    \item 404
+          \begin{itemize}
+              \item error: String ("Charging not started, error")
+          \end{itemize}
+\end{itemize}
+
+\section*{Endpoint: api/driver/car/:carID}
+\subsection*{Method: GET}
+\subsubsection*{URL Parameters}
+\begin{itemize}
+    \item carID: number
+\end{itemize}
+\subsubsection*{Response}
+\begin{itemize}
+    \item 200
+          \begin{itemize}
+              \item chargeDetails: Array of Objects
+          \end{itemize}
+    \item 401
+          \begin{itemize}
+              \item error: String ("Unauthorized")
+          \end{itemize}
+\end{itemize}
 
 \subsection{Architectural Styles and patterns}
 \begin{itemize}
