@@ -2,17 +2,18 @@ import { useState, useEffect } from 'react'
   import TabSelectorDash from '../utilitycomponent/TabSelectorDash'
 import FormField from '../utilitycomponent/FormField'
 import { BASE_API } from '../../constant'
+import RadioButton from '../utilitycomponent/RadioButton'
 
 export default function ChargingPointsTab({ evcpList , setEvcpList}) {
   const [currentEvcp, setCurrentEvcp] = useState()
-  const [cps, setCps] = useState()
+  const [evcp, setEvcp] = useState()
   const [name, setName] = useState()
   const [latitude, setLatitude] = useState()
   const [longitude, setLongitude] = useState()
   const [address, setAddress] = useState()
-  const [ID, setID] = useState()
   const [power, setPower] = useState()
   const [type, setType] = useState()
+  const [cpID, setCpID] = useState()
   const [error, setError] = useState('')
 
 
@@ -28,7 +29,7 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
       if (response.status === 200) {
         const jsonData = await response.json()
         console.log(jsonData)
-        setCps(jsonData)
+        setEvcp(jsonData)
       }
     } catch (err) {
       console.error(err)
@@ -64,26 +65,35 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
     } else response.json().then((data) => setError(data.error))
   }
 
-  const handleSubmitCP = async (e) => {
+  const handleSubmitSocket = async (e) => {
     e.preventDefault()
     setError('')
-    const response = await fetch(`${BASE_API}/cpo/cp/${currentEvcp.evcpID}`, {
+    const response = await fetch(`${BASE_API}/cpo/cp/${cpID}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({
-        name: name,
-        latitude: latitude,
-        longitude: longitude,
-        address: address,
+        power: power,
+        type: type
       }),
     })
 
     if (response.status === 200) {
       console.log(response.headers)
-      setEvcpList([]);
-      document.getElementById("addEVCP").classList.add("hidden")
-      document.getElementById("toAddEVCP").classList.remove("hidden")
+    } else response.json().then(console.log(data.error))
+  }
+
+  const createCP = async () => {
+    setError('')
+    const response = await fetch(`${BASE_API}/cpo/cp/${currentEvcp.evcpID}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    })
+
+    if (response.status === 200) {
+      console.log(response.headers)
+      getData()
 
     } else response.json().then((data) => setError(data.error))
   }
@@ -96,8 +106,8 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
 
   return (
     <>
-       <div className='md:flex md:justify-between md:mt-8 '>
-        <div className='w-1/4 md:mx-8'>
+      <div className='md:flex md:justify-between md:mt-8'>
+        <div className='w-1/4 md:mx-8 overflow-y-scroll'>
           <div className=''>
             <TabSelectorDash
               tabs={evcpList}
@@ -106,7 +116,7 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
             />
           </div>
           <div id="toAddEVCP" className='bg-dash-black cursor-pointer rounded-xl mt-8 p-2 flex justify-center text-dash-gray'
-          onClick={() => addEVCP()}>
+            onClick={() => addEVCP()}>
             <p>Add an EVCP</p>
           </div>
           <form id="addEVCP" className='hidden p-4 bg-white mt-4 rounded-xl' onSubmit={handleSubmit}>
@@ -148,75 +158,90 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
             </button>
           </form>
         </div>
-        
+
         <div className='grid grid-cols-2 h-full w-full gap-4 md:mx-8'>
-              {cps &&
-                cps.map((cp) => (
-                  <>
-                    <div className='bg-white rounded-xl flex justify-center items-center w-full p-4'>
-                      <div className='row-span-1 inset-0 flex h-full right-0 w-full text-center'>
-                        <div className='flex justify-center items-center w-full'>
-                          <div>
-                            <p className='font-medium'>Charging Point {cp.cp_id}</p>
-                            <p className='font-medium'>Power</p>
-                            <p>{cp.power_kw} kW</p>
+          {evcp &&
+            evcp.cps.map((cp) => (
+              <>
+                <div className='col-span-2 bg-white rounded-xl flex justify-center items-center w-full'>
+                  <div className=' flex h-full right-0 w-full text-center'>
+                    <div className='flex justify-center items-center w-full h-full'>
+                      <div className='w-full h-full'>
+                        <div className='border-b-2 py-2'>
+                          <p className='font-medium '>Charging Point {cp.cpID}</p>
+                        </div>
+                        <div>
+                          <div className='grid grid-cols-2 gap-4 w-full h-full my-2'>
+                            {cp.sockets.map((socket) => (
+                              <div className='flex-col relative border-r-2'>
+                                <p className='font-semibold'>Socket </p>
+                                <p className='font-semibold'>{socket.type}</p>
+                                <p>Actual State</p>
+                                <div className='grid grid-cols-2 grid-rows-2 gap-4 h-auto m-4 items-center justify-center'>
+                                  <div className='border-2 border-dash-black col-span-2 rounded-xl p-2'>
+                                    <p className='text-dash-black'>Status</p>
+                                    <p className='text-dash-black'>Operative</p>
+                                  </div>
+                                  <div className='bg-dash-black rounded-xl p-2'>
+                                    <p className='text-dash-gray'>Power</p>
+                                    <p className='text-dash-gray'>24.1kW</p>
+                                  </div>
+                                  <div className='bg-dash-black rounded-xl p-2'>
+                                    <p className='text-dash-gray'>Battery</p>
+                                    <p className='text-dash-gray'>50%</p>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                            {cp.sockets.length != 2 ?(
+                              <div>
+                                <div className='bg-white row-span-2 col-span-2 rounded-xl cursor-pointer flex justify-center items-center w-full'>
+                                  <div className=' flex h-full right-0 w-full px-8 py-4'>
+                                    <div className='flex-col justify-center items-center w-full'>
+                                      <div>
+                                        <p className='font-medium text-md text-dash-black text-center'>Add Charging Point</p>
+
+                                      </div>
+
+                                      <form className='bg-white mt-4 rounded-xl' onSubmit={handleSubmitSocket}>
+                                        <FormField
+                                          id={"power"}
+                                          type="power"
+                                          value={power}
+                                          onChange={(e) => setPower(e.target.value)}
+                                        >
+                                          Power (kW)
+                                        </FormField>
+                                        <p className='block text-gray-700 font-medium mb-2'>Type</p>
+                                        <div className="flex flex-row justify-center gap-10">
+                                          <RadioButton role={type} name="Type2" setRole={setType} />
+                                          <RadioButton role={type} name="CCS2" setRole={setType} />
+                                        </div>
+
+                                        <button className="bg-dash-black text-white mt-4 py-2 px-4 rounded-lg"
+                                          onClick={() => setCpID(cp.cp_id)}>
+                                          Add the Socket
+                                        </button>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : <p></p>}
+                            
                           </div>
                         </div>
                       </div>
                     </div>
-                  </>))}
-          <div id="addCP" className='hidden bg-dash-black rounded-xl cursor-pointer flex justify-center items-center w-full'>
-            <div  className='row-span-1 inset-0 flex h-full right-0 w-full text-center '>
-              <div className='flex justify-center items-center w-full'>
-                <div>
-                  <p className='font-medium text-dash-gray '>Add Charging Point</p>
+                  </div>
                 </div>
+              </>))}
+              <div className='bg-dash-black text-dash-gray col-span-2 text-center py-4 rounded-xl'
+              onClick={() => createCP()}>
+                Add a Charging Point
               </div>
-            </div>
-          </div>
-          <div id="toAddCP" className='bg-white row-span-2 col-span-2 rounded-xl cursor-pointer flex justify-center items-center w-full'>
-            <div className=' flex h-full right-0 w-full px-8 py-4'>
-              <div className='flex-col justify-center items-center w-full'>
-                <div>
-                  <p className='font-medium text-lg text-dash-gray-dark text-center'>Add Charging Point</p>
-                </div>
-                
-                <form className='p-4 bg-white mt-4 rounded-xl' onSubmit={handleSubmitCP}>
-                  <FormField
-                    id="ID"
-                    type="ID"
-                    value={ID}
-                    onChange={(e) => setID(e.target.value)}
-                  >
-                    <div>
-                      <p className='font-medium text-md text-dash-black '>ID of the charging station</p>
-                      <p className='font-light text-sm text-dash-gray-dark '>In order to establish a connection between your account and you charging point it is needed to provide the identifier for your charging point, this is usually the charging point's serial number</p>
-                    </div>
-                  </FormField>
-                  <FormField
-                    id="power"
-                    type="power"
-                    value={power}
-                    onChange={(e) => setPower(e.target.value)}
-                  >
-                    Power
-                  </FormField>
-                  <FormField
-                    id="type"
-                    type="type"
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                  >
-                    Type
-                  </FormField>
 
-                  <button className="bg-dash-black text-white py-2 px-4 rounded-lg">
-                    Add the charging point
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </>

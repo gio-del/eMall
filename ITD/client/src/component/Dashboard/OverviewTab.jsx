@@ -81,7 +81,7 @@ export default function OverviewTab() {
 
   return (
     <>
-      <div className="flex py-10 items-stretch px-10 w-full h-[calc(100%-10rem)]">
+      <div className="flex py-10 items-stretch px-10 w-full h-[calc(100%-10rem)] overflow-y-scroll">
         <div className="grid max-lg:grid-cols-1 lg:grid-cols-4 w-full h-full gap-4">
           <Link to="./reservations">
             <ActionButton background={'bg-black'} data={earningsx} />
@@ -89,58 +89,12 @@ export default function OverviewTab() {
           <Link to="./charging-points">
             <ActionButton background={'bg-white'} data={active} />
           </Link>
-          <Link to="./charging-points">
-            <ActionButton background={'bg-white'} data={nonActive} />
-          </Link>
+         
           <Link to="./energy">
             <ActionButton background={'bg-white'} data={dso} />
           </Link>
           <div className="lg:col-span-3 lg:row-span-4">
-            <p>Filter by</p>
-            <div className="border-2 border-dash-gray">
-              <div key="day">
-                <input
-                  onChange={() => setFilter('day')}
-                  type={'day'}
-                  id={'day'}
-                />
-                <label htmlFor="day">
-                  <div className="border-l-2 dark:border-tertiary border-dk-secondary flex  h-full p-3">
-                    <div>
-                      <p className="font-light text-sm">day</p>
-                    </div>
-                  </div>
-                </label>
-              </div>
-              <div key="week">
-                <input
-                  onChange={() => setFilter('week')}
-                  type={'week'}
-                  id={'week'}
-                />
-                <label htmlFor="week">
-                  <div className="border-l-2 dark:border-tertiary border-dk-secondary flex  h-full p-3">
-                    <div>
-                      <p className="font-light text-sm">week</p>
-                    </div>
-                  </div>
-                </label>
-              </div>
-              <div key="year">
-                <input
-                  onChange={() => setFilter('year')}
-                  type={'year'}
-                  id={'year'}
-                />
-                <label htmlFor="year">
-                  <div className="border-l-2 dark:border-tertiary border-dk-secondary flex  h-full p-3">
-                    <div>
-                      <p className="font-light text-sm">year</p>
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
+            
             <ReservationChart data={earnings} filter={filter} />
           </div>
           <div className="lg:row-span-2 max-lg:hidden">
