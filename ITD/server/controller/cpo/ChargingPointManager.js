@@ -37,7 +37,7 @@ const getDetailsEVCP = async (req, res) => {
         const user = await authenticate(token)
         if (user) {
             const queryManagerInterface = await queryManager.getQueryManager()
-            const evcps = await queryManagerInterface.getSpecificEVCP(evcpID) // TODO CHECK THIS METHOD
+            const evcps = await queryManagerInterface.getSpecificEVCP(evcpID)
             return res.status(200).json(evcps)
         }
     }

@@ -291,9 +291,19 @@ exports.getQueryManager = async () => {
          * @returns the detailed information about an EVCP
          */
         getSpecificEVCP: async (evcpID) => {
-            const res = await pool.query('SELECT * FROM EVCP AS E JOIN CP ON CP.evcp_id = E.id JOIN SOCKET AS S ON S.cp_id = CP.id WHERE E.id = $1', [evcpID])
-            const rows = res.rows
-            return rows
+            const res = await pool.query('SELECT * FROM EVCP AS E JOIN CP ON CP.evcp_id = E.id JOIN SOCKET AS S ON S.cp_id = CP.id JOIN TYPE AS T ON T.id = S.type_id WHERE E.id = $1', [evcpID])
+            if (res.rows.length === 0) return undefined
+            const row = res.rows[0]
+            const cps = res.rows.reduce((acc, row) => {
+                const cp = acc.find(cp => cp.cpID === row.cp_id)
+                if (cp) {
+                    cp.sockets.push({ socketID: row.socket_id, type: row.type_name, power: row.power_kW })
+                } else {
+                    acc.push({ cpID: row.cp_id, sockets: [{ socketID: row.socket_id, type: row.type_name, power: row.power_kW }] })
+                }
+                return acc
+            }, [])
+            return { evcpID: row.evcp_id, name: row.name, address: row.address, latitude: row.latitude, longitude: row.longitude, cps: cps }
         },
 
         /**
