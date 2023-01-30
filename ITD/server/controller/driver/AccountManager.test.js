@@ -1,93 +1,213 @@
-const request = require('supertest') // npm --save-dev supertest
-const app = require('../../index')
-const queryManager = require('../QueryManager')
-const smsAPI = require('../smsAPI')
+const queryManager = require('../queryManager')
+const { signup, login, verifyCode } = require('./AccountManager')
+const MockDate = require('mockdate')
 
-jest.mock('../QueryManager', () => {
-  return {
-    getQueryManager: jest.fn().mockImplementation(() => {
-      return {
-        findDriverByPhoneNumber: jest.fn(),
-        checkDriverVerificationCode: jest.fn(),
-        deleteDriver: jest.fn(),
-        createDriver: jest.fn(),
-        createDriverVerificationCode: jest.fn()
+jest.setTimeout(50000)
+
+describe('AccountManager', () => {
+  // test login(req,res) method and mock res to catch the status returned
+  describe('login', () => {
+    it('should return 400 if phone number is not valid', async () => {
+      const req = {
+        body: {
+          phoneNumber: '123456789',
+          password: '123456'
+        }
       }
+      const res = {
+        status: jest.fn().mockReturnValue({
+          json: jest.fn()
+        })
+      }
+      const queryManagerInterface = await queryManager.getQueryManager()
+      await queryManagerInterface.executeAndCancel(async () => {
+        await login(req, res)
+        expect(res.status).toHaveBeenCalledWith(400)
+      })
     })
-  }
-})
 
-jest.mock('../smsAPI', () => {
-  return {
-    sendVerificationCode: jest.fn(),
-  }
-})
-
-
-describe('/api/driver/user/signup', () => {
-  let queryManagerInterface
-  beforeEach(async () => {
-    // Reset the mock functions before each test
-    queryManagerInterface = await queryManager.getQueryManager()
-
-    queryManagerInterface.findDriverByPhoneNumber.mockReset()
-    queryManagerInterface.checkDriverVerificationCode.mockReset()
-    queryManagerInterface.deleteDriver.mockReset()
-    queryManagerInterface.createDriver.mockReset()
-    queryManagerInterface.createDriverVerificationCode.mockReset()
-    smsAPI.sendVerificationCode.mockReset()
-  })
-
-  it('should return 400 if phone number is invalid', async () => {
-    const response = await request(app)
-      .post('/api/driver/user/signup')
-      .send({
-        firstName: 'Mario',
-        lastName: 'Rossi',
-        password: 'Abc123!',
-        phoneNumber: '1234a67890'
+    it('should return 401 if phone number or password are wrong', async () => {
+      const req = {
+        body: {
+          phoneNumber: '1234567890',
+          password: '123456'
+        }
+      }
+      const res = {
+        status: jest.fn().mockReturnValue({
+          json: jest.fn()
+        })
+      }
+      const queryManagerInterface = await queryManager.getQueryManager()
+      await queryManagerInterface.executeAndCancel(async () => {
+        await login(req, res)
+        expect(res.status).toHaveBeenCalledWith(401)
       })
-    expect(response.status).toBe(400)
-    expect(response.body.error).toBe('Phone number not valid')
-  })
+    })
+    it('should return 200 if phone number and password are correct', async () => {
+      const req = {
+        body: {
+          phoneNumber: '1234567890',
+          password: 'Password17!'
+        }
+      }
+      const res = {
+        status: jest.fn().mockReturnValue({
+          cookie: jest.fn().mockReturnValue({
+            json: jest.fn()
+          })
+        })
+      }
+      const queryManagerInterface = await queryManager.getQueryManager()
+      await queryManagerInterface.executeAndCancel(async () => {
 
+        await queryManagerInterface.createDriver('Mario', 'Rossi', 'Password17!', '1234567890')
 
-  it('should return 400 if password is invalid', async () => {
-    const response = await request(app)
-      .post('/api/driver/user/signup')
-      .send({
-        firstName: 'Giacomo',
-        lastName: 'Verdi',
-        password: 'password',
-        phoneNumber: '1234567890'
-      })
-    expect(response.status).toBe(400)
-    expect(response.body.error).toBe('Password must contain at least 8 character (at least one uppercase), at least 1 special symbol and at least 1 number')
-
-  })
-
-  it('should return 200 and send verification code if phone number is not registered', async () => {
-    // Configure the mock query manager to return a null user
-    queryManager.getQueryManager.mockImplementation(() => Promise.resolve({
-      findDriverByPhoneNumber: jest.fn().mockResolvedValue(null),
-      createDriver: jest.fn().mockResolvedValue(1),
-      createDriverVerificationCode: jest.fn()
-    }))
-
-    // Configure the mock SMS API to send a verification code
-    smsAPI.sendVerificationCode.mockImplementation(() => Promise.resolve())
-    const response = await request(app)
-      .post('/api/driver/user/signup')
-      .send({
-        firstName: 'Luca',
-        lastName: 'Neri',
-        password: 'Abc1234!',
-        phoneNumber: '1234567890'
+        await login(req, res)
+        expect(res.status).toHaveBeenCalledWith(200)
       })
 
-    expect(response.status).toBe(200)
-    expect(response.body.message).toBe('A verification code is sent via SMS')
-    expect(response.body.id).toBe(1)
+    })
+  })
 
+  describe('signup', () => {
+    it('should return 400 if phone number is not valid', async () => {
+      const req = {
+        body: {
+          firstName: 'Mario',
+          lastName: 'Rossi',
+          phoneNumber: '123456789',
+          password: 'Password17!'
+        }
+      }
+      const res = {
+        status: jest.fn().mockReturnValue({
+          json: jest.fn()
+        })
+      }
+      const queryManagerInterface = await queryManager.getQueryManager()
+      await queryManagerInterface.executeAndCancel(async () => {
+        await signup(req, res)
+        expect(res.status).toHaveBeenCalledWith(400)
+      }
+      )
+    })
+
+    it('should return 400 if password is not valid', async () => {
+      const req = {
+        body: {
+          firstName: 'Mario',
+          lastName: 'Rossi',
+          phoneNumber: '1234567890',
+          password: 'stupidpassword'
+        }
+      }
+      const res = {
+        status: jest.fn().mockReturnValue({
+          json: jest.fn()
+        })
+      }
+      const queryManagerInterface = await queryManager.getQueryManager()
+      await queryManagerInterface.executeAndCancel(async () => {
+        await signup(req, res)
+        expect(res.status).toHaveBeenCalledWith(400)
+      }
+      )
+    })
+
+    it('should return 200 if phone number and password are correct', async () => {
+      const req = {
+        body: {
+          firstName: 'Mario',
+          lastName: 'Rossi',
+          phoneNumber: '1234567890',
+          password: 'Password17!'
+        }
+      }
+      const res = {
+        status: jest.fn().mockReturnValue({
+          json: jest.fn()
+        })
+      }
+      const queryManagerInterface = await queryManager.getQueryManager()
+      await queryManagerInterface.executeAndCancel(async () => {
+        await signup(req, res)
+        expect(res.status).toHaveBeenCalledWith(200)
+      }
+      )
+    })
+  })
+  describe('code', () => {
+    it('should return 400 if code is not valid', async () => {
+      const req = {
+        body: {
+          driverID: 1,
+          code: 12345
+        }
+      }
+      const res = {
+        status: jest.fn().mockReturnValue({
+          json: jest.fn()
+        })
+      }
+      const queryManagerInterface = await queryManager.getQueryManager()
+      await queryManagerInterface.executeAndCancel(async () => {
+        await verifyCode(req, res)
+        expect(res.status).toHaveBeenCalledWith(400)
+      }
+      )
+    })
+
+    it('should return 200 if code is valid', async () => {
+      const res = {
+        status: jest.fn().mockReturnValue({
+          json: jest.fn()
+        })
+      }
+      const queryManagerInterface = await queryManager.getQueryManager()
+      await queryManagerInterface.executeAndCancel(async () => {
+        const driverID = await queryManagerInterface.createDriver('Mario', 'Rossi', 'Password17!', '1234567890')
+        const req = {
+          body: {
+            driverID: driverID,
+            code: 123456
+          }
+        }
+
+        await queryManagerInterface.createDriverVerificationCode(driverID, '123456')
+
+        MockDate.set(new Date(new Date().getTime() - 24 * 60 * 60 * 1000))
+        await verifyCode(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(200)
+      }
+      )
+    })
+
+    it('should return 410 if code is valid but expired', async () => {
+      const res = {
+        status: jest.fn().mockReturnValue({
+          json: jest.fn()
+        })
+      }
+      const queryManagerInterface = await queryManager.getQueryManager()
+      await queryManagerInterface.executeAndCancel(async () => {
+        const driverID = await queryManagerInterface.createDriver('Mario', 'Rossi', 'Password17!', '1234567890')
+        const req = {
+          body: {
+            driverID: driverID,
+            code: 123456
+          }
+        }
+
+        await queryManagerInterface.createDriverVerificationCode(driverID, '123456')
+
+        MockDate.set(new Date(new Date().getTime() + 24 * 60 * 60 * 1000))
+        await verifyCode(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(410)
+      }
+      )
+    })
   })
 })

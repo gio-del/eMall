@@ -1,5 +1,4 @@
 const queryManager = require('../QueryManager')
-const bcrypt = require('bcrypt')
 const emailAPI = require('./emailAPI')
 
 const router = require('express').Router()
@@ -8,6 +7,10 @@ const router = require('express').Router()
  * This route is used to sign up a new CPO
  */
 router.post('/signup', async (req, res) => {
+    return signup(req, res)
+})
+
+const signup = async (req, res) => {
     const { companyName, email, password } = req.body
 
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -23,11 +26,9 @@ router.post('/signup', async (req, res) => {
     const user = await queryManagerInterface.findCPOByEmail(email)
     let oldCode
     if (user) oldCode = await queryManagerInterface.checkCPOVerificationCode(user.cpoID)
-    console.log(oldCode)
     if (!user || oldCode) {
         if (user) await queryManagerInterface.deleteCPO(user.cpoID)
-        const hash = await bcrypt.hash(password, 10)
-        const cpoID = await queryManagerInterface.createCPO(companyName, hash, email)
+        const cpoID = await queryManagerInterface.createCPO(companyName, password, email)
         const code = getCode()
         queryManagerInterface.createCPOVerificationCode(cpoID, code)
         emailAPI.sendVerificationCode(email, code)
@@ -35,13 +36,16 @@ router.post('/signup', async (req, res) => {
     }
 
     else return res.status(409).json({ error: 'An account with the same email already exist, retry' })
-
-})
+}
 
 /**
  * This route is used to verify the code sent via mail
  */
 router.post('/code', async (req, res) => {
+    return verifyCode(req, res)
+})
+
+const verifyCode = async (req, res) => {
     const { cpoID, code } = req.body
 
     const codeRegex = /^\d{6}$/
@@ -51,8 +55,6 @@ router.post('/code', async (req, res) => {
     const queryManagerInterface = await queryManager.getQueryManager()
     const row = await queryManagerInterface.checkCPOVerificationCode(cpoID)
     if (row) {
-        // console.log((new Date().getTime() - row.expiryDate.getTime()) / 1000)
-
         if (new Date() - row.expiryDate < 0) {
             if (code === row.code) {
                 await queryManagerInterface.deleteCPOCode(cpoID)
@@ -73,12 +75,16 @@ router.post('/code', async (req, res) => {
     else {
         return res.status(409).json({ error: 'Intrusion' })
     }
-})
+}
 
 /**
  * This route is used to login a CPO. If the user is not verified, it will be deleted. If the user is verified, a token will be created and sent to the client if the credentials are correct
  */
 router.post('/login', async (req, res) => {
+    return login(req, res)
+})
+
+const login = async (req, res) => {
     const { email, password } = req.body
     const queryManagerInterface = await queryManager.getQueryManager()
 
@@ -106,7 +112,7 @@ router.post('/login', async (req, res) => {
         await queryManagerInterface.deleteCPO(user.cpoID)
         return res.status(410).json({ error: "User not verified. Register a new account." })
     }
-})
+}
 
 /**
  * Generates a random 6-digit number
@@ -130,6 +136,9 @@ const authenticate = async (token) => {
 }
 
 module.exports = {
+    login,
+    verifyCode,
+    signup,
     authenticate: authenticate,
     router: router
 }

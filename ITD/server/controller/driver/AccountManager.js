@@ -1,5 +1,4 @@
 const queryManager = require('../QueryManager')
-const bcrypt = require('bcrypt')
 const smsAPI = require('./smsAPI')
 
 const router = require('express').Router()
@@ -8,6 +7,10 @@ const router = require('express').Router()
  * This is a router post request for signup. It takes the firstName, lastName, password and phoneNumber from the request body. It then checks if the phoneNumber is valid using a regex and if the password is valid using another regex. It then checks if there is an existing user with the same phone number in the database and deletes it if it exists. It then hashes the password and creates a new driver in the database with the given information. Finally, it generates a verification code for that driver and sends it via SMS to their phone number. If everything goes well, it returns a message saying that a verification code has been sent via SMS along with an id of that driver.
  */
 router.post('/signup', async (req, res) => {
+    return signup(req, res)
+})
+
+const signup = async (req, res) => {
     const { firstName, lastName, password, phoneNumber } = req.body
     const phoneNumRegex = /^\d{10}$/
     if (!phoneNumRegex.test(phoneNumber))
@@ -25,8 +28,7 @@ router.post('/signup', async (req, res) => {
     if (user) oldCode = await queryManagerInterface.checkDriverVerificationCode(user.driverID)
     if (!user || oldCode) {
         if (user) await queryManagerInterface.deleteDriver(user.driverID)
-        const hash = await bcrypt.hash(password, 10)
-        const driverID = await queryManagerInterface.createDriver(firstName, lastName, hash, phoneNumber)
+        const driverID = await queryManagerInterface.createDriver(firstName, lastName, password, phoneNumber)
         const code = getCode()
         queryManagerInterface.createDriverVerificationCode(driverID, code)
         smsAPI.sendVerificationCode(phoneNumber, code)
@@ -34,8 +36,8 @@ router.post('/signup', async (req, res) => {
     }
 
     else return res.status(409).json({ error: 'An account with the same phone number already exist, retry' })
+}
 
-})
 
 /**
  * This is a router post request that handles a driver's verification code. It first checks if the code is a six-digit number using a regex. If it is not, it returns an error message.
@@ -44,8 +46,11 @@ router.post('/signup', async (req, res) => {
    If either of these checks fail (i.e., time expired or driverID does not exist), an error message is returned accordingly.
  */
 router.post('/code', async (req, res) => {
-    const { driverID, code } = req.body
+    return verifyCode(req, res)
+})
 
+const verifyCode = async (req, res) => {
+    const { driverID, code } = req.body
     const codeRegex = /^\d{6}$/
     if (!codeRegex.test(code))
         return res.status(400).json({ error: 'Code must be a six-digit number' })
@@ -53,8 +58,6 @@ router.post('/code', async (req, res) => {
     const queryManagerInterface = await queryManager.getQueryManager()
     const row = await queryManagerInterface.checkDriverVerificationCode(driverID)
     if (row) {
-        // console.log((new Date().getTime() - row.expiryDate.getTime()) / 1000)
-
         if (new Date() - row.expiryDate < 0) {
             if (code === row.code) {
                 await queryManagerInterface.deleteDriverCode(driverID)
@@ -75,12 +78,16 @@ router.post('/code', async (req, res) => {
     else {
         return res.status(409).json({ error: 'Intrusion' })
     }
-})
+}
 
 /**
  * This is a router post request for the '/login' endpoint. It takes in a phone number and password from the request body and checks if the phone number is valid using a regex. If it is not valid, it returns an error message. If it is valid, it looks for a user with that phone number in the database. If no user is found, an error message is returned. If a user is found, it checks if that user has been verified and if not, returns an error message. If the user has been verified, it checks if the credentials match those in the database and if they do, creates a token cookie and returns a success message.
  */
 router.post('/login', async (req, res) => {
+    return login(req, res)
+})
+
+const login = async (req, res) => {
     const { phoneNumber, password } = req.body
     const queryManagerInterface = await queryManager.getQueryManager()
 
@@ -108,7 +115,7 @@ router.post('/login', async (req, res) => {
         await queryManagerInterface.deleteDriver(user.driverID)
         return res.status(410).json({ error: "User not verified. Register a new account." })
     }
-})
+}
 
 /**
  * This code is a router patch request that is used to update the notification token for a user. The code first checks if the request contains a cookie with a token, and if so, it authenticates the user. If the user is authenticated, it updates the notification token in the query manager interface with the messaging token from the request body. If successful, it returns a status of 200 with a message of 'Notification Token Set Correctly'. If authentication fails, it returns an error of 401 Unauthorized.
@@ -147,6 +154,9 @@ const authenticate = async (token) => {
 }
 
 module.exports = {
+    login: login,
+    signup: signup,
+    verifyCode: verifyCode,
     authenticate: authenticate,
     router: router
 }

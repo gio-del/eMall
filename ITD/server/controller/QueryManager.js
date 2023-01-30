@@ -18,6 +18,7 @@ exports.getQueryManager = async () => {
     }
 
     return {
+
         /**
          * create a new user
          * @param {*} firstName the first name of the user
@@ -27,7 +28,8 @@ exports.getQueryManager = async () => {
          * @returns the ID of the new user
          */
         createDriver: async (firstName, lastName, password, phoneNumber) => {
-            const res = await pool.query('INSERT INTO DRIVER(first_name, last_name, password, phone) VALUES($1,$2,$3,$4) RETURNING *', [firstName, lastName, password, phoneNumber])
+            const hash = await bcrypt.hash(password, 10)
+            const res = await pool.query('INSERT INTO DRIVER(first_name, last_name, password, phone) VALUES($1,$2,$3,$4) RETURNING *', [firstName, lastName, hash, phoneNumber])
             return res.rows[0].id
         },
 
@@ -39,7 +41,8 @@ exports.getQueryManager = async () => {
          * @returns the ID of the new CPO
          */
         createCPO: async (companyName, password, email) => {
-            const res = await pool.query('INSERT INTO CPO(company_name, password, email) VALUES($1,$2,$3) RETURNING *', [companyName, password, email])
+            const hash = await bcrypt.hash(password, 10)
+            const res = await pool.query('INSERT INTO CPO(company_name, password, email) VALUES($1,$2,$3) RETURNING *', [companyName, hash, email])
             return res.rows[0].id
         },
 
@@ -156,7 +159,7 @@ exports.getQueryManager = async () => {
         createDriverVerificationCode: async (driverID, code) => {
             const res = await pool.query("INSERT INTO DRIVER_CODE(driver_id,expiry_date,code) VALUES($1, NOW() + INTERVAL '120 SECONDS', $2) RETURNING *", [driverID, code]);
             const row = res.rows[0]
-            return row ? { id: row.id, driverID: row.driver_id, expiryDate: row.expiry_date, code: row.code } : undefined
+            return row ? { id: row.id, driverID: row.driver_id, expiryDate: new Date(row.expiry_date), code: row.code } : undefined
         },
 
         /**
@@ -168,7 +171,7 @@ exports.getQueryManager = async () => {
         createCPOVerificationCode: async (cpoID, code) => {
             const res = await pool.query("INSERT INTO CPO_CODE(cpo_id,expiry_date,code) VALUES($1, NOW() + INTERVAL '120 SECONDS', $2) RETURNING *", [cpoID, code]);
             const row = res.rows[0]
-            return row ? { id: row.id, cpoID: row.cpo_id, expiryDate: row.expiry_date, code: row.code } : undefined
+            return row ? { id: row.id, cpoID: row.cpo_id, expiryDate: new Date(row.expiry_date), code: row.code } : undefined
         },
 
         /**
@@ -599,6 +602,21 @@ exports.getQueryManager = async () => {
         updateDSO: async (evcpID, DSO_name, DSO_pricekW, DSO_contract_expiry) => {
             const res = await pool.query('UPDATE EVCP SET DSO_name = $1, DSO_pricekW = $2, DSO_contract_expiry = $3 WHERE id = $4', [DSO_name, DSO_pricekW, DSO_contract_expiry, evcpID])
             return true
+        },
+
+        /**
+        * This function is used for testing purposes. It executes the callback in a transaction and then cancels it
+        * @param {*} callback the callback to execute
+        */
+        executeAndCancel: async (callback) => {
+            const client = await pool.connect()
+            try {
+                await pool.query('BEGIN')
+                await callback()
+            } finally {
+                await pool.query('ROLLBACK')
+                client.release()
+            }
         }
     }
 }

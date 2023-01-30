@@ -25,6 +25,10 @@ const book = async (driverID, evcpID, type, power, timeFrom, timeTo) => {
  * This route is used to see the reservations of a specific EVCP
  */
 router.get('/:evcpID', async (req, res) => {
+    return getReservations(req, res)
+})
+
+const getReservations = async (req, res) => {
     const { evcpID } = req.params
     if (req.cookies.token) {
         const token = req.cookies.token
@@ -36,12 +40,16 @@ router.get('/:evcpID', async (req, res) => {
         }
     }
     return res.status(401).json({ error: 'Unauthorized' })
-})
+}
 
 /**
  * This route is used to get an aggregated view of the reservations of a CPO in all its EVCPs
  */
 router.get('/', async (req, res) => {
+
+})
+
+const getAggregatedReservations = async (req, res) => {
     if (req.cookies.token) {
         const token = req.cookies.token
         const user = await authenticate(token)
@@ -52,6 +60,6 @@ router.get('/', async (req, res) => {
         }
     }
     return res.status(401).json({ error: 'Unauthorized' })
-})
+}
 
-module.exports = { router: router, book: book }
+module.exports = { router: router, book: book, getReservations, getAggregatedReservations }
