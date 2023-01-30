@@ -4,7 +4,7 @@
 /**
  * The idea is that a DSO can be changed if and only if a contractual bound is expired. For the sake of the demo, we assume that the bound are already expired
  */
-const aWeekAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+const aWeekAgo = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
 
 /**
  * A list of mocked DSOs available for the EVCPs
@@ -36,10 +36,10 @@ module.exports = {
      * @param {*} dsoID the ID of the DSO
      * @returns the DSO object
      */
-    setDSO: async (dsoID) => {
+    setDSO: async (dsoID, expiryDate) => {
         dso = DSOs.filter((dso) => dso.dsoID === dsoID)[0]
-        if (dso && new Date() < DSOs.filter((dso) => dso.dsoID === dsoID)[0].DSOexpiry)
-            return undefined
-        return dso
+        if (!dso) return undefined
+        if (new Date() > expiryDate) return dso
+        return undefined
     }
 }

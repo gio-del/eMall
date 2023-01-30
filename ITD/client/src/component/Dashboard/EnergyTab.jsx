@@ -62,10 +62,7 @@ export default function EnergyTab({ evcpList }) {
 
     if (response.status === 200) {
       console.log(response.headers)
-      setEvcpList([]);
-      document.getElementById("addEVCP").classList.add("hidden")
-      document.getElementById("toAddEVCP").classList.remove("hidden")
-
+      getDSO()
     } else response.json().then((data) => setError(data.error))
   }
 
@@ -93,7 +90,7 @@ export default function EnergyTab({ evcpList }) {
 
   return (
     <>
-       <div className='md:flex md:justify-between md:mt-8'>
+       <div className='md:flex md:justify-between md:mt-8 overflow-y-scroll'>
         <div className='w-1/4 md:mx-8'>
           <TabSelectorDash
             tabs={evcpList}

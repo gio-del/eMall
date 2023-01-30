@@ -286,24 +286,24 @@ exports.getQueryManager = async () => {
         },
 
         /**
-         * Get detailed information about an EVCP (it is intended to be used by the CPO)
-         * @param {*} evcpID the ID of the EVCP
-         * @returns the detailed information about an EVCP
-         */
+        * Get detailed information about an EVCP (it is intended to be used by the CPO)
+        * @param {*} evcpID the ID of the EVCP
+        * @returns the detailed information about an EVCP
+        */
         getSpecificEVCP: async (evcpID) => {
-            const res = await pool.query('SELECT * FROM EVCP AS E JOIN CP ON CP.evcp_id = E.id JOIN SOCKET AS S ON S.cp_id = CP.id JOIN TYPE AS T ON T.id = S.type_id WHERE E.id = $1', [evcpID])
-            if (res.rows.length === 0) return undefined
-            const row = res.rows[0]
-            const cps = res.rows.reduce((acc, row) => {
-                const cp = acc.find(cp => cp.cpID === row.cp_id)
-                if (cp) {
-                    cp.sockets.push({ socketID: row.socket_id, type: row.type_name, power: row.power_kW })
-                } else {
-                    acc.push({ cpID: row.cp_id, sockets: [{ socketID: row.socket_id, type: row.type_name, power: row.power_kW }] })
-                }
-                return acc
-            }, [])
-            return { evcpID: row.evcp_id, name: row.name, address: row.address, latitude: row.latitude, longitude: row.longitude, cps: cps }
+            const res1 = await pool.query('SELECT E.name, E.latitude, E.longitude, E.address FROM EVCP AS E WHERE E.id = $1', [evcpID])
+            const res2 = await pool.query('SELECT CP.id, CP.evcp_id FROM CP WHERE CP.evcp_id = $1', [evcpID])
+            const res3 = await pool.query('SELECT S.power_kw, T.type_name, S.id AS id, CP.id AS cp_id FROM SOCKET AS S JOIN CP ON CP.id = S.cp_id JOIN TYPE AS T ON T.id = S.type_id WHERE CP.evcp_id = $1', [evcpID])
+
+            const rows1 = res1.rows[0]
+            const rows2 = res2.rows
+            const rows3 = res3.rows
+            if (!rows1 || !rows2 || !rows3) return undefined
+            const cps = rows2.map((row) => {
+                const sockets = rows3.filter(socket => socket.cp_id === row.id)
+                return { cpID: row.id, sockets: sockets.map(socket => ({ socketID: socket.id, type: socket.type_name, power: socket.power_kw })) }
+            })
+            return { evcpID: evcpID, name: rows1.name, address: rows1.address, latitude: rows1.latitude, longitude: rows1.longitude, cps: cps }
         },
 
         /**
@@ -603,7 +603,7 @@ exports.getQueryManager = async () => {
         getDSO: async (evcpID) => {
             const res = await pool.query('SELECT DSO_name, DSO_pricekW, DSO_contract_expiry FROM EVCP WHERE id = $1', [evcpID])
             const rows = res.rows
-            return rows[0] ? { DSOname: rows[0].dso_name, DSOprice: rows[0].dso_pricekw, DSOexpiry: rows[0].dso_contract_expiry } : []
+            return rows[0] ? { DSOname: rows[0].dso_name, DSOprice: rows[0].dso_pricekw, DSOexpiry: new Date(rows[0].dso_contract_expiry) } : []
         },
 
         /**

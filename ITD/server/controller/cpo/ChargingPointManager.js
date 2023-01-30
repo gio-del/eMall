@@ -96,7 +96,7 @@ const addCP = async (req, res) => {
 /**
  * This function adds a socket to the charge point with the given cpID
  */
-router.post('/:cpID', async (req, res) => {
+router.post('/socket/:cpID', async (req, res) => {
     return addSocket(req, res)
 })
 
@@ -168,7 +168,6 @@ const handleMeterValues = (req, metadata) => {
 cpms.addConnectionListener(async (id, status) => {
     if (status === 'connected') {
         console.log('New CP connected: ', id)
-        await startCharge(12)
     }
     if (status === 'disconnected')
         console.log('CP disconnected: ', id)

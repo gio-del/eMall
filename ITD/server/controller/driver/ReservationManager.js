@@ -95,7 +95,7 @@ const bookACharge = async (req, res) => {
 /**
  * Start the charging of a reservation given its reservationID
  */
-router.post('/start/:id', async (req, res) => {
+router.get('/start/:id', async (req, res) => {
     const { id } = req.params
     if (req.cookies.token) {
         const token = req.cookies.token

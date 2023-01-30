@@ -63,7 +63,8 @@ const changeDSO = async (req, res) => {
         const queryManagerInterface = await queryManager.getQueryManager()
         const association = await queryManagerInterface.verifyEVCPAssociation(user, evcpID)
         if (user && association) {
-            const dso = await dsoAPI.setDSO(dsoID)
+            const date = await queryManagerInterface.getDSO(evcpID)
+            const dso = await dsoAPI.setDSO(dsoID, date.DSOexpiry)
             if (dso) {
                 await queryManagerInterface.updateDSO(evcpID, dso.DSOname, dso.DSOprice, dso.DSOexpiry)
                 return res.status(200).json({ message: 'DSO updated' })

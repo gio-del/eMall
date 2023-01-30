@@ -53,7 +53,8 @@ CREATE TABLE EVCP (
     DSO_contract_expiry date NULL,
     latitude varchar(20) NOT NULL,
     longitude varchar(20) NOT NULL,
-    address varchar(50) NOT NULL
+    address varchar(50) NOT NULL,
+    UNIQUE (latitude, longitude)
 );
 
 -- Table: reservation
@@ -163,9 +164,6 @@ ALTER TABLE SOCKET
 -- Reference: special_offer_evcp (table: special_offer)
 ALTER TABLE SPECIAL_OFFER
     ADD CONSTRAINT special_offer_evcp FOREIGN KEY (evcp_id) REFERENCES EVCP (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-
-ALTER TABLE EVCP
-    ADD CONSTRAINT evcp_lat_long_uk UNIQUE (latitude, longitude);
 
 -- VIEWS
 CREATE VIEW TYPE_FREE (id, power_kW, evcp_id, number)

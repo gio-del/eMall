@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-  import TabSelectorDash from '../utilitycomponent/TabSelectorDash'
+import TabSelectorDash from '../utilitycomponent/TabSelectorDash'
 import FormField from '../utilitycomponent/FormField'
 import { BASE_API } from '../../constant'
 import RadioButton from '../utilitycomponent/RadioButton'
 
-export default function ChargingPointsTab({ evcpList , setEvcpList}) {
+export default function ChargingPointsTab({ evcpList, setEvcpList }) {
   const [currentEvcp, setCurrentEvcp] = useState()
   const [evcp, setEvcp] = useState()
   const [name, setName] = useState()
@@ -16,16 +16,12 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
   const [cpID, setCpID] = useState()
   const [error, setError] = useState('')
 
-
   const getData = async () => {
     if (!currentEvcp) return
     try {
-      const response = await fetch(
-        `${BASE_API}/cpo/cp/${currentEvcp.evcpID}`,
-        {
-          credentials: 'include',
-        },
-      )
+      const response = await fetch(`${BASE_API}/cpo/cp/${currentEvcp.evcpID}`, {
+        credentials: 'include',
+      })
       if (response.status === 200) {
         const jsonData = await response.json()
         console.log(jsonData)
@@ -39,7 +35,6 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
   useEffect(() => {
     getData()
   }, [currentEvcp])
-
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -58,28 +53,32 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
 
     if (response.status === 200) {
       console.log(response.headers)
-      setEvcpList([]);
-      document.getElementById("addEVCP").classList.add("hidden")
-      document.getElementById("toAddEVCP").classList.remove("hidden")
-
+      setEvcpList([])
+      setName("")
+      setLatitude("")
+      setLongitude("")
+      setAddress("")
+      document.getElementById('addEVCP').classList.add('hidden')
+      document.getElementById('toAddEVCP').classList.remove('hidden')
     } else response.json().then((data) => setError(data.error))
   }
 
   const handleSubmitSocket = async (e) => {
     e.preventDefault()
     setError('')
-    const response = await fetch(`${BASE_API}/cpo/cp/${cpID}`, {
+    const response = await fetch(`${BASE_API}/cpo/cp/socket/${cpID}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({
         power: power,
-        type: type
+        type: type,
       }),
     })
 
     if (response.status === 200) {
       console.log(response.headers)
+      getData()
     } else response.json().then(console.log(data.error))
   }
 
@@ -94,32 +93,37 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
     if (response.status === 200) {
       console.log(response.headers)
       getData()
-
     } else response.json().then((data) => setError(data.error))
   }
 
-
   const addEVCP = () => {
-    document.getElementById("addEVCP").classList.remove("hidden")
-    document.getElementById("toAddEVCP").classList.add("hidden")
+    document.getElementById('addEVCP').classList.remove('hidden')
+    document.getElementById('toAddEVCP').classList.add('hidden')
   }
 
   return (
     <>
-      <div className='md:flex md:justify-between md:mt-8'>
-        <div className='w-1/4 md:mx-8 overflow-y-scroll'>
-          <div className=''>
+      <div className="md:flex md:justify-between md:mt-8">
+        <div className="w-1/4 md:mx-8 overflow-y-scroll">
+          <div className="">
             <TabSelectorDash
               tabs={evcpList}
               currentTab={currentEvcp}
               setCurrentTab={setCurrentEvcp}
             />
           </div>
-          <div id="toAddEVCP" className='bg-dash-black cursor-pointer rounded-xl mt-8 p-2 flex justify-center text-dash-gray'
-            onClick={() => addEVCP()}>
+          <div
+            id="toAddEVCP"
+            className="bg-dash-black cursor-pointer rounded-xl mt-8 p-2 flex justify-center text-dash-gray"
+            onClick={() => addEVCP()}
+          >
             <p>Add an EVCP</p>
           </div>
-          <form id="addEVCP" className='hidden p-4 bg-white mt-4 rounded-xl' onSubmit={handleSubmit}>
+          <form
+            id="addEVCP"
+            className="hidden p-4 bg-white mt-4 rounded-xl"
+            onSubmit={handleSubmit}
+          >
             <FormField
               id="name"
               type="name"
@@ -159,67 +163,87 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
           </form>
         </div>
 
-        <div className='grid grid-cols-2 h-full w-full gap-4 md:mx-8'>
+        <div className="grid grid-cols-2 h-full w-full gap-4 md:mx-8">
           {evcp &&
             evcp.cps.map((cp) => (
               <>
-                <div className='col-span-2 bg-white rounded-xl flex justify-center items-center w-full'>
-                  <div className=' flex h-full right-0 w-full text-center'>
-                    <div className='flex justify-center items-center w-full h-full'>
-                      <div className='w-full h-full'>
-                        <div className='border-b-2 py-2'>
-                          <p className='font-medium '>Charging Point {cp.cpID}</p>
+                <div className="col-span-2 bg-white rounded-xl flex justify-center items-center w-full">
+                  <div className=" flex h-full right-0 w-full text-center">
+                    <div className="flex justify-center items-center w-full h-full">
+                      <div className="w-full h-full">
+                        <div className="border-b-2 py-2">
+                          <p className="font-medium ">
+                            Charging Point {cp.cpID}
+                          </p>
                         </div>
                         <div>
-                          <div className='grid grid-cols-2 gap-4 w-full h-full my-2'>
+                          <div className="grid grid-cols-2 gap-4 w-full h-full my-2">
                             {cp.sockets.map((socket) => (
-                              <div className='flex-col relative border-r-2'>
-                                <p className='font-semibold'>Socket </p>
-                                <p className='font-semibold'>{socket.type}</p>
+                              <div className="flex-col relative border-r-2">
+                                <p className="font-semibold">Socket </p>
+                                <p className="font-semibold">{socket.type}</p>
                                 <p>Actual State</p>
-                                <div className='grid grid-cols-2 grid-rows-2 gap-4 h-auto m-4 items-center justify-center'>
-                                  <div className='border-2 border-dash-black col-span-2 rounded-xl p-2'>
-                                    <p className='text-dash-black'>Status</p>
-                                    <p className='text-dash-black'>Operative</p>
+                                <div className="grid grid-cols-2 grid-rows-2 gap-4 h-auto m-4 items-center justify-center">
+                                  <div className="border-2 border-dash-black col-span-2 rounded-xl p-2">
+                                    <p className="text-dash-black">Status</p>
+                                    <p className="text-dash-black">Operative</p>
                                   </div>
-                                  <div className='bg-dash-black rounded-xl p-2'>
-                                    <p className='text-dash-gray'>Power</p>
-                                    <p className='text-dash-gray'>24.1kW</p>
+                                  <div className="bg-dash-black rounded-xl p-2">
+                                    <p className="text-dash-gray">Power</p>
+                                    <p className="text-dash-gray">24.1kW</p>
                                   </div>
-                                  <div className='bg-dash-black rounded-xl p-2'>
-                                    <p className='text-dash-gray'>Battery</p>
-                                    <p className='text-dash-gray'>50%</p>
+                                  <div className="bg-dash-black rounded-xl p-2">
+                                    <p className="text-dash-gray">Battery</p>
+                                    <p className="text-dash-gray">50%</p>
                                   </div>
                                 </div>
                               </div>
                             ))}
-                            {cp.sockets.length != 2 ?(
+                            {cp.sockets.length < 2 ? (
                               <div>
-                                <div className='bg-white row-span-2 col-span-2 rounded-xl cursor-pointer flex justify-center items-center w-full'>
-                                  <div className=' flex h-full right-0 w-full px-8 py-4'>
-                                    <div className='flex-col justify-center items-center w-full'>
+                                <div className="bg-white row-span-2 col-span-2 rounded-xl cursor-pointer flex justify-center items-center w-full">
+                                  <div className=" flex h-full right-0 w-full px-8 py-4">
+                                    <div className="flex-col justify-center items-center w-full">
                                       <div>
-                                        <p className='font-medium text-md text-dash-black text-center'>Add Charging Point</p>
-
+                                        <p className="font-medium text-md text-dash-black text-center">
+                                          Add Charging Point
+                                        </p>
                                       </div>
 
-                                      <form className='bg-white mt-4 rounded-xl' onSubmit={handleSubmitSocket}>
+                                      <form
+                                        className="bg-white mt-4 rounded-xl"
+                                        onSubmit={handleSubmitSocket}
+                                      >
                                         <FormField
-                                          id={"power"}
+                                          id={'power'}
                                           type="power"
                                           value={power}
-                                          onChange={(e) => setPower(e.target.value)}
+                                          onChange={(e) =>
+                                            setPower(e.target.value)
+                                          }
                                         >
                                           Power (kW)
                                         </FormField>
-                                        <p className='block text-gray-700 font-medium mb-2'>Type</p>
+                                        <p className="block text-gray-700 font-medium mb-2">
+                                          Type
+                                        </p>
                                         <div className="flex flex-row justify-center gap-10">
-                                          <RadioButton role={type} name="Type2" setRole={setType} />
-                                          <RadioButton role={type} name="CCS2" setRole={setType} />
+                                          <RadioButton
+                                            role={type}
+                                            name="Type2"
+                                            setRole={setType}
+                                          />
+                                          <RadioButton
+                                            role={type}
+                                            name="CCS2"
+                                            setRole={setType}
+                                          />
                                         </div>
 
-                                        <button className="bg-dash-black text-white mt-4 py-2 px-4 rounded-lg"
-                                          onClick={() => setCpID(cp.cp_id)}>
+                                        <button
+                                          className="bg-dash-black text-white mt-4 py-2 px-4 rounded-lg"
+                                          onClick={() => setCpID(cp.cpID)}
+                                        >
                                           Add the Socket
                                         </button>
                                       </form>
@@ -227,21 +251,27 @@ export default function ChargingPointsTab({ evcpList , setEvcpList}) {
                                   </div>
                                 </div>
                               </div>
-                            ) : <p></p>}
-                            
+                            ) : (
+                              <p></p>
+                            )}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </>))}
-              <div className='bg-dash-black text-dash-gray col-span-2 text-center py-4 rounded-xl'
-              onClick={() => createCP()}>
-                Add a Charging Point
-              </div>
-
-
+              </>
+            ))}
+          {currentEvcp && currentEvcp ? (
+            <div
+              className="bg-dash-black text-dash-gray col-span-2 text-center py-4 rounded-xl cursor-pointer"
+              onClick={() => createCP()}
+            >
+              Add a Charging Point
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>
