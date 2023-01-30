@@ -565,7 +565,7 @@ exports.getQueryManager = async () => {
         getRate: async (evcpID) => {
             const res = await pool.query('SELECT * FROM RATE AS R JOIN  TYPE AS T ON T.id = R.type_id WHERE R.evcp_id = $1', [evcpID])
             const rows = res.rows
-            return rows ? rows.map((row) => ({ typeName: row.type_name, flatPrice: row.flat_price, variablePrice: row.variable_price })) : []
+            return rows ? rows.map((row) => ({ typeName: row.type_name, flatPrice: row.flatprice, variablePrice: row.variableprice })) : []
         },
 
         /**

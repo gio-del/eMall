@@ -31,17 +31,44 @@ export default function ReservationsTab({ evcpList }) {
 
   return (
     <>
-      <TabSelectorDash
-        tabs={evcpList}
-        currentTab={currentEvcp}
-        setCurrentTab={setCurrentEvcp}
-      />
-      <div>
-        {reservations &&
-          reservations.map((reservation) => (
-            <p key={reservation.reservatioID}>{reservation.timeTo}</p>
-          ))}
+      <div className='md:flex md:justify-between md:mt-8 '>
+        <div className='w-1/4 md:mx-8'>
+          <TabSelectorDash
+            tabs={evcpList}
+            currentTab={currentEvcp}
+            setCurrentTab={setCurrentEvcp}
+          />
+        </div>
+        <div className='bg-white rounded-xl w-full p-4 md:mx-8'>
+          <table className='table-auto w-full text-left text-dash-black'>
+            <thead className='bg-dash-gray text-md text-dash-gray-dark uppercase'>
+              <tr>
+                <th className='px-6 py-3'>ID</th>
+                <th className='px-6 py-3'>From</th>
+                <th className='px-6 py-3'>To</th>
+                <th className='px-6 py-3'>Total Price</th>
+                <th className='px-6 py-3'>Socket ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reservations &&
+                reservations.map((reservation) => (
+                  <>
+                    <tr className='border-b border-dash-gray'>
+                      <td className='px-6 py-4 font-medium text-dash-gray-dark whitespace-nowrap'>{reservation.reservationID}</td>
+                      <td className='px-6 py-4'>{`${new Date(reservation.timeFrom).getUTCDate()}-${new Date(reservation.timeFrom).getUTCMonth()}-${new Date(reservation.timeFrom).getUTCFullYear()} : ${new Date(reservation.timeFrom).getHours()}:${new Date(reservation.timeFrom).getMinutes()}`}</td>
+                      <td className='px-6 py-4'>{`${new Date(reservation.timeTo).getUTCDate()}-${new Date(reservation.timeTo).getUTCMonth()}-${new Date(reservation.timeTo).getUTCFullYear()} : ${new Date(reservation.timeTo).getHours()}:${new Date(reservation.timeTo).getMinutes()}`}</td>
+                      <td className='px-6 py-4'>{reservation.totalPrice}</td>
+                      <td className='px-6 py-4'>{reservation.socketID}</td>
+                    </tr>
+                    <span></span>
+                  </>))}
+            </tbody>
+          </table>
+
+        </div>
       </div>
+      
     </>
   )
 }

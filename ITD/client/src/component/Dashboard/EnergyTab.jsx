@@ -51,11 +51,32 @@ export default function EnergyTab({ evcpList }) {
 
   return (
     <>
-      <TabSelectorDash
-        tabs={evcpList}
-        currentTab={currentEvcp}
-        setCurrentTab={setCurrentEvcp}
-      />
+       <div className='md:flex md:justify-between md:mt-8 '>
+        <div className='w-1/4 md:mx-8'>
+          <TabSelectorDash
+            tabs={evcpList}
+            currentTab={currentEvcp}
+            setCurrentTab={setCurrentEvcp}
+          />
+        </div>
+        <div className='bg-white rounded-xl w-full p-4 md:mx-8'>
+          <table className='table-auto w-full text-left text-dash-black'>
+            <thead className='bg-dash-gray text-md text-dash-gray-dark uppercase'>
+              <tr>
+                <th className='px-6 py-3'>ID</th>
+                <th className='px-6 py-3'>From</th>
+                <th className='px-6 py-3'>To</th>
+                <th className='px-6 py-3'>Total Price</th>
+                <th className='px-6 py-3'>Socket ID</th>
+              </tr>
+            </thead>
+            <tbody>
+             
+            </tbody>
+          </table>
+
+        </div>
+      </div>
       <div>
         <p>Selected DSO</p>
         <p>{selectedDSO && selectedDSO.DSOname}</p>
