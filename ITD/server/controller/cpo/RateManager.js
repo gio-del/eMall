@@ -33,6 +33,7 @@ router.get('/:evcpID', async (req, res) => {
         const queryManagerInterface = await queryManager.getQueryManager()
         if (user && queryManagerInterface.verifyEVCPAssociation(user, evcpID)) {
             const rates = await queryManagerInterface.getRate(evcpID)
+            console.log(rates)
             return res.status(200).json(rates)
         }
     }

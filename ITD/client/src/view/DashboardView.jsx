@@ -48,6 +48,10 @@ export default function DashboardView() {
     setActiveTab(path)
   }, [location])
 
+  const addingCP = () => {
+    getEvcps()
+  }
+
   const activeRoutes = useRoutes([
     {
       path: '/',
@@ -55,7 +59,7 @@ export default function DashboardView() {
     },
     {
       path: '/charging-points',
-      element: <ChargingPointsTab evcpList={evcpList} />,
+      element: <ChargingPointsTab evcpList={evcpList} setEvcpList={addingCP}/>,
     },
     {
       path: '/rates',
