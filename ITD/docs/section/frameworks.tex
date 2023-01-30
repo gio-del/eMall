@@ -1,7 +1,66 @@
 \section{Development frameworks}
-
+In this section, we will present the adopted programming languages and frameworks, justifying each choice.
 \subsection{Adopted programming languages}
 
-\subsection{Middleware}
+\subsubsection{JavaScript}
+For both the backend and the frontend, we have chosen to use the programming language \textbf{JavaScript}.
+This choice was made because it is a language that is widely used in the industry, and it is also the language that we are most familiar with.
+There are many advantages to using JavaScript, such as the fact that it is a multi-paradigm language, and it is also very easy to learn.
+It is a good language to design and implement prototypes fastly, and it is also a good language to use for small projects.
 
+Pros
+\begin{itemize}
+    \item Widely used in the industry
+    \item Easy to learn
+    \item Multi-paradigm language
+    \item Good for small projects
+    \item Good for prototyping
+\end{itemize}
+
+
+Cons
+\begin{itemize}
+    \item Not a good language for large projects
+    \item Not a good language for performance-intensive applications
+    \item Not type-safe
+\end{itemize}
+
+
+Probably, the biggest disadvantage of JavaScript is that it is not a type-safe language and the use of TypeScript is a better choice for large projects.
+The reasons for behind the choice of not using TypeScript is that it is more verbose and this lead to a slower development process.
+
+\subsection{Framework and Libraries}
+\subsubsection{Node.js}
+Node.js is a runtime environment for JavaScript that allows us to run JavaScript code outside of a browser. So it is used
+to run JavaScript on the server-side. It is a good choice for our project because it is a very popular framework and it is
+served by a large community of developers that provides useful packages and libraries on \url{https://www.npmjs.com}.
+\subsubsection{Vite}
+Vite is a build tool that is used to bundle our code and to serve it to the browser. It is a good choice for our project because it is very faster than alternatives like Webpack.
+It is used also to create a development server that allows us to see the changes in real-time thanks to its HMR (Hot Module Replacement) feature.
+\subsubsection{React}
+React is a widely used JavaScript library for building user interfaces.
+It is a good choice for developing a prototype because it allows us to create an SPA (single-page application) that is very fast and responsive.
+React is used with modularity in mind, so it is easy to create components that can be reused in different parts of the application, leading to clean and maintainable code.
+\subsubsection{Tailwind CSS}
+Tailwind CSS is a utility-first CSS framework that allows us to create a responsive and mobile-first design. It permits the fast style prototyping of the application.
+A drawback of Tailwind CSS is that it is not a framework, so it does not provide any components that can be reused in the application. But used along with React, it is possible to create styled and reusable components.
+\subsubsection{Jest}
+Jest is a testing framework that allows us to test our code. It is used to test the backend and the frontend.
+We used it to test the backend main functionalities. It can also generate useful reports with line and branch coverage.
 \subsection{API}
+\subsubsection{Firebase Cloud Messaging}
+Firebase Cloud Messaging (FCM) is a cross-platform messaging solution that allows us to send push notifications to our users. We use it to notify the driver when a charge has been completed.
+
+\subsubsection{Other APIs}
+Other APIs has been mocked to simulate the real behaviour of the system. For example, the API that allows the CPOs to retrieve the list of available DSOs, or the SMS and email API.
+This choice was made because some of these APIs are not available for free, others are not available at all.
+
+\subsection{Other tools}
+\subsubsection{Postman}
+Postman is a tool that allows us to test our backend APIs without having to write any client code. It can be also used to generate the documentation of the APIs.
+\subsubsection{Docker}
+Docker is a tool that allows us to create containers that can be used to run our application in a production environment. It is used to create a container that runs the backend and the frontend of the application.
+This choice was made because it simplifies the deployment of the application but also because it hides inconsistencies between different operating systems.
+
+
+
