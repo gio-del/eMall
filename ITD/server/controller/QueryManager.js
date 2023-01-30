@@ -102,7 +102,7 @@ exports.getQueryManager = async () => {
             let token = uuid.v4()
             let tokenTuple = await pool.query('INSERT INTO TOKEN(cpo_id, token) VALUES($1, $2) RETURNING *', [cpoID, token])
 
-            while (tokenTuple.rowCount === 0) {
+            while (tokenTuple.rows.length === 0) {
                 token = uuid.v4()
                 tokenTuple = await pool.query('INSERT INTO TOKEN(cpo_id, token) VALUES($1, $2) RETURNING *', [cpoID, token])
             }
@@ -120,7 +120,7 @@ exports.getQueryManager = async () => {
             let token = uuid.v4()
             let tokenTuple = await pool.query('INSERT INTO TOKEN(driver_id, token) VALUES($1, $2) RETURNING *', [driverID, token])
 
-            while (tokenTuple.rowCount === 0) {
+            while (tokenTuple.rows.length === 0) {
                 token = uuid.v4()
                 tokenTuple = await pool.query('INSERT INTO TOKEN(driver_id, token) VALUES($1, $2) RETURNING *', [driverID, token])
             }
@@ -147,7 +147,7 @@ exports.getQueryManager = async () => {
          */
         verifyEVCPAssociation: async (cpoID, evcpID) => {
             const res = await pool.query('SELECT * FROM EVCP WHERE id = $1 AND cpo_id = $2', [evcpID, cpoID])
-            return res.rowCount === 1
+            return res.rows && res.rows.length === 1
         },
 
         /**
@@ -350,7 +350,7 @@ exports.getQueryManager = async () => {
                                                 WHERE R.start_date >= $1 AND R.end_date <= $2 AND E.id = $3 AND T.type_name = $4 AND S.power_kW = $5
                                                 ORDER BY R.start_date`, [today, tomorrow, id, type, power])
 
-            let first = res1.rowCount > 0 ? res1.rows[0].end_date : day
+            let first = (res1.rows && res1.rows.length > 0) ? res1.rows[0].end_date : day
             const queue = res.rows.filter(row => new Date(row.start_date) > new Date(day)).reverse()
             const slots = []
             while (queue.length > 0 && new Date(first) < tomorrow) {
@@ -385,7 +385,7 @@ exports.getQueryManager = async () => {
                                                  JOIN EVCP AS E ON CP.evcp_id = E.id
                                                  JOIN TYPE AS T ON S.type_id = T.id
                                                  WHERE E.id = $1 AND T.type_name = $2 AND S.power_kW = $3 AND R.start_date <= $4 AND R.end_date > $4`, [id, type, power, from])
-            if (res1.rowCount > 0) return { inf: false }
+            if (res1.rows && res1.rows.length > 0) return { inf: false }
             const res2 = await pool.query(dedent`SELECT MIN(R.start_date - $4) AS max_duration
                                                 FROM RESERVATION AS R
                                                 JOIN SOCKET AS S ON R.socket_id = S.id
@@ -458,7 +458,7 @@ exports.getQueryManager = async () => {
         findSocket: async (reservationID) => {
             const res = await pool.query('SELECT socket_id FROM RESERVATION WHERE id = $1', [reservationID])
             const rows = res.rows
-            return res.rowCount > 0 ? rows[0].socket_id : undefined
+            return (res.rows && res.rows.length > 0) ? rows[0].socket_id : undefined
         },
 
         /**
@@ -509,21 +509,23 @@ exports.getQueryManager = async () => {
          * @param {*} latitude the latitude of the EVCP
          * @param {*} longitude the longitude of the EVCP
          * @param {*} address the address of the EVCP
-         * @returns true if the EVCP was added, false otherwise
+         * @returns the ID of the EVCP if it was added, undefined otherwise
          */
         addEVCP: async (cpoID, name, latitude, longitude, address) => {
             const res = await pool.query('INSERT INTO EVCP(name, cpo_id, latitude, longitude, address) VALUES($1, $2, $3, $4, $5) RETURNING *', [name, cpoID, latitude, longitude, address])
-            return res.rowCount > 0
+            const rows = res.rows
+            return (rows && rows.length > 0) ? rows[0].id : undefined
         },
 
         /**
          * Add a new CP
          * @param {*} evcpID the ID of the EVCP that owns the CP
-         * @returns true if the CP was added, false otherwise
+         * @returns the ID of the CP if it was added, undefined otherwise
          */
         addCP: async (evcpID) => {
             const res = await pool.query('INSERT INTO CP(evcp_id, is_active) VALUES($1, FALSE) RETURNING *', [evcpID])
-            return res.rowCount > 0
+            const rows = res.rows
+            return (rows && rows.length > 0) ? rows[0].id : undefined
         },
 
         /**
@@ -531,14 +533,16 @@ exports.getQueryManager = async () => {
          * @param {*} cpID the ID of the CP that owns the socket
          * @param {*} power the power of the socket
          * @param {*} type the type of the socket
-         * @returns true if the socket was added, false otherwise
+         * @returns the ID of the socket if it was added, undefined otherwise
          */
         addSocket: async (cpID, power, type) => {
             const firstQuery = await pool.query('SELECT id FROM TYPE WHERE type_name = $1', [type])
+            // if firstquery is empty, return undefined
             const row1 = firstQuery.rows[0]
-            if (!row1) return false
-            const secondQuery = await pool.query('INSERT INTO SOCKET(cp_id, power_kW, type_id) VALUES($1, $2, $3)', [cpID, power, row1.id])
-            return secondQuery.rowCount > 0
+            if (!row1) return undefined
+            const secondQuery = await pool.query('INSERT INTO SOCKET(cp_id, power_kW, type_id) VALUES($1, $2, $3) RETURNING *', [cpID, power, row1.id])
+            const rows = secondQuery.rows
+            return (rows && rows.length > 0) ? rows[0].id : undefined
         },
 
         /**
@@ -554,7 +558,8 @@ exports.getQueryManager = async () => {
             const row1 = firstQuery.rows[0]
             if (!row1) return false
             const res = await pool.query('INSERT INTO RATE(evcp_id, type_id, flatPrice, variablePrice) VALUES ($1, $2, $3, $4) RETURNING *', [evcpID, row1.id, flatPrice, variablePrice])
-            return res
+            if (res.rows.length === 0) return false
+            return { id: res.rows[0].id, flatPrice: res.rows[0].flatprice, variablePrice: res.rows[0].variableprice }
         },
 
         /**
@@ -565,7 +570,7 @@ exports.getQueryManager = async () => {
         getRate: async (evcpID) => {
             const res = await pool.query('SELECT * FROM RATE AS R JOIN  TYPE AS T ON T.id = R.type_id WHERE R.evcp_id = $1', [evcpID])
             const rows = res.rows
-            return rows ? rows.map((row) => ({ typeName: row.type_name, flatPrice: row.flatprice, variablePrice: row.variableprice })) : []
+            return rows ? rows.map((row) => ({ rateID: row.id, typeName: row.type_name, flatPrice: row.flatprice, variablePrice: row.variableprice })) : []
         },
 
         /**

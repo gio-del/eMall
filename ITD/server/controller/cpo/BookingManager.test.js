@@ -12,14 +12,13 @@ const fakeCPO = async (queryManagerInterface) => {
 
 describe('BookingManager', () => {
     describe('getReservations (CPO)', () => {
-        it('should return 200 if EVCP is associated to the CPO', async () => {
+        it('should return 401 if EVCP is not associated to the CPO', async () => {
             const queryManagerInterface = await queryManager.getQueryManager()
             await queryManagerInterface.executeAndCancel(async () => {
                 const { id, token } = await fakeCPO(queryManagerInterface)
                 const req = {
-                    body: {
-                        email: 'abcdfghilmnopqrstuvz',
-                        password: 'Password10!'
+                    params: {
+                        evcpID: 0
                     }, cookies: {
                         token: token
                     }
@@ -29,8 +28,86 @@ describe('BookingManager', () => {
                         json: jest.fn()
                     })
                 }
-                await login(req, res)
-                expect(res.status).toHaveBeenCalledWith(400)
+                await getReservations(req, res)
+                expect(res.status).toHaveBeenCalledWith(401)
+            })
+        })
+
+        it('should return 200 if EVCP is associated to the CPO', async () => {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            await queryManagerInterface.executeAndCancel(async () => {
+                const { id, token } = await fakeCPO(queryManagerInterface)
+                const evcpID = await queryManagerInterface.addEVCP(id, 'ProvaEVCP', '9.1289', '45.1234', 'Via Prova 1')
+                const req = {
+                    params: {
+                        evcpID: evcpID
+                    }, cookies: {
+                        token: token
+                    }
+                }
+                const res = {
+                    status: jest.fn().mockReturnValue({
+                        json: jest.fn()
+                    })
+                }
+                await getReservations(req, res)
+                expect(res.status).toHaveBeenCalledWith(200)
+            })
+        })
+    })
+    describe('getAggregatedReservations (CPO)', () => {
+        it('should return 401 if CPO has an invalid token', async () => {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            await queryManagerInterface.executeAndCancel(async () => {
+                const { token } = await fakeCPO(queryManagerInterface)
+                const req = {
+                    cookies: {
+                        token: 'abcd'
+                    }
+                }
+                const res = {
+                    status: jest.fn().mockReturnValue({
+                        json: jest.fn()
+                    })
+                }
+                await getAggregatedReservations(req, res)
+                expect(res.status).toHaveBeenCalledWith(401)
+            })
+        })
+        it('should return 401 if CPO has not a token', async () => {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            await queryManagerInterface.executeAndCancel(async () => {
+                const { token } = await fakeCPO(queryManagerInterface)
+                const req = {
+                    cookies: {
+                    }
+                }
+                const res = {
+                    status: jest.fn().mockReturnValue({
+                        json: jest.fn()
+                    })
+                }
+                await getAggregatedReservations(req, res)
+                expect(res.status).toHaveBeenCalledWith(401)
+            })
+        })
+
+        it('should return 200 if EVCP is associated to the CPO', async () => {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            await queryManagerInterface.executeAndCancel(async () => {
+                const { token } = await fakeCPO(queryManagerInterface)
+                const req = {
+                    cookies: {
+                        token: token
+                    }
+                }
+                const res = {
+                    status: jest.fn().mockReturnValue({
+                        json: jest.fn()
+                    })
+                }
+                await getAggregatedReservations(req, res)
+                expect(res.status).toHaveBeenCalledWith(200)
             })
         })
     })

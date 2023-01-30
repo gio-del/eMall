@@ -140,5 +140,5 @@ module.exports = {
     verifyCode,
     signup,
     authenticate: authenticate,
-    router: router
+    accountManager: router
 }

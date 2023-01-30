@@ -30,11 +30,13 @@ router.get('/:evcpID', async (req, res) => {
 
 const getReservations = async (req, res) => {
     const { evcpID } = req.params
+    console.log('evcpID', evcpID)
     if (req.cookies.token) {
         const token = req.cookies.token
         const user = await authenticate(token)
         const queryManagerInterface = await queryManager.getQueryManager()
-        if (user && queryManagerInterface.verifyEVCPAssociation(user, evcpID)) {
+        const association = await queryManagerInterface.verifyEVCPAssociation(user, evcpID)
+        if (user && association) {
             const reservations = await queryManagerInterface.getCPOReservations(evcpID)
             return res.status(200).json(reservations)
         }
@@ -62,4 +64,4 @@ const getAggregatedReservations = async (req, res) => {
     return res.status(401).json({ error: 'Unauthorized' })
 }
 
-module.exports = { router: router, book: book, getReservations, getAggregatedReservations }
+module.exports = { bookingManager: router, book: book, getReservations, getAggregatedReservations }

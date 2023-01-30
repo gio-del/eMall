@@ -1,10 +1,10 @@
 // This file contains the routes for the CPO
 
-const accountManager = require('../controller/cpo/AccountManager').router
-const bookingManager = require('../controller/cpo/BookingManager').router
+const { accountManager } = require('../controller/cpo/AccountManager')
+const { bookingManager } = require('../controller/cpo/BookingManager')
 const { chargingPointManger } = require('../controller/cpo/ChargingPointManager')
-const energyManager = require('../controller/cpo/EnergyManager')
-const rateManager = require('../controller/cpo/RateManager')
+const { energyManager } = require('../controller/cpo/EnergyManager')
+const { rateManager } = require('../controller/cpo/RateManager')
 
 const router = require('express').Router()
 

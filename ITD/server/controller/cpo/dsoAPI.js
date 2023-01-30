@@ -24,7 +24,7 @@ const DSOs = [
 
 module.exports = {
     /**
-     * This function returns a list of DSOs available for the EVCP
+     * This function returns a list of DSOs available for the EVCP. For the sake of the demo, we assume that the DSOs are randomly selected and that they are not directly related to the EVCP
      * @param {*} evcpID the ID of the EVCP
      * @returns the list of DSOs available for the EVCP
      */

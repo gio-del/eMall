@@ -10,8 +10,8 @@ const Pool = require("pg").Pool;
 const pool = new Pool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  host: 'localhost', // for test change to localhost and port to 5433, for production change to postgres and port to 5432
-  port: 5433,
+  host: 'postgres', // for test change to localhost and port to 5433, for production change to postgres and port to 5432
+  port: 5432,
   database: "eMall",
 })
 
