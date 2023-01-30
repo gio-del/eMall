@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.01% </span>
+                <span class="strong">95.76% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>602/627</span>
+                <span class='fraction'>610/637</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.83% </span>
+                <span class="strong">67.94% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>53/77</span>
+                <span class='fraction'>53/78</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.01% </span>
+                <span class="strong">95.76% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>602/627</span>
+                <span class='fraction'>610/637</span>
             </div>
         
             
@@ -689,7 +689,17 @@
 <a name='L624'></a><a href='#L624'>624</a>
 <a name='L625'></a><a href='#L625'>625</a>
 <a name='L626'></a><a href='#L626'>626</a>
-<a name='L627'></a><a href='#L627'>627</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L627'></a><a href='#L627'>627</a>
+<a name='L628'></a><a href='#L628'>628</a>
+<a name='L629'></a><a href='#L629'>629</a>
+<a name='L630'></a><a href='#L630'>630</a>
+<a name='L631'></a><a href='#L631'>631</a>
+<a name='L632'></a><a href='#L632'>632</a>
+<a name='L633'></a><a href='#L633'>633</a>
+<a name='L634'></a><a href='#L634'>634</a>
+<a name='L635'></a><a href='#L635'>635</a>
+<a name='L636'></a><a href='#L636'>636</a>
+<a name='L637'></a><a href='#L637'>637</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -985,6 +995,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">99x</span>
 <span class="cline-any cline-yes">99x</span>
 <span class="cline-any cline-yes">99x</span>
@@ -1282,9 +1302,9 @@
 <span class="cline-any cline-yes">99x</span>
 <span class="cline-any cline-yes">99x</span>
 <span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">99x</span>
 <span class="cline-any cline-yes">99x</span>
 <span class="cline-any cline-yes">99x</span>
@@ -1603,14 +1623,24 @@ exports.getQueryManager = async () =&gt; {
         },
 &nbsp;
         /**
-         * Get detailed information about an EVCP (it is intended to be used by the CPO)
-         * @param {*} evcpID the ID of the EVCP
-         * @returns the detailed information about an EVCP
-         */
+        * Get detailed information about an EVCP (it is intended to be used by the CPO)
+        * @param {*} evcpID the ID of the EVCP
+        * @returns the detailed information about an EVCP
+        */
         getSpecificEVCP: async (evcpID) =&gt; {
-            const res = await pool.query('SELECT * FROM EVCP AS E JOIN CP ON CP.evcp_id = E.id JOIN SOCKET AS S ON S.cp_id = CP.id WHERE E.id = $1', [evcpID])
-            const rows = res.rows
-            return rows
+            const res1 = await pool.query('SELECT E.name, E.latitude, E.longitude, E.address FROM EVCP AS E WHERE E.id = $1', [evcpID])
+            const res2 = await pool.query('SELECT CP.id, CP.evcp_id FROM CP WHERE CP.evcp_id = $1', [evcpID])
+            const res3 = await pool.query('SELECT S.power_kw, T.type_name, S.id AS id, CP.id AS cp_id FROM SOCKET AS S JOIN CP ON CP.id = S.cp_id JOIN TYPE AS T ON T.id = S.type_id WHERE CP.evcp_id = $1', [evcpID])
+&nbsp;
+            const rows1 = res1.rows[0]
+            const rows2 = res2.rows
+            const rows3 = res3.rows
+            if (!rows1 || !rows2 || !rows3) <span class="branch-0 cbranch-no" title="branch not covered" >return undefined</span>
+            const cps = rows2.map((row) =&gt; {
+<span class="cstat-no" title="statement not covered" >                const sockets = rows3.filter(socket =&gt; socket.cp_id === row.id)</span>
+<span class="cstat-no" title="statement not covered" >                return { cpID: row.id, sockets: sockets.map(socket =&gt; ({ socketID: socket.id, type: socket.type_name, power: socket.power_kw })) }</span>
+            })
+            return { evcpID: evcpID, name: rows1.name, address: rows1.address, latitude: rows1.latitude, longitude: rows1.longitude, cps: cps }
         },
 &nbsp;
         /**
@@ -1910,7 +1940,7 @@ exports.getQueryManager = async () =&gt; {
         getDSO: async (evcpID) =&gt; {
             const res = await pool.query('SELECT DSO_name, DSO_pricekW, DSO_contract_expiry FROM EVCP WHERE id = $1', [evcpID])
             const rows = res.rows
-            return rows[0] ? { DSOname: rows[0].dso_name, DSOprice: rows[0].dso_pricekw, DSOexpiry: rows[0].dso_contract_expiry }<span class="branch-0 cbranch-no" title="branch not covered" > : []</span>
+            return rows[0] ? { DSOname: rows[0].dso_name, DSOprice: rows[0].dso_pricekw, DSOexpiry: new Date(rows[0].dso_contract_expiry) }<span class="branch-0 cbranch-no" title="branch not covered" > : []</span>
         },
 &nbsp;
         /**
@@ -1948,7 +1978,7 @@ exports.getQueryManager = async () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-30T13:51:02.148Z
+                at 2023-01-30T18:06:50.779Z
             </div>
         <script src="../prettify.js"></script>
         <script>
