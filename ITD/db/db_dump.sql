@@ -47,7 +47,6 @@ CREATE TABLE EVCP (
     name text NOT NULL,
     cpo_id int NOT NULL,
     batteryKey varchar(128) NULL,
-    solarKey varchar(128) NULL,
     DSO_name varchar(128) NULL,
     DSO_pricekW decimal(10, 2) NULL,
     DSO_contract_expiry date NULL,

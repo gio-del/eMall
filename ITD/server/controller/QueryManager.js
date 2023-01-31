@@ -277,7 +277,7 @@ exports.getQueryManager = async () => {
                     row.discount = discount.discount
                 }
             })
-            return rows ? rows.map((row) => ({ evcpID: row.id, latitude: row.latitude, longitude: row.longitude, specialOffer: row.discount })) : undefined
+            return rows ? rows.map((row) => ({ evcpID: row.id, latitude: row.latitude, longitude: row.longitude, discount: row.discount })) : undefined
         },
 
         /**
@@ -654,6 +654,28 @@ exports.getQueryManager = async () => {
         },
 
         /**
+         * Update the battery key of a EVCP
+         * @param {*} evcpID the ID of the EVCP
+         * @param {*} batteryKey the new battery key
+         * @returns true
+         */
+        updateBatteryKey: async (evcpID, batteryKey) => {
+            const res = await pool.query('UPDATE EVCP SET batteryKey = $1 WHERE id = $2', [batteryKey, evcpID])
+            return true
+        },
+
+        /**
+        * Get the Battery Key of a EVCP
+        * @param {*} evcpID the ID of the EVCP
+        * @returns the battery key of the EVCP
+        */
+        getBatteryKeyByEVCP: async (evcpID) => {
+            const res = await pool.query('SELECT batteryKey FROM EVCP WHERE id = $1', [evcpID])
+            const rows = res.rows
+            return rows[0] ? rows[0].batterykey : []
+        },
+
+        /**
         * This function is used for testing purposes. It executes the callback in a transaction and then cancels it
         * @param {*} callback the callback to execute
         */
@@ -666,6 +688,6 @@ exports.getQueryManager = async () => {
                 await pool.query('ROLLBACK')
                 client.release()
             }
-        }
+        },
     }
 }

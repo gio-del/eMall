@@ -18,7 +18,7 @@ export default function Drawer({
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    getConnectors()
+    if (selectedMarker) getConnectors()
   }, [selectedMarker])
 
   const getConnectors = async () => {
@@ -64,6 +64,11 @@ export default function Drawer({
                   <p className="font-light  dark:text-tertiary text-dk-secondary">
                     {details.address}
                   </p>
+                  {details.discount && (
+                    <p className="font-light  dark:text-tertiary text-dk-secondary">
+                      Off -{details.discount}% on all bookings!
+                    </p>
+                  )}
                 </div>
                 <DirectionButtonUtility
                   source={[currentLocation.latitude, currentLocation.longitude]}

@@ -48,7 +48,7 @@ const getReservations = async (req, res) => {
  * This route is used to get an aggregated view of the reservations of a CPO in all its EVCPs
  */
 router.get('/', async (req, res) => {
-
+    return getAggregatedReservations(req,res)
 })
 
 const getAggregatedReservations = async (req, res) => {

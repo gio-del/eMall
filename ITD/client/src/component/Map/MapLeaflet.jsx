@@ -7,13 +7,20 @@ import Drawer from './Drawer/Drawer'
 import MarkerCustom from './Marker/MarkerCustom'
 import L from 'leaflet'
 import blueMarker from './../../assets/markers/marker.svg'
+import specialMarker from './../../assets/markers/special_marker.svg'
 import Control from 'react-leaflet-custom-control'
 import LocateMeControl from './LocateMeControl'
 import SelfMarker from './Marker/SelfMarker'
 import './MapLeaflet.css'
 import { BASE_API } from '../../constant'
 
-function getIcon() {
+function getIcon(special) {
+  if (special)
+    return L.icon({
+      iconUrl: specialMarker,
+      iconSize: [48, 48],
+      iconAnchor: [24, 48],
+    })
   return L.icon({
     iconUrl: blueMarker,
     iconSize: [48, 48],
@@ -110,16 +117,27 @@ export default function MapLeaflet() {
           />
         </div>
         <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
-          {markers.map((marker) => (
-            <MarkerCustom
-              key={marker.evcpID}
-              id={marker.evcpID}
-              setSelectedMarker={setSelectedMarker}
-              setIsDrawerOpen={setIsDrawerOpen}
-              icon={getIcon()}
-              position={[marker.latitude, marker.longitude]}
-            />
-          ))}
+          {markers.map((marker) =>
+            marker.discount > 0 ? (
+              <MarkerCustom
+                key={marker.evcpID}
+                id={marker.evcpID}
+                setSelectedMarker={setSelectedMarker}
+                setIsDrawerOpen={setIsDrawerOpen}
+                icon={getIcon(true)}
+                position={[marker.latitude, marker.longitude]}
+              />
+            ) : (
+              <MarkerCustom
+                key={marker.evcpID}
+                id={marker.evcpID}
+                setSelectedMarker={setSelectedMarker}
+                setIsDrawerOpen={setIsDrawerOpen}
+                icon={getIcon(false)}
+                position={[marker.latitude, marker.longitude]}
+              />
+            ),
+          )}
         </MarkerClusterGroup>
 
         <div className="absolute inset-x-0 bottom-4 items-center max-w-md mx-auto z-10">
