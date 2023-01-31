@@ -88,18 +88,24 @@ export default function EnergyTab({ evcpList }) {
     
   }, [drawerOpen])
 
+  useEffect(() => {
+    if(evcpList) {
+      setCurrentEvcp(evcpList[0])
+    }
+  }, [])
+
   return (
     <>
        <div className='md:flex md:justify-between md:mt-8 h-[calc(100%-10rem)] overflow-y-scroll'>
-        <div className='w-1/4 md:mx-8'>
+        <div className='w-1/4 md:mx-8 mt-4'>
           <TabSelectorDash
             tabs={evcpList}
             currentTab={currentEvcp}
             setCurrentTab={setCurrentEvcp}
           />
         </div>
-        <div className='w-full grid grid-cols-1 gap-4 md:mx-8 h-full'>
-          <div className='bg-white rounded-xl p-4 w-auto h-full'>
+        <div className='w-full flex-col max-h-min md:mx-8 mt-4'>
+          <div className='bg-white rounded-xl p-4 w-auto'>
             <p className='text-center text-lg font-medium'>Energy Prices</p>
             <table className=' w-full text-left text-dash-black my-4'>
               <thead className='bg-dash-gray text-md text-dash-gray-dark uppercase'>
@@ -123,7 +129,7 @@ export default function EnergyTab({ evcpList }) {
               </tbody>
             </table>
           </div>
-          <div className='bg-white rounded-xl p-4 w-auto h-full'>
+          <div className='bg-white rounded-xl p-4 w-auto mt-4'>
             <p className='text-center text-lg font-medium'>Actual Contract</p>
             <table className=' w-full text-left text-dash-black my-4'>
               <thead className='bg-dash-gray text-md text-dash-gray-dark uppercase'>

@@ -29,9 +29,15 @@ export default function ReservationsTab({ evcpList }) {
     getData()
   }, [currentEvcp])
 
+  useEffect(() => {
+    if(evcpList) {
+      setCurrentEvcp(evcpList[0])
+    }
+  }, [])
+
   return (
     <>
-      <div className='md:flex md:justify-between md:mt-8 '>
+      <div className='md:flex md:justify-between md:mt-8 h-[calc(100%-10rem)] overflow-y-scroll'>
         <div className='w-1/4 md:mx-8'>
           <TabSelectorDash
             tabs={evcpList}
@@ -39,7 +45,8 @@ export default function ReservationsTab({ evcpList }) {
             setCurrentTab={setCurrentEvcp}
           />
         </div>
-        <div className='bg-white rounded-xl w-full p-4 md:mx-8'>
+        <div className='w-full mx-8'>
+        <div className='bg-white rounded-xl w-full p-4 h-auto'>
           <table className='table-auto w-full text-left text-dash-black'>
             <thead className='bg-dash-gray text-md text-dash-gray-dark uppercase'>
               <tr>
@@ -67,6 +74,8 @@ export default function ReservationsTab({ evcpList }) {
           </table>
 
         </div>
+        </div>
+        
       </div>
       
     </>
