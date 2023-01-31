@@ -10,9 +10,9 @@ const modeByBatteryKey = []
 const getBatteryMode = (batteryKey) => {
     const mode = modeByBatteryKey.find((item) => item.key === batteryKey)
     if (mode) {
-        return mode.mode
+        return mode
     }
-    return undefined
+    return "notAvailable"
 }
 
 // Get modes available
@@ -21,15 +21,15 @@ const getMode = () => {
 }
 
 // Set mode of your battery key
-const setMode = (modeID, batteryKey) => {
-    const mode = getMode(modeID)
+const setMode = (modeName, batteryKey) => {
+    const mode = getMode().filter((mode) => mode.name === modeName)[0]
     if (mode) {
         console.log(`Set ${mode.name} to ${batteryKey}`)
         const index = modeByBatteryKey.findIndex((item) => item.key === batteryKey)
         if (index !== -1) {
             modeByBatteryKey.splice(index, 1)
         }
-        modeByBatteryKey.push({ key: batteryKey, mode: modeID })
+        modeByBatteryKey.push({ key: batteryKey, mode: mode.name })
         return true
     }
     return false

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import TabSelectorDash from '../utilitycomponent/TabSelectorDash'
 import { BASE_API } from '../../constant'
 import FormField from '../utilitycomponent/FormField'
+import RadioButton from '../utilitycomponent/RadioButton'
 
 export default function EnergyTab({ evcpList }) {
   const [currentEvcp, setCurrentEvcp] = useState()
@@ -10,6 +11,7 @@ export default function EnergyTab({ evcpList }) {
   const [newDSO, setNewDSO] = useState("Select New DSO")
   const [drawerOpen, setDrawerOpen] = useState("")
   const [error, setError] = useState('')
+  const [batteryKeyInput, setBatteryKeyInput] = useState()
   const [batteryKey, setBatteryKey] = useState()
   const [newMode, setNewMode] = useState()
   const [myMode, setMyMode] = useState()
@@ -71,6 +73,30 @@ export default function EnergyTab({ evcpList }) {
     } else response.json().then((data) => setError(data.error))
   }
 
+  const getBatteryKey = async () => {
+    if (!currentEvcp) return
+    try {
+      const response = await fetch(
+        `${BASE_API}/cpo/energy/battery/${currentEvcp.evcpID}`,
+        {
+          credentials: 'include',
+        },
+      )
+      if (response.status === 200) {
+        const jsonData = await response.json()
+        console.log('json', jsonData)
+        if(jsonData) {
+          setBatteryKey(jsonData)
+          getBatteryMode()
+        } else {
+          setBatteryKey()
+        }
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const handleSubmitBatteryKey = async (e) => {
     e.preventDefault()
     setError('')
@@ -79,12 +105,13 @@ export default function EnergyTab({ evcpList }) {
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({
-        batteryKey: batteryKey
+        batteryKey: batteryKeyInput
       }),
     })
 
     if (response.status === 200) {
       console.log(response.headers)
+      setBatteryKey(batteryKeyInput)
       getAllModes()
     } else response.json().then((data) => setError(data.error))
   }
@@ -93,7 +120,7 @@ export default function EnergyTab({ evcpList }) {
     if (!currentEvcp) return
     try {
       const response = await fetch(
-        `${BASE_API}/cpo/energy/mode/`,
+        `${BASE_API}/cpo/energy/modes/`,
         {
           credentials: 'include',
         },
@@ -116,7 +143,7 @@ export default function EnergyTab({ evcpList }) {
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({
-        modeId : mode.id,
+        modeName : newMode,
       }),
     })
 
@@ -137,8 +164,15 @@ export default function EnergyTab({ evcpList }) {
       )
       if (response.status === 200) {
         const jsonData = await response.json()
-        console.log('json', jsonData)
-        setMyMode(jsonData)
+        if(jsonData != "notAvailable") {
+          console.log('json', jsonData)
+          setMyMode(jsonData)
+        } else {
+          setMyMode()
+        }
+        getAllModes()
+      } else if (response.status === 400) {
+        setMyMode()
       }
     } catch (err) {
       console.error(err)
@@ -149,7 +183,11 @@ export default function EnergyTab({ evcpList }) {
     getDSO()
     getDSOsAvailable()
     setNewDSO("")
-
+    setBatteryKey()
+    setModes()
+    setMyMode()
+    setNewMode()
+    getBatteryKey()
   }, [currentEvcp])
 
   const openDropdown = () => {
@@ -318,66 +356,76 @@ export default function EnergyTab({ evcpList }) {
                   )}
                 </>
               ) : (
-                <div className="border-2 border-dash-gray rounded-full">
-                  <p>Cannot change</p>
+                <div className="border-2 border-dash-gray rounded-full p-2">
+                  <p>Cannot change contract until the minimum contract days are expired</p>
                 </div>
               )}
             </div>
           </div>
-          <div>
-            <form
-              id="addBattery"
-              className="hidden"
-              onSubmit={handleSubmitBatteryKey}
-            >
-              <FormField
-                id="batteryKey"
-                type="batteryKey"
-                value={batteryKey}
-                onChange={(e) => setBatteryKey(e.target.value)}
-              >
-                Battery Key
-              </FormField>
-              <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-                Add Battery Key
-              </button>
-            </form>
-          </div>
-          {myMode && myMode ? (
-            <>
-              <div className="bg-white p-4 rounded-xl">
-                <p>{myMode}</p>
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
-          {modes ? (
-            <>
-              <div>
-                <form
-                  id="addBattery"
-                  className="hidden"
-                  onSubmit={handleSubmitMode}
-                >
-                  <div className="flex flex-row justify-center gap-10">
-                    {modes.map((modality) => (
-                      <RadioButton
-                        role={modality.name}
-                        name={modality.name}
-                        setRole={setNewMode}
-                      />
-                    ))}
+          <div className='flex w-auto gap-4 mt-4'>
+            <div className='w-1/2 bg-white rounded-xl p-4'>
+            <p className="text-center text-lg font-medium">Energy Storage System Status</p>
+              {batteryKey && batteryKey ? <>
+                <div className=" w-full  flex mt-4">
+                  <p className='text-md font-medium text-dash-gray-dark'>Inserted Energy Storage API key: "{batteryKey}"</p>
+                </div></> : <>
+                <div>
+                  <form
+                    id="addBattery"
+                    className=""
+                    onSubmit={handleSubmitBatteryKey}
+                  >
+                    <FormField
+                      id="batteryKey"
+                      type="batteryKey"
+                      value={batteryKeyInput}
+                      onChange={(e) => setBatteryKeyInput(e.target.value)}
+                    >
+                      Battery Key
+                    </FormField>
+                    <button className="bg-dash-black text-white py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
+                      Add Battery Key
+                    </button>
+                  </form>
+                </div></>}
+              {myMode && myMode ? (
+                <>
+                  <div className="bg-white  rounded-xl w-full gap-2 flex mt-4">
+                    <p className='text-md font-medium text-dash-gray-dark'>Energy Storage System working mode:</p>
+                    <p className='text-md font-semibold text-dash-black'>{myMode.mode}</p>
                   </div>
-                  <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-                    Select Battery Mode
+                </>
+              ) : (<></>)}
+            </div>
+            {modes ? (<>
+              <div className='w-1/2 bg-white rounded-xl p-4'>
+              <p className="text-center text-lg font-medium">Change Energy Storage System Working Mode</p>
+                <form id="addRate" className=' w-full ' onSubmit={handleSubmitMode}>
+                  <div className="flex flex-col mb-2">
+                    <p className="block text-md text-gray-700 font-medium mb-2">Select a new Working Mode</p>
+                    <div className="flex justify-between">
+                      <div className='flex gap-4'>
+                      {modes.map((x) => (
+                        <RadioButton
+                          role={newMode}
+                          name={x.name}
+                          setRole={setNewMode}
+                        />
+                      ))}
+                      </div>
+                     
+                      <button className="bg-dash-black text-white py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
+                    Change Mode
                   </button>
+                    </div>
+                    
+
+                  </div>
+                 
                 </form>
               </div>
-            </>
-          ) : (
-            <></>
-          )}
+            </>) : (<></>)}
+          </div>
         </div>
       </div>
     </>

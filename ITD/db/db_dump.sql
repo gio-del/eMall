@@ -46,7 +46,7 @@ CREATE TABLE EVCP (
     id serial PRIMARY KEY,
     name text NOT NULL,
     cpo_id int NOT NULL,
-    batteryKey varchar(128) NULL,
+    batteryKey varchar(128) NULL UNIQUE,
     DSO_name varchar(128) NULL,
     DSO_pricekW decimal(10, 2) NULL,
     DSO_contract_expiry date NULL,

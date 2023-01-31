@@ -144,7 +144,7 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
           </div>
           <div
             id="toAddEVCP"
-            className="bg-dash-black cursor-pointer rounded-xl mt-8 p-2 flex justify-center text-dash-gray"
+            className="bg-dash-black cursor-pointer rounded-xl mt-8 p-2 flex justify-center text-dash-gray hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav"
             onClick={() => addEVCP()}
           >
             <p>Add an EVCP</p>
@@ -187,7 +187,7 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
               address
             </FormField>
 
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
+            <button className="bg-dash-black text-white py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
               Add EVCP
             </button>
           </form>
@@ -284,7 +284,7 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
                                         </div>
 
                                         <button
-                                          className="bg-dash-black text-white mt-4 py-2 px-4 rounded-lg"
+                                          className="bg-dash-black text-white mt-4 py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav"
                                           onClick={() => setCpID(cp.cpID)}
                                         >
                                           Add the Socket
@@ -309,7 +309,7 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
             ))}
           {currentEvcp && currentEvcp ? (
             <div
-              className="bg-dash-black text-dash-gray col-span-2 text-center py-4 rounded-xl cursor-pointer mt-4"
+              className="bg-dash-black text-dash-gray col-span-2 text-center py-4 rounded-xl cursor-pointer mt-4 hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav"
               onClick={() => createCP()}
             >
               Add a Charging Point

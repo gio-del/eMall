@@ -81,21 +81,6 @@ export default function ActionButton({ background, data }) {
               {data.content}
             </p>
           </div>
-          <div className="flex grow items-center 2xl:mt-6">
-            <IconSVG
-              src={chart}
-              className={`${
-                background == 'bg-black' ? 'fill-dash-gray' : 'fill-dash-black'
-              }`}
-            />
-            <p
-              className={`${
-                background == 'bg-black' ? 'text-dash-gray' : 'text-dash-black'
-              } font-normal text-sm ml-3`}
-            >
-              {data.bottomTitle}
-            </p>
-          </div>
         </div>
       </div>
     </>
