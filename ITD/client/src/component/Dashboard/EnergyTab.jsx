@@ -79,7 +79,7 @@ export default function EnergyTab({ evcpList }) {
 
   useEffect(() => {
     if(DSOs) {
-      if(drawerOpen === false) {
+      if(drawerOpen === true) {
         document.getElementById("dropdownRadioBgHover").classList.remove("hidden") 
       } else {
         document.getElementById("dropdownRadioBgHover").classList.add("hidden")
@@ -90,7 +90,7 @@ export default function EnergyTab({ evcpList }) {
 
   return (
     <>
-       <div className='md:flex md:justify-between md:mt-8 overflow-y-scroll'>
+       <div className='md:flex md:justify-between md:mt-8 h-[calc(100%-10rem)] overflow-y-scroll'>
         <div className='w-1/4 md:mx-8'>
           <TabSelectorDash
             tabs={evcpList}
@@ -157,7 +157,7 @@ export default function EnergyTab({ evcpList }) {
                       <p>{newDSO && newDSO != "" ? newDSO.DSOname: "Select DSO"}</p>
                       <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m12 15-5-5h10Z" /></svg>                  </div>
                     <div id="dropdownRadioBgHover" class="hidden relative flex justify-center">
-                      <ul class="absolute bg-white rounded-xl shadow-lg p-3 space-y-1 text-sm text-gray-700">
+                      <ul class=" bg-white rounded-xl shadow-lg absolute p-3 space-y-1 text-sm text-gray-700">
                         {DSOs &&
                           DSOs.map((dso) => (
                             <>
