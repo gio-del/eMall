@@ -128,7 +128,7 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
   return (
     <>
       <div className="md:flex md:justify-between md:mt-8 h-[calc(100%-10rem)] overflow-y-scroll">
-        <div className="w-1/4 md:mx-8 overflow-y-scroll">
+        <div className="w-1/4 md:mx-8 mt-4 overflow-y-scroll">
           <div className="">
             <TabSelectorDash
               tabs={evcpList}
@@ -187,57 +187,56 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
           </form>
         </div>
 
-        <div className="grid grid-cols-2 h-full w-full gap-4 md:mx-8">
+        <div className="flex-col max-h-min w-full md:mx-8">
           {evcp &&
             evcp.cps.map((cp) => (
               <>
-                <div className="col-span-2 bg-white rounded-xl flex justify-center items-center w-full">
-                  <div className=" flex h-full right-0 w-full text-center">
-                    <div className="flex justify-center items-center w-full h-full">
-                      <div className="w-full h-full flex-col">
+                <div className="col-span-2 bg-white rounded-xl flex justify-center items-center h-min w-full mt-4">
+                  <div className=" flex h-auto right-0 w-full text-center">
+                    <div className="flex justify-center items-center w-full">
+                      <div className="w-full flex-col">
                         <div className="border-b-2 py-2">
                           <p className="font-medium ">
                             Charging Point {cp.cpID}
                           </p>
                         </div>
-                        <div className='h-auto'>
-                          <div className="grid grid-cols-2 gap-4 w-full h-full my-2">
-                            {cp.sockets.map((socket) => (
-                              <div className="flex-col relative border-r-2">
-                                <p className="font-semibold">Socket </p>
-                                <p className="font-semibold">{socket.type}</p>
-                                <p>Actual State</p>
-                                <div className="grid grid-cols-2 grid-rows-2 gap-4 h-auto m-4 items-center justify-center">
-                                  <div className="border-2 border-dash-black col-span-2 rounded-xl p-2">
-                                    <p className="text-dash-black">Status</p>
-                                    <p className="text-dash-black">Operative</p>
-                                  </div>
-                                  <div className="bg-dash-black rounded-xl p-2">
-                                    <p className="text-dash-gray">Power</p>
-                                    <p className="text-dash-gray">24.1kW</p>
-                                  </div>
-                                  <div className="bg-dash-black rounded-xl p-2">
-                                    <p className="text-dash-gray">Battery</p>
-                                    <p className="text-dash-gray">50%</p>
-                                  </div>
+                        <div className="grid grid-cols-2 gap-4 w-full max-h-max my-2">
+                          {cp.sockets.map((socket) => (
+                            <div className="flex-col relative border-r-2">
+                              <p className="font-semibold">Socket </p>
+                              <p className="font-semibold">{socket.type}</p>
+                              <p>Actual State</p>
+                              <div className="grid grid-cols-2 grid-rows-2 gap-4 h-max m-4 items-center justify-center">
+                                <div className="border-2 border-dash-black col-span-2 rounded-xl p-2">
+                                  <p className="text-dash-black">Status</p>
+                                  <p className="text-dash-black">Operative</p>
+                                </div>
+                                <div className="bg-dash-black rounded-xl p-2">
+                                  <p className="text-dash-gray">Power</p>
+                                  <p className="text-dash-gray">24.1kW</p>
+                                </div>
+                                <div className="bg-dash-black rounded-xl p-2">
+                                  <p className="text-dash-gray">Battery</p>
+                                  <p className="text-dash-gray">50%</p>
                                 </div>
                               </div>
-                            ))}
-                            {cp.sockets.length < 2 ? (
-                              <>
-                                <div id={`openForm-${cp.cpID}`}  className={`${cp.sockets.length == 0 ? "col-span-2" : "col-span-1 openForm h-auto"}`}>
-                                  <div className='flex justify-center items-center h-full'>
-                                    <div className='cursor-pointer hover:bg-gray-400 border-2 border-dash-black rounded-2xl p-4'
+                            </div>
+                          ))}
+                          {cp.sockets.length < 2 ? (
+                            <>
+                              <div id={`openForm-${cp.cpID}`} className={`${cp.sockets.length == 0 ? "col-span-2" : "col-span-1 openForm h-full"}`}>
+                                <div className='flex justify-center items-center h-full'>
+                                  <div className='cursor-pointer hover:bg-gray-400 border-2 border-dash-black rounded-2xl p-4'
                                     onClick={() => setCpForm(cp.cpID)}
-                                    >
-                                      <div className='flex justify-center'>
-                                        <svg className='justify-center' xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6Z" /></svg>
-                                      </div>
-                                      <p className='text-center'>Add a Socket</p>
+                                  >
+                                    <div className='flex justify-center'>
+                                      <svg className='justify-center' xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6Z" /></svg>
                                     </div>
-                                    
+                                    <p className='text-center'>Add a Socket</p>
                                   </div>
+
                                 </div>
+                              </div>
                               <div id={`form-${cp.cpID}`} className={`${cp.sockets.length == 0 ? "col-span-2" : "col-span-1"} hidden form`}>
                                 <div className="bg-white row-span-2 col-span-2 rounded-xl cursor-pointer flex justify-center items-center w-full">
                                   <div className=" flex h-full right-0 w-full px-8 py-4">
@@ -289,13 +288,12 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
                                   </div>
                                 </div>
                               </div>
-                              
-                              </>
-                              
-                            ) : (
-                              <p></p>
-                            )}
-                          </div>
+
+                            </>
+
+                          ) : (
+                            <p></p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -305,7 +303,7 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
             ))}
           {currentEvcp && currentEvcp ? (
             <div
-              className="bg-dash-black text-dash-gray col-span-2 text-center py-4 rounded-xl cursor-pointer"
+              className="bg-dash-black text-dash-gray col-span-2 text-center py-4 rounded-xl cursor-pointer mt-4"
               onClick={() => createCP()}
             >
               Add a Charging Point
