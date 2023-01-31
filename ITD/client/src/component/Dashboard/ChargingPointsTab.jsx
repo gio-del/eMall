@@ -49,6 +49,12 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
   }, [currentEvcp])
 
   useEffect(() => {
+    if(evcpList) {
+      setCurrentEvcp(evcpList[0])
+    }
+  }, [])
+
+  useEffect(() => {
     if(cpForm){
       if(lastCpForm) {
         document.getElementById(`openForm-${lastCpForm}`).classList.remove("hidden")
