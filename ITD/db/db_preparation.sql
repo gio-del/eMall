@@ -73,8 +73,6 @@ DROP TABLE CPO_CODE;
 DROP TABLE TYPE;
 
 -- End of file.
-
-
 --- Table: car
 CREATE TABLE CAR (
     id serial PRIMARY KEY,
@@ -172,8 +170,7 @@ CREATE TABLE SOCKET (
 CREATE TABLE SPECIAL_OFFER (
     id serial PRIMARY KEY,
     discount int NOT NULL,
-    time_frame interval NOT NULL,
-    evcp_id int NOT NULL
+    evcp_id int UNIQUE NOT NULL
 );
 
 -- Table: driver
@@ -286,7 +283,6 @@ AS (
         S.power_kw);
 
 -- End of file.
-
 INSERT INTO CPO (company_name, email, PASSWORD)
     VALUES ('FakeEnergyCo1', 'fakeco1@example.com', 'password1'), ('FakeEnergyCo2', 'fakeco2@example.com', 'password2');
 
@@ -307,5 +303,6 @@ INSERT INTO SOCKET (cp_id, power_kW, type_id)
 INSERT INTO RATE (evcp_id, type_id, flatPrice, variablePrice)
     VALUES (1, 1, 20, 0.10), (2, 2, 25, 0.12), (3, 1, 30, 0.15), (4, 2, 35, 0.18), (5, 1, 40, 0.20), (6, 2, 45, 0.22), (7, 1, 50, 0.25), (8, 2, 55, 0.28), (9, 1, 60, 0.30), (10, 2, 65, 0.32);
 
-
+INSERT INTO SPECIAL_OFFER (evcp_id, discount)
+    VALUES (1, 10), (2, 20), (3, 30), (4, 40);
 

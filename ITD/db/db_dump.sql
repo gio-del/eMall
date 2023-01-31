@@ -95,8 +95,7 @@ CREATE TABLE SOCKET (
 CREATE TABLE SPECIAL_OFFER (
     id serial PRIMARY KEY,
     discount int NOT NULL,
-    time_frame interval NOT NULL,
-    evcp_id int NOT NULL
+    evcp_id int UNIQUE NOT NULL
 );
 
 -- Table: driver

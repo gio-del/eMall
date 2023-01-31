@@ -261,17 +261,23 @@ exports.getQueryManager = async () => {
         },
 
         /**
-         * Get the EVCPs in a range of 50km from a given position
-         * @param {*} latitude the latitude of the position
-         * @param {*} longitude the longitude of the position
-         * @param {*} filters the filters to apply
-         * @returns the EVCPs in a range of 50km from a given position filtered by the given filters
-         */
-        getEVCPs: async (latitude, longitude, filters) => {
-            // TODO check FILTERS: how do they are defined?
+        * Get the EVCPs in a range of 50km from a given position with special offer, if any, and filtered by the given connector type
+        * @param {*} latitude the latitude of the position
+        * @param {*} longitude the longitude of the position
+        * @param {*} filters the filters to apply
+        */
+        getEVCPs: async (latitude, longitude) => {
             const res = await pool.query('SELECT * FROM EVCP')
             const rows = res.rows.filter(row => distance(row.latitude, row.longitude, latitude, longitude) <= 50) // return the EVCP in a km range
-            return rows ? rows.map((row) => ({ evcpID: row.id, latitude: row.latitude, longitude: row.longitude })) : undefined
+            const res1 = await pool.query('SELECT * FROM SPECIAL_OFFER')
+            const discounts = res1.rows
+            rows.forEach(row => {
+                const discount = discounts.find(discount => discount.evcp_id === row.id)
+                if (discount) {
+                    row.discount = discount.discount
+                }
+            })
+            return rows ? rows.map((row) => ({ evcpID: row.id, latitude: row.latitude, longitude: row.longitude, specialOffer: row.discount })) : undefined
         },
 
         /**
@@ -307,13 +313,14 @@ exports.getQueryManager = async () => {
         },
 
         /**
-         * Get a detailed view of an EVCP (it is intended to be used by the driver)
-         * @param {*} evcpID the ID of the EVCP
-         * @returns the detailed view of an EVCP
-         */
+        * Get a detailed view of an EVCP (it is intended to be used by the driver)
+        * @param {*} evcpID the ID of the EVCP
+        * @returns the detailed view of an EVCP
+        */
         getDetailsEVCP: async (evcpID) => {
-            const firstQuery = await pool.query('SELECT C.company_name, E.address FROM EVCP AS E, CPO AS C WHERE E.cpo_id = C.id AND E.id = $1', [evcpID])
-            const rows1 = firstQuery.rows[0];
+            // as above but add also the special offer discount
+            const firstQuery = await pool.query('SELECT C.company_name, E.address FROM EVCP AS E JOIN CPO AS C ON E.cpo_id = C.id WHERE E.id = $1', [evcpID])
+            const rows1 = firstQuery.rows[0]
             if (!rows1) return
             const secondQuery = await pool.query(dedent`SELECT DISTINCT T.type_name, TYPE_FREE.number AS "free", TYPE_TOTAL.number AS "total", R.flatprice, R.variableprice, S.power_kW
                                                         FROM EVCP AS E
@@ -325,7 +332,12 @@ exports.getQueryManager = async () => {
                                                         JOIN Rate AS R ON R.evcp_id = E.id
                                                         WHERE E.id = $1 AND R.type_id = T.id AND TYPE_FREE.evcp_id = E.id AND TYPE_TOTAL.evcp_id = E.id`, [evcpID])
             const rows2 = secondQuery.rows.map((row) => ({ typeName: row.type_name, freeSpots: row.free, totalSpots: row.total, flatPrice: row.flatprice, variablePrice: row.variableprice, power: row.power_kw }))
-            return rows2 ? { companyName: rows1.company_name, address: rows1.address, evcpID: evcpID, connectors: rows2 } : undefined
+            const thirdQuery = await pool.query('SELECT * FROM SPECIAL_OFFER WHERE evcp_id = $1', [evcpID])
+            const rows3 = thirdQuery.rows
+            if (rows3.length === 0)
+                return rows2 ? { companyName: rows1.company_name, address: rows1.address, evcpID: evcpID, discount: rows1.discount, connectors: rows2 } : undefined
+            else
+                return rows2 ? { companyName: rows1.company_name, address: rows1.address, evcpID: evcpID, discount: rows1.discount, connectors: rows2, discount: rows3[0].discount } : undefined
         },
 
         /**
@@ -584,15 +596,37 @@ exports.getQueryManager = async () => {
         },
 
         /**
+         * Get all the special offers for a specific EVCP
+         * @param {*} evcpID the ID of the EVCP
+         * @returns the special offer for a specific EVCP
+         */
+        getSpecialOffer: async (evcpID) => {
+            const res = await pool.query('SELECT * FROM SPECIAL_OFFER WHERE evcp_id = $1', [evcpID])
+            if (res.rows.length === 0) return undefined
+            const row = res.rows[0]
+            return { specialOfferID: row.id, evcpID: row.evcp_id, discount: row.discount }
+        },
+
+        /**
          * Add a new special offer for a specific EVCP
          * @param {*} evcpID the ID of the EVCP
          * @param {*} discount the percentage of the discount
-         * @param {*} timeframe the timeframe of the special offer
+         * @returns the object containing the special offer ID, the EVCP ID and the discount if the special offer was added, false otherwise
+         */
+        addSpecialOffer: async (evcpID, discount) => {
+            const res = await pool.query('INSERT INTO SPECIAL_OFFER(evcp_id, discount) VALUES($1, $2) RETURNING *', [evcpID, discount])
+            if (res.rows.length === 0) return false
+            return { specialOfferID: res.rows[0].id, evcpID: res.rows[0].evcp_id, discount: res.rows[0].discount }
+        },
+
+        /**
+         * Delete a special offer
+         * @param {*} specialOfferID the ID of the special offer
          * @returns true
          */
-        addSpecialOffer: async (evcpID, discount, timeframe) => {
-            const res = await pool.query('INSERT INTO SPECIAL_OFFER(discount, time_frame, evcp_id) VALUES($1, $2, $3)', [discount, timeframe, evcpID])
-            return true // if ok, or false?
+        deleteSpecialOffer: async (specialOfferID) => {
+            const res = await pool.query('DELETE FROM SPECIAL_OFFER WHERE id = $1', [specialOfferID])
+            return true
         },
 
         /**

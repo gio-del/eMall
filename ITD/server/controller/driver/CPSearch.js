@@ -10,11 +10,11 @@ router.get('/', async (req, res) => {
 })
 
 const getEVCPs = async (req, res) => {
-    const { latitude, longitude, filters } = req.query
+    const { latitude, longitude } = req.query
 
     const queryManagerInterface = await queryManager.getQueryManager()
 
-    const cps = await queryManagerInterface.getEVCPs(latitude, longitude, filters)
+    const cps = await queryManagerInterface.getEVCPs(latitude, longitude)
 
     return res.status(200).json(cps)
 }
