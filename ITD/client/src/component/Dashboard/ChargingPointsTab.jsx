@@ -15,7 +15,9 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
   const [type, setType] = useState()
   const [cpID, setCpID] = useState()
   const [error, setError] = useState('')
-
+  const [cpForm, setCpForm] = useState()
+  const [lastCpForm, setLastCpForm] = useState()
+  
   const getData = async () => {
     if (!currentEvcp) return
     try {
@@ -33,8 +35,30 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
   }
 
   useEffect(() => {
+    if(cpForm) {
+      if(lastCpForm) {
+        document.getElementById(`openForm-${lastCpForm}`).classList.remove("hidden")
+        document.getElementById(`form-${lastCpForm}`).classList.add("hidden")
+      }
+      document.getElementById(`openForm-${cpForm}`).classList.remove("hidden")
+      document.getElementById(`form-${cpForm}`).classList.add("hidden")
+    }
     getData()
+    setCpForm("")
+    setLastCpForm("")
   }, [currentEvcp])
+
+  useEffect(() => {
+    if(cpForm){
+      if(lastCpForm) {
+        document.getElementById(`openForm-${lastCpForm}`).classList.remove("hidden")
+        document.getElementById(`form-${lastCpForm}`).classList.add("hidden")
+      }
+      document.getElementById(`openForm-${cpForm}`).classList.add("hidden")
+      document.getElementById(`form-${cpForm}`).classList.remove("hidden")
+      setLastCpForm(cpForm)
+    }
+  }, [cpForm])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -54,10 +78,6 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
     if (response.status === 200) {
       console.log(response.headers)
       setEvcpList([])
-      setName("")
-      setLatitude("")
-      setLongitude("")
-      setAddress("")
       document.getElementById('addEVCP').classList.add('hidden')
       document.getElementById('toAddEVCP').classList.remove('hidden')
     } else response.json().then((data) => setError(data.error))
@@ -79,6 +99,8 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
     if (response.status === 200) {
       console.log(response.headers)
       getData()
+      setCpForm()
+      setLastCpForm()
     } else response.json().then(console.log(data.error))
   }
 
@@ -101,9 +123,11 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
     document.getElementById('toAddEVCP').classList.add('hidden')
   }
 
+  
+
   return (
     <>
-      <div className="md:flex md:justify-between md:mt-8">
+      <div className="md:flex md:justify-between md:mt-8 h-[calc(100%-10rem)] overflow-y-scroll">
         <div className="w-1/4 md:mx-8 overflow-y-scroll">
           <div className="">
             <TabSelectorDash
@@ -170,13 +194,13 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
                 <div className="col-span-2 bg-white rounded-xl flex justify-center items-center w-full">
                   <div className=" flex h-full right-0 w-full text-center">
                     <div className="flex justify-center items-center w-full h-full">
-                      <div className="w-full h-full">
+                      <div className="w-full h-full flex-col">
                         <div className="border-b-2 py-2">
                           <p className="font-medium ">
                             Charging Point {cp.cpID}
                           </p>
                         </div>
-                        <div>
+                        <div className='h-auto'>
                           <div className="grid grid-cols-2 gap-4 w-full h-full my-2">
                             {cp.sockets.map((socket) => (
                               <div className="flex-col relative border-r-2">
@@ -200,7 +224,21 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
                               </div>
                             ))}
                             {cp.sockets.length < 2 ? (
-                              <div>
+                              <>
+                                <div id={`openForm-${cp.cpID}`}  className={`${cp.sockets.length == 0 ? "col-span-2" : "col-span-1 openForm h-auto"}`}>
+                                  <div className='flex justify-center items-center h-full'>
+                                    <div className='cursor-pointer hover:bg-gray-400 border-2 border-dash-black rounded-2xl p-4'
+                                    onClick={() => setCpForm(cp.cpID)}
+                                    >
+                                      <div className='flex justify-center'>
+                                        <svg className='justify-center' xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6Z" /></svg>
+                                      </div>
+                                      <p className='text-center'>Add a Socket</p>
+                                    </div>
+                                    
+                                  </div>
+                                </div>
+                              <div id={`form-${cp.cpID}`} className={`${cp.sockets.length == 0 ? "col-span-2" : "col-span-1"} hidden form`}>
                                 <div className="bg-white row-span-2 col-span-2 rounded-xl cursor-pointer flex justify-center items-center w-full">
                                   <div className=" flex h-full right-0 w-full px-8 py-4">
                                     <div className="flex-col justify-center items-center w-full">
@@ -251,6 +289,9 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
                                   </div>
                                 </div>
                               </div>
+                              
+                              </>
+                              
                             ) : (
                               <p></p>
                             )}
