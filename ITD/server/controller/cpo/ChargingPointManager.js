@@ -37,8 +37,18 @@ const getDetailsEVCP = async (req, res) => {
         const user = await authenticate(token)
         if (user) {
             const queryManagerInterface = await queryManager.getQueryManager()
-            const evcps = await queryManagerInterface.getSpecificEVCP(evcpID)
-            return res.status(200).json(evcps)
+            const evcp = await queryManagerInterface.getSpecificEVCP(evcpID)
+            console.log(connectedSockets)
+            for (cp of evcp.cps) {
+                for (socket of cp.sockets) {
+                    if (connectedSockets.includes(socket.socketID)) {
+                        socket.connected = true
+                    } else {
+                        socket.connected = false
+                    }
+                }
+            }
+            return res.status(200).json(evcp)
         }
     }
     return res.status(401).json({ error: 'Unauthorized' })
@@ -144,6 +154,8 @@ const cpms = new CentralSystem(5000, (req, metadata) => {
  */
 let meterValues = []
 
+let connectedSockets = []
+
 /**
  * This function handles the meter values received from the charge points
  * @param {*} req the request received from the charge point
@@ -156,21 +168,50 @@ const handleMeterValues = (req, metadata) => {
     const { timestamp, sampledValue } = meterValue[0]
     const { value } = sampledValue[0]
     console.log('Meter values received from: ', chargePointId, 'connector: ', connectorId, 'value: ', value, 'timestamp: ', timestamp)
-    const meterValueObject = { chargePointId, connectorId, timestamp, value }
-    const index = meterValues.findIndex(mv => mv.chargePointId === chargePointId)
-    if (index === -1)
-        meterValues.push(meterValueObject)
-    else
-        meterValues[index] = meterValueObject
+    const index = meterValues.findIndex(mv => mv.socketID === chargePointId)
+    meterValues[index].meterValue = value
+    console.log('new metervalues', meterValues)
     return { action: req.action, ocppVersion: req.ocppVersion }
+}
+
+const checkStarted = (socketID) => {
+    const res = meterValues.find(mv => mv.socketID === socketID)
+    if (res) {
+        return { start: res.start }
+    }
+    return undefined
+}
+
+const updateReservations = async () => {
+    const queryManagerInterface = await queryManager.getQueryManager()
+    const sockets = await queryManagerInterface.getReservationsEnded()
+    if (sockets) {
+        await sockets.forEach(async socket => {
+            const index = meterValues.findIndex(mv => mv.socketID === socket.socketID)
+            if (index !== -1) {
+                const meterValue = meterValues[index]
+                const { start, meterValue: value } = meterValue
+                const end = new Date(socket.end)
+                const duration = Math.floor((new Date(end) - new Date(start)) / 1000)
+                const cost = socket.flatPrice * duration + socket.variablePrice * value
+                await queryManagerInterface.updateReservationsEnded(socket.reservationID, cost, value)
+                meterValues = meterValues.filter(mv => mv.socketID !== socket.socketID)
+                stopCharge(socket.socketID)
+            }
+        })
+    }
 }
 
 cpms.addConnectionListener(async (id, status) => {
     if (status === 'connected') {
         console.log('New CP connected: ', id)
+        connectedSockets.push(parseInt(id))
     }
-    if (status === 'disconnected')
+
+    if (status === 'disconnected') {
         console.log('CP disconnected: ', id)
+        connectedSockets = connectedSockets.filter(socket => socket !== parseInt(id))
+    }
 })
 
 /**
@@ -187,7 +228,24 @@ const startCharge = async (socketID) => {
             idTag: '1234567890',
         }
     })
-    console.log(response.extract())
+    if (meterValues.find(mv => mv.socketID === socketID))
+        return false
+    const meterValue = { socketID: socketID, start: new Date(), meterValue: 0 }
+    meterValues.push(meterValue)
+    console.log(response)
+    return true
+}
+
+const stopCharge = async (socketID) => {
+    const response = await cpms.sendRequest({
+        ocppVersion: 'v1.6-json',
+        action: 'RemoteStopTransaction',
+        chargePointId: socketID,
+        payload: {
+            transactionId: 1,
+        }
+    })
+    return true
 }
 
 /**
@@ -199,7 +257,7 @@ const getChargeValue = (socketID) => {
     const index = meterValues.findIndex(mv => mv.chargePointId === socketID)
     if (index === -1)
         return 0
-    return meterValues[index].value
+    return meterValues[index].meterValue
 }
 
-module.exports = { chargingPointManger: router, startCharge, getChargeValue, getAllEVCPs, getDetailsEVCP, addEVCP, addCP, addSocket }
+module.exports = { chargingPointManger: router, startCharge, getChargeValue, getAllEVCPs, getDetailsEVCP, addEVCP, addCP, addSocket, checkStarted, updateReservations }

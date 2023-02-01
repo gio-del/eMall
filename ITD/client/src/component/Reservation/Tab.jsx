@@ -1,7 +1,7 @@
 import SingleReservation from './SingleReservation'
 import TabSelector from '../utilitycomponent/TabSelector'
 
-export default function Tab({ currentTab, setCurrentTab, reservations }) {
+export default function Tab({ currentTab, setCurrentTab, reservations, handleStart }) {
   return (
     <>
       <div className="flex items-center justify-center m-4 md:m-8">
@@ -18,7 +18,7 @@ export default function Tab({ currentTab, setCurrentTab, reservations }) {
         <div className="flex w-full justify-center h-min">
           <div className="grid grid-flow-row grid-cols-1 md:grid-cols-3 max-sm:mb-[4.2rem] gap-4 w-full overflow-hidden m-6">
             {reservations.map((reservation, idx) => (
-              <SingleReservation key={idx} reservation={reservation} />
+              <SingleReservation key={idx} reservation={reservation} handleStart={handleStart}/>
             ))}
           </div>
         </div>

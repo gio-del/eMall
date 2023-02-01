@@ -2,7 +2,7 @@ const { authenticate } = require('../driver/AccountManager')
 const queryManager = require('../QueryManager')
 const { book } = require('../cpo/BookingManager')
 const router = require('express').Router()
-const { startCharge } = require('../cpo/ChargingPointManager')
+const { startCharge, checkStarted } = require('../cpo/ChargingPointManager')
 
 /**
  * This route is used to get the list of reservations of a specific driver
@@ -18,6 +18,10 @@ const getReservations = async (req, res) => {
         if (user) {
             const queryManagerInterface = await queryManager.getQueryManager()
             const reservations = await queryManagerInterface.getDriverReservations(user)
+            for (reservation of reservations) {
+                reservation.start = checkStarted(reservation.socketID)
+            }
+            console.log('getReservations', reservations)
             return res.status(200).json(reservations)
         }
     }
@@ -103,6 +107,7 @@ router.get('/start/:id', async (req, res) => {
         if (user) {
             const queryManagerInterface = await queryManager.getQueryManager()
             const socketID = await queryManagerInterface.findSocket(id)
+            console.log('starting', socketID)
             const resStart = await startCharge(socketID)
             if (resStart) return res.status(200).json({ message: "The charging has been started" })
             else return res.status(404).json({ error: 'Charging not started, error' })

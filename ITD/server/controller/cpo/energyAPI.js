@@ -1,6 +1,7 @@
 const mode = [{ id: '1', name: 'name1' }, { id: '2', name: 'name2' }]
 
 const modeByBatteryKey = []
+const percentageByBatteryKey = []
 
 /**
  * Get the battery mode by battery key
@@ -35,4 +36,16 @@ const setMode = (modeName, batteryKey) => {
     return false
 }
 
-module.exports = { getBatteryMode, getMode, setMode }
+// get the percentage of your battery
+const getBatteryPercentage = (batteryKey) => {
+    // if battery percentage in percentageByBatteryKey return it otherwise add a random value in percentageByBatteryKey and return it
+    const percentage = percentageByBatteryKey.find((item) => item.key === batteryKey)
+    if (percentage) {
+        return percentage.percentage
+    }
+    const randomPercentage = Math.floor(Math.random() * 100)
+    percentageByBatteryKey.push({ key: batteryKey, percentage: randomPercentage })
+    return randomPercentage
+}
+
+module.exports = { getBatteryMode, getMode, setMode, getBatteryPercentage }

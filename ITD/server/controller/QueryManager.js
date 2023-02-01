@@ -477,7 +477,9 @@ exports.getQueryManager = async () => {
         addReservation: async (driverID, socketID, timeFrom, timeTo) => {
             const from = standardize(timeFrom)
             const to = standardize(timeTo)
-            const res = await pool.query('INSERT INTO RESERVATION(driver_id, socket_id, start_date, end_date) VALUES($1, $2, $3, $4)', [driverID, socketID, from, to])
+            const res = await pool.query('SELECT R.flatPrice, R.variablePrice FROM RATE AS R JOIN EVCP AS E ON E.id = R.evcp_id JOIN CP ON CP.evcp_id = E.id JOIN SOCKET AS S ON S.cp_id = CP.id WHERE S.id = $1 AND R.type_id = S.type_id', [socketID])
+            const rows = res.rows
+            await pool.query('INSERT INTO RESERVATION(driver_id, socket_id, start_date, end_date, flatPrice, variablePrice) VALUES($1, $2, $3, $4, $5, $6) RETURNING *', [driverID, socketID, from, to, rows[0].flatprice, rows[0].variableprice])
             return true
         },
 
@@ -509,7 +511,7 @@ exports.getQueryManager = async () => {
          * @returns the reservations associated with a given driver
          */
         getDriverReservations: async (driverID) => {
-            const res = await pool.query(dedent`SELECT C.company_name, E.address, R.start_date, R.end_date, T.type_name, S.power_kw, R.total_price, R.charged_kwh, R.discount_percent, R.id
+            const res = await pool.query(dedent`SELECT C.company_name, E.address, R.start_date, R.end_date, T.type_name, R.socket_id, S.power_kw, R.total_price, R.charged_kwh, R.discount_percent, R.id
                                                 FROM RESERVATION AS R
                                                 JOIN SOCKET AS S ON S.id = R.socket_id
                                                 JOIN CP ON CP.id = S.cp_id
@@ -517,9 +519,30 @@ exports.getQueryManager = async () => {
                                                 JOIN TYPE AS T ON T.id = S.type_id
                                                 JOIN CPO AS C ON C.id = E.cpo_id
                                                 WHERE R.driver_id = $1`, [driverID])
-            const rows = res.rows.map((row) => ({ cpo: row.company_name, address: row.address, timeFrom: row.start_date, timeTo: row.end_date, connectorTypeName: row.type_name, connectorPower: row.power_kw, discount: row.discount_percent, totalPrice: row.total_price, chargedkWh: row.charged_kwh, reservationID: row.id }))
+            const rows = res.rows.map((row) => ({ cpo: row.company_name, address: row.address, timeFrom: row.start_date, timeTo: row.end_date, connectorTypeName: row.type_name, socketID: row.socket_id, connectorPower: row.power_kw, discount: row.discount_percent, totalPrice: row.total_price, chargedkWh: row.charged_kwh, reservationID: row.id }))
             return rows
         },
+
+        getMessagingTokenReservationsEnded: async () => {
+            const res = await pool.query(`SELECT R.id, D.notification_token FROM RESERVATION AS R JOIN DRIVER AS D ON D.id = R.driver_id WHERE R.end_date <= NOW() AND R.notified = false`)
+            const rows = res.rows
+            for (const row of rows) {
+                await pool.query('UPDATE RESERVATION SET notified = true WHERE id = $1', [row.id])
+            }
+            return rows ? rows.map((row) => ({ notificationToken: row.notification_token })) : undefined
+        },
+
+        getReservationsEnded: async () => {
+            const res = await pool.query(`SELECT id, socket_id, end_date, flatPrice, variablePrice FROM RESERVATION  WHERE end_date <= NOW()`)
+            const rows = res.rows.map((row) => ({ reservationID: row.id, socketID: row.socket_id, end: row.end_date, flatPrice: row.flatprice, variablePrice: row.variableprice }))
+            return rows
+        },
+
+        updateReservationsEnded: async (reservationID, totalPrice, power) => {
+            const res = await pool.query('UPDATE RESERVATION SET totalPrice = $2, charged_kWh = $3 WHERE id = $1', [reservationID, totalPrice, power])
+            return true
+        },
+
 
         /**
          * Update the notification token for a given driver

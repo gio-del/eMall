@@ -6,12 +6,15 @@ const { getChargeValue } = require('../cpo/ChargingPointManager')
 /**
  * This route is used to get the current charge value of the car
  */
-router.get('/', async (req, res) => {
+router.get('/:reservationID', async (req, res) => {
+    const { reservationID } = req.params
     if (req.cookies.token) {
         const token = req.cookies.token
         const user = await authenticate(token)
         if (user) {
-            const chargeValue = getChargeValue(user)
+            const queryManagerInterface = await queryManager.getQueryManager()
+            const socketID = await queryManagerInterface.findSocket(reservationID)
+            const chargeValue = getChargeValue(socketID)
             return res.status(200).json({ chargedValue: chargeValue })
         }
     }

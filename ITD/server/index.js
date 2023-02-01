@@ -6,6 +6,8 @@ const driverRoutes = require('./routes/Driver')
 const cpoRoutes = require('./routes/CPO')
 const cron = require('node-cron')
 const notifyUsers = require('./controller/driver/NotificationManager')
+const updateReservations = require('./controller/cpo/ChargingPointManager')
+const fs = require('fs')
 
 const PORT = 3000
 
@@ -57,7 +59,9 @@ app.use('/api/cpo', cpoRoutes)
  * This cron job is used to notify the drivers when their reservation is ended
  */
 cron.schedule('*/1 * * * *', async () => {
-    await notifyUsers();
+    await updateReservations()
+    if (!fs.existsSync('./emall-b53e5-firebase-adminsdk-ztnob-ef034764f2.json')) return
+    await notifyUsers()
 });
 
 module.exports = app

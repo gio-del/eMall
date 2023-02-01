@@ -12,7 +12,7 @@ admin.initializeApp({
 const notifyUsers = async () => {
     // Retrieve all reservations that have ended and haven't been notified yet
     const queryManagerInterface = await queryManager.getQueryManager()
-    const tokens = await queryManagerInterface.checkReservationsEnded()
+    const tokens = await queryManagerInterface.getMessagingTokenReservationsEnded()
     const payload = {
         notification: {
             title: 'Reservation ended',

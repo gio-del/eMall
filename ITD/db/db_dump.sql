@@ -63,6 +63,8 @@ CREATE TABLE RESERVATION (
     discount_percent decimal(5, 2) NULL,
     driver_id int NOT NULL,
     total_price decimal(10, 2) NULL,
+    flatPrice decimal(10, 2) NOT NULL,
+    variablePrice decimal(10, 2) NOT NULL,
     socket_id int NOT NULL,
     charged_kWh real NULL,
     notified boolean DEFAULT FALSE

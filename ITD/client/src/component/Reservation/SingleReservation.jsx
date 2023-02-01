@@ -1,4 +1,6 @@
-export default function SingleReservation({ reservation }) {
+import {BASE_API} from '../../constant'
+export default function SingleReservation({ reservation , handleStart}) {
+  
   return (
     <>
       <div className="flex flex-col">
@@ -66,18 +68,48 @@ export default function SingleReservation({ reservation }) {
             </div>
           </div>
           <div className="flex items-center justify-center">
-            {reservation.totalPrice == null ? (
-              <div className="flex bg-dk-primary rounded-xl items-center justify-center w-1/2 py-2">
-                <p className="text-tertiary font-medium">Start</p>
-              </div>
-            ) : (
-              <div className="flex justify-center w-full py-2">
-                <p className="text-tertiary font-medium middle text-center">
-                  Costs: ${reservation.totalPrice} for ${reservation.chargedkWh}
-                  kWh
-                </p>
-              </div>
-            )}
+            {new Date(reservation.timeFrom) < new Date() ?
+              <>
+                {
+                  reservation.cost ?
+                    <>
+                      <div className='flex justify-center w-full py-2'>
+                        <p className="text-tertiary font-medium middle text-center">
+                          Recharged {reservation.chargedKwh} for {reservation.cost}
+                        </p>
+                      </div>
+                    </>
+                    :
+                    <>
+                      {reservation.start ?
+                        <>
+                          <div className='flex justify-center w-full py-2'>
+                            <p className="text-tertiary font-medium middle text-center">
+                              Started
+                            </p>
+                          </div>
+                        </>
+                        :
+                        <>
+                          <div className="flex bg-dk-primary rounded-xl items-center justify-center w-1/2 py-2 cursor-pointer"
+                            onClick={() => handleStart(reservation.reservationID)}>
+                            <p className="text-tertiary font-medium">Start</p>
+                          </div>
+                        </>
+                      }
+
+                    </>
+                }
+              </>
+              :
+              <>
+                <div className='flex justify-center w-full py-2'>
+                  <p className="text-tertiary font-medium middle text-center">
+                    Wait until {new Date(reservation.timeFrom).toString()}
+                  </p>
+                </div>
+              </>
+            }
           </div>
         </div>
       </div>

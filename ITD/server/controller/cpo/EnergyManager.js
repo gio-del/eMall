@@ -90,6 +90,26 @@ router.get('/battery/:evcpID', async (req, res) => {
 })
 
 /**
+ * This route is used to get the battery percentage of a specific EVCP given the evcpID
+ */
+router.get('/batteryPercentage/:evcpID', async (req, res) => {
+    const { evcpID } = req.params
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        const queryManagerInterface = await queryManager.getQueryManager()
+        const association = await queryManagerInterface.verifyEVCPAssociation(user, evcpID)
+        if (user && association) {
+            const batteryKey = await queryManagerInterface.getBatteryKeyByEVCP(evcpID)
+            if (!batteryKey) return res.status(400).json({ error: 'Battery key not set' })
+            const percentage = await energyAPI.getBatteryPercentage(batteryKey)
+            return res.status(200).json({ value: percentage })
+        }
+    }
+    return res.status(401).json({ error: 'Unauthorized' })
+})
+
+/**
  * This route is used to get the battery mode of a specific EVCP given the evcpID
  */
 router.get('/mode/:evcpID', async (req, res) => {

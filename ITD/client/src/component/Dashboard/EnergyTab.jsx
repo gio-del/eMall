@@ -8,14 +8,15 @@ export default function EnergyTab({ evcpList }) {
   const [currentEvcp, setCurrentEvcp] = useState()
   const [DSOs, setDSOs] = useState()
   const [selectedDSO, setSelectedDSO] = useState()
-  const [newDSO, setNewDSO] = useState("Select New DSO")
-  const [drawerOpen, setDrawerOpen] = useState("")
+  const [newDSO, setNewDSO] = useState('Select New DSO')
+  const [drawerOpen, setDrawerOpen] = useState('')
   const [error, setError] = useState('')
   const [batteryKeyInput, setBatteryKeyInput] = useState()
   const [batteryKey, setBatteryKey] = useState()
   const [newMode, setNewMode] = useState()
   const [myMode, setMyMode] = useState()
   const [modes, setModes] = useState()
+  const [batteryPercentage, setBatteryPercentage] = useState()
 
   const getDSO = async () => {
     if (!currentEvcp) return
@@ -35,7 +36,7 @@ export default function EnergyTab({ evcpList }) {
       console.error(err)
     }
   }
-  
+
   const getDSOsAvailable = async () => {
     if (!currentEvcp) return
     try {
@@ -58,14 +59,17 @@ export default function EnergyTab({ evcpList }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    const response = await fetch(`${BASE_API}/cpo/energy/dso/${currentEvcp.evcpID}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-        dsoID: newDSO.dsoID
-      }),
-    })
+    const response = await fetch(
+      `${BASE_API}/cpo/energy/dso/${currentEvcp.evcpID}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          dsoID: newDSO.dsoID,
+        }),
+      },
+    )
 
     if (response.status === 200) {
       console.log(response.headers)
@@ -85,11 +89,33 @@ export default function EnergyTab({ evcpList }) {
       if (response.status === 200) {
         const jsonData = await response.json()
         console.log('json', jsonData)
-        if(jsonData) {
+        if (jsonData) {
           setBatteryKey(jsonData)
           getBatteryMode()
+          getBatteryPercentage()
         } else {
           setBatteryKey()
+        }
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const getBatteryPercentage = async () => {
+    if (!currentEvcp) return
+    try {
+      const response = await fetch(
+        `${BASE_API}/cpo/energy/batteryPercentage/${currentEvcp.evcpID}`,
+        {
+          credentials: 'include',
+        },
+      )
+      if (response.status === 200) {
+        const jsonData = await response.json()
+        console.log('json', jsonData)
+        if (jsonData) {
+          setBatteryPercentage(jsonData)
         }
       }
     } catch (err) {
@@ -100,31 +126,32 @@ export default function EnergyTab({ evcpList }) {
   const handleSubmitBatteryKey = async (e) => {
     e.preventDefault()
     setError('')
-    const response = await fetch(`${BASE_API}/cpo/energy/battery/${currentEvcp.evcpID}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-        batteryKey: batteryKeyInput
-      }),
-    })
+    const response = await fetch(
+      `${BASE_API}/cpo/energy/battery/${currentEvcp.evcpID}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          batteryKey: batteryKeyInput,
+        }),
+      },
+    )
 
     if (response.status === 200) {
       console.log(response.headers)
       setBatteryKey(batteryKeyInput)
       getAllModes()
+      getBatteryPercentage()
     } else response.json().then((data) => setError(data.error))
   }
 
   const getAllModes = async () => {
     if (!currentEvcp) return
     try {
-      const response = await fetch(
-        `${BASE_API}/cpo/energy/modes/`,
-        {
-          credentials: 'include',
-        },
-      )
+      const response = await fetch(`${BASE_API}/cpo/energy/modes/`, {
+        credentials: 'include',
+      })
       if (response.status === 200) {
         const jsonData = await response.json()
         console.log('json', jsonData)
@@ -138,14 +165,17 @@ export default function EnergyTab({ evcpList }) {
   const handleSubmitMode = async (e) => {
     e.preventDefault()
     setError('')
-    const response = await fetch(`${BASE_API}/cpo/energy/mode/${currentEvcp.evcpID}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-        modeName : newMode,
-      }),
-    })
+    const response = await fetch(
+      `${BASE_API}/cpo/energy/mode/${currentEvcp.evcpID}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          modeName: newMode,
+        }),
+      },
+    )
 
     if (response.status === 200) {
       console.log(response.headers)
@@ -164,7 +194,7 @@ export default function EnergyTab({ evcpList }) {
       )
       if (response.status === 200) {
         const jsonData = await response.json()
-        if(jsonData != "notAvailable") {
+        if (jsonData != 'notAvailable') {
           console.log('json', jsonData)
           setMyMode(jsonData)
         } else {
@@ -182,7 +212,7 @@ export default function EnergyTab({ evcpList }) {
   useEffect(() => {
     getDSO()
     getDSOsAvailable()
-    setNewDSO("")
+    setNewDSO('')
     setBatteryKey()
     setModes()
     setMyMode()
@@ -195,18 +225,19 @@ export default function EnergyTab({ evcpList }) {
   }
 
   useEffect(() => {
-    if(DSOs) {
-      if(drawerOpen === true) {
-        document.getElementById("dropdownRadioBgHover").classList.remove("hidden") 
+    if (DSOs) {
+      if (drawerOpen === true) {
+        document
+          .getElementById('dropdownRadioBgHover')
+          .classList.remove('hidden')
       } else {
-        document.getElementById("dropdownRadioBgHover").classList.add("hidden")
+        document.getElementById('dropdownRadioBgHover').classList.add('hidden')
       }
     }
-    
   }, [drawerOpen])
 
   useEffect(() => {
-    if(evcpList) {
+    if (evcpList) {
       setCurrentEvcp(evcpList[0])
     }
   }, [])
@@ -240,11 +271,11 @@ export default function EnergyTab({ evcpList }) {
                         <td className="px-6 py-4">{dso.DSOname}</td>
                         <td className="px-6 py-4">{dso.DSOprice}</td>
                         <td className="px-6 py-4">{`${new Date(
-                          dso.DSOexpiry
+                          dso.DSOexpiry,
                         ).getUTCDate()}-${new Date(
-                          dso.DSOexpiry
+                          dso.DSOexpiry,
                         ).getUTCMonth()}-${new Date(
-                          dso.DSOexpiry
+                          dso.DSOexpiry,
                         ).getUTCFullYear()}`}</td>
                       </tr>
                       <span></span>
@@ -270,11 +301,11 @@ export default function EnergyTab({ evcpList }) {
                       <td className="px-6 py-4">{selectedDSO.DSOname}</td>
                       <td className="px-6 py-4">{selectedDSO.DSOprice}</td>
                       <td className="px-6 py-4">{`${new Date(
-                        selectedDSO.DSOexpiry
+                        selectedDSO.DSOexpiry,
                       ).getUTCDate()}-${new Date(
-                        selectedDSO.DSOexpiry
+                        selectedDSO.DSOexpiry,
                       ).getUTCMonth()}-${new Date(
-                        selectedDSO.DSOexpiry
+                        selectedDSO.DSOexpiry,
                       ).getUTCFullYear()}`}</td>
                     </tr>
                     <span></span>
@@ -297,9 +328,9 @@ export default function EnergyTab({ evcpList }) {
                         className="bg-white border-2 rounded-xl border-dash-gray p-2 text-sm flex"
                       >
                         <p>
-                          {newDSO && newDSO != ""
+                          {newDSO && newDSO != ''
                             ? newDSO.DSOname
-                            : "Select DSO"}
+                            : 'Select DSO'}
                         </p>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -307,7 +338,7 @@ export default function EnergyTab({ evcpList }) {
                           width="24"
                         >
                           <path d="m12 15-5-5h10Z" />
-                        </svg>{" "}
+                        </svg>{' '}
                       </div>
                       <div
                         id="dropdownRadioBgHover"
@@ -344,7 +375,7 @@ export default function EnergyTab({ evcpList }) {
                     </div>
                   </div>
 
-                  {newDSO && newDSO != "" ? (
+                  {newDSO && newDSO != '' ? (
                     <div
                       onClick={handleSubmit}
                       className="cursor-pointer h-full bg-green-600 font-medium text-sm text-white w-auto rounded-xl p-2 "
@@ -357,74 +388,110 @@ export default function EnergyTab({ evcpList }) {
                 </>
               ) : (
                 <div className="border-2 border-dash-gray rounded-full p-2">
-                  <p>Cannot change contract until the minimum contract days are expired</p>
+                  <p>
+                    Cannot change contract until the minimum contract days are
+                    expired
+                  </p>
                 </div>
               )}
             </div>
           </div>
-          <div className='flex w-auto gap-4 mt-4'>
-            <div className='w-1/2 bg-white rounded-xl p-4'>
-            <p className="text-center text-lg font-medium">Energy Storage System Status</p>
-              {batteryKey && batteryKey ? <>
-                <div className=" w-full  flex mt-4">
-                  <p className='text-md font-medium text-dash-gray-dark'>Inserted Energy Storage API key: "{batteryKey}"</p>
-                </div></> : <>
-                <div>
-                  <form
-                    id="addBattery"
-                    className=""
-                    onSubmit={handleSubmitBatteryKey}
-                  >
-                    <FormField
-                      id="batteryKey"
-                      type="batteryKey"
-                      value={batteryKeyInput}
-                      onChange={(e) => setBatteryKeyInput(e.target.value)}
+          <div className="flex w-auto gap-4 mt-4">
+            <div className="w-1/2 bg-white rounded-xl p-4">
+              <p className="text-center text-lg font-medium">
+                Energy Storage System Status
+              </p>
+              {batteryKey && batteryPercentage ? (
+                <>
+                  <div className=" w-full  flex mt-4">
+                    <p className="text-md font-medium text-dash-gray-dark">
+                      Inserted Energy Storage API key: "{batteryKey}"
+                    </p>
+                  </div>
+                  <div className="w-full bg-dash-green p-2 flex mt-4 rounded-xl">
+                    <p className="text-md font-medium text-dash-gray">
+                      Battery Status: {batteryPercentage.value}%
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <form
+                      id="addBattery"
+                      className=""
+                      onSubmit={handleSubmitBatteryKey}
                     >
-                      Battery Key
-                    </FormField>
-                    <button className="bg-dash-black text-white py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
-                      Add Battery Key
-                    </button>
-                  </form>
-                </div></>}
+                      <FormField
+                        id="batteryKey"
+                        type="batteryKey"
+                        value={batteryKeyInput}
+                        onChange={(e) => setBatteryKeyInput(e.target.value)}
+                      >
+                        Battery Key
+                      </FormField>
+                      <button className="bg-dash-black text-white py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
+                        Add Battery Key
+                      </button>
+                    </form>
+                  </div>
+                </>
+              )}
               {myMode && myMode ? (
                 <>
                   <div className="bg-white  rounded-xl w-full gap-2 flex mt-4">
-                    <p className='text-md font-medium text-dash-gray-dark'>Energy Storage System working mode:</p>
-                    <p className='text-md font-semibold text-dash-black'>{myMode.mode}</p>
+                    <p className="text-md font-medium text-dash-gray-dark">
+                      Energy Storage System working mode:
+                    </p>
+                    <p className="text-md font-semibold text-dash-black">
+                      {myMode.mode}
+                    </p>
                   </div>
                 </>
-              ) : (<></>)}
+              ) : (
+                <></>
+              )}
             </div>
-            {modes ? (<>
-              <div className='w-1/2 bg-white rounded-xl p-4'>
-              <p className="text-center text-lg font-medium">Change Energy Storage System Working Mode</p>
-                <form id="addRate" className=' w-full ' onSubmit={handleSubmitMode}>
-                  <div className="flex flex-col mb-2">
-                    <p className="block text-md text-gray-700 font-medium mb-2">Select a new Working Mode</p>
-                    <div className="flex justify-between">
-                      <div className='flex gap-4'>
-                      {modes.map((x) => (
-                        <RadioButton
-                          role={newMode}
-                          name={x.name}
-                          setRole={setNewMode}
-                        />
-                      ))}
+            {modes ? (
+              <>
+                <div className="w-1/2 bg-white rounded-xl p-4">
+                  <p className="text-center text-lg font-medium">
+                    Change Energy Storage System Working Mode
+                  </p>
+                  <form
+                    id="addRate"
+                    className=" w-full "
+                    onSubmit={handleSubmitMode}
+                  >
+                    <div className="flex flex-col mb-2">
+                      <p className="block text-md text-gray-700 font-medium mb-2">
+                        Select a new Working Mode
+                      </p>
+                      <div className="flex justify-between">
+                        <div className="flex gap-4">
+                          {modes.map((x) => (
+                            <RadioButton
+                              role={newMode}
+                              name={x.name}
+                              setRole={setNewMode}
+                            />
+                          ))}
+                        </div>
+
+                        <button className="bg-dash-black text-white py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
+                          Change Mode
+                        </button>
                       </div>
-                     
-                      <button className="bg-dash-black text-white py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
-                    Change Mode
-                  </button>
                     </div>
-                  </div>
-                </form>
-              </div>
-            </>) : (<></>)}
+                  </form>
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
     </>
-  );
+  )
 }

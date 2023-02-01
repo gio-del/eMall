@@ -36,9 +36,26 @@ export default function Reservation() {
     }
   }
 
+  const handleStart = async (reservationID) => {
+    if (!reservationID) return
+    try {
+      const response = await fetch(`${BASE_API}/driver/reserve/start/${reservationID}`, {
+        credentials: 'include',
+      })
+      if (response.status === 200) {
+        const jsonData = await response.json()
+        console.log('json', jsonData)
+        getReservations()
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
     getReservations()
   }, [])
+
   return (
     <>
       <div className="flex flex-col">
@@ -47,6 +64,7 @@ export default function Reservation() {
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
             reservations={upcomingReservations}
+            handleStart={handleStart}
           />
         )}
         {pastReservations && currentTab === 'Past' && (
@@ -54,6 +72,7 @@ export default function Reservation() {
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
             reservations={pastReservations}
+            handleStart={handleStart}
           />
         )}
       </div>
