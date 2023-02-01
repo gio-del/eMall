@@ -1,85 +1,3 @@
-DROP VIEW IF EXISTS TYPE_FREE;
-
-DROP VIEW IF EXISTS TYPE_TOTAL;
-
--- foreign keys
-ALTER TABLE TOKEN
-    DROP CONSTRAINT token_driver;
-
-ALTER TABLE TOKEN
-    DROP CONSTRAINT token_cpo;
-
-ALTER TABLE DRIVER_CODE
-    DROP CONSTRAINT code_driver;
-
-ALTER TABLE CPO_CODE
-    DROP CONSTRAINT code_cpo;
-
-ALTER TABLE CAR
-    DROP CONSTRAINT car_driver;
-
-ALTER TABLE CP
-    DROP CONSTRAINT cp_evcp;
-
-ALTER TABLE EVCP
-    DROP CONSTRAINT evcp_cpo;
-
-ALTER TABLE RATE
-    DROP CONSTRAINT rate_evcp;
-
-ALTER TABLE RATE
-    DROP CONSTRAINT rate_type;
-
-ALTER TABLE RESERVATION
-    DROP CONSTRAINT reservation_socket;
-
-ALTER TABLE RESERVATION
-    DROP CONSTRAINT reservation_driver;
-
-ALTER TABLE SOCKET
-    DROP CONSTRAINT socket_cp;
-
-ALTER TABLE SOCKET
-    DROP CONSTRAINT socket_type;
-
-ALTER TABLE SPECIAL_OFFER
-    DROP CONSTRAINT special_offer_evcp;
-
--- tables
-DROP TABLE TOKEN;
-
-DROP TABLE CAR;
-
-DROP TABLE CP;
-
-DROP TABLE CPO;
-
-DROP TABLE EVCP;
-
-DROP TABLE RATE;
-
-DROP TABLE RESERVATION;
-
-DROP TABLE SOCKET;
-
-DROP TABLE SPECIAL_OFFER;
-
-DROP TABLE DRIVER;
-
-DROP TABLE DRIVER_CODE;
-
-DROP TABLE CPO_CODE;
-
-DROP TABLE TYPE;
-
--- End of file.
---- Table: car
-CREATE TABLE CAR (
-    id serial PRIMARY KEY,
-    driver_id int NOT NULL,
-    carKey varchar(20) NOT NULL
-);
-
 -- Table: cp
 CREATE TABLE CP (
     id serial PRIMARY KEY,
@@ -121,7 +39,7 @@ CREATE TABLE EVCP (
     id serial PRIMARY KEY,
     name text NOT NULL,
     cpo_id int NOT NULL,
-    batteryKey varchar(128) NULL,
+    batteryKey varchar(128) NULL UNIQUE,
     DSO_name varchar(128) NULL,
     DSO_pricekW decimal(10, 2) NULL,
     DSO_contract_expiry date NULL,
@@ -138,6 +56,8 @@ CREATE TABLE RESERVATION (
     discount_percent decimal(5, 2) NULL,
     driver_id int NOT NULL,
     total_price decimal(10, 2) NULL,
+    flatPrice decimal(10, 2) NOT NULL,
+    variablePrice decimal(10, 2) NOT NULL,
     socket_id int NOT NULL,
     charged_kWh real NULL,
     notified boolean DEFAULT FALSE
@@ -185,11 +105,6 @@ CREATE TABLE DRIVER (
 
 -- Avoid Overlapping Reservations
 CREATE UNIQUE INDEX no_two_overlapping_reservation ON reservation (socket_id, start_date, end_date);
-
--- foreign keys
--- Reference: car_driver (table: car)
-ALTER TABLE CAR
-    ADD CONSTRAINT car_driver FOREIGN KEY (driver_id) REFERENCES DRIVER (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 ALTER TABLE DRIVER_CODE
     ADD CONSTRAINT code_driver FOREIGN KEY (driver_id) REFERENCES DRIVER (id) NOT DEFERRABLE INITIALLY IMMEDIATE;
@@ -305,3 +220,8 @@ INSERT INTO RATE (evcp_id, type_id, flatPrice, variablePrice)
 INSERT INTO SPECIAL_OFFER (evcp_id, discount)
     VALUES (1, 10), (2, 20), (3, 30), (4, 40);
 
+INSERT INTO "driver" ("first_name", "last_name", "email", "phone", "notification_token", "password")
+    VALUES ('Mario', 'Rossi', NULL, '1231231231', NULL, '$2b$10$P4sDPg.mdtPsFzQLDK6wAen2/2CUJAaYy7STpcLAxj2xap1orevGi');
+
+INSERT INTO "cpo" ("company_name", "email", "password") VALUES
+('VeryGoodCompany',	'company@company.xyz',	'$2b$10$fbC/Wpy13ojP7ubtRw/eHOFZeRvXQPg5sWKJa8.YHH.MXtw6Q4HzC');

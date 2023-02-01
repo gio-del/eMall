@@ -14,7 +14,7 @@ services:
       - shared-networks
     volumes:
       - ./postgres-db:/var/lib/postgresql/data
-
+      - ./db/db_preparation.sql:/docker-entrypoint-initdb.d/init.sql
   server:
     container_name: eMall_server
     restart: unless-stopped

@@ -32,7 +32,6 @@ export default function DashboardView() {
 
       if (response.status === 200) {
         const jsonData = await response.json()
-        console.log(jsonData)
         setEvcpList(jsonData)
       }
     } catch (err) {
@@ -65,12 +64,10 @@ export default function DashboardView() {
         method: 'POST',
         credentials: 'include',
       })
-
-      if (response.status === 200) {
-        navigate('/home/login')
-      }
     } catch (err) {
       console.error(err)
+    } finally {
+      navigate('/home/login')
     }
   }
 
