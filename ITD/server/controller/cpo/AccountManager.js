@@ -115,6 +115,27 @@ const login = async (req, res) => {
 }
 
 /**
+ * This route is used to logout a CPO. If the user is not logged in, it will return an error. If the user is logged in, the token will be deleted and the cookie will be cleared
+ */
+router.post('/logout', async (req, res) => {
+    return logout(req, res)
+})
+
+const logout = async (req, res) => {
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        const queryManagerInterface = await queryManager.getQueryManager()
+        if (user) {
+            await queryManagerInterface.deleteCPOToken(user)
+            return res.status(200).clearCookie('token').json({ message: 'Cookie Token has been cleared' })
+        }
+        else return res.status(401).json({ error: 'User not logged in' })
+    }
+    else return res.status(400).json({ error: 'No token found' })
+}
+
+/**
  * Generates a random 6-digit number
  * @returns a random 6-digit number
  */
@@ -140,5 +161,6 @@ module.exports = {
     verifyCode,
     signup,
     authenticate: authenticate,
-    accountManager: router
+    accountManager: router,
+    logout
 }

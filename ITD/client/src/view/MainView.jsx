@@ -59,6 +59,12 @@ export default function MainView() {
   }
 
   useEffect(() => {
+    if (!document.cookie.includes('token')) {
+      navigate('/home')
+    }
+  }, [])
+
+  useEffect(() => {
     document.removeEventListener('click', () =>
       notificationPermissionListener(),
     )

@@ -1,4 +1,4 @@
-import { useLocation, useRoutes } from 'react-router-dom'
+import { useLocation, useNavigate, useRoutes } from 'react-router-dom'
 
 import OverviewTab from '../component/Dashboard/OverviewTab'
 import ChargingPointsTab from '../component/Dashboard/ChargingPointsTab'
@@ -11,6 +11,7 @@ import DashboardNavBar from '../component/Dashboard/DashboardNavBar'
 import { BASE_API } from '../constant'
 
 export default function DashboardView() {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState()
   const [evcpList, setEvcpList] = useState()
   const location = useLocation()
@@ -52,6 +53,27 @@ export default function DashboardView() {
     getEvcps()
   }
 
+  useEffect(() => {
+    if (!document.cookie.includes('token')) {
+      navigate('/home')
+    }
+  }, [])
+
+  const logout = async () => {
+    try {
+      const response = await fetch(`${BASE_API}/cpo/user/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      })
+
+      if (response.status === 200) {
+        navigate('/home')
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const activeRoutes = useRoutes([
     {
       path: '/',
@@ -59,7 +81,7 @@ export default function DashboardView() {
     },
     {
       path: '/charging-points',
-      element: <ChargingPointsTab evcpList={evcpList} setEvcpList={addingCP}/>,
+      element: <ChargingPointsTab evcpList={evcpList} setEvcpList={addingCP} />,
     },
     {
       path: '/rates',
@@ -84,7 +106,7 @@ export default function DashboardView() {
             <p className="lg:ml-10 text-lg font-bold">
               {map.get(location.pathname.split('/')[2])}
             </p>
-            <p>Logout</p>
+            <button onClick={logout}>Logout</button>
           </div>
           {activeRoutes}
         </div>

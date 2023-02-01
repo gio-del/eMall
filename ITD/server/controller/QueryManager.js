@@ -111,6 +111,16 @@ exports.getQueryManager = async () => {
         },
 
         /**
+         * Delete the token of a CPO, used for logout
+         * @param {*} cpoID the ID of the CPO
+         * @returns true
+         */
+        deleteCPOToken: async (cpoID) => {
+            await pool.query('DELETE FROM TOKEN WHERE cpo_id = $1', [cpoID])
+            return true
+        },
+
+        /**
          * Create a new token for a driver
          * @param {*} driverID the ID of the driver
          * @returns the token
@@ -126,6 +136,16 @@ exports.getQueryManager = async () => {
             }
             const row = tokenTuple.rows[0]
             return row.token
+        },
+
+        /**
+         * Delete the token of a driver, used for logout
+         * @param {*} driverID the ID of the driver
+         * @returns true
+         */
+        deleteDriverToken: async (driverID) => {
+            await pool.query('DELETE FROM TOKEN WHERE driver_id = $1', [driverID])
+            return true
         },
 
         /**

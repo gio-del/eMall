@@ -135,6 +135,27 @@ router.patch('/notification', async (req, res) => {
 })
 
 /**
+ * This route is used to log out a user. It first checks if the request contains a cookie with a token, and if so, it authenticates the user. If the user is authenticated, it deletes the token from the database and clears the cookie. If successful, it returns a status of 200 with a message of 'Cookie Token has been cleared'.
+ */
+router.post('/logout', async (req, res) => {
+    return logout(req, res)
+})
+
+const logout = async (req, res) => {
+    const queryManagerInterface = await queryManager.getQueryManager()
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const user = await authenticate(token)
+        if (user) {
+            await queryManagerInterface.deleteDriverToken(user)
+            return res.status(200).clearCookie('token').json({ message: 'Cookie Token has been cleared' })
+        }
+        else return res.status(401).json({ error: 'User not logged in' })
+    }
+    else return res.status(400).json({ error: 'No token found' })
+}
+
+/**
  * Generate a random 6-digit verification code
  * @returns the random verification code
  */
@@ -158,5 +179,6 @@ module.exports = {
     signup: signup,
     verifyCode: verifyCode,
     authenticate: authenticate,
-    accountManager: router
+    accountManager: router,
+    logout: logout
 }

@@ -1,5 +1,5 @@
 const queryManager = require('../queryManager')
-const { signup, login, verifyCode } = require('./AccountManager')
+const { signup, login, verifyCode, logout, authenticate } = require('./AccountManager')
 
 const MockDate = require('mockdate')
 
@@ -206,6 +206,65 @@ describe('AccountManager', () => {
                 expect(res.status).toHaveBeenCalledWith(410)
             }
             )
+        })
+    })
+    describe('logout', () => {
+        it('should return 200', async () => {
+            const queryManagerInterface = await queryManager.getQueryManager()
+            await queryManagerInterface.executeAndCancel(async () => {
+                await queryManagerInterface.createCPO('BestCPO', 'Password10!', 'testmail@testmail.xyz')
+                let req = {
+                    body: {
+                        email: 'testmail@testmail.xyz',
+                        password: 'Password10!'
+                    }
+                }
+                let res = {
+                    status: jest.fn().mockReturnValue({
+                        cookie: jest.fn().mockReturnValue({
+                            json: jest.fn()
+                        })
+                    })
+                }
+                await login(req, res)
+                // get the cookie
+                const cookie = res.status().cookie.mock.calls[0][1]
+
+                // now logout
+                req = {
+                    cookies: {
+                        'token': cookie
+                    }
+                }
+                res = {
+                    status: jest.fn().mockReturnValue({
+                        clearCookie: jest.fn().mockReturnValue({
+                            json: jest.fn()
+                        })
+                    })
+                }
+                await logout(req, res)
+                expect(res.status).toHaveBeenCalledWith(200)
+                const id = await authenticate(cookie)
+                expect(id).toBeUndefined()
+            }
+            )
+        })
+        it('should return 400', async () => {
+            queryManagerInterface = await queryManager.getQueryManager()
+            await queryManagerInterface.executeAndCancel(async () => {
+                req = {
+                    cookies: {
+                    }
+                }
+                res = {
+                    status: jest.fn().mockReturnValue({
+                        json: jest.fn()
+                    })
+                }
+                await logout(req, res)
+                expect(res.status).toHaveBeenCalledWith(400)
+            })
         })
     })
 })
