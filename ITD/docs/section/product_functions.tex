@@ -1,18 +1,72 @@
 \section{Product functions}
-In this section, we will present the implemented and discarded functions of the prototype.
+In this section, we present the implemented and discarded functional requirements of the prototype.
 
-\subsection{Implemented functions}
-The following functions have been implemented in the prototype:
+\subsection{CPO functions}
+
 \begin{itemize}
-    \item 1.1.1: The system shall allow the user to create a new account.
+    \item        \textbf{R1}  The system must allow unregistered CPO to register an account                                                                                            \\
+          \textbf{Implemented:} Yes, in the form of a registration page
+    \item        \textbf{R2}  The system must allow registered CPO to login                                                                                                            \\
+          \textbf{Implemented:} Yes, in the form of a login page
+    \item        \textbf{R3}  The system must allow authenticated CPOs making a special offer on their CPs prices                                                                      \\
+          \textbf{Implemented:} +/-, it is possible to make a special offer on the price of an entire EVCP in the Rate tab of the CPO dashboard
+    \item        \textbf{R4}  The system must allow authenticated CPOs monitoring the charging process to infer when the battery is full                                               \\
+          \textbf{Implemented:} No, it is not possible to monitor the charging process. Although we have implemented a simple socket simulator, it is not possible because it would need sensors to monitor the charging process
+    \item        \textbf{R5}  The system must allow authenticated CPOs retrieving the amount of energy available in their EVCPs batteries                                              \\
+          \textbf{Implemented:} No, it is not possible to retrieve the amount of energy available in the batteries of the EVCPs. We made a mocked 'Energy API' that returns a random value given a key, but it is not possible to retrieve the actual value of the batteries
+    \item        \textbf{R6}  The system must allow authenticated CPOs retrieving the number of vehicle being charged in their EVCPs and for each vehicle the amount of absorbed power \\
+          \textbf{Implemented:} +/-, it is possible to retrieve the number of vehicle being charged in their EVCPs but for the same reasons as R4, it is not possible to retrieve the amount of energy being absorbed
+    \item        \textbf{R7}  The system must allow authenticated CPOs retrieving the remaining charge time for each connected vehicle                                                 \\
+          \textbf{Implemented:} +/-, it is possible to retrieve the end of a reservation but not an estimation of the remaining charge time, for the same reasons as R4
+    \item        \textbf{R8}  The system must allow authenticated CPOs retrieving details on active and historical reservations on their EVCPs                                         \\
+          \textbf{Implemented:} Yes, in the reservations tab of the CPO dashboard
+    \item        \textbf{R9}  The system must allow authenticated CPOs acquiring information from the DSOs about the current price of energy                                           \\
+          \textbf{Implemented:} Yes, via a mocked 'DSO API' in the Energy tab of the CPO dashboard
+    \item        \textbf{R10} The system must allow authenticated CPOs deciding from which DSO to acquire energy from                                                                  \\
+          \textbf{Implemented:} Yes, via a mocked 'DSO API' in the Energy tab of the CPO dashboard
+    \item        \textbf{R11} The system must dynamically decide where to get energy for charging (electrical grid, battery or a mixture)                                              \\
+          \textbf{Implemented:} No
+    \item        \textbf{R12} The system must allow authenticated CPOs statically deciding where to get energy for charging (electrical grid, battery or a mixture)                    \\
+          \textbf{Implemented:} +/-, via the Energy API and the battery key it is possible to set an operating mode for the battery
+    \item        \textbf{R13} The system must allow authenticated CPOs adding, modifying and deleting CPs                                                                              \\
+          \textbf{Implemented:} Yes, in the Charging Points tab of the CPO dashboard it is possible to create EVCP, adding CP to them and then sockets to the CP
+    \item        \textbf{R14} The system must allow authenticated CPOs changing availability status of their CPs                                                                       \\
+          \textbf{Implemented:} No
 \end{itemize}
 
-\subsection{Discarded functions}
-The following functions have been discarded from the prototype:
+\subsection{Driver functions}
+
 \begin{itemize}
-    \item 1.1.2: The system shall allow the user to log in to an existing account.
+    \item        \textbf{R15} The system must allow unregistered users to register an account                                                   \\
+          \textbf{Implemented:} Yes, in the form of a registration page
+    \item        \textbf{R16} The system must allow registered users to login                                                                   \\
+          \textbf{Implemented:} Yes, in the form of a login page
+    \item        \textbf{R17} The system must allow authenticated users to personalize their experience by providing information of their EV    \\
+          \textbf{Implemented:} No, it was not requested, and it would have slowed down the development process
+    \item        \textbf{R18} The system must allow users to search for CPs in the map                                                          \\
+          \textbf{Implemented:} Yes, in the map tab of the driver
+    \item        \textbf{R19} The system must show to the users CPs nearby their current position                                               \\
+          \textbf{Implemented:} Yes, in the map tab of the driver
+    \item        \textbf{R20} The system must allow retrieving details on a given CP regarding connector types supported and cost of the charge \\
+          \textbf{Implemented:} Yes, in the map tab of the driver by clicking on a marker representing an EVCP
+    \item        \textbf{R21} The system must allow authenticated user to book a CP for a certain time interval                                 \\
+          \textbf{Implemented:} Yes, in the map tab of the driver by clicking on a marker representing an EVCP and then on the book button
+    \item        \textbf{R22} The system must allow booking a CP if and only if it is free for the specified time interval                      \\
+          \textbf{Implemented:} Yes, via a check on the availability of the EVCP in the backend
+    \item        \textbf{R23} The system must notify users when the charging shift is about to start                                            \\
+          \textbf{Implemented:} No, it was not requested, and it would have slowed down the development process
+    \item        \textbf{R24} The system must allow authenticated users to start the charge                                                     \\
+          \textbf{Implemented:} Yes, in the reservation tab of the driver
+    \item        \textbf{R25} The system must suggest users when and where to charge based on daily schedule, special offers and availability   \\
+          \textbf{Implemented:} No, it was not requested
+    \item        \textbf{R26} The system must allow authenticated users to monitor the charging status                                          \\
+          \textbf{Implemented:} +/-, it is possible to monitor the charging status but not the actual energy being absorbed, for the same reasons as R4
+    \item        \textbf{R27} The system must notify authenticated users when the charging process is completed                                 \\
+          \textbf{Implemented:} Yes, via Firebase Cloud Messaging and a cron job that checks the status of the reservation every 5 minutes
+    \item        \textbf{R28} The system must allow authenticated users to pay for the charge                                                   \\
+          \textbf{Implemented:} No, it was not requested
+    \item        \textbf{R29} The system must allow authenticated users to delete a reservation                                                 \\
+          \textbf{Implemented:} No, it could have been implemented, but it was not requested, and it would have slowed down the development process
+    \item        \textbf{R30} The system must allow authenticated users to view historical reservations                                         \\
+          \textbf{Implemented:} Yes, in the reservation tab of the driver
 \end{itemize}
-
-\subsection{Other changes}
-
-

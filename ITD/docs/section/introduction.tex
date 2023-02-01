@@ -2,7 +2,19 @@
 \subsection{Purpose}
 This document outlines the implementation and testing procedures that have been followed to develop a functioning prototype of the service described in the "Requirements Analysis and Specification Document" and "Design Document".
 It is intended to serve as a reference for the development team, detailing the software, frameworks, and programming languages chosen.
-\subsection{Acronyms, Abbreviations}
+\subsection{Definitions, Acronyms and Abbreviations}
+
+\subsubsection{Definitions}
+\begin{itemize}
+    \item EV Driver - Electric Vehicle Driver, people or entities who own an EV car and want to use the
+          system for their charging needs. In this document they can be also referred to as "users".
+    \item EVCP - Electric Vehicle Charging Pool, is a station with multiple CPs
+    \item CP - a synonym of EVSE - is a single charging column with multiple connectors
+    \item Connector (Socket) - charging socket that can be of different types (e.g. CCS2, Type2)
+    \item Rate - the rate that the CPO decides to set for the CPs it manages. It contains a fixed part for
+          parking and a variable part per kWh. Usually the rates are associated with a certain power (kW)
+\end{itemize}
+
 \subsubsection{Acronyms}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{cX}
@@ -10,8 +22,8 @@ It is intended to serve as a reference for the development team, detailing the s
         \textbf{RASD} & Requirement Analysis and Specification Document \\
         \textbf{DD}   & Design Document                                 \\
         \textbf{API}  & Application Programming Interface               \\
-        \textbf{CPO}  & Charging Point Operator                          \\
-        \textbf{DSO}  & Distribution System Operator                     \\
+        \textbf{CPO}  & Charging Point Operator                         \\
+        \textbf{DSO}  & Distribution System Operator                    \\
         \bottomrule
     \end{tabularx}
 \end{table}
