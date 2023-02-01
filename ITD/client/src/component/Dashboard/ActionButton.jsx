@@ -18,7 +18,7 @@ function getSVGfromType(type) {
   }
 }
 
-export default function ActionButton({ background, data }) {
+export default function ActionButton({ background, data, content }) {
   return (
     <>
       <div
@@ -72,13 +72,13 @@ export default function ActionButton({ background, data }) {
               />
             </div>
           </div>
-          <div className="flex grow items-center justify-start 2xl:mt-6">
+          <div className="flex grow items-center justify-center 2xl:mt-6">
             <p
               className={`${
                 background == 'bg-black' ? 'text-dash-gray' : 'text-dash-black'
               } font-semibold text-xl`}
             >
-              {data.content}
+              {content}
             </p>
           </div>
         </div>

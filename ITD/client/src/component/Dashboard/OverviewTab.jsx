@@ -7,38 +7,23 @@ import { BASE_API } from '../../constant'
 
 export default function OverviewTab() {
   const [earnings, setEarnings] = useState()
-  const [filter, setFilter] = useState()
-  const earningsx = {
+  const [totalEarning, setTotalEarning] = useState(false)
+
+  const earningsButton = {
     title: 'Total this week',
     subtitle: 'x reservations',
-    content: '€9328.60',
+    content: `${totalEarning} €`,
     bottomTitle: '+ €1432 this week',
     svgType: 'shop',
     colorBGsvg: 'bg-dash-gray-dark',
   }
-  const active = {
+
+  const activeButton = {
     title: 'Active Charging Points',
     subtitle: 'now',
-    content: '34',
     bottomTitle: '3 more from the last week',
     svgType: 'cp',
     colorBGsvg: 'bg-dash-green',
-  }
-  const nonActive = {
-    title: 'Total this week',
-    subtitle: 'now',
-    content: '4',
-    bottomTitle: '2 less from the last week',
-    svgType: 'cp',
-    colorBGsvg: 'bg-dash-red',
-  }
-  const dso = {
-    title: 'DSO contract',
-    subtitle: 'x available',
-    content: 'Enel Energy',
-    bottomTitle: '0.70 €/kW',
-    svgType: 'dso',
-    colorBGsvg: 'bg-dash-gray-dark',
   }
   const data = {
     labels: ['Grid', 'Solar', 'Energy Storage'],
@@ -68,7 +53,8 @@ export default function OverviewTab() {
       })
       if (response.status === 200) {
         const jsonData = await response.json()
-        setEarnings(jsonData)
+        const newJson = jsonData.filter((row) => row.profit > 0).map((row) => ({evcpID : row.evcpID , date : new Date(row.date), profit : row.profit}))
+        setEarnings(newJson)
       }
     } catch (err) {
       console.error(err)
@@ -76,6 +62,20 @@ export default function OverviewTab() {
   }
 
   useEffect(() => {
+    if(earnings) {
+      let total = 0
+      earnings.map((row) => {
+        if(row.profit) {
+          total = total + parseFloat(row.profit)
+        }
+      })
+      setTotalEarning(`${total} €`)     
+    }
+  }, [earnings])
+
+
+  useEffect(() => {
+    setTotalEarning()
     getOverviewData()
   }, [])
 
@@ -83,26 +83,38 @@ export default function OverviewTab() {
     <>
       <div className="flex py-10 items-stretch px-10 w-full h-[calc(100%-10rem)] overflow-y-scroll">
         <div className="grid max-lg:grid-cols-1 lg:grid-cols-4 w-full h-full gap-4">
-          <Link to="./reservations">
-            <ActionButton background={'bg-black'} data={earningsx} />
+          {totalEarning && totalEarning
+          ? 
+          <>
+          <Link to="./reservations" className='col-span-2'>
+            <ActionButton background={'bg-black'} data={earningsButton} content={totalEarning} />
           </Link>
-          <Link to="./charging-points">
-            <ActionButton background={'bg-white'} data={active} />
+          <Link to="./charging-points" className='col-span-2'>
+            <ActionButton background={'bg-white'} data={activeButton} />
           </Link>
-         
-          <Link to="./energy">
-            <ActionButton background={'bg-white'} data={dso} />
-          </Link>
-          <div className="lg:col-span-3 lg:row-span-4">
-            
-            <ReservationChart data={earnings} filter={filter} />
-          </div>
+              {earnings && earnings
+                ?
+                <>
+                  <div className="lg:col-span-3 lg:row-span-4">
+
+                    <ReservationChart earnings={earnings} />
+                  </div>
+                </>
+                :
+                <>
+                </>
+              }
           <div className="lg:row-span-2 max-lg:hidden">
             <ChartButton data={data} text={'Energy mix now'} />
           </div>
           <div className="lg:row-span-2 max-lg:hidden">
             <ChartButton data={data} text={'Energy mix this week'} />
           </div>
+          </>
+          :
+          <>
+          </>}
+          
         </div>
       </div>
     </>
