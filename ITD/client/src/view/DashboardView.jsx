@@ -55,7 +55,7 @@ export default function DashboardView() {
 
   useEffect(() => {
     if (!document.cookie.includes('token')) {
-      navigate('/home')
+      navigate('/home/login')
     }
   }, [])
 
@@ -67,7 +67,7 @@ export default function DashboardView() {
       })
 
       if (response.status === 200) {
-        navigate('/home')
+        navigate('/home/login')
       }
     } catch (err) {
       console.error(err)

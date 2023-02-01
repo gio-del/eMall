@@ -60,7 +60,7 @@ export default function MainView() {
 
   useEffect(() => {
     if (!document.cookie.includes('token')) {
-      navigate('/home')
+      navigate('/home/login')
     }
   }, [])
 
