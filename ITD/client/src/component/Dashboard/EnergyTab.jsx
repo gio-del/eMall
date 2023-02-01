@@ -418,10 +418,7 @@ export default function EnergyTab({ evcpList }) {
                     Change Mode
                   </button>
                     </div>
-                    
-
                   </div>
-                 
                 </form>
               </div>
             </>) : (<></>)}
