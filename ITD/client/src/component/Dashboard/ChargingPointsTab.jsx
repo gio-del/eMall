@@ -194,6 +194,14 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
         </div>
 
         <div className="flex-col max-h-min w-full md:mx-8">
+          {evcp && evcp ? 
+            <>
+              <div className='flex-col w-full justify-center mt-4'>
+                <p className='text-lg text-center font-semibold'>All charging point of the evcp "{evcp.name}"</p>
+                <p className='text-sm text-center font-normal'>(Remember to add the rates in the Rate tab)</p>
+              </div>
+            </> 
+          : <></>}
           {evcp &&
             evcp.cps.map((cp) => (
               <>
@@ -209,21 +217,50 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
                         <div className="grid grid-cols-2 gap-4 w-full max-h-max my-2">
                           {cp.sockets.map((socket) => (
                             <div className="flex-col relative border-r-2">
-                              <p className="font-semibold">Socket </p>
+                              <p className="font-semibold">Socket {socket.socketID}</p>
                               <p className="font-semibold">{socket.type}</p>
-                              <p>Actual State</p>
-                              <div className="grid grid-cols-2 grid-rows-2 gap-4 h-max m-4 items-center justify-center">
-                                <div className="border-2 border-dash-black col-span-2 rounded-xl p-2">
-                                  <p className="text-dash-black">Status</p>
-                                  <p className="text-dash-black">Operative</p>
-                                </div>
-                                <div className="bg-dash-black rounded-xl p-2">
-                                  <p className="text-dash-gray">Power</p>
-                                  <p className="text-dash-gray">24.1kW</p>
-                                </div>
-                                <div className="bg-dash-black rounded-xl p-2">
-                                  <p className="text-dash-gray">Battery</p>
-                                  <p className="text-dash-gray">50%</p>
+                              <div className="flex-col h-max items-center justify-center m-4">
+                               
+                                {socket.connected
+                                  ?
+                                  <>
+                                    <div className='flex w-full justify-center'>
+                                      <div className="border-2 border-dash-black flex items-center max-w-min gap-2 rounded-xl p-2">
+                                        <span class="flex h-3 w-3">
+                                          <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-sky-400 opacity-75"></span>
+                                          <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                                        </span>
+                                        <p className="text-dash-black">Connected</p>
+                                      </div>
+                                    </div>
+                                  </>
+                                  :
+                                  <>
+                                    <div className='flex w-full items-center justify-around'>
+                                      <div className="border-2 border-dash-black flex items-center w-auto gap-2 rounded-xl p-2">
+                                        <span class="flex h-3 w-3">
+                                          <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                        </span>
+                                        <p className="text-dash-black">Not Connected</p>
+                                      </div>
+                                     
+                                        <a target="_blank" href="http://127.0.0.1:3001/">
+                                          <div className='flex-col rounded-xl hover:underline'>
+                                            <p>Click here to connect the Socket</p>
+                                            <p>(then refresh)</p>
+                                          </div>
+                                        </a>
+                                     
+                                    </div>
+                                  </>
+                                }
+                             
+                               
+                                <div className='flex gap-4 mt-4'>
+                                  <div className="bg-dash-black rounded-xl p-2 w-full">
+                                    <p className="text-dash-gray">Power</p>
+                                    <p className="text-dash-gray">{socket.power} kW</p>
+                                  </div>
                                 </div>
                               </div>
                             </div>

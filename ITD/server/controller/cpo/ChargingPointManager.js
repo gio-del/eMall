@@ -168,7 +168,9 @@ const handleMeterValues = (req, metadata) => {
     const { timestamp, sampledValue } = meterValue[0]
     const { value } = sampledValue[0]
     console.log('Meter values received from: ', chargePointId, 'connector: ', connectorId, 'value: ', value, 'timestamp: ', timestamp)
-    const index = meterValues.findIndex(mv => mv.socketID === chargePointId)
+    const index = meterValues.findIndex(mv => mv.socketID == chargePointId)
+    console.log("New Value", value)
+    console.log("INDEX", index)
     meterValues[index].meterValue = value
     console.log('new metervalues', meterValues)
     return { action: req.action, ocppVersion: req.ocppVersion }
@@ -254,7 +256,9 @@ const stopCharge = async (socketID) => {
  * @returns the current charge value of the socket with the given socketID
  */
 const getChargeValue = (socketID) => {
-    const index = meterValues.findIndex(mv => mv.chargePointId === socketID)
+    console.log("API METER VALUES",meterValues)
+    const index = meterValues.findIndex(mv => mv.socketID == socketID)
+    console.log("INDEX RESEARCH", index)
     if (index === -1)
         return 0
     return meterValues[index].meterValue

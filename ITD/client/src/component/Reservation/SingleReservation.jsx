@@ -71,11 +71,11 @@ export default function SingleReservation({ reservation , handleStart}) {
             {new Date(reservation.timeFrom) < new Date() ?
               <>
                 {
-                  reservation.cost ?
+                  reservation.totalPrice ?
                     <>
                       <div className='flex justify-center w-full py-2'>
                         <p className="text-tertiary font-medium middle text-center">
-                          Recharged {reservation.chargedKwh} for {reservation.cost}
+                          Recharged {reservation.chargedKwh} for {reservation.totalPrice}
                         </p>
                       </div>
                     </>
