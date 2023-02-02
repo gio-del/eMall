@@ -121,105 +121,113 @@ export default function RegistrationView() {
   }, [seconds])
 
   return (
-    <>
-      {!showVerification && (
-        <form className="bg-white p-6 rounded-lg" onSubmit={handleSubmit}>
-          <h2 className="text-lg font-medium mb-4">Sign Up</h2>
-          <p>Select a Role</p>
-          <div className="flex flex-row gap-10">
-            <RadioButton role={role} name="Driver" setRole={setRole} />
-            <RadioButton role={role} name="CPO" setRole={setRole} />
-          </div>
-          {role === 'Driver' && (
-            <>
-              <FormField
-                id="firstName"
-                type="text"
-                onChange={(e) => setFirstName(e.target.value)}
-                value={firstName}
-              >
-                First Name
-              </FormField>
-              <FormField
-                id="lastName"
-                type="text"
-                onChange={(e) => setLastName(e.target.value)}
-                value={lastName}
-              >
-                Last Name
-              </FormField>
-              <FormField
-                id="phoneNumber"
-                type="tel"
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                pattern="[0-9]{10}"
-                value={phoneNumber}
-              >
-                Phone Number
-              </FormField>
-            </>
-          )}
-          {role === 'CPO' && (
-            <>
-              <FormField
-                id="companyName"
-                type="text"
-                onChange={(e) => setCompanyName(e.target.value)}
-                value={companyName}
-              >
-                Company Name
-              </FormField>
-              <FormField
-                id="email"
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-              >
-                Email
-              </FormField>
-            </>
-          )}
-          {(role === 'Driver' || role === 'CPO') && (
-            <>
-              <FormField
-                id="password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-              >
-                Password
-              </FormField>
-              <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-                Sign Up
-              </button>
-            </>
-          )}
-        </form>
-      )}
-      {showVerification && (
-        <form className="bg-white p-6 rounded-lg" onSubmit={handleSubmit}>
-          <h2 className="text-lg font-medium mb-4">Account Verification</h2>
-          <p>
-            {`${
-              role === 'Driver' ? 'An SMS' : 'A mail'
-            } with a 6-digit code has been sent. Time remaining: ${seconds}`}
-          </p>
-          <FormField
-            id="code"
-            type="text"
-            onChange={(e) => setCode(e.target.value)}
-            pattern="[0-9]{6}"
-            placeholder="Enter 6-digit code"
-            value={code}
+    <div className="flex justify-center h-screen lg:items-center">
+      <div className="w-full max-w-lg">
+        {!showVerification && (
+          <form
+            className="bg-white drop-shadow-xl rounded-xl shadow-2xl outline-none outline-offset-0 outline-tertiary outline-2  px-8 pt-6 pb-8 mb-4"
+            onSubmit={handleSubmit}
           >
-            Code
-          </FormField>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-            Submit
-          </button>
-        </form>
-      )}
-      <p className="text-red-600">{error}</p>
-    </>
+            <h2 className="text-lg font-medium mb-4">Sign Up</h2>
+            <p>Select a Role</p>
+            <div className="flex flex-row gap-10">
+              <RadioButton role={role} name="Driver" setRole={setRole} />
+              <RadioButton role={role} name="CPO" setRole={setRole} />
+            </div>
+            {role === 'Driver' && (
+              <>
+                <FormField
+                  id="firstName"
+                  type="text"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  value={firstName}
+                >
+                  First Name
+                </FormField>
+                <FormField
+                  id="lastName"
+                  type="text"
+                  onChange={(e) => setLastName(e.target.value)}
+                  value={lastName}
+                >
+                  Last Name
+                </FormField>
+                <FormField
+                  id="phoneNumber"
+                  type="tel"
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  pattern="[0-9]{10}"
+                  value={phoneNumber}
+                >
+                  Phone Number
+                </FormField>
+              </>
+            )}
+            {role === 'CPO' && (
+              <>
+                <FormField
+                  id="companyName"
+                  type="text"
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  value={companyName}
+                >
+                  Company Name
+                </FormField>
+                <FormField
+                  id="email"
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                >
+                  Email
+                </FormField>
+              </>
+            )}
+            {(role === 'Driver' || role === 'CPO') && (
+              <>
+                <FormField
+                  id="password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                >
+                  Password
+                </FormField>
+                <button className="bg-dk-primary text-dk-secondary py-2 px-4 rounded-lg hover:shadow-md">
+                  Sign Up
+                </button>
+              </>
+            )}
+          </form>
+        )}
+        {showVerification && (
+          <form
+            className="bg-white drop-shadow-xl rounded-xl shadow-2xl outline-none outline-offset-0 outline-tertiary outline-2  px-8 pt-6 pb-8 mb-4"
+            onSubmit={handleSubmit}
+          >
+            <h2 className="text-lg font-medium mb-4">Account Verification</h2>
+            <p>
+              {`${
+                role === 'Driver' ? 'An SMS' : 'A mail'
+              } with a 6-digit code has been sent. Time remaining: ${seconds}`}
+            </p>
+            <FormField
+              id="code"
+              type="text"
+              onChange={(e) => setCode(e.target.value)}
+              pattern="[0-9]{6}"
+              placeholder="Enter 6-digit code"
+              value={code}
+            >
+              Code
+            </FormField>
+            <button className="bg-dk-primary text-dk-secondary py-2 px-4 rounded-lg hover:shadow-md">
+              Submit
+            </button>
+          </form>
+        )}
+        <p className="text-red-600">{error}</p>
+      </div>
+    </div>
   )
 }

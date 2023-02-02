@@ -21,20 +21,12 @@ export default function CostSection({ connectors }) {
                 </div>
                 <div className="flex flex-grow items-center justify-center">
                   <p className="text-center text-lg font-bold dark:text-tertiary">
-                    ??
+                    {connector.typeName === 'CCS2' ? 'DC' : 'AC'}
                   </p>
                 </div>
               </div>
 
               <div className="flex-col mx-auto py-4">
-                <div className="my-2">
-                  <p className="text-sm font-regular text-dk-secondary dark:text-tertiary">
-                    Range per hour recharged
-                  </p>
-                  <p className="text-md font-semibold text-dk-secondary dark:text-tertiary">
-                    106 km/h
-                  </p>
-                </div>
                 <div className="my-2">
                   <p className="text-sm font-regular text-dk-secondary dark:text-tertiary">
                     Maximum output power

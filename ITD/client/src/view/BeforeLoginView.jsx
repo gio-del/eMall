@@ -26,6 +26,29 @@ export default function BeforeLoginView() {
     <>
       <NavBar />
       {activeRoutes}
+      {/* footer using tailwind */}
+      <div className="py-10 bg-tertiary dark:bg-dk-secondary text-center text-sm text-dk-secondary dark:text-tertiary">
+        <p className="text-xs">
+          <a
+            href="https://github.com/gio-del"
+            className="text-dk-secondary dark:text-tertiary hover:text-searchInput dark:hover:text-tertiary p-1 m-2 rounded-2xl dark:bg-dk-primary"
+          >
+            Giovanni De Lucia
+          </a>
+          <a
+            href="https://github.com/lorenzo-battiston"
+            className="text-dk-secondary dark:text-tertiary hover:text-searchInput dark:hover:text-tertiary p-1 m-2 rounded-2xl dark:bg-dk-primary"
+          >
+            Lorenzo Battiston
+          </a>
+          <a
+            href="https://github.com/mattecurro"
+            className="text-dk-secondary dark:text-tertiary hover:text-searchInput dark:hover:text-tertiary p-1 m-2 rounded-2xl dark:bg-dk-primary"
+          >
+            Matteo Salvatore Currò
+          </a>
+        </p>
+      </div>
     </>
   )
 }

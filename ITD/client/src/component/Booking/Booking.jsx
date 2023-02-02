@@ -2,11 +2,10 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import BookSection from './Book/BookSection'
 import CostSection from './Cost/CostSection'
-import DetailsSection from './Details/DetailsSection'
 
 export default function Booking({ Connectors, Date, id }) {
   const [currentTab, setCurrentTab] = useState(1)
-  const tabs = ['tab-0', 'tab-1', 'tab-2']
+  const tabs = ['tab-0', 'tab-1']
   useEffect(() => {
     tabs.map((tab) => {
       document.getElementById(tab).classList.remove('border-b-2')
@@ -36,22 +35,12 @@ export default function Booking({ Connectors, Date, id }) {
         >
           Book
         </li>
-        <li
-          id="tab-2"
-          onClick={() => setCurrentTab(2)}
-          className="text-lg mx-2 border-b-2 dark:border-b-tertiary border-b-dk-secondary w-1/5 hover:border-b-2 hover:border-b-searchInput dark:hover:border-b-tertiary"
-        >
-          Details
-        </li>
       </ul>
       <div className={(currentTab === 0 ? '' : 'hidden ') + ''}>
-        <CostSection connectors={Connectors}/>
+        <CostSection connectors={Connectors} />
       </div>
       <div className={(currentTab === 1 ? '' : 'hidden ') + ''}>
-        <BookSection connectors={Connectors} date={Date} id={id}/>
-      </div>
-      <div className={(currentTab === 2 ? '' : 'hidden ') + ''}>
-        <DetailsSection />
+        <BookSection connectors={Connectors} date={Date} id={id} />
       </div>
     </div>
   )

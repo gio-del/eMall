@@ -53,53 +53,62 @@ export default function LoginView() {
     else if (role === 'CPO') await handleCPOSubmit()
   }
 
+  // the form is responsive and will change based on the role selected by the user (Driver or CPO) and will display the appropriate fields. we use tailwindcss to style the form and the radio buttons. the form will be displayed in the center of the screen and will be responsive to the screen size. the form will be displayed in a card like container with a shadow effect. the form will have a submit button that will call the handleSubmit function. the handleSubmit function will call the appropriate function based on the role selected by the user. the appropriate function will call the appropriate API endpoint and will redirect the user to the appropriate page if the login is successful. if the login is unsuccessful, the error message will be displayed on the form.
   return (
-    <>
-      <form className="bg-white p-6 rounded-lg" onSubmit={handleSubmit}>
-        <h2 className="text-lg font-medium mb-4">Login</h2>
-        <p>Select a Role</p>
-        <div className="flex flex-row gap-10">
-          <RadioButton role={role} name="Driver" setRole={setRole} />
-          <RadioButton role={role} name="CPO" setRole={setRole} />
-        </div>
-        {role === 'Driver' && (
-          <FormField
-            id="phoneNumber"
-            type="tel"
-            value={phoneNumber}
-            pattern="[0-9]{10}"
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          >
-            Phone Number
-          </FormField>
-        )}
-        {role === 'CPO' && (
-          <FormField
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          >
-            Email
-          </FormField>
-        )}
-        {(role === 'CPO' || role === 'Driver') && (
-          <>
-            <FormField
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+    <div className="flex justify-center h-screen lg:items-center">
+      <div className="w-full max-w-lg">
+        <form
+          className="bg-white drop-shadow-xl rounded-xl shadow-2xl outline-none outline-offset-0 outline-tertiary outline-2  px-8 pt-6 pb-8 mb-4"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex flex-row mb-4 gap-10">
+            <RadioButton
+              name="Driver" // name of the radio button
+              role={role}
+              setRole={setRole}
             >
-              Password
+              Driver
+            </RadioButton>
+            <RadioButton name="CPO" role={role} setRole={setRole}>
+              CPO
+            </RadioButton>
+          </div>
+          {role === 'Driver' ? (
+            <FormField
+              id="phoneNumber"
+              type="tel"
+              value={phoneNumber}
+              pattern="[0-9]{10}"
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            >
+              Phone Number
             </FormField>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
+          ) : (
+            <FormField
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            >
+              Email
+            </FormField>
+          )}
+          <FormField
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          >
+            Password
+          </FormField>
+          <div className="flex items-center justify-between">
+            <button className="bg-dk-primary text-dk-secondary py-2 px-4 rounded-lg hover:shadow-md">
               Login
             </button>
-          </>
-        )}
-      </form>
-      <p className="text-red-600">{error}</p>
-    </>
+          </div>
+          {error && <p className="text-red-500 text-xs italic">{error}!</p>}
+        </form>
+      </div>
+    </div>
   )
 }
