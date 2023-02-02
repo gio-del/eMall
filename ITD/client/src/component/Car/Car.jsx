@@ -3,12 +3,20 @@ import carImage from '../../assets/Car.png'
 import chademo from '../../assets/CHAdeMo.png'
 import useWindowDimensions from './useWindowDimensions'
 import {BASE_API} from '../../constant'
+import RadioButton from '../utilitycomponent/RadioButton'
 
 export default function Car() {
   const { height, width } = useWindowDimensions()
   const [startedReservations, setStartedReservations] = useState()
+  const [reservationInput, setReservationInput] = useState()
   const [reservation, setReservation] = useState()
   const [meterValues, setMeterValues] = useState()
+  const [stopWatch, setStopWatch] = useState()
+  const [batteryStart, setBatteryStart] = useState()
+  const [capacity, setCapacity] = useState()
+  const [form, setForm] = useState()
+  const [result, setResult] = useState()
+
 
   const getStartedReservations = async () => {
     try {
@@ -23,8 +31,11 @@ export default function Car() {
         const now = new Date()
         now.setSeconds(0)
         jsonData.forEach((data) => {
-          if (new Date(data.timeTo) < now && data.start.date && !data.cost) {
-            newStartedReservations.push(data)
+          if(data.start) {
+            if (new Date(data.timeFrom) < now && !data.totalPrice) {
+              newStartedReservations.push(data)
+              console.log(data)
+            }
           }
         })
         setStartedReservations(newStartedReservations)
@@ -37,7 +48,7 @@ export default function Car() {
   const getMeterValues = async () => {
     try {
       const response = await fetch(
-        `${BASE_API}/driver/car/${reservation.reservationID}`,
+        `${BASE_API}/driver/car/${reservationInput}`,
         {
           credentials: 'include',
         },
@@ -45,6 +56,7 @@ export default function Car() {
       if (response.status === 200) {
         const jsonData = await response.json()
         setMeterValues(jsonData)
+        calculateResult()
       }
     } catch (err) {
       console.error(err)
@@ -53,7 +65,58 @@ export default function Car() {
 
   useEffect(() => {
     getStartedReservations()
+    setReservation()
+    setForm(false)
   }, [])
+
+  const calculateResult = () => {
+    if(meterValues) {
+      const batteryCapacity = parseFloat(capacity)
+      const batteryStatus = parseFloat(batteryStart)
+      const kWhRecharged = parseFloat(meterValues.chargedValue)
+      let actualValue = (kWhRecharged / batteryCapacity) * 100 + batteryStatus
+      actualValue > 100 ? actualValue = 100 : actualValue = actualValue
+      setResult(actualValue.toFixed(2))
+    }
+    
+  }
+
+  useEffect(() => {
+    if(form) {
+      calculateResult()
+    }
+  }, [form])
+
+  const closeReservation = () => {
+    getStartedReservations()
+    setReservation()
+    setReservationInput()
+  }
+
+  useEffect(() => {
+    if(reservationInput) {
+      setReservation(startedReservations.find(res => res.reservationID == reservationInput))
+      getMeterValues()
+    }
+  }, [reservationInput])
+
+  useEffect(() => {
+    let intervalId = null;
+    if (reservation) {
+      const started = new Date(reservation.start.start);
+      intervalId = setInterval(() => {
+        const elapsed = new Date() - started;
+        const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+        hours > 0 ? setStopWatch(`${hours}:${minutes}:${seconds}`) : setStopWatch(`${minutes}:${seconds}`)
+      }, 1000);
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [reservation]);
+
 
   return (
     <>
@@ -64,20 +127,14 @@ export default function Car() {
         {startedReservations ? (
           <>
             <div className="flex w-full">
-              {reservation ? (
+              {reservation && meterValues ? (
                 <>
                   <div className="grid grid-flow-row grid-cols-2 md:grid-cols-3 w-full mb-8 overflow-hidden">
                     <div className="row-span-1 lg:row-span-1 flex justify-center items-center relative z-10">
-                      <div className=" h-full w-full absolute py-6 px-6 lg:w-2/3 lg:h-2/3">
-                        <div className="h-full w-full relative flex items-center justify-center">
-                          <div>
-                            <p className="text-tertiary text-center text-lg font-semibold">
-                              Model 3
-                            </p>
-                            <p className="text-tertiary text-center text-md font-medium">
-                              Tesla
-                            </p>
-                          </div>
+                      <div className=" h-full w-full absolute py-6 px-8 lg:w-2/3 lg:h-2/3">
+                        <div className="h-full w-full relative flex items-center justify-center text-center border-2 border-dk-gray rounded-2xl font-semibold text-dk-gray hover:bg-dk-primary cursor-pointer"
+                        onClick={() => closeReservation()}>
+                          <p>Back to all started reservations</p>
                         </div>
                       </div>
                     </div>
@@ -100,26 +157,76 @@ export default function Car() {
                     <div className="row-span-2 md:row-span-4 lg:row-span-3 flex justify-center items-center relative">
                       <div className=" h-full w-full absolute py-2 px-8 md:w-4/5 md:h-4/5 lg:w-2/3 lg:h-2/3">
                         <div className="bg-dk-gray rounded-3xl h-full w-full relative flex items-center justify-center">
-                          <div className="absolute flex items-center justify-center inset-x-0 top-2">
-                            <div>
-                              <p className="text-center text-xl font-medium">
-                                66%
-                              </p>
-                              <p className="text-md font-medium text-dk-secondary">
-                                Battery
-                              </p>
-                            </div>
-                          </div>
-                          <div className="absolute flex bg-gradient-to-t from-dk-gray to-dk-primary rounded-3xl w-full h-2/3 border-[8px] border-dk-gray bottom-0 justify-center items-center">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="fill-yellow-300"
-                              height="48"
-                              width="48"
-                            >
-                              <path d="M19.95 42 22 27.9h-7.3q-.55 0-.8-.5t0-.95L26.15 6h2.05l-2.05 14.05h7.2q.55 0 .825.5.275.5.025.95L22 42Z" />
-                            </svg>
-                          </div>
+                          {form
+                            ?
+                            <> {result
+                              ?
+                              <>
+                                <div className="absolute flex items-center justify-center inset-x-0 z-10 top-2">
+                                  <div>
+                                    <p className="text-center text-xl font-medium">
+                                      {result}% (+{parseFloat(meterValues.chargedValue).toFixed(2)} kWh)
+                                    </p>
+                                    <p className="text-md font-medium text-center text-dk-secondary">
+                                      Battery
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className={`absolute flex bg-gradient-to-t from-dk-gray to-dk-primary rounded-3xl w-full border-[8px] border-dk-gray bottom-0 justify-center items-center`}
+                                style={{ height: `${Math.ceil(result).toString()}%` }}>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="fill-yellow-300"
+                                    height="48"
+                                    width="48"
+                                  >
+                                    <path d="M19.95 42 22 27.9h-7.3q-.55 0-.8-.5t0-.95L26.15 6h2.05l-2.05 14.05h7.2q.55 0 .825.5.275.5.025.95L22 42Z" />
+                                  </svg>
+                                </div>
+                              </>
+                              :
+                              <>
+                              </>
+                            }
+
+                            </>
+                            :
+                            <>
+                              <form onSubmit={() => setForm(true)}>
+                                <div className="mb-4">
+                                  <label className="block text-gray-700 font-medium mb-2" htmlFor="batteryStart">
+                                    Set Starting Battery Percentage (%)
+                                  </label>
+                                  <input
+                                    className="border border-gray-400 p-2 rounded-lg w-full"
+                                    id="batteryStart"
+                                    type="number"
+                                    value={batteryStart}
+                                    placeholder="20 without %"
+                                    onChange={(e) => setBatteryStart(e.target.value)}
+                                    required
+                                  />
+                                </div>
+                                <div className="mb-4">
+                                  <label className="block text-gray-700 font-medium mb-2" htmlFor="capacity">
+                                    Set Maximum Capacity (kWh)
+                                  </label>
+                                  <input
+                                    className="border border-gray-400 p-2 rounded-lg w-full"
+                                    id="capacity"
+                                    type="number"
+                                    value={capacity}
+                                    placeholder="50 without kWh"
+                                    onChange={(e) => setCapacity(e.target.value)}
+                                    required
+                                  />
+                                </div>
+                                <button className="bg-dash-black text-white py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
+                                  Add Battery Details
+                                </button>
+                              </form>
+                            </>
+                          }
                         </div>
                       </div>
                     </div>
@@ -130,7 +237,7 @@ export default function Car() {
                             <span className="text-lg font-medium">CHAdeMo</span>
                             <div className="bg-dk-primary px-5 py-1 rounded-full my-2">
                               <span className="text-xl font-medium text-tertiary">
-                                {meterValues}
+                                {reservation.connectorPower} kW
                               </span>
                             </div>
                           </div>
@@ -148,10 +255,10 @@ export default function Car() {
                         <div className="bg-dk-nav rounded-2xl h-full w-full relative flex items-center justify-center">
                           <div>
                             <p className="text-tertiary text-center text-md font-medium">
-                              Time left
+                              Time passed:
                             </p>
                             <p className="text-tertiary text-center text-lg font-semibold">
-                              34:42
+                              {stopWatch}
                             </p>
                           </div>
                         </div>
@@ -159,17 +266,14 @@ export default function Car() {
                     </div>
                     <div className="row-span-1 flex justify-center items-center relative">
                       <div className=" h-full w-full absolute py-5 px-8 md:w-4/5 md:h-4/5 lg:w-2/3 lg:h-2/3">
-                        <div className="bg-dk-primary rounded-2xl h-full w-full relative flex items-center justify-center">
+                        <div className="bg-dk-nav rounded-2xl h-full w-full relative flex items-center justify-center">
                           <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="fill-tertiary"
-                              height="30"
-                              width="30"
-                              viewBox="0 0 50 50"
-                            >
-                              <path d="M28.25 38V10H36v28ZM12 38V10h7.75v28Z" />
-                            </svg>
+                            <p className="text-tertiary text-center text-md font-medium">
+                              Charge will end at:
+                            </p>
+                            <p className="text-tertiary text-center text-lg font-semibold">
+                              {new Date(reservation.timeTo).getHours()}:{new Date(reservation.timeTo).getMinutes()}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -178,14 +282,15 @@ export default function Car() {
                 </>
               ) : (
                 <>
-                  <div>
-                    <div className="flex gap-4">
-                      {startedReservations.map(() => (
-                        <div>
+                  <div className='flex items-center justify-center w-full'>
+                    <div className="flex-col justify-center">
+                      <p className='text-center'>Select a reservation to monitor:</p>
+                      {startedReservations.map((reservation) => (
+                        <div className='mt-4 w-full flex justify-center'>
                           <RadioButton
-                            role={reservation}
-                            name="Last 3 months"
-                            setRole={setReservation}
+                            role={reservationInput}
+                            name={reservation.reservationID}
+                            setRole={setReservationInput}
                           />
                         </div>
                       ))}
@@ -196,7 +301,11 @@ export default function Car() {
             </div>
           </>
         ) : (
-          <></>
+          <>
+          <div className='w-full h-full flex justify-center items-center'>
+            <p className='text-lg font-bold'>No available charging processes</p>
+          </div>
+          </>
         )}
       </div>
     </>

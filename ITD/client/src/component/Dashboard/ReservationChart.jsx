@@ -57,10 +57,20 @@ export default function ReservationChart({earnings}) {
   const calculateLastSeven = () => {
     const last = []
     const dataLast = []
-    for(let i = -1; i < 6; i++) {
-      let date = new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000)
+    const today = new Date()
+    today.setMilliseconds(0)
+    today.setSeconds(0)
+    today.setMinutes(0)
+    today.setHours(0)
+
+    for(let i = 0; i < 7; i++) {
+      let date = new Date(today.getTime() - i * 24 * 60 * 60 * 1000)
       let totalForDay = 0
-      earnings.map((row) => (row.date == date ? totalForDay = totalForDay + row.profit : totalForDay = totalForDay))
+      earnings.map((row) => {
+        if(row.date.getDate() == date.getDate() && row.date.getMonth() == date.getMonth()) {
+          totalForDay = totalForDay + parseFloat(row.profit)
+        }
+      })
       last.push(`${date.getDate()}/${date.getMonth() + 1}`)
     }
     setLastSeven(last)

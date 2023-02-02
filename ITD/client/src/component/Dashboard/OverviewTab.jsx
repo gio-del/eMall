@@ -54,6 +54,13 @@ export default function OverviewTab() {
       if (response.status === 200) {
         const jsonData = await response.json()
         const newJson = jsonData.filter((row) => row.profit > 0).map((row) => ({evcpID : row.evcpID , date : new Date(row.date), profit : row.profit}))
+        newJson.map((row) => {
+          row.date.setSeconds(0)
+          row.date.setMinutes(0)
+          row.date.setHours(0)
+          row.date.setMilliseconds(0)
+          console.log(row.date)
+        })
         setEarnings(newJson)
       }
     } catch (err) {

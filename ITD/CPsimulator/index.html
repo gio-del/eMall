@@ -4,24 +4,24 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CP Simulator</title>
+    <title>Socket Simulator</title>
   </head>
   <body>
-    <h1>Charging Point Simulator</h1>
-    <h2>Add a Charging Point</h2>
+    <h1>Socket Simulator</h1>
+    <h2>Add a Socket (of a charging point)</h2>
 
     <form
       action="http://localhost:3001/api"
       method="POST"
       onsubmit="onSubmit()"
     >
-      <label for="id">ID</label>
+      <label for="id">ID of the Socket</label>
       <input type="number" name="id" id="id" />
       <label for="power">Power in kWh</label>
       <input type="number" name="power" id="power" />
       <button type="submit">Add</button>
     </form>
-    <h2>Charging Points</h2>
+    <h2>Sockets</h2>
     <div id="charging-points"></div>
     <button onclick="window.location.reload()">Refresh</button>
 
