@@ -234,7 +234,7 @@ export default function Car() {
                       <div className=" h-full w-full absolute py-2 px-8 md:w-4/5 md:h-4/5 lg:w-2/3 lg:h-2/3">
                         <div className="bg-dk-gray rounded-3xl h-full w-full flex items-center justify-center relative">
                           <div className="absolute flex flex-col items-center inset-x-0 top-2">
-                            <span className="text-lg font-medium">CHAdeMo</span>
+                            <span className="text-lg font-medium">{reservation.connectorTypeName}</span>
                             <div className="bg-dk-primary px-5 py-1 rounded-full my-2">
                               <span className="text-xl font-medium text-tertiary">
                                 {reservation.connectorPower} kW
