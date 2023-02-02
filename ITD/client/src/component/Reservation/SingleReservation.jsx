@@ -11,13 +11,13 @@ export default function SingleReservation({ reservation , handleStart}) {
             .toString()
             .substring(3, 15)}`}</p>
         </div>
-        <div className="flex flex-col border-2 dark:border-searchInput rounded-3xl py-2 px-4">
+        <div className="flex flex-col border-2 dark:border-searchInput bg-tertiary dark:bg-inherit rounded-3xl py-2 px-4">
           <div className="flex justify-between my-2">
             <div className="flex flex-col">
-              <p className="text-tertiary text-md font-medium">
+              <p className="dark:text-tertiary text-dk-secondary text-md font-medium">
                 {reservation.cpo}
               </p>
-              <p className="text-tertiary text-sm">{reservation.address}</p>
+              <p className="dark:text-tertiary text-dk-secondary text-sm">{reservation.address}</p>
             </div>
             <div className="flex">
               <svg
@@ -33,8 +33,8 @@ export default function SingleReservation({ reservation , handleStart}) {
           </div>
           <div className="flex justify-between my-2">
             <div className="flex flex-col">
-              <p className="text-tertiary text-sm">From</p>
-              <p className="text-tertiary text-md font-medium">
+              <p className="dark:text-tertiary text-dk-secondary text-sm">From</p>
+              <p className="dark:text-tertiary text-dk-secondary text-md font-medium">
                 {new Date(reservation.timeFrom)
                   .toString()
                   .substring(15, 21)
@@ -43,8 +43,8 @@ export default function SingleReservation({ reservation , handleStart}) {
             </div>
             <div className="border-b-2 border-white"></div>
             <div className="flex flex-col">
-              <p className="text-tertiary text-right text-sm">To</p>
-              <p className="text-tertiary text-right text-md font-medium">
+              <p className="dark:text-tertiary text-dk-secondary text-right text-sm">To</p>
+              <p className="dark:text-tertiary text-dk-secondary text-right text-md font-medium">
                 {new Date(reservation.timeTo)
                   .toString()
                   .substring(15, 21)
@@ -54,15 +54,15 @@ export default function SingleReservation({ reservation , handleStart}) {
           </div>
           <div className="flex justify-between my-2">
             <div className="flex flex-col">
-              <p className="text-tertiary text-sm">Connector</p>
-              <p className="text-tertiary text-md font-medium">
+              <p className="dark:text-tertiary text-dk-secondary text-sm">Connector</p>
+              <p className="dark:text-tertiary text-dk-secondary text-md font-medium">
                 {reservation.connectorTypeName}
               </p>
             </div>
 
             <div className="flex flex-col">
-              <p className="text-tertiary text-right text-sm">Max Output</p>
-              <p className="text-tertiary text-right text-md font-medium">
+              <p className="dark:text-tertiary text-dk-secondary text-right text-sm">Max Output</p>
+              <p className="dark:text-tertiary text-dk-secondary text-right text-md font-medium">
                 {reservation.connectorPower}
               </p>
             </div>
@@ -74,7 +74,7 @@ export default function SingleReservation({ reservation , handleStart}) {
                   reservation.totalPrice ?
                     <>
                       <div className='flex justify-center w-full py-2'>
-                        <p className="text-tertiary font-medium middle text-center">
+                        <p className="dark:text-tertiary text-dk-secondary font-medium middle text-center">
                           Recharged {reservation.chargedKwh} for {reservation.totalPrice}
                         </p>
                       </div>
@@ -84,7 +84,7 @@ export default function SingleReservation({ reservation , handleStart}) {
                       {reservation.start ?
                         <>
                           <div className='flex justify-center w-full py-2'>
-                            <p className="text-tertiary font-medium middle text-center">
+                            <p className="dark:text-tertiary text-dk-secondary  font-medium middle text-center">
                               Started
                             </p>
                           </div>
@@ -93,7 +93,7 @@ export default function SingleReservation({ reservation , handleStart}) {
                         <>
                           <div className="flex bg-dk-primary rounded-xl items-center justify-center w-1/2 py-2 cursor-pointer"
                             onClick={() => handleStart(reservation.reservationID)}>
-                            <p className="text-tertiary font-medium">Start</p>
+                            <p className="dark:text-tertiary text-dk-secondary font-medium">Start</p>
                           </div>
                         </>
                       }
@@ -104,7 +104,7 @@ export default function SingleReservation({ reservation , handleStart}) {
               :
               <>
                 <div className='flex justify-center w-full py-2'>
-                  <p className="text-tertiary font-medium middle text-center">
+                  <p className="dark:text-tertiary text-dk-secondary font-medium middle text-center">
                     Wait until {new Date(reservation.timeFrom).toString()}
                   </p>
                 </div>

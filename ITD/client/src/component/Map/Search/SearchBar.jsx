@@ -120,7 +120,7 @@ export default function SearchBar({
       <div id="results" className="mt-4">
         {searchResults.map((result) => (
           <div
-            className="border-2 border-tertiary p-2 rounded-xl m-2 cursor-pointer hover:bg-dk-nav"
+            className="border-2 border-tertiary p-2 rounded-xl m-2 cursor-pointer hover:bg-white dark:hover:bg-dk-nav"
             onClick={handleMapCentering}
           >
             <p

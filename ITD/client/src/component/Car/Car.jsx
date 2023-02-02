@@ -38,7 +38,9 @@ export default function Car() {
             }
           }
         })
-        setStartedReservations(newStartedReservations)
+        if(newStartedReservations.length > 0) {
+          setStartedReservations(newStartedReservations)
+        }
       }
     } catch (err) {
       console.error(err)
@@ -132,7 +134,7 @@ export default function Car() {
                   <div className="grid grid-flow-row grid-cols-2 md:grid-cols-3 w-full mb-8 overflow-hidden">
                     <div className="row-span-1 lg:row-span-1 flex justify-center items-center relative z-10">
                       <div className=" h-full w-full absolute py-6 px-8 lg:w-2/3 lg:h-2/3">
-                        <div className="h-full w-full relative flex items-center justify-center text-center border-2 border-dk-gray rounded-2xl font-semibold text-dk-gray hover:bg-dk-primary cursor-pointer"
+                        <div className="h-full w-full relative flex items-center justify-center text-center border-2 dark:bg-inherit bg-tertiary border-dk-gray rounded-2xl font-semibold text-dk-secondary dark:text-dk-gray hover:bg-dk-primary cursor-pointer"
                         onClick={() => closeReservation()}>
                           <p>Back to all started reservations</p>
                         </div>
@@ -283,7 +285,7 @@ export default function Car() {
               ) : (
                 <>
                   <div className='flex items-center justify-center w-full'>
-                    <div className="flex-col justify-center">
+                    <div className="flex-col justify-center bg-tertiary p-4 rounded-xl shadow-lg">
                       <p className='text-center'>Select a reservation to monitor:</p>
                       {startedReservations.map((reservation) => (
                         <div className='mt-4 w-full flex justify-center'>
@@ -303,7 +305,7 @@ export default function Car() {
         ) : (
           <>
           <div className='w-full h-full flex justify-center items-center'>
-            <p className='text-lg font-bold'>No available charging processes</p>
+            <p className='text-lg font-bold dark:text-tertiary text-dk-secondary'>No available charging processes</p>
           </div>
           </>
         )}

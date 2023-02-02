@@ -93,7 +93,7 @@ export default function MainView() {
   ])
 
   return (
-    <div className="min-h-screen bg-dk-secondary ">
+    <div className="min-h-screen dark:bg-dk-secondary bg-white">
       {activeRoutes}
       <BottomBar />
     </div>
