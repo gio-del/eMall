@@ -32,7 +32,7 @@ export default function Car() {
         now.setSeconds(0)
         jsonData.forEach((data) => {
           if(data.start) {
-            if (new Date(data.timeFrom) < now && !data.totalPrice) {
+            if (new Date(data.timeFrom) < now && new Date(data.timeTo) > now && !data.totalPrice) {
               newStartedReservations.push(data)
               console.log(data)
             }
