@@ -1,5 +1,5 @@
 # eMall – e-Mobility for All
-![]()
+![](https://github.com/gio-del/BattistonDeLuciaCurro-swe2/blob/main/.github/assets/cover.png?raw=true)
 ## Intro
 
 A.Y. 2022/2023
