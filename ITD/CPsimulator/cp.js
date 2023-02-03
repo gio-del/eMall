@@ -68,7 +68,7 @@ app.post('/api', (req, res) => {
                     return handleRemoteStartTransaction(id, req)
             }
             throw new Error('message not supported');
-        }, 'ws://127.0.0.1:5000'
+        }, 'ws://server:5000/'
     )
     cp.connect()
     // at the beginning, the cp is available

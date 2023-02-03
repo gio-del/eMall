@@ -27,7 +27,9 @@ services:
       - 3000:3000
       - 5000:5000
     networks:
-      - shared-networks
+      shared-networks:
+       aliases:
+          - server
     depends_on:
       - postgres
     env_file:
@@ -60,6 +62,8 @@ services:
       - 3001:3001
     networks:
       - shared-networks
+    depends_on:
+      - server
 
   adminer:
     image: adminer
