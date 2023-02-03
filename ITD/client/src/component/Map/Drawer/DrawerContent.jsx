@@ -39,12 +39,11 @@ export default function DrawerContent({ Connectors, setBooking }) {
                 </p>
               </div>
               <div className="flex items-center justify-center">
-                <button
-                  className="p-4 w-full mx-4 bg-dk-primary rounded-2xl text-center text-tertiary font-semibold"
-                  onClick={() => onClick()}
+                <div
+                  className="p-4 w-full mx-4 border-2 dark:border-dk-gray border-dk-secondary rounded-2xl text-center text-dk-secondary dark:text-tertiary font-semibold"
                 >
                   NOW {connector.freeSpots}/{connector.totalSpots}
-                </button>
+                </div>
               </div>
             </div>
           </div>

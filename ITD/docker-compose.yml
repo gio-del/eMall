@@ -48,19 +48,6 @@ services:
     depends_on:
       - server
 
-  simulator:
-    container_name: eMall_cpsimulator
-    restart: unless-stopped
-    image: emall-cpsimulator-prod:1.0.0
-    build:
-      context: cpsimulator
-      target: production
-      dockerfile: Dockerfile
-    ports:
-      - 3001:3001
-    networks:
-      - shared-networks
-
   adminer:
     image: adminer
     container_name: eMall_adminer

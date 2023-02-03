@@ -124,7 +124,7 @@ export default function Car() {
     <>
       <div
         className={`flex w-full`}
-        style={{ height: `calc(${height}px - 3.5rem` }}
+        style={{ height: `calc(${height}px - 6rem` }}
       >
         {startedReservations ? (
           <>

@@ -5,7 +5,7 @@ import ChartButton from './ChartButton'
 import ReservationChart from './ReservationChart'
 import { BASE_API } from '../../constant'
 
-export default function OverviewTab() {
+export default function OverviewTab({evcpList}) {
   const [earnings, setEarnings] = useState()
   const [totalEarning, setTotalEarning] = useState(false)
 
@@ -68,6 +68,7 @@ export default function OverviewTab() {
     }
   }
 
+
   useEffect(() => {
     if(earnings) {
       let total = 0
@@ -88,15 +89,15 @@ export default function OverviewTab() {
 
   return (
     <>
-      <div className="flex py-10 items-stretch px-10 w-full h-[calc(100%-10rem)] overflow-y-scroll">
+      <div className="flex py-5 items-stretch px-5 w-full h-[calc(100%-10rem)] overflow-y-scroll">
         <div className="grid max-lg:grid-cols-1 lg:grid-cols-4 w-full h-full gap-4">
           {totalEarning && totalEarning
           ? 
           <>
-          <Link to="./reservations" className='col-span-2'>
+          <Link to="./reservations" className='col-span-2 row-span-1'>
             <ActionButton background={'bg-black'} data={earningsButton} content={totalEarning} />
           </Link>
-          <Link to="./charging-points" className='col-span-2'>
+          <Link to="./charging-points" className='col-span-2 row-span-1'>
             <ActionButton background={'bg-white'} data={activeButton} />
           </Link>
               {earnings && earnings
