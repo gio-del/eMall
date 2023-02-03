@@ -36,6 +36,7 @@ export default function TabSelectorDash({ tabs, currentTab, setCurrentTab }) {
         <div className="flex w-full h-auto justify-center">
           <div className="flex md:flex-col w-full h-min justify-evenly md:justify-start md:bg-white max-sm:border-b-2 md:rounded-xl md:p-4">
             {tabs &&
+              tabs.length > 0 &&
               tabs.map((tab) => (
                 <div
                   key={tab.evcpID}
@@ -51,6 +52,7 @@ export default function TabSelectorDash({ tabs, currentTab, setCurrentTab }) {
                   </p>
                 </div>
               ))}
+            {tabs && tabs.length === 0 && <div>No EVCPs</div>}
           </div>
         </div>
       )}
