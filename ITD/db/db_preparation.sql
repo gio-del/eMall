@@ -223,5 +223,21 @@ INSERT INTO SPECIAL_OFFER (evcp_id, discount)
 INSERT INTO "driver" ("first_name", "last_name", "email", "phone", "notification_token", "password")
     VALUES ('Mario', 'Rossi', NULL, '1231231231', NULL, '$2b$10$P4sDPg.mdtPsFzQLDK6wAen2/2CUJAaYy7STpcLAxj2xap1orevGi');
 
-INSERT INTO "cpo" ("company_name", "email", "password") VALUES
-('VeryGoodCompany',	'company@company.xyz',	'$2b$10$fbC/Wpy13ojP7ubtRw/eHOFZeRvXQPg5sWKJa8.YHH.MXtw6Q4HzC');
+INSERT INTO "cpo" ("company_name", "email", "password")
+    VALUES ('VeryGoodCompany', 'company@company.xyz', '$2b$10$fbC/Wpy13ojP7ubtRw/eHOFZeRvXQPg5sWKJa8.YHH.MXtw6Q4HzC');
+
+INSERT INTO "evcp" ("name", "cpo_id", "batterykey", "dso_name", "dso_pricekw", "dso_contract_expiry", "latitude", "longitude", "address")
+    VALUES ('EVCP1', 3, 'FRAW23124D', 'Pienitude', 0.80, '2023-02-09', '45', '9', 'Via dei Pini'), ('EVCP2', 3, NULL, NULL, NULL, NULL, '45.1', '9', 'Via dei Pini, 3');
+
+INSERT INTO "cp" ("evcp_id", "is_active")
+    VALUES (14, 'f'), (14, 'f'), (15, 'f');
+
+INSERT INTO "socket" ("cp_id", "power_kw", "type_id")
+    VALUES (51, 12.00, 1), (51, 28.00, 2), (53, 12.00, 1), (53, 24.00, 2), (52, 12.00, 1), (52, 28.00, 2);
+
+INSERT INTO "rate" ("evcp_id", "type_id", "flatprice", "variableprice")
+    VALUES (14, 1, 10.00, 15.00), (14, 2, 10.00, 15.00), (15, 1, 10.00, 12.00), (15, 2, 10.00, 12.00);
+
+INSERT INTO "reservation" ("start_date", "end_date", "discount_percent", "driver_id", "total_price", "flatprice", "variableprice", "socket_id", "charged_kwh", "notified")
+    VALUES ('2023-02-02 13:46:00', '2023-02-02 15:16:00', NULL, 1, NULL, 35.00, 0.18, 4, NULL, 'f'), ('2023-02-03 11:27:00', '2023-02-03 12:57:00', NULL, 1, NULL, 10.00, 15.00, 22, NULL, 'f'), ('2023-02-03 11:57:00', '2023-02-03 13:57:00', NULL, 1, NULL, 10.00, 12.00, 23, NULL, 'f'), ('2023-02-10 09:30:00', '2023-02-10 11:00:00', NULL, 1, NULL, 10.00, 12.00, 23, NULL, 'f'), ('2023-01-04 09:30:00', '2023-01-04 11:00:00', NULL, 1, 50, 10.00, 12.00, 23, 100, 't'), ('2023-01-05 09:30:00', '2023-01-05 11:00:00', NULL, 1, 55, 10.00, 12.00, 23, 110, 't'), ('2023-01-06 09:30:00', '2023-01-06 11:00:00', NULL, 1, 45, 10.00, 12.00, 23, 90, 't'), ('2023-01-07 09:30:00', '2023-01-07 11:00:00', NULL, 1, 35, 10.00, 12.00, 23, 70, 't'), ('2023-01-08 09:30:00', '2023-01-08 11:00:00', NULL, 1, 70, 10.00, 12.00, 23, 140, 't'), ('2023-01-09 09:30:00', '2023-01-09 11:00:00', NULL, 1, 35, 10.00, 12.00, 23, 65, 't'), ('2023-01-10 09:30:00', '2023-01-10 11:00:00', NULL, 1, 55, 10.00, 12.00, 23, 110, 't'), ('2023-01-11 09:30:00', '2023-01-11 11:00:00', NULL, 1, 40, 10.00, 12.00, 23, 75, 't'), ('2023-01-12 09:30:00', '2023-01-12 11:00:00', NULL, 1, 35, 10.00, 12.00, 23, 75, 't'), ('2023-01-13 09:30:00', '2023-01-13 11:00:00', NULL, 1, 45, 10.00, 12.00, 23, 95, 't'), ('2023-01-14 09:30:00', '2023-01-14 11:00:00', NULL, 1, 55, 10.00, 12.00, 23, 120, 't'), ('2023-01-15 09:30:00', '2023-01-15 11:00:00', NULL, 1, 60, 10.00, 12.00, 23, 130, 't'), ('2023-01-16 09:30:00', '2023-01-16 11:00:00', NULL, 1, 55, 10.00, 12.00, 23, 120, 't'), ('2023-01-17 09:30:00', '2023-01-17 11:00:00', NULL, 1, 60, 10.00, 12.00, 23, 125, 't');
+

@@ -577,9 +577,13 @@ exports.getQueryManager = async () => {
          * @returns the ID of the EVCP if it was added, undefined otherwise
          */
         addEVCP: async (cpoID, name, latitude, longitude, address) => {
-            const res = await pool.query('INSERT INTO EVCP(name, cpo_id, latitude, longitude, address) VALUES($1, $2, $3, $4, $5) RETURNING *', [name, cpoID, latitude, longitude, address])
-            const rows = res.rows
-            return (rows && rows.length > 0) ? rows[0].id : undefined
+            try {
+                const res = await pool.query('INSERT INTO EVCP(name, cpo_id, latitude, longitude, address) VALUES($1, $2, $3, $4, $5) RETURNING *', [name, cpoID, latitude, longitude, address])
+                const rows = res.rows
+                return (rows && rows.length > 0) ? rows[0].id : undefined
+            } catch (err) {
+                return undefined
+            }
         },
 
         /**
@@ -622,9 +626,13 @@ exports.getQueryManager = async () => {
             const firstQuery = await pool.query('SELECT id FROM TYPE WHERE type_name = $1', [typeName])
             const row1 = firstQuery.rows[0]
             if (!row1) return false
-            const res = await pool.query('INSERT INTO RATE(evcp_id, type_id, flatPrice, variablePrice) VALUES ($1, $2, $3, $4) RETURNING *', [evcpID, row1.id, flatPrice, variablePrice])
-            if (res.rows.length === 0) return false
-            return { id: res.rows[0].id, flatPrice: res.rows[0].flatprice, variablePrice: res.rows[0].variableprice }
+            try {
+                const res = await pool.query('INSERT INTO RATE(evcp_id, type_id, flatPrice, variablePrice) VALUES ($1, $2, $3, $4) RETURNING *', [evcpID, row1.id, flatPrice, variablePrice])
+                if (res.rows.length === 0) return false
+                return { id: res.rows[0].id, flatPrice: res.rows[0].flatprice, variablePrice: res.rows[0].variableprice }
+            } catch (err) {
+                return false
+            }
         },
 
         /**

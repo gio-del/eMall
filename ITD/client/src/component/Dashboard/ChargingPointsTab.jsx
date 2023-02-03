@@ -17,7 +17,7 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
   const [error, setError] = useState('')
   const [cpForm, setCpForm] = useState()
   const [lastCpForm, setLastCpForm] = useState()
-  
+
   const getData = async () => {
     if (!currentEvcp) return
     try {
@@ -35,33 +35,37 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
   }
 
   useEffect(() => {
-    if(cpForm) {
-      if(lastCpForm) {
-        document.getElementById(`openForm-${lastCpForm}`).classList.remove("hidden")
-        document.getElementById(`form-${lastCpForm}`).classList.add("hidden")
+    if (cpForm) {
+      if (lastCpForm) {
+        document
+          .getElementById(`openForm-${lastCpForm}`)
+          .classList.remove('hidden')
+        document.getElementById(`form-${lastCpForm}`).classList.add('hidden')
       }
-      document.getElementById(`openForm-${cpForm}`).classList.remove("hidden")
-      document.getElementById(`form-${cpForm}`).classList.add("hidden")
+      document.getElementById(`openForm-${cpForm}`).classList.remove('hidden')
+      document.getElementById(`form-${cpForm}`).classList.add('hidden')
     }
     getData()
-    setCpForm("")
-    setLastCpForm("")
+    setCpForm('')
+    setLastCpForm('')
   }, [currentEvcp])
 
   useEffect(() => {
-    if(evcpList) {
+    if (evcpList) {
       setCurrentEvcp(evcpList[0])
     }
   }, [])
 
   useEffect(() => {
-    if(cpForm){
-      if(lastCpForm) {
-        document.getElementById(`openForm-${lastCpForm}`).classList.remove("hidden")
-        document.getElementById(`form-${lastCpForm}`).classList.add("hidden")
+    if (cpForm) {
+      if (lastCpForm) {
+        document
+          .getElementById(`openForm-${lastCpForm}`)
+          .classList.remove('hidden')
+        document.getElementById(`form-${lastCpForm}`).classList.add('hidden')
       }
-      document.getElementById(`openForm-${cpForm}`).classList.add("hidden")
-      document.getElementById(`form-${cpForm}`).classList.remove("hidden")
+      document.getElementById(`openForm-${cpForm}`).classList.add('hidden')
+      document.getElementById(`form-${cpForm}`).classList.remove('hidden')
       setLastCpForm(cpForm)
     }
   }, [cpForm])
@@ -129,8 +133,6 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
     document.getElementById('toAddEVCP').classList.add('hidden')
   }
 
-  
-
   return (
     <>
       <div className="md:flex md:justify-between md:mt-8 h-[calc(100%-10rem)] overflow-y-scroll">
@@ -190,18 +192,25 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
             <button className="bg-dash-black text-white py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
               Add EVCP
             </button>
+            {error && <p className="text-red-500 text-xs italic">{error}</p>}
           </form>
         </div>
 
         <div className="flex-col max-h-min w-full md:mx-8">
-          {evcp && evcp ? 
+          {evcp && evcp ? (
             <>
-              <div className='flex-col w-full justify-center mt-4'>
-                <p className='text-lg text-center font-semibold'>All charging point of the evcp "{evcp.name}"</p>
-                <p className='text-sm text-center font-normal'>(Remember to add the rates in the Rate tab)</p>
+              <div className="flex-col w-full justify-center mt-4">
+                <p className="text-lg text-center font-semibold">
+                  All charging point of the evcp "{evcp.name}"
+                </p>
+                <p className="text-sm text-center font-normal">
+                  (Remember to add the rates in the Rate tab)
+                </p>
               </div>
-            </> 
-          : <></>}
+            </>
+          ) : (
+            <></>
+          )}
           {evcp &&
             evcp.cps.map((cp) => (
               <>
@@ -217,49 +226,58 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
                         <div className="grid grid-cols-2 gap-4 w-full max-h-max my-2">
                           {cp.sockets.map((socket) => (
                             <div className="flex-col relative border-r-2">
-                              <p className="font-semibold">Socket {socket.socketID}</p>
+                              <p className="font-semibold">
+                                Socket {socket.socketID}
+                              </p>
                               <p className="font-semibold">{socket.type}</p>
                               <div className="flex-col h-max items-center justify-center m-4">
-                               
-                                {socket.connected
-                                  ?
+                                {socket.connected ? (
                                   <>
-                                    <div className='flex w-full justify-center'>
+                                    <div className="flex w-full justify-center">
                                       <div className="border-2 border-dash-black flex items-center max-w-min gap-2 rounded-xl p-2">
                                         <span class="flex h-3 w-3">
                                           <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-sky-400 opacity-75"></span>
                                           <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
                                         </span>
-                                        <p className="text-dash-black">Connected</p>
+                                        <p className="text-dash-black">
+                                          Connected
+                                        </p>
                                       </div>
                                     </div>
                                   </>
-                                  :
+                                ) : (
                                   <>
-                                    <div className='flex w-full items-center justify-around'>
+                                    <div className="flex w-full items-center justify-around">
                                       <div className="border-2 border-dash-black flex items-center w-auto gap-2 rounded-xl p-2">
                                         <span class="flex h-3 w-3">
                                           <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                                         </span>
-                                        <p className="text-dash-black">Not Connected</p>
+                                        <p className="text-dash-black">
+                                          Not Connected
+                                        </p>
                                       </div>
-                                     
-                                        <a target="_blank" href="http://127.0.0.1:3001/">
-                                          <div className='flex-col rounded-xl hover:underline'>
-                                            <p>Click here to connect the Socket</p>
-                                            <p>(then refresh)</p>
-                                          </div>
-                                        </a>
-                                     
+
+                                      <a
+                                        target="_blank"
+                                        href="http://127.0.0.1:3001/"
+                                      >
+                                        <div className="flex-col rounded-xl hover:underline">
+                                          <p>
+                                            Click here to connect the Socket
+                                          </p>
+                                          <p>(then refresh)</p>
+                                        </div>
+                                      </a>
                                     </div>
                                   </>
-                                }
-                             
-                               
-                                <div className='flex gap-4 mt-4'>
+                                )}
+
+                                <div className="flex gap-4 mt-4">
                                   <div className="bg-dash-black rounded-xl p-2 w-full">
                                     <p className="text-dash-gray">Power</p>
-                                    <p className="text-dash-gray">{socket.power} kW</p>
+                                    <p className="text-dash-gray">
+                                      {socket.power} kW
+                                    </p>
                                   </div>
                                 </div>
                               </div>
@@ -267,20 +285,41 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
                           ))}
                           {cp.sockets.length < 2 ? (
                             <>
-                              <div id={`openForm-${cp.cpID}`} className={`${cp.sockets.length == 0 ? "col-span-2" : "col-span-1 openForm h-full"}`}>
-                                <div className='flex justify-center items-center h-full'>
-                                  <div className='cursor-pointer hover:bg-gray-400 border-2 border-dash-black rounded-2xl p-4'
+                              <div
+                                id={`openForm-${cp.cpID}`}
+                                className={`${
+                                  cp.sockets.length == 0
+                                    ? 'col-span-2'
+                                    : 'col-span-1 openForm h-full'
+                                }`}
+                              >
+                                <div className="flex justify-center items-center h-full">
+                                  <div
+                                    className="cursor-pointer hover:bg-gray-400 border-2 border-dash-black rounded-2xl p-4"
                                     onClick={() => setCpForm(cp.cpID)}
                                   >
-                                    <div className='flex justify-center'>
-                                      <svg className='justify-center' xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6Z" /></svg>
+                                    <div className="flex justify-center">
+                                      <svg
+                                        className="justify-center"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        height="24"
+                                        width="24"
+                                      >
+                                        <path d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6Z" />
+                                      </svg>
                                     </div>
-                                    <p className='text-center'>Add a Socket</p>
+                                    <p className="text-center">Add a Socket</p>
                                   </div>
-
                                 </div>
                               </div>
-                              <div id={`form-${cp.cpID}`} className={`${cp.sockets.length == 0 ? "col-span-2" : "col-span-1"} hidden form`}>
+                              <div
+                                id={`form-${cp.cpID}`}
+                                className={`${
+                                  cp.sockets.length == 0
+                                    ? 'col-span-2'
+                                    : 'col-span-1'
+                                } hidden form`}
+                              >
                                 <div className="bg-white row-span-2 col-span-2 rounded-xl cursor-pointer flex justify-center items-center w-full">
                                   <div className=" flex h-full right-0 w-full px-8 py-4">
                                     <div className="flex-col justify-center items-center w-full">
@@ -331,9 +370,7 @@ export default function ChargingPointsTab({ evcpList, setEvcpList }) {
                                   </div>
                                 </div>
                               </div>
-
                             </>
-
                           ) : (
                             <p></p>
                           )}
