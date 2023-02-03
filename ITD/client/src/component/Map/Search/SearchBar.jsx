@@ -60,7 +60,7 @@ export default function SearchBar({
   }
 
   return (
-    <div className="flex flex-col justify-start mx-2 drop-shadow-2xl bg-tertiary dark:bg-dk-secondary rounded-2xl mb-4 shadow-sm p-4 cursor-default">
+    <div className="flex flex-col justify-start mt-12 mx-2 drop-shadow-2xl bg-tertiary dark:bg-dk-secondary rounded-2xl mb-4 shadow-sm p-4 cursor-default">
       <div className="flex items-center justify-center">
         <input
           type="text"
