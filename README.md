@@ -39,7 +39,7 @@ docker-compose build
 docker-compose up
 ```
 
-When the building and starting process concludes visit http://localhost:5173/home
+When the building and starting process concludes visit http://127.0.0.1:5173/home
 
 You can found more details on the installation process in the [wiki]([wikil](https://github.com/gio-del/BattistonDeLuciaCurro-swe2/wiki))
 
