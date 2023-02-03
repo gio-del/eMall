@@ -1,4 +1,4 @@
-const mode = [{ id: '1', name: 'name1' }, { id: '2', name: 'name2' }]
+const mode = [{ id: '1', name: 'PeakMode' }, { id: '2', name: 'FullyFedTogrid' }]
 
 const modeByBatteryKey = []
 const percentageByBatteryKey = []

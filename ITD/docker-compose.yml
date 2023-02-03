@@ -62,8 +62,6 @@ services:
       - 3001:3001
     networks:
       - shared-networks
-    depends_on:
-      - server
 
   adminer:
     image: adminer

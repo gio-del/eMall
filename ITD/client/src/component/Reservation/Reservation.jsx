@@ -58,7 +58,8 @@ export default function Reservation() {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col"
+      style={{ height: `calc(${height}px - 6rem` }}>
         {upcomingReservations && currentTab === 'Upcoming' && (
           <Tab
             currentTab={currentTab}
