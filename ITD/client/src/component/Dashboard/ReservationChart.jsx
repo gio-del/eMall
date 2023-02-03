@@ -96,19 +96,19 @@ export default function ReservationChart({earnings}) {
   return (
     <>
       <div className='flex-col bg-white w-full h-full hover:shadow-xl p-4 rounded-xl'>
-        <form id="addRate" className=' w-full justify-end flex'>
+        <form id="addRate" className='flex w-full justify-end h-1/4'>
           <div className="flex flex-col justify-end mb-2">
             <p className="block text-md text-right text-gray-700 font-medium mb-2">Select a how many days</p>
             <div className="flex justify-between">
               <div className='flex gap-4'>
                 <div>
-                <RadioButton
+                  <RadioButton
                     role={range}
                     name="7"
                     setRole={setRange}
                   />
                 </div>
-                  
+
                 <div>
                   <RadioButton
                     role={range}
@@ -116,22 +116,22 @@ export default function ReservationChart({earnings}) {
                     setRole={setRange}
                   />
                 </div>
-                 <div>
-                 <RadioButton
+                <div>
+                  <RadioButton
                     role={range}
                     name="90"
                     setRole={setRange}
                   />
-                 </div>
-                 
+                </div>
+
               </div>
             </div>
           </div>
 
         </form>
-        <div className="relative flex items-center justify-center w-full h-full">
-          <div className="absolute inset-0 flex-col h-full w-full overflow-auto">
-            <div className="w-full h-auto">
+        <div className="relative flex-grow-1 items-center justify-center w-full h-3/4">
+          <div className="absolute inset-0 flex-col h-auto w-full overflow-auto">
+            <div className="w-full h-full flex justify-center">
               {data && labels
                 ?
                 <>

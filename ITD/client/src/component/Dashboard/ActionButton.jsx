@@ -21,7 +21,7 @@ function getSVGfromType(type) {
 export default function ActionButton({ background, data, content }) {
   return (
     <>
-      <div
+     <div
         className={`${
           background == 'bg-black'
             ? 'bg-gradient-to-b from-dk-secondary to-dk-nav'

@@ -105,7 +105,7 @@ export default function SingleReservation({ reservation , handleStart}) {
               <>
                 <div className='flex justify-center w-full py-2'>
                   <p className="dark:text-tertiary text-dk-secondary font-medium middle text-center">
-                    Wait until {new Date(reservation.timeFrom).toString()}
+                    Wait until {new Date(reservation.timeFrom).getHours()}:{new Date(reservation.timeFrom).getMinutes()} of {new Date(reservation.timeFrom).getDate()}/{new Date(reservation.timeFrom).getMonth()+1}/{new Date(reservation.timeFrom).getFullYear()}
                   </p>
                 </div>
               </>

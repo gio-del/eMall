@@ -89,21 +89,21 @@ export default function OverviewTab({evcpList}) {
 
   return (
     <>
-      <div className="flex py-5 items-stretch px-5 w-full h-[calc(100%-10rem)] overflow-y-scroll">
+      <div className="flex  items-stretch py-3 px-5 w-full h-[calc(100%-6rem)] overflow-y-scroll">
         <div className="grid max-lg:grid-cols-1 lg:grid-cols-4 w-full h-full gap-4">
           {totalEarning && totalEarning
           ? 
           <>
-          <Link to="./reservations" className='col-span-2 row-span-1'>
+          <Link to="./reservations" className='col-span-2 row-span-2'>
             <ActionButton background={'bg-black'} data={earningsButton} content={totalEarning} />
           </Link>
-          <Link to="./charging-points" className='col-span-2 row-span-1'>
+          <Link to="./charging-points" className='col-span-2 row-span-2'>
             <ActionButton background={'bg-white'} data={activeButton} />
           </Link>
               {earnings && earnings
                 ?
                 <>
-                  <div className="lg:col-span-3 lg:row-span-4">
+                  <div className="lg:col-span-3 lg:row-span-6">
 
                     <ReservationChart earnings={earnings} />
                   </div>
@@ -112,10 +112,10 @@ export default function OverviewTab({evcpList}) {
                 <>
                 </>
               }
-          <div className="lg:row-span-2 max-lg:hidden">
+          <div className="lg:row-span-3 max-lg:hidden">
             <ChartButton data={data} text={'Energy mix now'} />
           </div>
-          <div className="lg:row-span-2 max-lg:hidden">
+          <div className="lg:row-span-3 max-lg:hidden">
             <ChartButton data={data} text={'Energy mix this week'} />
           </div>
           </>

@@ -98,7 +98,7 @@ export default function DashboardView() {
     <>
       <div className="flex h-screen w-screen dashboard">
         <DashboardNavBar activeTab={activeTab} />
-        <div className="bg-tertiary w-full">
+        <div className="bg-tertiary w-full min-hscreen">
           <div className="bg-white flex items-center justify-between lg:h-[12%] max-lg:h-[6%] pr-5">
             <p className="lg:ml-10 text-lg font-bold">
               {map.get(location.pathname.split('/')[2])}
