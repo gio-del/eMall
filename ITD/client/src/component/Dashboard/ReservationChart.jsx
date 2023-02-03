@@ -96,8 +96,9 @@ export default function ReservationChart({earnings}) {
   return (
     <>
       <div className='flex-col bg-white w-full h-full hover:shadow-xl p-4 rounded-xl'>
-        <form id="addRate" className='flex w-full justify-end h-1/4'>
-          <div className="flex flex-col justify-end mb-2">
+        <form id="addRate" className='flex w-full justify-between h-1/4'>
+          <p className='flex items-center ml-6 font-semibold text-lg'>Graph of earnings</p>
+          <div className="flex flex-col justify-center mb-2">
             <p className="block text-md text-right text-gray-700 font-medium mb-2">Select a how many days</p>
             <div className="flex justify-between">
               <div className='flex gap-4'>

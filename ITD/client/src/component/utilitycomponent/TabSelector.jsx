@@ -22,13 +22,14 @@ export default function TabSelector({ tabs, currentTab, setCurrentTab }) {
         .classList.remove(
           'dark:md:bg-dk-secondary',
           'md:bg-dk-primary',
+          'dark:max-sm:border-dk-secondary',
           'max-sm:border-tertiary',
           'dark:md:border-dk-secondary',
           'md:border-dk-primary',
         )
       document
         .getElementById(tab)
-        .classList.add('max-sm:border-dk-secondary', 'md:dark:border-searchInput', 'md:border-dk-secondary')
+        .classList.add('dark:max-sm:border-dk-secondary', 'max-sm:border-white', 'md:dark:border-searchInput', 'md:border-dk-secondary')
       document
         .getElementById(`svg-${tab}`)
         .classList.remove('dark:fill-tertiary', 'fill-tertiary')
@@ -53,14 +54,16 @@ export default function TabSelector({ tabs, currentTab, setCurrentTab }) {
       .classList.add(
         'dark:md:bg-dk-secondary',
         'md:bg-dk-primary',
-        'max-sm:border-tertiary',
+        'dark:max-sm:border-tertiary',
+        'max-sm:border-dk-secondary',
         'dark:md:border-dk-secondary',
         'md:border-dk-primary',
       )
     document
       .getElementById(currentTab)
       .classList.remove(
-        'max-sm:border-dk-secondary', 
+        'dark:max-sm:border-dk-secondary', 
+        'max-sm:border-white', 
         'md:dark:border-searchInput',
         'md:border-dk-secondary',
         )

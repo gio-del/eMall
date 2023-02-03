@@ -5,9 +5,12 @@ import ChartButton from './ChartButton'
 import ReservationChart from './ReservationChart'
 import { BASE_API } from '../../constant'
 
-export default function OverviewTab({evcpList}) {
+export default function OverviewTab() {
+  const [evcpList, setEvcpList] = useState()
   const [earnings, setEarnings] = useState()
   const [totalEarning, setTotalEarning] = useState(false)
+  const [allEvcps, setAllEvcps] = useState([])
+  const [cpAvailable, setCpAvailable] = useState(false)
 
   const earningsButton = {
     title: 'Total earnings',
@@ -46,6 +49,21 @@ export default function OverviewTab({evcpList}) {
     ],
   }
 
+  const getEvcps = async () => {
+    try {
+      const response = await fetch(`${BASE_API}/cpo/cp/`, {
+        credentials: 'include',
+      })
+
+      if (response.status === 200) {
+        const jsonData = await response.json()
+        setEvcpList(jsonData)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const getOverviewData = async () => {
     try {
       const response = await fetch(`${BASE_API}/cpo/book/`, {
@@ -59,13 +77,54 @@ export default function OverviewTab({evcpList}) {
           row.date.setMinutes(0)
           row.date.setHours(0)
           row.date.setMilliseconds(0)
-          console.log(row.date)
         })
         setEarnings(newJson)
       }
     } catch (err) {
       console.error(err)
     }
+  }
+
+  const getSingleEvcpData = async (evcpID) => {
+    if (!evcpID) return
+    try {
+      const response = await fetch(`${BASE_API}/cpo/cp/${evcpID}`, {
+        credentials: 'include',
+      })
+      if (response.status === 200) {
+        const jsonData = await response.json()
+        console.log(jsonData)
+        setAllEvcps(allEvcps => [...allEvcps, jsonData])
+        return jsonData
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const getCPsData = async () => {
+    if(!evcpList) return
+    evcpList.map(async (evcp) => (
+      getSingleEvcpData(evcp.evcpID)
+    ))    
+  }
+
+  const calculateAvailability = () => {
+    if(!allEvcps) return
+    let available = 0
+    let total = 0
+    allEvcps.map(evcp => evcp.cps.map(cp => cp.sockets.map((socket) => {
+      console.log("HERE")
+      if (socket.connected) {
+        available = available + 1
+        total = total + 1
+        console.log(available, "/", total)
+      } else {
+        total = total + 1
+        console.log(available, "/", total)
+      }
+    })))
+      setCpAvailable(`${available}/${total}`)
   }
 
 
@@ -85,21 +144,42 @@ export default function OverviewTab({evcpList}) {
   useEffect(() => {
     setTotalEarning()
     getOverviewData()
+    getEvcps()
   }, [])
+
+  useEffect(() => {
+    if(allEvcps) {
+      calculateAvailability()
+    }
+  }, [allEvcps])
+
+  useEffect(() => {
+    if(evcpList) {
+      getCPsData()
+    }
+  }, [evcpList])
+
 
   return (
     <>
-      <div className="flex  items-stretch py-3 px-5 w-full h-[calc(100%-6rem)] overflow-y-scroll">
+      <div className="flex  items-stretch py-3 px-5 w-full h-[94%] lg:h-[88%] overflow-y-scroll">
         <div className="grid max-lg:grid-cols-1 lg:grid-cols-4 w-full h-full gap-4">
           {totalEarning && totalEarning
-          ? 
-          <>
-          <Link to="./reservations" className='col-span-2 row-span-2'>
-            <ActionButton background={'bg-black'} data={earningsButton} content={totalEarning} />
-          </Link>
-          <Link to="./charging-points" className='col-span-2 row-span-2'>
-            <ActionButton background={'bg-white'} data={activeButton} />
-          </Link>
+            ?
+            <>
+              <Link to="./reservations" className='col-span-2 row-span-2'>
+                <ActionButton background={'bg-black'} data={earningsButton} content={totalEarning} />
+              </Link>
+              {cpAvailable
+                ?
+                <>
+                  <Link to="./charging-points" className='col-span-2 row-span-2'>
+                    <ActionButton background={'bg-white'} data={activeButton} content={cpAvailable} />
+                  </Link>
+                </>
+                :
+                <></>
+              }
               {earnings && earnings
                 ?
                 <>
@@ -112,17 +192,17 @@ export default function OverviewTab({evcpList}) {
                 <>
                 </>
               }
-          <div className="lg:row-span-3 max-lg:hidden">
-            <ChartButton data={data} text={'Energy mix now'} />
-          </div>
-          <div className="lg:row-span-3 max-lg:hidden">
-            <ChartButton data={data} text={'Energy mix this week'} />
-          </div>
-          </>
-          :
-          <>
-          </>}
-          
+              <div className="lg:row-span-3 max-lg:hidden">
+                <ChartButton data={data} text={'Energy mix now'} />
+              </div>
+              <div className="lg:row-span-3 max-lg:hidden">
+                <ChartButton data={data} text={'Energy mix this week'} />
+              </div>
+            </>
+            :
+            <>
+            </>}
+
         </div>
       </div>
     </>

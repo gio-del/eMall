@@ -71,13 +71,27 @@ export default function SingleReservation({ reservation , handleStart}) {
             {new Date(reservation.timeFrom) < new Date() ?
               <>
                 {
-                  reservation.totalPrice ?
+                  new Date(reservation.timeTo) < new Date() ?
                     <>
-                      <div className='flex justify-center w-full py-2'>
-                        <p className="dark:text-tertiary text-dk-secondary font-medium middle text-center">
-                          Recharged {reservation.chargedKwh} for {reservation.totalPrice}
-                        </p>
-                      </div>
+                      {reservation.chargedkWh
+                        ?
+                        <>
+                          <div className='flex justify-center w-full py-2'>
+                            <p className="dark:text-tertiary text-dk-secondary font-medium middle text-center">
+                              Recharged {reservation.chargedkWh} kWh for {reservation.totalPrice} €
+                            </p>
+                          </div>
+                        </>
+                        :
+                        <>
+                         <div className='flex justify-center w-full py-2'>
+                            <p className="dark:text-tertiary text-dk-secondary font-medium middle text-center">
+                              Reservation without charging
+                            </p>
+                          </div>
+                        </>
+                      }
+                      
                     </>
                     :
                     <>

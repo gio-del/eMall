@@ -74,7 +74,7 @@ export default function DashboardView() {
   const activeRoutes = useRoutes([
     {
       path: '/',
-      element: <OverviewTab evcpList={evcpList}/>,
+      element: <OverviewTab/>,
     },
     {
       path: '/charging-points',
