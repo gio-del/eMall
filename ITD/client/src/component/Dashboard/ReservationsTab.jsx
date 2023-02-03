@@ -63,8 +63,8 @@ export default function ReservationsTab({ evcpList }) {
                   <>
                     <tr className='border-b border-dash-gray'>
                       <td className='px-6 py-4 font-medium text-dash-gray-dark whitespace-nowrap'>{reservation.reservationID}</td>
-                      <td className='px-6 py-4'>{`${new Date(reservation.timeFrom).getUTCDate()}-${new Date(reservation.timeFrom).getUTCMonth()}-${new Date(reservation.timeFrom).getUTCFullYear()} : ${new Date(reservation.timeFrom).getHours()}:${new Date(reservation.timeFrom).getMinutes()}`}</td>
-                      <td className='px-6 py-4'>{`${new Date(reservation.timeTo).getUTCDate()}-${new Date(reservation.timeTo).getUTCMonth()}-${new Date(reservation.timeTo).getUTCFullYear()} : ${new Date(reservation.timeTo).getHours()}:${new Date(reservation.timeTo).getMinutes()}`}</td>
+                      <td className='px-6 py-4'>{`${new Date(reservation.timeFrom).getUTCDate()}-${new Date(reservation.timeFrom).getUTCMonth()+1}-${new Date(reservation.timeFrom).getUTCFullYear()} : ${new Date(reservation.timeFrom).getHours()}:${new Date(reservation.timeFrom).getMinutes()}`}</td>
+                      <td className='px-6 py-4'>{`${new Date(reservation.timeTo).getUTCDate()}-${new Date(reservation.timeTo).getUTCMonth()+1}-${new Date(reservation.timeTo).getUTCFullYear()} : ${new Date(reservation.timeTo).getHours()}:${new Date(reservation.timeTo).getMinutes()}`}</td>
                       <td className='px-6 py-4'>{reservation.totalPrice}</td>
                       <td className='px-6 py-4'>{reservation.socketID}</td>
                     </tr>
@@ -72,12 +72,9 @@ export default function ReservationsTab({ evcpList }) {
                   </>))}
             </tbody>
           </table>
-
         </div>
         </div>
-        
       </div>
-      
     </>
   )
 }

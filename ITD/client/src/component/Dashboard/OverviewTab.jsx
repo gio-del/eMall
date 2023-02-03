@@ -10,7 +10,7 @@ export default function OverviewTab({evcpList}) {
   const [totalEarning, setTotalEarning] = useState(false)
 
   const earningsButton = {
-    title: 'Total this week',
+    title: 'Total earnings',
     subtitle: 'x reservations',
     content: `${totalEarning} €`,
     bottomTitle: '+ €1432 this week',
