@@ -61,7 +61,6 @@ export default function Car() {
       if (response.status === 200) {
         const jsonData = await response.json()
         setMeterValues(jsonData)
-        calculateResult()
       }
     } catch (err) {
       console.error(err)
@@ -107,6 +106,12 @@ export default function Car() {
       getMeterValues()
     }
   }, [reservationInput])
+
+  useEffect(() => {
+    if(meterValues) {
+      calculateResult()
+    }
+  }, [meterValues])
 
   useEffect(() => {
     let intervalId = null
