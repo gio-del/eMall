@@ -139,21 +139,21 @@ export default function Car() {
     <>
       <div
         className={`flex w-full`}
-        style={{ height: `calc(${height}px - 6rem` }}
+        style={{ height: `calc(${height}px - 3.4rem` }}
       >
         {startedReservations ? (
           <>
             <div className="flex w-full">
               {reservation && meterValues ? (
                 <>
-                  <div className="grid grid-flow-row grid-cols-2 md:grid-cols-3 w-full mb-8 overflow-hidden">
+                  <div className="grid grid-flow-row grid-cols-2 md:grid-cols-3 w-full overflow-hidden">
                     <div className="row-span-1 lg:row-span-1 flex justify-center items-center relative z-10">
                       <div className=" h-full w-full absolute py-6 px-8 lg:w-2/3 lg:h-2/3">
                         <div
                           className="h-full w-full relative flex items-center justify-center text-center border-2 dark:bg-inherit bg-tertiary border-dk-gray rounded-2xl font-semibold text-dk-secondary dark:text-dk-gray hover:bg-dk-primary cursor-pointer"
                           onClick={() => closeReservation()}
                         >
-                          <p>Back to all started reservations</p>
+                          <p>All started reservations</p>
                         </div>
                       </div>
                     </div>
@@ -184,14 +184,14 @@ export default function Car() {
                                   <div className="absolute flex items-center justify-center inset-x-0 z-10 top-2">
                                     <div>
                                       <p className="text-center text-xl font-medium">
-                                        {result}% (+
+                                        {result}% 
+                                      </p>
+                                      <p className="text-md font-medium text-center text-dk-secondary">
+                                      (+
                                         {parseFloat(
                                           meterValues.chargedValue,
                                         ).toFixed(2)}{' '}
                                         kWh)
-                                      </p>
-                                      <p className="text-md font-medium text-center text-dk-secondary">
-                                        Battery
                                       </p>
                                     </div>
                                   </div>
@@ -219,47 +219,47 @@ export default function Car() {
                             </>
                           ) : (
                             <>
-                              <form onSubmit={() => setForm(true)}>
-                                <div className="mb-4">
+                              <form onSubmit={() => setForm(true)} className="max-sm:p-2">
+                                <div className="md:mb-4">
                                   <label
-                                    className="block text-gray-700 font-medium mb-2"
+                                    className="block text-gray-700 font-medium max-sm:text-sm md:mb-2"
                                     htmlFor="batteryStart"
                                   >
-                                    Set Starting Battery Percentage (%)
+                                    Battery Percentage (%)
                                   </label>
                                   <input
-                                    className="border border-gray-400 p-2 rounded-lg w-full"
+                                    className="border border-gray-400 md:p-2 p-1 rounded-lg w-full"
                                     id="batteryStart"
                                     type="number"
                                     value={batteryStart}
-                                    placeholder="20 without %"
+                                    placeholder="20"
                                     onChange={(e) =>
                                       setBatteryStart(e.target.value)
                                     }
                                     required
                                   />
                                 </div>
-                                <div className="mb-4">
+                                <div className="md:mb-4">
                                   <label
-                                    className="block text-gray-700 font-medium mb-2"
+                                    className="block text-gray-700 font-medium max-sm:text-sm md:mb-2"
                                     htmlFor="capacity"
                                   >
-                                    Set Maximum Capacity (kWh)
+                                    Maximum Capacity (kWh)
                                   </label>
                                   <input
-                                    className="border border-gray-400 p-2 rounded-lg w-full"
+                                    className="border border-gray-400 md:p-2 p-1 rounded-lg w-full"
                                     id="capacity"
                                     type="number"
                                     value={capacity}
-                                    placeholder="50 without kWh"
+                                    placeholder="50"
                                     onChange={(e) =>
                                       setCapacity(e.target.value)
                                     }
                                     required
                                   />
                                 </div>
-                                <button className="bg-dash-black text-white py-2 px-4 rounded-lg hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
-                                  Add Battery Details
+                                <button className="bg-dash-black text-white flex w-full mt-2 py-2 justify-center rounded-xl hover:bg-gradient-to-b hover:from-dk-secondary hover:to-dk-nav">
+                                  Add Details
                                 </button>
                               </form>
                             </>
@@ -274,10 +274,12 @@ export default function Car() {
                             <span className="text-lg font-medium">
                               {reservation.connectorTypeName}
                             </span>
-                            <div className="bg-dk-primary px-5 py-1 rounded-full my-2">
-                              <span className="text-xl font-medium text-tertiary">
-                                {reservation.connectorPower} kW
-                              </span>
+                            <div className="flex justify-center px-2 w-full">
+                              <div className='flex w-full py-1 bg-dk-primary justify-center rounded-full'>
+                                <span className="text-xl font-medium text-tertiary">
+                                  {reservation.connectorPower} kW
+                                </span>
+                              </div>
                             </div>
                           </div>
                           <div className="absolute right-0 bottom-0 w-full h-auto">
@@ -308,7 +310,7 @@ export default function Car() {
                         <div className="bg-dk-nav rounded-2xl h-full w-full relative flex items-center justify-center">
                           <div>
                             <p className="text-tertiary text-center text-md font-medium">
-                              Charge will end at:
+                              End at:
                             </p>
                             <p className="text-tertiary text-center text-lg font-semibold">
                               {new Date(reservation.timeTo).getHours()}:
