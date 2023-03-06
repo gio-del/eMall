@@ -55,7 +55,7 @@ services:
     restart: unless-stopped
     image: emall-cpsimulator-prod:1.0.0
     build:
-      context: cpsimulator
+      context: CPsimulator
       target: production
       dockerfile: Dockerfile
     ports:
