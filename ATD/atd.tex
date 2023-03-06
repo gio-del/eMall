@@ -1,0 +1,122 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage{booktabs,rotating,tabularx}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{hyperref} % provides \url{}
+\usepackage[shortlabels]{enumitem} % enumeration package
+\usepackage[position=top]{subfig}
+\usepackage{pdfpages}
+\usepackage{listings}
+
+% page layout and margin
+\usepackage[a4paper, margin=2.54cm]{geometry}
+
+% list spacing
+\usepackage{enumitem}
+\setlist{topsep=2pt, itemsep=2pt, partopsep=2pt, parsep=2pt}
+\def\arraystretch{1.5}
+% Header & Footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Software Engineering 2 - ITD}
+
+\begin{document}
+
+% title section
+\begin{titlepage}
+    \centering
+    {\normalsize
+        Software Engineering 2 - Prof. Di Nitto Elisabetta \\
+        Dipartimento di Elettronica, Informazione e Bioingegneria \\
+        Politecnico di Milano \par
+    }     \vspace{3cm}
+    {\Huge \textbf{eMall - e-Mobility for All\\} } \vspace{1cm}
+    {\large \textbf{ATD\\Acceptance Test Deliverable} \par} \vspace{1cm}
+    {\normalsize February 5, 2023 \par} \vspace{4cm}
+    {\normalsize Giovanni De Lucia (10700658) \\ Lorenzo Battiston (10618906) \\  Matteo Salvatore Currò (10940719)\par} \vspace{0.5cm}
+    {Repository: \url{https://github.com/gio-del/BattistonDeLuciaCurro-swe2}} \vspace{4cm}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.3]{src/Logo_Politecnico_Milano.png}
+    \end{figure} \vspace{0.5cm}
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+Project Analyzed: \url{https://github.com/bighands2304/ManoniSgaravattiFerretti}
+
+\begin{itemize}
+    \item Lorenzo Ferretti
+    \item Lorenzo Manoni
+    \item Carlo Sgaravatti
+\end{itemize}
+
+\subsection{Acronyms}
+\begin{itemize}
+    \item eMSP: e-Mobility Service Provider
+    \item CPMS: Charging Point Management System
+    \item DSO: Distribution System Operator
+    \item OCPP: Open Charge Point Protocol
+    \item OCPI: Open Charge Point Interface
+    \item OSCP: Open Smart Charging Protocol
+    \item API: Application Programming Interface
+\end{itemize}
+
+\section{Installation Setup}
+We followed the instructions in the ITD.pdf files to install the project.
+\hfill \\
+We used the following commands to start the eMSP client:
+\begin{lstlisting}
+    yarn
+    yarn start
+\end{lstlisting}
+
+We used the following commands to start the CPMS client:
+\begin{lstlisting}
+    yarn
+    yarn start
+\end{lstlisting}
+
+
+
+Overall the instructions were clear and easy to follow, but we encounter some inconsistencies between the instructions in the ITD and the one in the README of the cpmsClient/cpms folder.
+\hfill \\
+Also, in order to test the CPMS a charging point OCPP endpoint is needed. They provided a simulator built with Python, but we cannot found any instructions on how to start it, so we had to do it ourselves by using those commands:
+\begin{lstlisting}
+    pip install -r requirements
+    python ocppDriver.py
+\end{lstlisting}
+
+\section{Acceptance}
+In this section we refer to the product functionalities described in the ITD.pdf file, in the same order
+\subsection{eMSP}
+% list of functionalities
+\begin{enumerate}
+    \item It is possible to find a charging point in a specific area given the address. Although we cannot find information about the price (Tariff) and the Type.
+    \item It is possible to reserve a charging point in maximum the next 20 minutes.
+    \item It is possible to start a charging session, but we cannot see the updates of the battery level and the price at the end of the session.
+\end{enumerate}
+\subsection{CPMS}
+\begin{enumerate}
+    \item It is possible to insert new Charging Points, but it is not possible to remove them. Furthermore, it is possible to make some sockets not available. It is possible to add tariffs to socket in the phase of creation of the charging point. But we faced errors (NOT SERIALIZABLE) when we tried to add a tariff to a socket that was already created. Also, it seems that it is not possible to remove them or modify them.
+    \item It is possible to manage the charging sessions and monitoring it.
+    \item It is possible to monitor the status of the batteries and charging profiles.
+    \item It is possible to see the current price of energy from the DSOs.
+    \item If the manual mode is selected, the add button to select a DSO does not call any API.
+    \item It is possible to see the battery status inserted manually or to select the automatic mode.
+\end{enumerate}
+\section{Additional points}
+\begin{enumerate}
+    \item There are some leftover files like the "MealsToGo" project that we think should be removed from the repository. And some reference to a "Restaurant Card" component that it's not present in the eMSP Client folder.
+          Also, the package names are not consistent with the project name, for example the eMSP client has the package name "mealstogoproject" and the CPMS client has the package name "jobster".
+    \item We think that the backend is well-structured and easy to understand, and we appreciate the choice of an opinionated framework like Spring.
+    \item The use of standards protocols like OCPP and OCPI is definitely a plus for the project.
+\end{enumerate}
+\end{document}

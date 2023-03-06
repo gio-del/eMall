@@ -98,6 +98,7 @@ describe('Reservation Manager', () => {
             const evcp = await queryManagerInterface.addEVCP(cpo.id, 'BestEVCPEver', '9.45', '45.6', 'Viale dei Pini')
             const cp = await queryManagerInterface.addCP(evcp)
             const socket = await queryManagerInterface.addSocket(cp, 22, 'Type2')
+            await queryManagerInterface.addRate(evcp, 'Type2', 10, 10)
             console.log('SOCKET: ' + socket)
             const token = await queryManagerInterface.createDriverToken(id)
             let req = {
